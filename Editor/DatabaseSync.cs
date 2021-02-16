@@ -125,7 +125,7 @@ namespace DatabaseSync
 				UnityWebRequest wr = UnityWebRequest.Get(configFile.databaseURL + "me");
 
 				wr.timeout = 60;
-				// wr.SetRequestHeader("User-Agent", "X-Unity3D-Agent");
+				wr.SetRequestHeader("User-Agent", "X-Unity3D-Agent");
 				wr.SetRequestHeader("Content-Type", "application/json; charset=utf-8");
 				wr.SetRequestHeader("Authorization", "Bearer " + DATABASE_TOKEN.id_token);
 
@@ -165,7 +165,7 @@ namespace DatabaseSync
 			UnityWebRequest wr = UnityWebRequest.Post($"{configFile.databaseURL}authenticate", form);
 
 			wr.timeout = 60;
-			// wr.SetRequestHeader("User-Agent", "X-Unity3D-Agent");
+			wr.SetRequestHeader("User-Agent", "X-Unity3D-Agent");
 			wr.SetRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 			wr.SendWebRequest().completed += operation =>
 			{
@@ -207,7 +207,7 @@ namespace DatabaseSync
 			UnityWebRequest wr = UnityWebRequest.Get($"{configFile.databaseURL}refresh");
 
 			wr.timeout = 60;
-			// wr.SetRequestHeader("User-Agent", "X-Unity3D-Agent");
+			wr.SetRequestHeader("User-Agent", "X-Unity3D-Agent");
 			wr.SetRequestHeader("Content-Type", "application/json; charset=utf-8");
 			wr.SetRequestHeader("Authorization", "Bearer " + DATABASE_TOKEN.refresh_token);
 			wr.SendWebRequest().completed += operation =>
@@ -277,7 +277,7 @@ namespace DatabaseSync
 				UnityWebRequest wr = UnityWebRequest.Get($"{configFile.databaseURL}firebase/projects/{configFile.projectID}/tables/{tableID}");
 
 				wr.timeout = 60;
-				// wr.SetRequestHeader("User-Agent", "X-Unity3D-Agent");
+				wr.SetRequestHeader("User-Agent", "X-Unity3D-Agent");
 				wr.SetRequestHeader("Content-Type", "application/json; charset=utf-8");
 				wr.SetRequestHeader("Authorization", "Bearer " + DATABASE_TOKEN.id_token);
 

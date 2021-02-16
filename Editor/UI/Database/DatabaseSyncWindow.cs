@@ -118,12 +118,6 @@ namespace DatabaseSync.UI
 
             var fontField = root.Q<ObjectField>("dialogue-font-field");
             fontField.objectType = typeof(TMP_FontAsset);
-            fontField.RegisterValueChangedCallback((evt) =>
-            {
-	            var configValue = dialogueConfigField.value as DialogueSettingConfig;
-	            // if (configValue != null && evt.newValue != null)
-		            // configValue.fontChangeEvent.Invoke();
-            });
 
             if (SelectedDialogueConfig != String.Empty)
             {
