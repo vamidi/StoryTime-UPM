@@ -121,8 +121,8 @@ namespace DatabaseSync.UI
             fontField.RegisterValueChangedCallback((evt) =>
             {
 	            var configValue = dialogueConfigField.value as DialogueSettingConfig;
-	            if (configValue != null && evt.newValue != null)
-		            configValue.fontChangeEvent.Invoke();
+	            // if (configValue != null && evt.newValue != null)
+		            // configValue.fontChangeEvent.Invoke();
             });
 
             if (SelectedDialogueConfig != String.Empty)

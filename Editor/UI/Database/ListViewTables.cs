@@ -3,20 +3,14 @@ using UnityEngine.UIElements;
 
 using DatabaseSync.Binary;
 using DatabaseSync.Database;
-using UnityEditor;
-using UnityEditor.Localization;
-using UnityEngine;
-using UnityEngine.Localization;
-using UnityEngine.Localization.Pseudo;
 
 namespace DatabaseSync.UI
 {
-
 	class ListViewTables : VisualElement
 	{
 		private readonly ScrollView m_LocalesList;
 
-		private readonly List<Button> m_Buttons = new List<Button>();
+		// private readonly List<Button> m_Buttons = new List<Button>();
 
 		internal new class UxmlFactory : UxmlFactory<ListViewTables> { }
 		public ListViewTables()
@@ -34,17 +28,18 @@ namespace DatabaseSync.UI
 				AddTableElement(table);
 			}
 
-			var locales = LocalizationEditorSettings.GetLocales();
-			m_LocalesList = this.Q<ScrollView>("locales-list");
-			foreach (var locale in locales)
-			{
-				AddLocaleElement(locale);
-			}
+			// var locales = LocalizationEditorSettings.GetLocales();
+			// m_LocalesList = this.Q<ScrollView>("locales-list");
+			// foreach (var locale in locales)
+			// {
+				// AddLocaleElement(locale);
+			// }
 
-			LocalizationEditorSettings.EditorEvents.LocaleAdded += OnLocaleAdded;
-			LocalizationEditorSettings.EditorEvents.LocaleRemoved += OnLocaleRemoved;
+			// LocalizationEditorSettings.EditorEvents.LocaleAdded += OnLocaleAdded;
+			// LocalizationEditorSettings.EditorEvents.LocaleRemoved += OnLocaleRemoved;
 		}
 
+		/*
 		~ListViewTables()
 		{
 			LocalizationEditorSettings.EditorEvents.LocaleAdded -= OnLocaleAdded;
@@ -93,7 +88,9 @@ namespace DatabaseSync.UI
 			toggle.RegisterValueChangedCallback((evt) => UpdateCreateButtonState());
 			m_LocalesList.Add(toggle);
 		}
+		*/
 
+		/*
 		void UpdateCreateButtonState()
 		{
 			// If we have no active Locales then the buttons should be disabled.
@@ -120,12 +117,13 @@ namespace DatabaseSync.UI
 				visualElement.SetEnabled(false);
 			}
 		}
+		*/
 
 		void AddTableElement(Table table)
 		{
 			var el = this.Q("table-container");
 			// Debug.Log(el);
-			el.Add(new ListViewTableRow(this, table));
+			el.Add(new ListViewTableRow(table));
 		}
 	}
 }

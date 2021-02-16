@@ -1,16 +1,11 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine.UIElements;
 
 using DatabaseSync.Binary;
 using UnityEditor;
-using UnityEditor.Localization;
 using UnityEditor.UIElements;
 using UnityEngine;
-using UnityEngine.Localization.Tables;
 using Object = UnityEngine.Object;
-
 
 namespace DatabaseSync.UI
 {
@@ -18,7 +13,6 @@ namespace DatabaseSync.UI
 	{
 		private const string EditorPrefConfigValueKey = "DatabaseSync-Window-Settings-Config";
 
-		private readonly ListViewTables m_Parent;
 		private readonly Table m_Table;
 
 		internal string ScriptLocation
@@ -44,10 +38,9 @@ namespace DatabaseSync.UI
 			asset.CloneTree(this);
 		}
 
-		public ListViewTableRow(ListViewTables parent, Table table): this()
+		public ListViewTableRow(Table table): this()
 		{
 			// Tables
-			m_Parent = parent;
 			m_Table = table;
 			AssignTable(m_Table);
 
@@ -62,6 +55,7 @@ namespace DatabaseSync.UI
 			}
 		}
 
+/*
 		protected virtual SharedTableData.SharedTableEntry AddNewKey(LocalizationTableCollection tableCollection, string key)
 		{
 			Undo.RecordObject(tableCollection.SharedData, "Add new key");
@@ -69,7 +63,7 @@ namespace DatabaseSync.UI
 			EditorUtility.SetDirty(tableCollection.SharedData);
 			return tableCollection.SharedData.GetEntry(key);
 		}
-
+*/
 		void AssignTable(Table table)
 		{
 			// box.style.marginLeft = new StyleLength()
@@ -83,13 +77,12 @@ namespace DatabaseSync.UI
 			}
 
 			// Add Btn
-			if (this.Q("btn-create-asset") is Button btn)
-				btn.clickable = new Clickable(() => CreateAssetTable(table));
+			// if (this.Q("btn-create-asset") is Button btn)
+				// btn.clickable = new Clickable(() => CreateAssetTable(table));
 			// m_Buttons.Add(btn);
 
 			// Button config
-			btn = this.Q("btn-refresh") as Button;
-			if (btn != null)
+			if (this.Q("btn-refresh") is Button btn)
 			{
 				btn.clickable = new Clickable(() => RefreshTable(table.id));
 			}
@@ -118,68 +111,6 @@ namespace DatabaseSync.UI
 				if (method != null)
 					method.Invoke(null, rows); // (null, null) means calling static method with no parameters
 			}
-		}
-
-		// TODO make it possible to take the static class and the function to convert a row to the entry
-		void CreateAssetTable(Table table)
-		{
-			var assetDirectory = EditorUtility.SaveFolderPanel("Create Table Collection", "Assets/", "");
-			if (string.IsNullOrEmpty(assetDirectory))
-				return;
-
-			// only create the first data base on the first row
-			if (table.Rows.Count > 0)
-			{
-				Dictionary<string, StringTableCollection> entries = new Dictionary<string, StringTableCollection>();
-				foreach (var row in table.Rows)
-				{
-					foreach (var field in row.Value.Fields)
-					{
-						if(!entries.ContainsKey(field.Key.ColumnName))
-							entries.Add(field.Key.ColumnName, LocalizationEditorSettings.CreateStringTableCollection(
-								$"{table.metadata.title}_{field.Key.ColumnName}", assetDirectory,
-								m_Parent.GetSelectedLocales()));
-
-						var entry = entries[field.Key.ColumnName];
-
-						// Keys are values inside the column
-						/* SharedTableData.SharedTableEntry sharedTableEntry = */ AddNewKey(entry, field.Value.Data.ToString());
-					}
-				}
-
-				var tableCollection = entries[table.Rows[0].Fields.First().Key.ColumnName];
-
-				foreach (var ste in tableCollection.SharedData.Entries)
-				{
-					Debug.Log(ste.ToString());
-				}
-
-				foreach (var data in tableCollection.StringTables)
-				{
-					// var dataEntry = data.CreateTableEntry();
-					// dataEntry.Value = field.Value.Data.ToString();
-					// data.Add(sharedTableEntry.Id, dataEntry);
-
-					Debug.Log(data.ToString());
-				}
-
-				foreach (var t in tableCollection.Tables)
-				{
-					var tbl = t.asset as StringTable;
-					if (tbl)
-					{
-						foreach (var keyValue in tbl)
-						{
-							Debug.Log(keyValue.Key);
-							Debug.Log(keyValue.Value);
-						}
-					}
-				}
-			}
-
-			// Select the root asset and open the table editor window.
-			// Selection.activeObject = createdCollection;
-			// LocalizationTablesWindow.ShowWindow(createdCollection);
 		}
 	}
 }
