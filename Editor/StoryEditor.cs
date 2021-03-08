@@ -1,17 +1,13 @@
 ﻿using System;
-using System.IO;
 using System.Linq;
 using System.Collections.Generic;
 
 using UnityEditor;
 using UnityEngine;
 
-using DatabaseSync.Database;
-
 namespace DatabaseSync.Components
 {
-	using Binary;
-	using ResourceManagement.Util;
+	using Database;
 
 	public class BaseTableEditor<T> : Editor where T : TableBehaviour
 	{
@@ -74,10 +70,10 @@ namespace DatabaseSync.Components
 				// Update the selected choice in the underlying object
 				t.ID = (uint) _choiceIndex;
 				OnChanged();
-			}
 
-			// Save the changes back to the object
-			EditorUtility.SetDirty(target);
+				// Save the changes back to the object
+				EditorUtility.SetDirty(target);
+			}
 		}
 
 		protected virtual void GenerateList()
@@ -124,7 +120,7 @@ namespace DatabaseSync.Components
 		protected override void OnChanged()
 		{
 			var t = target as ActorSO;
-			if (t)
+			if (t && t.ID != UInt32.MaxValue)
 			{
 				var row = TableDatabase.Get.GetRow(t.Name, t.ID);
 				if (row != null)
@@ -140,69 +136,45 @@ namespace DatabaseSync.Components
 	[CustomEditor(typeof(StorySO))]
 	public class StoryEditor : BaseTableEditor<StorySO>
 	{
-		private uint m_NextID = UInt32.MaxValue;
-
-		private ActorSO Actor
+		protected override void OnChanged()
 		{
-			get
+			var t = target as StorySO;
+			if (t != null && t.ID != UInt32.MaxValue)
 			{
-				var story = target as StorySO;
-				return story ? story.Actor : null;
+				var row = TableDatabase.Get.GetRow(t.Name, t.ID);
+
+				// set all the values from the selected row
+				if (row != null)
+					StorySO.StoryTable.ConvertRow(row, t);
 			}
 		}
 
+		/*
 		public override void OnInspectorGUI()
 		{
 			base.OnInspectorGUI();
-			/*
-			 * Automate the way we create stories
-			 */
-			if(GUILayout.Button("Generate Dialogues"))
+			///
+			/// Automate the way we create stories
+			///
+			if(GUILayout.Button("Save and generate"))
 			{
 				var tableComponent = target as StorySO;
 				// if we have not target or no actor or no story selected don't continue.
-				if (!tableComponent || !tableComponent.Actor || tableComponent.ID == UInt32.MaxValue)
+				if (!tableComponent || tableComponent.ID == UInt32.MaxValue)
+				{
+					Debug.LogError("We are missing a target or ID");
 					return;
-
-				// add everything the button would do.
-				var assetDirectory = EditorUtility.SaveFolderPanel("Create Story Data", AssetDatabase.GetAssetPath(tableComponent), "");
-				if (string.IsNullOrEmpty(assetDirectory))
-					return;
+				}
 
 				// create all the dialogue lines
 				// get the first field
 				TableRow row = TableDatabase.Get.GetRow("stories", tableComponent.ID);
 
-				StoryTable.ConvertRow(row, tableComponent);
+				StorySO.StoryTable.ConvertRow(row, tableComponent);
 				if (tableComponent && row != null)
 				{
 					// convert row data
 					RenameAsset(target, tableComponent.Title);
-
-					// Get the first dialogue
-					// TODO use custom scripter
-					DialogueLineSO startDialogue = DialogueTable.ConvertRow(TableDatabase.Get.GetRow("dialogues", tableComponent.ChildId));
-
-					startDialogue.Actor = tableComponent.Actor;
-
-					m_NextID = startDialogue.NextDialogueID;
-					SaveDialogueAsset(assetDirectory, startDialogue);
-
-					tableComponent.AddDialogueLine(startDialogue);
-
-					while (m_NextID != UInt32.MaxValue)
-					{
-						var nextDialogue = GetNextDialogue(assetDirectory, m_NextID);
-						if (nextDialogue)
-						{
-							nextDialogue.Actor = tableComponent.Actor;
-							SaveDialogueAsset(assetDirectory, nextDialogue);
-							tableComponent.AddDialogueLine(nextDialogue);
-							m_NextID = nextDialogue.NextDialogueID;
-						}
-						else
-							m_NextID = UInt32.MaxValue;
-					}
 				}
 			}
 		}
@@ -220,6 +192,7 @@ namespace DatabaseSync.Components
 			if (nextDialogueID != UInt32.MaxValue)
 			{
 				dialogue = DialogueTable.ConvertRow(TableDatabase.Get.GetRow("dialogues", nextDialogueID));
+				dialogue.ID = m_NextID;
 
 				// Set the dialogue options associated to the dialogue.
 				var optionsAssociated = CheckDialogueOptions(directory, dialogue);
@@ -227,45 +200,6 @@ namespace DatabaseSync.Components
 			}
 
 			return dialogue;
-		}
-
-		/// <summary>
-		/// Grab the dialogue options from the database
-		/// </summary>
-		/// <param name="directory"></param>
-		/// <param name="dialogueData"></param>
-		/// <returns></returns>
-		private List<DialogueChoiceSO> CheckDialogueOptions(string directory, DialogueLineSO dialogueData)
-		{
-			List<DialogueChoiceSO> options = new List<DialogueChoiceSO>();
-
-			// if we have a dialogue after this then return the dialogue
-			if (dialogueData.NextDialogueID == UInt32.MaxValue)
-			{
-				// TODO cache this into DialogueDataSO
-				// find if we have a dialogue option to store
-				List<Tuple<uint, TableRow>> dialogueOptions = TableDatabase.Get.FindLinks("dialogueOptions", "parentId", dialogueData.ID);
-
-				if (dialogueOptions.Count > 0)
-				{
-					foreach (var dialogueOptionRow in dialogueOptions)
-					{
-						// grab the dialogue option
-						DialogueChoiceSO dialogueOptionSo = DialogueOptionTable.ConvertRow(dialogueOptionRow.Item2);
-
-						// set the index ID
-						dialogueOptionSo.ID = dialogueOptionRow.Item1;
-
-						// Save the dialogue option to file.
-						SaveDialogueOptionAsset(directory, Actor, dialogueOptionSo);
-
-						// Add the dialogue option to the sequence as well.
-						options.Add(dialogueOptionSo);
-					}
-				}
-			}
-
-			return options;
 		}
 
 		private string RelativePath(string directory)
@@ -276,10 +210,9 @@ namespace DatabaseSync.Components
 			return relativePath;
 		}
 
-		private void SaveDialogueAsset(string directory, DialogueLineSO dialogueLineSo)
+		private void SaveDialogueAsset(string directory, DialogueLine dialogueLineSo)
 		{
 			var relativePath = RelativePath(directory);
-
 			var sharedDataPath = Path.Combine(relativePath, $"{dialogueLineSo.Actor.ActorName}_line_{dialogueLineSo.ID}.asset");
 			sharedDataPath = AssetDatabase.GenerateUniqueAssetPath(sharedDataPath);
 			SaveAsset(dialogueLineSo, sharedDataPath);
@@ -299,21 +232,89 @@ namespace DatabaseSync.Components
 			AssetDatabase.CreateAsset(asset, path);
 			AssetDatabase.Refresh();
 		}
+		*/
 	}
 
-	[CustomEditor(typeof(DialogueChoiceSO))]
-	public class DialogueOptionEditor : BaseTableEditor<DialogueChoiceSO>
+	[CustomEditor(typeof(DialogueLineSO))]
+	public class DialogueEditor : BaseTableEditor<DialogueLineSO>
 	{
 		protected override void OnChanged()
 		{
-			var t = target as DialogueChoiceSO;
+			var t = target as DialogueLineSO;
+			if (t != null && t.ID != UInt32.MaxValue)
+			{
+				var row = TableDatabase.Get.GetRow(t.Name, t.ID);
+
+				// set all the values from the selected row
+				if (row != null) DialogueLineSO.ConvertRow(row, t);
+			}
+		}
+	}
+
+	[CustomEditor(typeof(QuestSO))]
+	public class QuestEditor : BaseTableEditor<QuestSO>
+	{
+		protected override void OnChanged()
+		{
+			var t = target as QuestSO;
 			if (t != null && t.ID != UInt32.MaxValue)
 			{
 				var row = TableDatabase.Get.GetRow(t.Name, t.ID);
 
 				// set all the values from the selected row
 				if (row != null)
-					DialogueOptionTable.ConvertRow(row, t);
+					QuestTable.ConvertRow(row, t);
+			}
+		}
+	}
+
+	[CustomEditor(typeof(TaskSO))]
+	public class TaskEditor : BaseTableEditor<TaskSO>
+	{
+		protected override void OnChanged()
+		{
+			var t = target as TaskSO;
+			if (t != null && t.ID != UInt32.MaxValue)
+			{
+				var row = TableDatabase.Get.GetRow(t.Name, t.ID);
+
+				// set all the values from the selected row
+				if (row != null)
+					TaskTable.ConvertRow(row, t);
+			}
+		}
+	}
+
+	[CustomEditor(typeof(ItemSO))]
+	public class ItemEditor : BaseTableEditor<ItemSO>
+	{
+		protected override void OnChanged()
+		{
+			var t = target as ItemSO;
+			if (t != null && t.ID != UInt32.MaxValue)
+			{
+				var row = TableDatabase.Get.GetRow(t.Name, t.ID);
+
+				// set all the values from the selected row
+				if (row != null)
+					ItemTable.ConvertRow(row, t);
+			}
+		}
+	}
+
+	[CustomEditor(typeof(EnemySO))]
+	public class EnemyEditor : BaseTableEditor<EnemySO>
+	{
+		protected override void OnChanged()
+		{
+			var t = target as EnemySO;
+			if (t != null && t.ID != UInt32.MaxValue)
+			{
+				var row = TableDatabase.Get.GetRow(t.Name, t.ID);
+
+				// set all the values from the selected row
+				if (row != null)
+					EnemyTable.ConvertRow(row, t);
 			}
 		}
 	}

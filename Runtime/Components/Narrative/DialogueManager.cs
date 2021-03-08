@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 using UnityEngine;
@@ -7,17 +8,16 @@ using Cinemachine;
 namespace DatabaseSync.Components
 {
 	using Input;
+	using Events;
 
-	/**
-	 *
-	 */
+	/// <summary>
+	/// The Dialogue manager keeps track of the dialogue in the game.
+	/// </summary>
 	public class DialogueManager: MonoBehaviour
 	{
 		[SerializeField] private InputReader inputReader;
 
-		private int m_Counter;
-
-		private bool ReachedEndOfDialogue => m_Counter >= m_CurrentStory.DialogueLines.Count;
+		private bool ReachedEndOfDialogue => m_CurrentDialogue.NextDialogue == null;
 
 		[Header("Cameras")]
 		public GameObject gameCam;
@@ -26,11 +26,8 @@ namespace DatabaseSync.Components
 		[Header("Targets")]
 		public CinemachineTargetGroup targetGroup;
 
-		[Header("Quests")]
-		[SerializeField] private List<QuestSO> quests;
-
 		[Header("Listening on channels")]
-		[SerializeField] private DialogueStoryChannelSO startDialogue;
+		[SerializeField] private DialogueStoryChannelSO startStoryEvent;
 		[SerializeField] private DialogueChoiceChannelSO makeDialogueChoiceEvent;
 
 		[SerializeField] private TransformEventChannelSO startTransformDialogue;
@@ -38,14 +35,20 @@ namespace DatabaseSync.Components
 		[Header("BroadCasting on channels")]
 		[SerializeField] private DialogueLineChannelSO openUIDialogueEvent;
 		[SerializeField] private DialogueChoiceChannelSO showChoicesUIEvent;
-		[SerializeField] private DialogueStoryChannelSO endDialogue;
+
+		// [SerializeField] private DialogueStoryChannelSO endStoryEvent;
+
 		[SerializeField] private VoidEventChannelSO continueWithTask;
 		[SerializeField] private VoidEventChannelSO closeDialogueUIEvent;
 		[SerializeField] private VoidEventChannelSO closeChoiceUIEvent;
 
+		[Tooltip("This will trigger an event when a dialogue or an option appears")]
+		[SerializeField] private DialogueEventChannelSO dialogueEvent;
+
 		[SerializeField] private TextRevealer revealer;
 
 		private StorySO m_CurrentStory;
+		private IDialogueLine m_CurrentDialogue;
 
 		private bool _optionShown;
 		private bool _interacting;
@@ -53,9 +56,9 @@ namespace DatabaseSync.Components
 
 		void Start()
 		{
-			if (startDialogue != null)
+			if (startStoryEvent != null)
 			{
-				startDialogue.OnEventRaised += Interact;
+				startStoryEvent.OnEventRaised += Interact;
 			}
 
 			if (startTransformDialogue != null) // Set the target to the person we are talking to.
@@ -84,25 +87,13 @@ namespace DatabaseSync.Components
 		/// Start interaction with the NPC
 		/// </summary>
 		/// <param name="dialogueDataSo"></param>
-		public void Interact(StorySO dialogueDataSo)
+		/// <param name="dialogueLine"></param>
+		public void Interact(StorySO dialogueDataSo, IDialogueLine dialogueLine)
 		{
 			BeginDialogueStory(dialogueDataSo);
-			ShowDialogue(m_CurrentStory.DialogueLines[m_Counter], dialogueDataSo.Actor);
+			ShowDialogue(dialogueLine, dialogueDataSo.Actor);
+			SetActiveDialogue(dialogueLine);
 			ToggleCameras(true);
-		}
-
-		/// <summary>
-		/// Prepare DialogueManager when first time displaying DialogueData.
-		/// <param name="dialogueDataSo"></param>
-		/// </summary>
-		private void BeginDialogueStory(StorySO dialogueDataSo)
-		{
-			m_Counter = 0;
-			inputReader.EnableDialogueInput();
-			inputReader.advanceDialogueEvent += OnAdvance;
-			m_CurrentStory = dialogueDataSo;
-			_isInputEnabled = false;
-			StopAllCoroutines();
 		}
 
 		/// <summary>
@@ -111,7 +102,7 @@ namespace DatabaseSync.Components
 		/// </summary>
 		/// <param name="dialogueLine"></param>
 		/// <param name="actor"></param>
-		public void ShowDialogue(DialogueLineSO dialogueLine, ActorSO actor)
+		public void ShowDialogue(IDialogueLine dialogueLine, ActorSO actor)
 		{
 			if (openUIDialogueEvent != null)
 			{
@@ -122,19 +113,42 @@ namespace DatabaseSync.Components
 				openUIDialogueEvent.RaiseEvent(dialogueLine, actor);
 			}
 			revealer.RevealNextParagraphAsync();
+
+			// Call event when the dialogue begins
+			if (dialogueEvent != null && dialogueLine.DialogueEvent != String.Empty)
+			{
+				dialogueEvent.RaiseEvent(dialogueLine.DialogueEvent, m_CurrentStory);
+			}
 		}
 
 		/// <summary>
 		///
 		/// </summary>
 		/// <param name="nextDialogueLineSo"></param>
-		public void ShowNextDialogue(DialogueLineSO nextDialogueLineSo)
+		public void ShowNextDialogue(IDialogueLine nextDialogueLineSo)
 		{
 			// TODO make this work with increment only instead of setting the next dialogue.
 			// increment to the next dialogue sequence
-			Increment();
-			DialogueChoiceEndAndCloseUI();
+			DialogueChoiceEndAndCloseUI(true);
 			ShowDialogue(nextDialogueLineSo, m_CurrentStory.Actor);
+		}
+
+		/// <summary>
+		/// Prepare DialogueManager when first time displaying DialogueData.
+		/// <param name="dialogueDataSo"></param>
+		/// </summary>
+		private void BeginDialogueStory(StorySO dialogueDataSo)
+		{
+			inputReader.EnableDialogueInput();
+			inputReader.advanceDialogueEvent += OnAdvance;
+			m_CurrentStory = dialogueDataSo;
+			_isInputEnabled = false;
+			StopAllCoroutines();
+		}
+
+		private void SetActiveDialogue(IDialogueLine dialogue)
+		{
+			m_CurrentDialogue = dialogue;
 		}
 
 		/// <summary>
@@ -151,52 +165,33 @@ namespace DatabaseSync.Components
 		/// </summary>
 		private void OnAdvance()
 		{
-			if (revealer.IsRevealing)
+			bool hasOptions = m_CurrentDialogue.Choices.Count > 0;
+			if (revealer.IsRevealing && !revealer.IsAllRevealed())
 			{
 				Skip();
 				return;
 			}
 
-			// if we reached the end of the dialogue then close everything.
-			if (!ReachedEndOfDialogue)
+			if (hasOptions)
 			{
-				// if not check for dialogue choices
-				var currentDialogue = m_CurrentStory.DialogueLines[m_Counter];
-				if (currentDialogue.Choices.Count > 0)
-				{
-					Debug.Log("Choices");
-					DisplayChoices(currentDialogue.Choices);
-					return;
-				}
-
-				// Hide the option when advancing. // TODO this will be helpful for later when we use index instead of next dialogue
-				DialogueChoiceEndAndCloseUI();
-
-				Increment();
-				currentDialogue = m_CurrentStory.DialogueLines[m_Counter];
-				ShowDialogue(currentDialogue, currentDialogue.Actor);
-			}
-			else
-			{
-				StartCoroutine(DialogueEndedAndCloseDialogueUI());
-			}
-
-			/*
-			// Fetch the events
-			InitEvents();
-			// Call exit events
-			CallEvents(false);
-			m_CurrentDialogue = Advance();
-			if (m_CurrentDialogue != null)
-			{
-				// reveal the current dialogue text.
-				_textRevealer.RestartWithText(m_CurrentDialogue.Text);
-				_textRevealer.RevealNextParagraphAsync();
+				DisplayChoices(m_CurrentDialogue.Choices);
 				return;
 			}
 
-			HideDialogue();
-			*/
+			// Hide the option when advancing. // TODO this will be helpful for later when we use index instead of next dialogue
+			DialogueChoiceEndAndCloseUI();
+
+			if (!ReachedEndOfDialogue)
+			{
+				m_CurrentDialogue = m_CurrentDialogue.NextDialogue;
+				// TODO grab the actor from the node editor.
+
+				ShowDialogue(m_CurrentDialogue, m_CurrentStory.Actor);
+				return;
+			}
+
+			// if we reached the end of the dialogue then close everything.
+			StartCoroutine(DialogueEndedAndCloseDialogueUI());
 		}
 
 		private void DisplayChoices(List<DialogueChoiceSO> choices)
@@ -220,55 +215,51 @@ namespace DatabaseSync.Components
 				makeDialogueChoiceEvent.OnChoiceEventRaised -= MakeDialogueChoice;
 			}
 
-			if (choice.ActionType == ChoiceActionType.ContinueWithQuest && choice.OptionEvent != null)
+			if (dialogueEvent != null && choice.DialogueChoiceEvent != String.Empty)
 			{
-				var choiceEvent = choice.OptionEvent;
-				// grab the quest from the list
-				if (choiceEvent.EventName == "AcceptQuest")
-				{
-					var quest = quests.Find(q => q.ID == choiceEvent.Value);
-					choice.OptionEvent.RaiseEvent(quest);
-				}
+				dialogueEvent.RaiseEvent(choice.DialogueChoiceEvent, m_CurrentStory);
 			}
 			else if (choice.ActionType == ChoiceActionType.ContinueWithTask)
 			{
 				if (continueWithTask != null)
 					continueWithTask.RaiseEvent();
-				if (choice.NextDialogue != null)
-					ShowNextDialogue(choice.NextDialogue);
+			}
+
+			if (choice.NextDialogue != null)
+			{
+				ShowNextDialogue(choice.NextDialogue);
+				SetActiveDialogue(choice.NextDialogue);
 			}
 			else
-			{
-				if (choice.NextDialogue != null)
-					ShowNextDialogue(choice.NextDialogue);
-				else
-					StartCoroutine(DialogueEndedAndCloseDialogueUI());
-			}
+				StartCoroutine(DialogueEndedAndCloseDialogueUI());
+
 		}
 
-		private void DialogueChoiceEndAndCloseUI()
+		private void DialogueChoiceEndAndCloseUI(bool resubscribe = false)
 		{
 			if (closeChoiceUIEvent != null)
 				closeChoiceUIEvent.RaiseEvent();
 
-			inputReader.advanceDialogueEvent += OnAdvance;
+			if (resubscribe)
+			{
+				inputReader.advanceDialogueEvent += OnAdvance;
+			}
 		}
 
 		private IEnumerator DialogueEndedAndCloseDialogueUI()
 		{
 			if (_isInputEnabled) yield break;
 
-			yield return new WaitForSeconds(0.5f);
+			yield return new WaitForSeconds(1.0f);
 
 			if (closeDialogueUIEvent != null)
 				closeDialogueUIEvent.RaiseEvent();
 
 			ToggleCameras(false);
 
-			yield return new WaitForSeconds(1f);
+			yield return new WaitForSeconds(1.5f);
 
-			if (endDialogue != null)
-				endDialogue.RaiseEvent(m_CurrentStory);
+			// if (endStoryEvent != null) endStoryEvent.RaiseEvent(m_CurrentStory, null);
 
 			inputReader.advanceDialogueEvent -= OnAdvance;
 			inputReader.EnableGameplayInput();
@@ -276,11 +267,6 @@ namespace DatabaseSync.Components
 			_isInputEnabled = true;
 
 			yield return null;
-		}
-
-		private void Increment()
-		{
-			m_Counter++;
 		}
 
 		private void ToggleCameras(bool enable)

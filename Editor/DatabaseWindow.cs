@@ -120,12 +120,13 @@ namespace DatabaseSync
 
 		private void SaveConfig()
 		{
+			/*
 			if (_databaseConfig == null)
 				return;
 
 			var configFile = CreateInstance<DatabaseConfig>();
 
-			configFile.email = _databaseConfig.FindProperty("email").stringValue;
+			configFile.Email = _databaseConfig.FindProperty("email").stringValue;
 			configFile.password = _databaseConfig.FindProperty("password").stringValue;
 
 			// If folder does not exist make one.
@@ -136,6 +137,7 @@ namespace DatabaseSync
 
 			AssetDatabase.CreateAsset(configFile, $"Assets/Resources/{FileName}.asset");
 			AssetDatabase.SaveAssets();
+			*/
 		}
 
 		private SerializedObject LoadConfig()

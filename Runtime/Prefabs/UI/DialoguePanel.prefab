@@ -92,15 +92,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 0
-    m_Right: 0
-    m_Top: 0
-    m_Bottom: 0
+    m_Left: 10
+    m_Right: 10
+    m_Top: 5
+    m_Bottom: 5
   m_ChildAlignment: 1
   m_Spacing: 0
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
-  m_ChildControlWidth: 0
+  m_ChildControlWidth: 1
   m_ChildControlHeight: 0
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
@@ -299,9 +299,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogueSettings: {fileID: 11400000, guid: d44a6c33e017a35459f0dfaf5e3aec02, type: 2}
+  onAction:
+    m_PersistentCalls:
+      m_Calls: []
   numCharactersFade: 3
   charsPerSecond: 30
   smoothSeconds: 0.75
+  speed: 0
   allRevealed:
     m_PersistentCalls:
       m_Calls: []
@@ -605,7 +609,6 @@ MonoBehaviour:
   sentence: {fileID: 9115476614004916636}
   actorName: {fileID: 6099393291919667068}
   choicesManager: {fileID: 6177156284506376393}
-  makeChoiceEvent: {fileID: 0}
   showChoicesEvent: {fileID: 11400000, guid: ac2f2063026405543b1396308624f775, type: 2}
   hideChoicesEvent: {fileID: 11400000, guid: cc667a3eb43ab1d498a3f6217e8885c5, type: 2}
 --- !u!1001 &5047500486897385611
@@ -658,7 +661,7 @@ PrefabInstance:
     - target: {fileID: 4467252644927068568, guid: e60d850ef095b1e4ba2af45640084de3,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 270
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4467252644927068568, guid: e60d850ef095b1e4ba2af45640084de3,
         type: 3}
@@ -800,7 +803,7 @@ PrefabInstance:
     - target: {fileID: 4467252644927068568, guid: e60d850ef095b1e4ba2af45640084de3,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 270
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4467252644927068568, guid: e60d850ef095b1e4ba2af45640084de3,
         type: 3}
@@ -942,7 +945,7 @@ PrefabInstance:
     - target: {fileID: 4467252644927068568, guid: e60d850ef095b1e4ba2af45640084de3,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 270
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4467252644927068568, guid: e60d850ef095b1e4ba2af45640084de3,
         type: 3}

@@ -1,24 +1,15 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace DatabaseSync
+namespace DatabaseSync.UI
 {
 	using Components;
 	public class UIDialogueChoicesManager : MonoBehaviour
 	{
 		public UIDialogueChoiceFiller[] listChoiceButtons;
 
-		public void Start()
-		{
-			foreach (var uiDialogueChoiceFiller in listChoiceButtons)
-			{
-				uiDialogueChoiceFiller.gameObject.SetActive(false);
-			}
-		}
-
 		public void FillChoices(List<DialogueChoiceSO> choices)
 		{
-
 			if (choices != null)
 			{
 				int maxCount = Mathf.Max(choices.Count, listChoiceButtons.Length);

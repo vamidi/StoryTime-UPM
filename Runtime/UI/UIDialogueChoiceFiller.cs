@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 
-namespace DatabaseSync
+namespace DatabaseSync.UI
 {
 	using Components;
+	using Events;
 
 	public class UIDialogueChoiceFiller : MonoBehaviour
 	{
@@ -14,7 +15,7 @@ namespace DatabaseSync
 		public void FillChoice(DialogueChoiceSO choiceToFill)
 		{
 			m_CurrentChoice = choiceToFill;
-			choiceText.StringReference = choiceToFill.Response;
+			choiceText.StringReference = choiceToFill.Sentence;
 		}
 
 		public void ButtonClicked()

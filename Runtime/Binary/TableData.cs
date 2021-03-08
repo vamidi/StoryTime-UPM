@@ -6,7 +6,7 @@ namespace DatabaseSync.Binary
     public class TableMetaData
     {
 	    // ReSharper disable once InconsistentNaming
-        public int created_at = 0;
+        public long created_at = 0;
 
         // ReSharper disable once InconsistentNaming
         public bool deleted = false;
@@ -15,7 +15,7 @@ namespace DatabaseSync.Binary
         public string description = "";
 
         // ReSharper disable once InconsistentNaming
-        public int lastUID = 0;
+        public uint lastUID = 0;
 
         // public bool private = false;
 
@@ -23,7 +23,7 @@ namespace DatabaseSync.Binary
         public string title = "";
 
         // ReSharper disable once InconsistentNaming
-        public int updated_at = 0;
+        public long updated_at = 0;
     }
 
     public class Table

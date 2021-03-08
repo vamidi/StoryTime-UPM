@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
 
-namespace DatabaseSync
+namespace DatabaseSync.Events
 {
 
 	/// <summary>

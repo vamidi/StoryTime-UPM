@@ -1,62 +1,80 @@
 ﻿using UnityEngine;
 
-namespace DatabaseSync
+namespace DatabaseSync.UI
 {
 	using Components;
+	using Events;
 
 	public class UIManager : MonoBehaviour
 	{
+		[Header("Listening on channels")]
+		public DialogueLineChannelSO openUIDialogueEvent;
 
-		public DialogueLineChannelSO _openUIDialogueEvent;
+		public VoidEventChannelSO closeUIDialogueEvent;
+		public VoidEventChannelSO openInventoryScreenEvent;
+		public VoidEventChannelSO openInventoryScreenForCookingEvent;
+		public VoidEventChannelSO closeInventoryScreenEvent;
+		public VoidEventChannelSO onInteractionEndedEvent;
 
-		public VoidEventChannelSO CloseUIDialogueEvent;
-		public VoidEventChannelSO OpenInventoryScreenEvent;
-		public VoidEventChannelSO OpenInventoryScreenForCookingEvent;
-		public VoidEventChannelSO CloseInventoryScreenEvent;
-		public VoidEventChannelSO OnInteractionEndedEvent;
+		public InteractionUIEventChannelSO setInteractionEvent;
+		public InteractionStoryUIEventChannel showNavigationInteractionEvent;
+		public InteractionItemUIEventChannel showItemInteractionEvent;
 
-		public InteractionUIEventChannelSO SetInteractionEvent;
+		[Header("References")]
 
-		[SerializeField] UIDialogueManager dialogueController = default;
+		[SerializeField] UIDialogueManager dialogueController;
 
 		// [SerializeField] UIInventoryManager inventoryPanel;
 
-		[SerializeField]
-		private UIInteractionManager interactionPanel = default;
+		[SerializeField] private UIInteractionManager interactionPanel;
+
+		[SerializeField] private UIInteractionStoryManager navigationPanel;
+
+		[SerializeField] private UIInteractionItemManager interactionItemPanel;
+
+		bool isForCooking = false;
 
 		private void OnEnable()
 		{
 			//Check if the event exists to avoid errors
-			if (_openUIDialogueEvent != null)
+			if (openUIDialogueEvent != null)
 			{
-				_openUIDialogueEvent.OnEventRaised += OpenUIDialogue;
+				openUIDialogueEvent.OnEventRaised += OpenUIDialogue;
 			}
 
-			if (CloseUIDialogueEvent != null)
+			if (closeUIDialogueEvent != null)
 			{
-				CloseUIDialogueEvent.OnEventRaised += CloseUIDialogue;
+				closeUIDialogueEvent.OnEventRaised += CloseUIDialogue;
 			}
 
-			if (OpenInventoryScreenForCookingEvent != null)
+			if (openInventoryScreenForCookingEvent != null)
 			{
-				OpenInventoryScreenForCookingEvent.OnEventRaised += SetInventoryScreenForCooking;
+				openInventoryScreenForCookingEvent.OnEventRaised += SetInventoryScreenForCooking;
 			}
 
-			if (OpenInventoryScreenEvent != null)
+			if (openInventoryScreenEvent != null)
 			{
-				OpenInventoryScreenEvent.OnEventRaised += SetInventoryScreen;
+				openInventoryScreenEvent.OnEventRaised += SetInventoryScreen;
 			}
 
-			if (CloseInventoryScreenEvent != null)
+			if (closeInventoryScreenEvent != null)
 			{
-				CloseInventoryScreenEvent.OnEventRaised += CloseInventoryScreen;
+				closeInventoryScreenEvent.OnEventRaised += CloseInventoryScreen;
 			}
 
-			if (SetInteractionEvent != null)
+			if (setInteractionEvent != null)
 			{
-				SetInteractionEvent.OnEventRaised += SetInteractionPanel;
+				setInteractionEvent.OnEventRaised += SetInteractionPanel;
 			}
 
+			if (showNavigationInteractionEvent != null)
+				showNavigationInteractionEvent.OnEventRaised += ShowNavigationPanel;
+
+			if (showNavigationInteractionEvent != null)
+				showNavigationInteractionEvent.OnEventRaised += ShowNavigationPanel;
+
+			if (showItemInteractionEvent != null)
+				showItemInteractionEvent.OnEventRaised += ShowItemPanel;
 		}
 
 		private void Start()
@@ -64,7 +82,7 @@ namespace DatabaseSync
 			CloseUIDialogue();
 		}
 
-		public void OpenUIDialogue(DialogueLineSO dialogueLine, ActorSO actor)
+		public void OpenUIDialogue(IDialogueLine dialogueLine, ActorSO actor)
 		{
 			dialogueController.SetDialogue(dialogueLine, actor);
 			dialogueController.gameObject.SetActive(true);
@@ -88,8 +106,6 @@ namespace DatabaseSync
 			OpenInventoryScreen();
 
 		}
-
-		bool isForCooking = false;
 
 		void OpenInventoryScreen()
 		{
@@ -129,6 +145,28 @@ namespace DatabaseSync
 			}
 
 			interactionPanel.gameObject.SetActive(isOpenEvent);
+		}
+
+		public void ShowNavigationPanel(bool isOpenEvent, StoryInfo info, InteractionType interactionType)
+		{
+			if (isOpenEvent)
+			{
+				navigationPanel.SetQuest(info);
+				navigationPanel.FillInteractionPanel(interactionType);
+			}
+
+			navigationPanel.gameObject.SetActive(isOpenEvent);
+		}
+
+		public void ShowItemPanel(bool isOpenEvent, ItemStack itemInfo, InteractionType interactionType)
+		{
+			if (isOpenEvent)
+			{
+				interactionItemPanel.SetItem(itemInfo);
+				interactionItemPanel.FillInteractionPanel(interactionType);
+			}
+
+			interactionItemPanel.gameObject.SetActive(isOpenEvent);
 		}
 	}
 }

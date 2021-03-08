@@ -4,15 +4,17 @@ namespace DatabaseSync
 {
 	using Components;
 	using Input;
-	using ResourceManagement.Util;
+	using Events;
 
 	public enum InteractionType
 	{
 		None = 0,
 		PickUp,
 		Cook,
-		Talk
-	};
+		Talk,
+		Navigate,
+		Item,
+	}
 
 	public class InteractionManager : MonoBehaviour
 	{
@@ -21,26 +23,25 @@ namespace DatabaseSync
 		private InteractionType _potentialInteraction;
 		[HideInInspector] public InteractionType currentInteraction;
 
-		[SerializeField] private InputReader inputReader = default;
+		[SerializeField] private InputReader inputReader;
 
 		//To store the object we are currently interacting with
-		private GameObject _currentInteractableObject = null;
+		private GameObject _currentInteractableObject;
 
-		//Events for the different interaction types
-		// [Header("Broadcasting on")] [SerializeField]
-		// private ItemEventChannelSo _onObjectPickUp = default;
-
-		[SerializeField] private VoidEventChannelSO onCookingStart = default;
-
-		[SerializeField] private DialogueActorChannelSO startTalking = default;
-
-		//UI event
-		[SerializeField] private InteractionUIEventChannelSO toggleInteractionUI = default;
-
-		[Header("Listening to")]
+		[Header("Listening on channels")]
 		// Check if the interaction ended
-		[SerializeField]
-		private VoidEventChannelSO onInteractionEnded = default;
+		[SerializeField] private VoidEventChannelSO onInteractionEnded;
+
+		[Header("BroadCasting on channels")]
+		//Events for the different interaction types
+		[SerializeField] private ItemEventChannelSO onObjectPickUp;
+
+		[SerializeField] private VoidEventChannelSO onCookingStart;
+
+		[SerializeField] private DialogueActorChannelSO startTalking;
+
+		// UI events
+		[SerializeField] private InteractionUIEventChannelSO toggleInteractionUI;
 
 		private void OnEnable()
 		{
@@ -67,13 +68,11 @@ namespace DatabaseSync
 
 			switch (_potentialInteraction)
 			{
-				//we show it after cooking or talking, in case player want to interact again
+				// we show it after cooking or talking, in case player want to interact again
 				case InteractionType.Cook:
 				case InteractionType.Talk:
 					toggleInteractionUI.RaiseEvent(true, _potentialInteraction);
 					Debug.Log("Display interaction UI");
-					break;
-				default:
 					break;
 			}
 		}
@@ -90,27 +89,27 @@ namespace DatabaseSync
 				case InteractionType.PickUp:
 					if (_currentInteractableObject != null)
 					{
-						/*
-						if (_onObjectPickUp != null)
+						if (onObjectPickUp != null)
 						{
 							//raise an event with an item as parameter (to add object to inventory)
-							Item currentItem = _currentInteractableObject.GetComponent<CollectibleItem>().GetItem();
-							_onObjectPickUp.RaiseEvent(currentItem);
+							ItemStack currentItem = _currentInteractableObject.GetComponent<CollectibleItem>().GetItem();
+							onObjectPickUp.RaiseEvent(currentItem);
+
 							Debug.Log("PickUp event raised");
-							//set current interaction for state machine
+
+							// set current interaction for state machine
 							currentInteraction = InteractionType.PickUp;
 						}
-						*/
 					}
 
-					//destroy the GO
+					// destroy the GO
 					Destroy(_currentInteractableObject);
 					break;
 				case InteractionType.Cook:
 					if (onCookingStart != null)
 					{
 						onCookingStart.RaiseEvent();
-						Debug.Log("Cooking event raised");
+						Debug.Log("Cooking/Craft event raised");
 						//Change the action map
 						inputReader.EnableMenuInput();
 						m_PlayerInput.SwitchCurrentActionMap("Menus");
@@ -126,7 +125,9 @@ namespace DatabaseSync
 						if (startTalking != null)
 						{
 							// raise an event with an actor as parameter
-							_currentInteractableObject.GetComponent<RevisionController>().InteractWithCharacter();
+							var revisionController = _currentInteractableObject.GetComponent<RevisionController>();
+							revisionController.TurnToPlayer(transform.root.position);
+							revisionController.InteractWithCharacter();
 
 							// Change the action map
 							inputReader.EnableDialogueInput();
@@ -137,8 +138,6 @@ namespace DatabaseSync
 						}
 					}
 
-					break;
-				default:
 					break;
 			}
 		}
@@ -160,6 +159,7 @@ namespace DatabaseSync
 			else if (other.CompareTag("NPC"))
 			{
 				_potentialInteraction = InteractionType.Talk;
+				// Debug.Log("I triggered a npc!");
 				DisplayInteractionUI();
 			}
 

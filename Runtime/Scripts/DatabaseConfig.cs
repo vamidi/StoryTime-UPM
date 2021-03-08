@@ -5,16 +5,19 @@ namespace DatabaseSync
 	[CreateAssetMenu(menuName = "DatabaseSync/Configurations/Config File", fileName = "DatabaseConfig")]
 	public class DatabaseConfig : ScriptableObject
 	{
-		[SerializeField]
-		public string databaseURL = "";
+		public string DatabaseURL => databaseURL;
+		public string ProjectID => projectID;
+		public string Email => email;
+		public string Password => password;
 
-		[SerializeField]
-		public string projectID = "";
+		[SerializeField] private string databaseURL = "";
 
-		[SerializeField]
-		public string email = "";
+		[SerializeField] private string projectID = "";
 
-		[SerializeField]
-		public string password = "";
+		[SerializeField] private string email = "";
+
+		[SerializeField] private string password = "";
+
+		[SerializeField] public string dataPath = "";
 	}
 }

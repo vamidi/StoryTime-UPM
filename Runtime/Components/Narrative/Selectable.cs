@@ -13,7 +13,7 @@ namespace DatabaseSync.Components
 			set
 			{
 				_option = value;
-				_text.text = value != null ? value.Text : "";
+				_text.text = value != null ? value.Sentence : "";
 			}
 			get => _option;
 		}

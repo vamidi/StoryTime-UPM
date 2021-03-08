@@ -47,17 +47,17 @@ MonoBehaviour:
   gameCam: {fileID: 0}
   dialogueCam: {fileID: 0}
   targetGroup: {fileID: 0}
-  startDialogue: {fileID: 11400000, guid: 1dafebf8ffa94d14cb84dfa1290f7581, type: 2}
-  makeDialogueChoiceEvent: {fileID: 11400000, guid: 4e605084430a82848a499bcb1b83e211,
+  startStoryEvent: {fileID: 11400000, guid: 1dafebf8ffa94d14cb84dfa1290f7581, type: 2}
+  makeDialogueChoiceEvent: {fileID: 11400000, guid: 7fb2fbdd616312641b0c9e9357294c44,
     type: 2}
   startTransformDialogue: {fileID: 11400000, guid: 20882f855bf38c8498571e8ea0479453,
     type: 2}
   openUIDialogueEvent: {fileID: 11400000, guid: 10e76ab2424f6b741a8269b1576b5108,
     type: 2}
   showChoicesUIEvent: {fileID: 11400000, guid: ac2f2063026405543b1396308624f775, type: 2}
-  endDialogue: {fileID: 0}
   continueWithTask: {fileID: 11400000, guid: 776fce244873b5f499a5a86e99f8f2b0, type: 2}
   closeDialogueUIEvent: {fileID: 11400000, guid: cbd4abfb8d701dc479f2506c899ce498,
     type: 2}
   closeChoiceUIEvent: {fileID: 11400000, guid: cc667a3eb43ab1d498a3f6217e8885c5, type: 2}
+  dialogueEvent: {fileID: 11400000, guid: 0cf8ed5b07386b54d876842c88e40a0e, type: 2}
   revealer: {fileID: 0}

@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace DatabaseSync
+namespace DatabaseSync.UI
 {
 	using Components;
+	using Events;
 
 	public class UIDialogueManager : MonoBehaviour
 	{
@@ -33,7 +34,7 @@ namespace DatabaseSync
 			HideChoices();
 		}
 
-		public void SetDialogue(DialogueLineSO dialogueLine, ActorSO actor)
+		public void SetDialogue(IDialogueLine dialogueLine, ActorSO actor)
 		{
 			// TODO see class LocalizeStringEvent for the reference variables
 			sentence.StringReference = dialogueLine.Sentence;
@@ -42,8 +43,8 @@ namespace DatabaseSync
 
 		void ShowChoices(List<DialogueChoiceSO> choices)
 		{
-			choicesManager.FillChoices(choices);
 			choicesManager.gameObject.SetActive(true);
+			choicesManager.FillChoices(choices);
 		}
 		void HideChoices()
 		{

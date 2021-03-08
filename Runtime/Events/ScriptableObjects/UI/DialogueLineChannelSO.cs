@@ -1,17 +1,18 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
 
-namespace DatabaseSync
+namespace DatabaseSync.Events
 {
 	[CreateAssetMenu(menuName = "DatabaseSync/Events/UI/Dialogue line Channel")]
 	public class DialogueLineChannelSO : ScriptableObject
 	{
-		public UnityAction<Components.DialogueLineSO, Components.ActorSO> OnEventRaised;
+		public UnityAction<Components.IDialogueLine, Components.ActorSO> OnEventRaised;
 
-		public void RaiseEvent(Components.DialogueLineSO line, Components.ActorSO actor)
-		{
-			if (OnEventRaised != null)
-				OnEventRaised.Invoke(line, actor);
-		}
+		/// <summary>
+		///
+		/// </summary>
+		/// <param name="line"></param>
+		/// <param name="actor"></param>
+		public void RaiseEvent(Components.IDialogueLine line, Components.ActorSO actor) => OnEventRaised?.Invoke(line, actor);
 	}
 }

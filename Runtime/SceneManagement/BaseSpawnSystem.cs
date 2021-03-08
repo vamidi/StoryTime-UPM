@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace DatabaseSync
 {
+	using Events;
 	/// <summary>
 	/// BaseSpawnSystem listens to the scene ready channel to see if the scene is loaded
 	/// when the scene is loaded it calls the function to let the

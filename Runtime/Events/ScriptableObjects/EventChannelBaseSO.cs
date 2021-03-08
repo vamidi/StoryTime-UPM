@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace DatabaseSync
+namespace DatabaseSync.Events
 {
 	public class EventChannelBaseSO : ScriptableObject
 	{

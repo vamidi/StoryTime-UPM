@@ -1,7 +1,7 @@
 ﻿using UnityEngine.Events;
 using UnityEngine;
 
-namespace DatabaseSync
+namespace DatabaseSync.Events
 {
 	/// <summary>
 	/// This class is used for Events that have one transform argument.

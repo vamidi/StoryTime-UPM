@@ -6,7 +6,7 @@ namespace DatabaseSync.Components
 	/// Scriptable Object that represents an "Actor", that is the protagonist of a Dialogue
 	/// </summary>
 
-	[CreateAssetMenu(fileName = "newActor", menuName = "DatabaseSync/Dialogues/Actor")]
+	[CreateAssetMenu(fileName = "newActor", menuName = "DatabaseSync/Narrative/Actor")]
 	// ReSharper disable once InconsistentNaming
 	public class ActorSO : TableBehaviour
 	{

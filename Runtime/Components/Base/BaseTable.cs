@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using DatabaseSync.Binary;
 
 public abstract class BaseTable<T> : UnityEditor.MonoScript where T : DatabaseSync.TableBehaviour

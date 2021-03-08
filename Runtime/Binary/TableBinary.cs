@@ -4,6 +4,10 @@ using System.IO;
 using System.Linq;
 using UnityEngine;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 using Newtonsoft.Json.Linq;
 
 namespace DatabaseSync.Binary
@@ -41,8 +45,6 @@ namespace DatabaseSync.Binary
 
 	public class TableBinary
 	{
-		private static string s_DataPath = "Packages/com.unity.vamidicreations.storytime/Data/";
-
 		/// <summary>
 		/// This is the name of the table
 		/// </summary>
@@ -61,7 +63,19 @@ namespace DatabaseSync.Binary
 
 		private bool _listUpdated;
 		private string _shownColumn;
+
 		private readonly Dictionary<uint, string> _list = new Dictionary<uint, string>();
+		private readonly DatabaseConfig m_ConfigFile;
+
+		public static DatabaseConfig Fetch()
+		{
+			var path = EditorPrefs.GetString("DatabaseSync-Window-Settings-Config", "");
+			var configFile = AssetDatabase.LoadAssetAtPath<DatabaseConfig>(AssetDatabase.GUIDToAssetPath(path));
+			if (configFile == null)
+				throw new ArgumentNullException($"{nameof(configFile)} must not be null.", nameof(configFile));
+
+			return configFile;
+		}
 
 		/// <summary>
 		/// constructor
@@ -70,6 +84,10 @@ namespace DatabaseSync.Binary
 		public TableBinary(string sName)
 		{
 			_tableName = sName;
+
+			// set the right path
+			m_ConfigFile = Fetch();
+
 			// Retrieve data from existing file, if it exists
 			Refresh();
 		}
@@ -79,12 +97,11 @@ namespace DatabaseSync.Binary
 		 */
 		public static Table GetTable(string tableName)
 		{
-			string destination = $"{s_DataPath}{tableName}.json";
+			DatabaseConfig config = Fetch();
+			string destination = $"{config.dataPath}/{tableName}.json";
 
 			if (!File.Exists(destination))
-			{
 				throw new ArgumentException($"{tableName} couldn't be found!");
-			}
 
 			var stru = new TableStruct
 			{
@@ -102,20 +119,24 @@ namespace DatabaseSync.Binary
 
 		public static TableRow GetRow(string tableName, uint entityID)
 		{
-			string destination = $"{s_DataPath}{tableName}.json";
+			DatabaseConfig config = Fetch();
+			string destination = $"{config.dataPath}/{tableName}.json";
 			if (!File.Exists(destination))
 			{
 				throw new ArgumentException($"{tableName} couldn't be found!");
 			}
 
 			string jsonString = GetStream(destination);
+			JToken tableData = GetTableData(jsonString);
 
-			JArray arr = JArray.Parse(jsonString);
+			// The key-value data
+			JArray arr = tableData["data"].Value<JArray>();
 			TableRow result = new TableRow();
 
 			// Invalid ID
 			if (entityID >= arr.Count)
 			{
+				Debug.LogWarning($"EntityID: {entityID} does not exist!");
 				return new TableRow();
 			}
 
@@ -139,6 +160,9 @@ namespace DatabaseSync.Binary
 						field.Data = entity.Value.ToObject<string>();
 						// Debug.Log("String");
 						break;
+					case JTokenType.Object:
+						field.Data = entity.Value.ToObject<JObject>();
+						break;
 				}
 
 				result.Fields.Add(new TableRowInfo{ ColumnName = entity.Name, ColumnID = i }, field);
@@ -150,7 +174,7 @@ namespace DatabaseSync.Binary
 
 		public TableField GetValue(string tableName, uint columnID, uint entityID)
 		{
-			string destination = $"{s_DataPath}{tableName}.json";
+			string destination = $"{m_ConfigFile.dataPath}/{tableName}.json";
 			if (!File.Exists(destination))
 			{
 				throw new ArgumentException($"{tableName} couldn't be found!");
@@ -183,6 +207,9 @@ namespace DatabaseSync.Binary
 						break;
 					case JTokenType.String:
 						result.Data = entity.Value.ToObject<string>();
+						break;
+					case JTokenType.Object:
+						result.Data = entity.Value.ToObject<JObject>();
 						break;
 				}
 
@@ -218,7 +245,7 @@ namespace DatabaseSync.Binary
 		public void Refresh()
 		{
 			// Load the table if exists
-			string destination = $"{s_DataPath}{_tableName}.json";
+			string destination = $"{m_ConfigFile.dataPath}/{_tableName}.json";
 
 			if (!File.Exists(destination))
 			{
@@ -332,6 +359,9 @@ namespace DatabaseSync.Binary
 			if (jsonTableData["id"] == null || jsonTableData["data"] == null || jsonTableData["metadata"] == null)
 				throw new ArgumentException("JSON does not contains the property id, data or metadata");
 
+			if (m_ConfigFile == null)
+				throw new ArgumentException("Database Config file could not be found");
+
 			// The key-value data
 			JObject entries = jsonTableData["data"].Value<JObject>();
 			// The metadata from the json stream
@@ -372,6 +402,9 @@ namespace DatabaseSync.Binary
 						case JTokenType.String:
 							field.Data = column.Value.ToObject<string>();
 							// Debug.Log("String");
+							break;
+						case JTokenType.Object:
+							field.Data = column.Value.ToObject<JObject>();
 							break;
 					}
 
@@ -468,11 +501,11 @@ namespace DatabaseSync.Binary
 			        // _ujson.JsonColumnEntries.Capacity = (int)(_ujson.ColumnCount * _ujson.EntityCount);
 		        }
 
+		        uint j = 0;
 		        foreach (var entity in rowParameters)
 		        {
 			        TableField field = new TableField();
 
-			        uint j = 0;
 			        switch (entity.Value.Type)
 			        {
 				        case JTokenType.Boolean:
@@ -486,6 +519,9 @@ namespace DatabaseSync.Binary
 				        case JTokenType.String:
 					        field.Data = entity.Value.ToObject<string>();
 					        // Debug.Log("String");
+					        break;
+				        case JTokenType.Object:
+					        field.Data = entity.Value.ToObject<JObject>();
 					        break;
 			        }
 
@@ -510,11 +546,11 @@ namespace DatabaseSync.Binary
         /// </summary>
         /// <param name="exportObj"></param>
         private void Export(JToken exportObj)
-		{
-			string destination = $"{s_DataPath}{_tableName}.json";
+        {
+	        string destination = $"{m_ConfigFile.dataPath}/{_tableName}.json";
 
-			if (!Directory.Exists(s_DataPath))
-				Directory.CreateDirectory(s_DataPath);
+			if (!Directory.Exists(m_ConfigFile.dataPath))
+				Directory.CreateDirectory(m_ConfigFile.dataPath);
 
 			File.WriteAllText(destination, exportObj.ToString());
 		}

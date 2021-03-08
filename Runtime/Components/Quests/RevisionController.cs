@@ -2,28 +2,31 @@
 
 namespace DatabaseSync.Components
 {
+	using Events;
+
 	// this script needs to be put on the actor, and takes care of the current step to accomplish.
 	// the step contains a dialogue and maybe an event.
 
 	public class RevisionController : MonoBehaviour
 	{
 		public UnityEngine.InputSystem.PlayerInput playerInput;
+		// TODO rename this to Character
 		public ActorSO Actor => actor;
 
 		[Header("Data")]
 		[SerializeField] private ActorSO actor;
 
-		[SerializeField]
-		private StorySO defaultDialogue;
+		[SerializeField] private StorySO defaultStory;
 
 		[Header("Listening to channels")]
 		[SerializeField] private TaskChannelSO startTaskEvent;
 
-		[SerializeField] private DialogueStoryChannelSO endDialogueEvent;
+		// This is for each dialogue we call an even
+		[SerializeField] private DialogueLineChannelSO endDialogueEvent;
 		[SerializeField] private DialogueActorChannelSO interactionEvent;
 
-		[SerializeField] private VoidEventChannelSO winDialogueEvent;
-		[SerializeField] private VoidEventChannelSO loseDialogueEvent;
+		[SerializeField] private VoidEventChannelSO completeDialogueEvent;
+		[SerializeField] private VoidEventChannelSO incompleteDialogueEvent;
 		[SerializeField] private VoidEventChannelSO continueWithTask;
 		[SerializeField] private VoidEventChannelSO endTaskEvent;
 		[SerializeField] private VoidEventChannelSO closeDialogueUIEvent;
@@ -31,14 +34,23 @@ namespace DatabaseSync.Components
 		[Header("Broadcasting on channels")]
 		[SerializeField] private VoidEventChannelSO checkTaskValidityEvent;
 
-		[SerializeField] private DialogueStoryChannelSO startDialogueEvent;
-
+		[SerializeField] private DialogueStoryChannelSO startStoryEvent;
+		// TODO enable the dialogue manager to show only dialogue.
+		// [SerializeField] private DialogueLineChannelSO startDialogueEvent;
 		[SerializeField] private TransformEventChannelSO startTransformDialogue;
 
 		// check if character is active. An active character is the character concerned by the task.
 		private bool _hasActiveTask;
 		private TaskSO _currentTask;
-		private StorySO _currentDialogue;
+		private StorySO _currentStory;
+		private IDialogueLine _currentDialogue;
+
+		public void TurnToPlayer(Vector3 playerPos)
+		{
+			// transform.DOLookAt(playerPos, Vector3.Distance(transform.position, playerPos) / 5);
+			// string turnMotion = isRightSide(transform.forward, playerPos, Vector3.up) ? "rturn" : "lturn";
+			// animator.SetTrigger(turnMotion);
+		}
 
 		private void Start()
 		{
@@ -58,14 +70,14 @@ namespace DatabaseSync.Components
 				interactionEvent.OnEventRaised += InteractWithCharacter;
 			}
 
-			if (winDialogueEvent != null)
+			if (completeDialogueEvent != null)
 			{
-				winDialogueEvent.OnEventRaised += PlayWinDialogue;
+				completeDialogueEvent.OnEventRaised += PlayWinDialogue;
 			}
 
-			if (loseDialogueEvent != null)
+			if (incompleteDialogueEvent != null)
 			{
-				loseDialogueEvent.OnEventRaised += PlayLoseDialogue;
+				incompleteDialogueEvent.OnEventRaised += PlayLoseDialogue;
 			}
 
 			if (endTaskEvent != null)
@@ -87,9 +99,10 @@ namespace DatabaseSync.Components
 		//play default dialogue if no step
 		void PlayDefaultDialogue()
 		{
-			if (defaultDialogue != null)
+			if (defaultStory != null)
 			{
-				_currentDialogue = defaultDialogue;
+				_currentStory = defaultStory;
+				_currentDialogue = _currentStory.StartDialogue;
 				StartDialogue();
 			}
 		}
@@ -139,10 +152,20 @@ namespace DatabaseSync.Components
 			}
 		}
 
+		/// <summary>
+		///
+		/// </summary>
 		void StartTask()
 		{
 			if (_currentTask != null)
-				if (_currentTask.DialogueBeforeTask != null)
+			{
+				// if we have a task check the validation
+				if (_hasActiveTask)
+				{
+					CheckTaskValidity();
+				}
+				// The player is going to get a tasks handed over
+				else if (_currentTask.DialogueBeforeTask != null)
 				{
 					_currentDialogue = _currentTask.DialogueBeforeTask;
 					StartDialogue();
@@ -151,6 +174,7 @@ namespace DatabaseSync.Components
 				{
 					Debug.LogError("Task without dialogue registering not implemented.");
 				}
+			}
 		}
 
 		void StartDialogue()
@@ -160,9 +184,9 @@ namespace DatabaseSync.Components
 				startTransformDialogue.RaiseEvent(transform);
 			}
 
-			if (startDialogueEvent != null)
+			if (startStoryEvent != null)
 			{
-				startDialogueEvent.RaiseEvent(_currentDialogue);
+				startStoryEvent.RaiseEvent(_currentStory, _currentDialogue);
 			}
 		}
 
@@ -185,13 +209,12 @@ namespace DatabaseSync.Components
 					_currentDialogue = _currentTask.WinDialogue;
 					StartDialogue();
 				}
-
 		}
 
 		//End dialogue
-		void EndDialogue(StorySO dialogue)
+		void EndDialogue(IDialogueLine dialogue, ActorSO actorSo)
 		{
-			//depending on the dialogue that ended, do something. The dialogue type can be different from the current dialogue type
+			// depending on the dialogue that ended, do something. The dialogue type can be different from the current dialogue type
 			switch (dialogue.DialogueType)
 			{
 				case DialogueType.StartDialogue:
@@ -250,7 +273,18 @@ namespace DatabaseSync.Components
 		{
 			_currentTask = null;
 			_hasActiveTask = false;
-			_currentDialogue = defaultDialogue;
+			_currentStory = defaultStory;
+			_currentDialogue = _currentStory.StartDialogue;
+
+			Debug.Log(_currentDialogue);
+		}
+
+		// https://forum.unity.com/threads/left-right-test-function.31420/
+		bool isRightSide(Vector3 fwd, Vector3 targetDir, Vector3 up)
+		{
+			Vector3 right = Vector3.Cross(up.normalized, fwd.normalized);        // right vector
+			float dir = Vector3.Dot(right, targetDir.normalized);
+			return dir > 0f;
 		}
 	}
 }

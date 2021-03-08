@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace DatabaseSync
+namespace DatabaseSync.Events
 {
 	[CreateAssetMenu(menuName = "DatabaseSync/Events/UI/Dialogue Choice Channel")]
 	public class DialogueChoiceChannelSO : ScriptableObject
@@ -11,16 +11,8 @@ namespace DatabaseSync
 		public UnityAction<Components.DialogueChoiceSO> OnChoiceEventRaised;
 		public UnityAction<List<Components.DialogueChoiceSO>> OnChoicesEventRaised;
 
-		public void RaiseEvent(Components.DialogueChoiceSO choice)
-		{
-			if (OnChoiceEventRaised != null)
-				OnChoiceEventRaised.Invoke(choice);
-		}
+		public void RaiseEvent(Components.DialogueChoiceSO choice) => OnChoiceEventRaised?.Invoke(choice);
 
-		public void RaiseEvent(List<Components.DialogueChoiceSO> choices)
-		{
-			if (OnChoicesEventRaised != null)
-				OnChoicesEventRaised.Invoke(choices);
-		}
+		public void RaiseEvent(List<Components.DialogueChoiceSO> choices) => OnChoicesEventRaised?.Invoke(choices);
 	}
 }

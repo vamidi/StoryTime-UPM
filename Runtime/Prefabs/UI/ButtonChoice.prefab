@@ -242,7 +242,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 270, y: 25}
+  m_SizeDelta: {x: 425, y: 25}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4070931096873159452
 CanvasRenderer:
@@ -294,7 +294,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   choiceText: {fileID: 8696430345178344032}
-  makeAChoiceEvent: {fileID: 11400000, guid: 4e605084430a82848a499bcb1b83e211, type: 2}
+  makeAChoiceEvent: {fileID: 11400000, guid: 7fb2fbdd616312641b0c9e9357294c44, type: 2}
 --- !u!1 &8273835280102873130
 GameObject:
   m_ObjectHideFlags: 0

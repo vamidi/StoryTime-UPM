@@ -142,10 +142,7 @@ namespace DatabaseSync.Input
 		public void OnAdvanceDialogue(InputAction.CallbackContext context)
 		{
 			if (context.phase == InputActionPhase.Performed)
-			{
-				Debug.Log("Performed");
 				advanceDialogueEvent.Invoke();
-			}
 		}
 
 		public void OnConfirm(InputAction.CallbackContext context)

@@ -127,10 +127,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 8320703179963651321}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc333312e4724ccea3e803aa3213e04e, type: 3}
+  m_Script: {fileID: 11500000, guid: 7daead95c2284345b495281a7480cbe3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  listInteractions: []
+  listInteractions:
+  - {fileID: 11400000, guid: 1b70968c6e2ff7744aba9704cfa71bf8, type: 2}
+  - {fileID: 11400000, guid: 8b57e773a3aa22e42a81ffa881cc1cda, type: 2}
   interactionItem: {fileID: 0}
 --- !u!1001 &2656605275679865762
 PrefabInstance:

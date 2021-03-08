@@ -77,6 +77,8 @@ namespace DatabaseSync.UI
         {
 	        var root = rootVisualElement;
 
+	        // TODO able to reset the token if users are switching to different environments.
+
 	        /*
 	        m_TabToggles = root.Query<ToolbarToggle>().ToList();
             m_TabPanels = new List<VisualElement>();
@@ -108,6 +110,21 @@ namespace DatabaseSync.UI
 		            field.value = configFile;
 		            root.Q<VisualElement>("rowSettings").style.display = DisplayStyle.Flex;
 		            root.Bind(new SerializedObject(field.value));
+
+		            // configure the buttons
+		            root.Q<Button>("btn-save").clickable.clicked += () => SaveConfig(configFile);
+
+		            root.Q<Button>("btn-choose-path").clickable.clicked += () =>
+		            {
+			            var assetDirectory = EditorUtility.SaveFolderPanel("Data location", Application.dataPath, "");
+			            if (string.IsNullOrEmpty(assetDirectory))
+				            return;
+
+			            configFile.dataPath = assetDirectory;
+			            SaveConfig(configFile);
+		            };
+
+		            // <ui:Button label="Save Asset" name="btn-choose-path" class="unity-property-button-input"/>
 	            }
             }
 
@@ -200,6 +217,13 @@ namespace DatabaseSync.UI
 		        rootVisualElement.Q<VisualElement>("dialogueSettings").style.display = DisplayStyle.None;
 		        SelectedDialogueConfig = "";
 	        }
+        }
+
+        void SaveConfig(DatabaseConfig configFile)
+        {
+	        Debug.Log("Saving Database Config file");
+	        EditorUtility.SetDirty(configFile);
+	        AssetDatabase.SaveAssets();
         }
     }
 }

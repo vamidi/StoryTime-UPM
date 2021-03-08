@@ -1,20 +1,17 @@
-﻿using UnityEngine;
+using UnityEngine;
+
 using TMPro;
 
-namespace DatabaseSync
+namespace DatabaseSync.UI
 {
-	public class UIInteractionItemFiller : MonoBehaviour
+	public class UIInteractionItemFiller : BaseUIInteractionItemFiller<InteractionItemSO>
 	{
-		// TODO make multi language and change it back to string reference
-		[SerializeField] TextMeshProUGUI interactionName = default;
-
-		[SerializeField] TextMeshProUGUI interactionKeyButton = default;
-
-		public void FillInteractionPanel(InteractionSO interactionItem)
+		public override void FillInteractionPanel(InteractionItemSO interactionItem)
 		{
-			// StringReference normally fire the update event and also updates the interaction title.
-			interactionName.text /* .StringReference */ = interactionItem.InteractionName;
-			interactionKeyButton.text = KeyCode.E.ToString(); // this keycode will be modified later on
+			base.FillInteractionPanel(interactionItem);
+
+			// TODO add ui for pickup up items.
+			// TODO add new for items that we dont have.
 		}
 	}
 }

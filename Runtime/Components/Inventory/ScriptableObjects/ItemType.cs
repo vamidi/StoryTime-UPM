@@ -19,16 +19,16 @@ namespace DatabaseSync
 		DoNothing
 	}
 
-	[CreateAssetMenu(fileName = "ItemType", menuName = "Inventory/ItemType", order = 51)]
+	[CreateAssetMenu(fileName = "ItemType", menuName = "DatabaseSync/Inventory/ItemType", order = 51)]
 	public class ItemType : ScriptableObject
 	{
 		[Tooltip("The action associated with the item type")]
 		[SerializeField]
-		private string actionName = default;
+		private string actionName;
 
 		[Tooltip("The action associated with the item type")]
 		[SerializeField]
-		private string typeName = default;
+		private string typeName;
 
 		[Tooltip("The Item's background color in the UI")]
 		[SerializeField] private Color typeColor = default;

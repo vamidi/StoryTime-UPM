@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace DatabaseSync.Database
 {
@@ -127,6 +128,25 @@ namespace DatabaseSync.Database
             }
 
             return null;
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="columnName"></param>
+        /// <returns></returns>
+        public TableField GetField(TableRow row, string columnName)
+        {
+	        foreach (KeyValuePair<TableRowInfo, TableField> field in row.Fields)
+	        {
+		        if (field.Key.Equals(columnName))
+		        {
+			        return field.Value;
+		        }
+	        }
+
+	        return null;
         }
 
         /*Dictionary<uint, TableRow> GetRows(string tableName)

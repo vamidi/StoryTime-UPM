@@ -1,19 +1,42 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace DatabaseSync.Components
 {
+	public enum QuestType
+	{
+		WorldQuest
+		// Extend with own quest types.
+	}
+
 	[CreateAssetMenu(fileName = "Quest", menuName = "DatabaseSync/Quests/Quest", order = 51)]
 	// ReSharper disable once InconsistentNaming
 	public class QuestSO : TableBehaviour
 	{
+		public string Title { get => title; set => title = value; }
+		public string Description { get => description; set => description = value; }
+		public uint ChildId { get => childId; set => childId = value; }
+		public QuestType TypeId { get => typeId; set => typeId = value; }
+		public List<TaskSO> Tasks => tasks;
+		public bool IsDone => m_IsDone;
+
+		[Tooltip("The title of the quest")]
+		[SerializeField] private string title = String.Empty;
+
+		[Tooltip("The description of the quest")]
+		[SerializeField] private string description = String.Empty;
+
+		[Tooltip("The id of the quest this task belongs to")]
+		[SerializeField] private uint childId = UInt32.MaxValue;
+
+		[Tooltip("Show the type of the quest. i.e could be part of the main story")]
+		[SerializeField] private QuestType typeId;
+
 		[Tooltip("The collection of tasks composing the Quest")]
+		[SerializeField] private List<TaskSO> tasks = new List<TaskSO>();
 
-		[SerializeField]
-		private List<TaskSO> tasks = new List<TaskSO>();
-
-		[SerializeField]
-		bool isDone;
+		private bool m_IsDone;
 
 		public List<QuestEvent> QuestEvents = new List<QuestEvent>();
 
@@ -25,66 +48,9 @@ namespace DatabaseSync.Components
 			}
 		}
 
-		// TODO will be automatic next time
-		public QuestEvent AddQuestEvent(uint id, string title, string description)
-		{
-			QuestEvent questEvent = new QuestEvent
-			{
-				ID = id,
-				Title = title,
-				Description = description
-			};
-			QuestEvents.Add(questEvent);
-			return questEvent;
-		}
-
-		public void AddPath(uint eventFromID, uint eventToID)
-		{
-			QuestEvent from = FindQuestEvent(eventFromID);
-			QuestEvent to = FindQuestEvent(eventToID);
-
-			if(from != null && to != null)
-			{
-				QuestPath questPath = new QuestPath
-				{
-					StartEvent = from,
-					EndEvent = to
-				};
-				from.QuestPaths.Add(questPath);
-			}
-		}
-
-		// ReSharper disable once InconsistentNaming
-		public void BFS(uint id, int orderNum = 1)
-		{
-			QuestEvent thisEvent = FindQuestEvent(id);
-			thisEvent.Order = orderNum;
-
-			foreach (var path in thisEvent.QuestPaths)
-			{
-				if (path.EndEvent.Order == -1)
-					BFS(path.EndEvent.ID, orderNum + 1);
-			}
-		}
-
-		protected QuestEvent FindQuestEvent(uint eventID)
-		{
-			foreach (var qEvent in QuestEvents)
-			{
-				if (qEvent.ID == eventID)
-					return qEvent;
-			}
-
-			return null;
-		}
-
-		public List<TaskSO> Tasks => tasks;
-
-		public bool IsDone => isDone;
-
 		public void FinishQuest()
 		{
-			isDone = true;
+			m_IsDone = true;
 		}
 
 		public QuestSO() : base("quests", "title") { }

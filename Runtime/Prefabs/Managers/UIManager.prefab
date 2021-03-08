@@ -43,17 +43,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: facfbb89f246435f99f14674edf43dbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _openUIDialogueEvent: {fileID: 11400000, guid: 10e76ab2424f6b741a8269b1576b5108,
+  openUIDialogueEvent: {fileID: 11400000, guid: 10e76ab2424f6b741a8269b1576b5108,
     type: 2}
-  CloseUIDialogueEvent: {fileID: 11400000, guid: cbd4abfb8d701dc479f2506c899ce498,
+  closeUIDialogueEvent: {fileID: 11400000, guid: cbd4abfb8d701dc479f2506c899ce498,
     type: 2}
-  OpenInventoryScreenEvent: {fileID: 0}
-  OpenInventoryScreenForCookingEvent: {fileID: 0}
-  CloseInventoryScreenEvent: {fileID: 11400000, guid: 436eba4e5a7cce740bb19ca6153e0827,
+  openInventoryScreenEvent: {fileID: 0}
+  openInventoryScreenForCookingEvent: {fileID: 0}
+  closeInventoryScreenEvent: {fileID: 0}
+  onInteractionEndedEvent: {fileID: 11400000, guid: ce90a23bef1ec06428be699e8ab14bc0,
     type: 2}
-  OnInteractionEndedEvent: {fileID: 11400000, guid: ce90a23bef1ec06428be699e8ab14bc0,
+  setInteractionEvent: {fileID: 11400000, guid: b3683bce5a2ef5e4cb75259ff24fc412,
     type: 2}
-  SetInteractionEvent: {fileID: 11400000, guid: b3683bce5a2ef5e4cb75259ff24fc412,
+  showNavigationInteractionEvent: {fileID: 11400000, guid: 978f6713c93cacd48a06d18b2affc276,
     type: 2}
   dialogueController: {fileID: 0}
   interactionPanel: {fileID: 0}
+  navigationPanel: {fileID: 0}

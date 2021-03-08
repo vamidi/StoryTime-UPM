@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace DatabaseSync
+namespace DatabaseSync.Events
 {
 	/// <summary>
 	/// This class manages the case we are in editor and we want to press play from any scene

@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
+
 using UnityEngine;
 
 namespace DatabaseSync.ResourceManagement.Util
@@ -21,6 +23,16 @@ namespace DatabaseSync.ResourceManagement.Util
 			List<T> ret = new List<T>(count);
 			ret.AddRange(Enumerable.Repeat(value, count));
 			return ret;
+		}
+
+		public static Match GetActionRegex(string pattern, string text, int startAt = 0)
+		{
+			// split the whole text into parts based off the <> tags
+			// even numbers in the array are text, odd numbers are tags
+			// <action=>
+			// first grab the value from the regular expression
+			Regex r = new Regex(pattern, RegexOptions.Singleline);
+			return r.Match(text, startAt);
 		}
 
 		public static string MakePathRelative(string path)
