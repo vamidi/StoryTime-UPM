@@ -1478,6 +1478,12 @@ PrefabInstance:
       propertyPath: endDialogueEvent
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 6807529571184023732, guid: 8be4dac5825c49a4ab89a71f6b892e97,
+        type: 3}
+      propertyPath: navigationInteractionUI
+      value: 
+      objectReference: {fileID: 11400000, guid: 978f6713c93cacd48a06d18b2affc276,
+        type: 2}
     - target: {fileID: 6807529571184023733, guid: 8be4dac5825c49a4ab89a71f6b892e97,
         type: 3}
       propertyPath: m_Name

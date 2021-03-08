@@ -10,7 +10,8 @@
     "com.unity.textmeshpro": "2.1.1",
     "com.unity.inputsystem": "1.0.1",
     "com.unity.cinemachine": "2.7.1",
-    "com.unity.animation.rigging": "0.2.7-preview"
+    "com.unity.animation.rigging": "0.2.7-preview",
+    "com.unity.visualeffectgraph": "7.5.3"
   },
   "keywords": [
     "StoryTime",

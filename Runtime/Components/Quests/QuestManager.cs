@@ -271,6 +271,10 @@ namespace DatabaseSync.Components
 							}
 							else
 							{
+								// TODO check if this is needed.
+								if (endTaskEvent != null)
+									endTaskEvent.RaiseEvent();
+
 								navigationInteractionUI.RaiseEvent(true, new StoryInfo
 								{
 									// this is a new quest so grab the first quest.
@@ -323,10 +327,6 @@ namespace DatabaseSync.Components
 			bool oneItem = m_CurrentTask.Items.Count == 1;
 			var itemToCheck = m_CurrentTask.Items[0];
 			bool InventoryCheck()  => oneItem ? inventory.Contains(itemToCheck.Item, itemToCheck.Amount) : inventory.Contains(m_CurrentTask.Items);
-
-			Debug.Log(oneItem);
-			Debug.Log(itemToCheck);
-			Debug.Log(InventoryCheck());
 
 			if (InventoryCheck())
 			{
