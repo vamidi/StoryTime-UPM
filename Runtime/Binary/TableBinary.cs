@@ -72,9 +72,21 @@ namespace DatabaseSync.Binary
 			var path = EditorPrefs.GetString("DatabaseSync-Window-Settings-Config", "");
 			var configFile = AssetDatabase.LoadAssetAtPath<DatabaseConfig>(AssetDatabase.GUIDToAssetPath(path));
 			if (configFile == null)
-				throw new ArgumentNullException($"{nameof(configFile)} must not be null.", nameof(configFile));
+				throw new ArgumentNullException($"{nameof(configFile)} can not be null.", nameof(configFile));
 
 			return configFile;
+		}
+
+		public static DialogueSettingConfig FetchDialogueSetting()
+		{
+			var path = EditorPrefs.GetString("DatabaseSync-Window-Dialogue-Settings-Config", "");
+			var configFile = AssetDatabase.LoadAssetAtPath<DialogueSettingConfig>(AssetDatabase.GUIDToAssetPath(path));
+
+			if (configFile == null)
+				throw new ArgumentNullException($"{nameof(configFile)} can not be null.", nameof(configFile));
+
+			return configFile;
+
 		}
 
 		/// <summary>

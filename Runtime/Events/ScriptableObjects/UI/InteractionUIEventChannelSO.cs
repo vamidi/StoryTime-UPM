@@ -12,11 +12,7 @@ namespace DatabaseSync.Events
 	{
 		public UnityAction<bool, InteractionType> OnEventRaised;
 
-		public void RaiseEvent(bool state, InteractionType interactionType)
-		{
-			if (OnEventRaised != null)
-				OnEventRaised.Invoke(state, interactionType);
-		}
+		public void RaiseEvent(bool state, InteractionType interactionType) => OnEventRaised?.Invoke(state, interactionType);
 	}
 }
 

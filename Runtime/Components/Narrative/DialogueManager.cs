@@ -45,7 +45,7 @@ namespace DatabaseSync.Components
 		[Tooltip("This will trigger an event when a dialogue or an option appears")]
 		[SerializeField] private DialogueEventChannelSO dialogueEvent;
 
-		[SerializeField] private TextRevealer revealer;
+		[SerializeField] private TMPAnimated revealer;
 
 		private StorySO m_CurrentStory;
 		private IDialogueLine m_CurrentDialogue;

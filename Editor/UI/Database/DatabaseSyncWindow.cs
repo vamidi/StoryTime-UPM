@@ -97,6 +97,8 @@ namespace DatabaseSync.UI
             Debug.Assert(m_TabPanels.Count == m_TabToggles.Count, "Expected the same number of tab toggle buttons and panels.");
             */
 
+	        var dialogueConfigFile = AssetDatabase.LoadAssetAtPath<DialogueSettingConfig>(AssetDatabase.GUIDToAssetPath(SelectedDialogueConfig));
+
             // First get the config instance id if existing
             var field = root.Q<ObjectField>("config-field");
             field.objectType = typeof(DatabaseConfig);
@@ -112,7 +114,7 @@ namespace DatabaseSync.UI
 		            root.Bind(new SerializedObject(field.value));
 
 		            // configure the buttons
-		            root.Q<Button>("btn-save").clickable.clicked += () => SaveConfig(configFile);
+		            root.Q<Button>("btn-save").clickable.clicked += () => SaveConfig(configFile, dialogueConfigFile);
 
 		            root.Q<Button>("btn-choose-path").clickable.clicked += () =>
 		            {
@@ -138,13 +140,35 @@ namespace DatabaseSync.UI
 
             if (SelectedDialogueConfig != String.Empty)
             {
-	            var dialogueConfigFile = AssetDatabase.LoadAssetAtPath<DialogueSettingConfig>(AssetDatabase.GUIDToAssetPath(SelectedDialogueConfig));
 	            if (dialogueConfigFile)
 	            {
 		            dialogueConfigField.value = dialogueConfigFile;
 		            root.Q<VisualElement>("dialogueSettings").style.display = DisplayStyle.Flex;
 		            root.Bind(new SerializedObject(dialogueConfigField.value));
+
+		            fontField.RegisterValueChangedCallback((evt) =>
+		            {
+			            var newValue = evt.newValue as TMP_FontAsset;
+			            if (newValue != null)
+			            {
+				            dialogueConfigFile.Font = newValue;
+			            }
+		            });
+
+		            var toggle = root.Q<Toggle>("dialogue-resize-field");
+		            toggle.RegisterValueChangedCallback(evt => dialogueConfigFile.AutoResize = evt.newValue);
+
+		            toggle = root.Q<Toggle>("dialogue-animated-field");
+		            toggle.RegisterValueChangedCallback(evt => dialogueConfigFile.AnimatedText = evt.newValue);
+
+		            toggle = root.Q<Toggle>("dialogue-show-field");
+		            toggle.RegisterValueChangedCallback(evt => dialogueConfigFile.ShowDialogueAtOnce = evt.newValue);
+
+					//
+			        // public int CharFontSize { get => charFontSize; set => charFontSize = value; }
+					// public int DialogueFontSize { get => dialogueFontSize; set => dialogueFontSize = value; }
 	            }
+
             }
         }
 
@@ -219,10 +243,15 @@ namespace DatabaseSync.UI
 	        }
         }
 
-        void SaveConfig(DatabaseConfig configFile)
+        void SaveConfig(DatabaseConfig configFile, DialogueSettingConfig dialogueSettingConfig = null)
         {
 	        Debug.Log("Saving Database Config file");
 	        EditorUtility.SetDirty(configFile);
+	        if (dialogueSettingConfig != null)
+	        {
+		        EditorUtility.SetDirty(dialogueSettingConfig);
+	        }
+
 	        AssetDatabase.SaveAssets();
         }
     }

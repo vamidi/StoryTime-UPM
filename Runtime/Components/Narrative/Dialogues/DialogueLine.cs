@@ -43,7 +43,7 @@ namespace DatabaseSync.Components
 		/// <summary>
 		///
 		/// </summary>
-		[SerializeField, Tooltip("Sentence that will showed when interacting")]
+		[SerializeField, TextArea, Tooltip("Sentence that will showed when interacting")]
 		private string sentence = String.Empty;
 
 		[SerializeField, Tooltip("Event that will be fired once filled in.")]

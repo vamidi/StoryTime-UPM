@@ -14,6 +14,7 @@ namespace DatabaseSync
 		Talk,
 		Navigate,
 		Item,
+		Object
 	}
 
 	public class InteractionManager : MonoBehaviour
@@ -33,7 +34,12 @@ namespace DatabaseSync
 		[SerializeField] private VoidEventChannelSO onInteractionEnded;
 
 		[Header("BroadCasting on channels")]
-		//Events for the different interaction types
+
+		// Events for the different interaction types
+
+		// event when there is an interaction with something.
+		[SerializeField] private InteractionEventChannelSO onInteraction;
+
 		[SerializeField] private ItemEventChannelSO onObjectPickUp;
 
 		[SerializeField] private VoidEventChannelSO onCookingStart;
@@ -140,6 +146,9 @@ namespace DatabaseSync
 
 					break;
 			}
+
+			if(onInteraction != null)
+				onInteraction.RaiseEvent(_currentInteractableObject, _potentialInteraction);
 		}
 
 		private void OnTriggerEnter(Collider other)

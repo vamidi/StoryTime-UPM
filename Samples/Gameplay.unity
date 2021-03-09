@@ -1261,6 +1261,86 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 601373992}
     m_Modifications:
+    - target: {fileID: 2724937296078793649, guid: b506530583268ce49a7453a184c8ceea,
+        type: 3}
+      propertyPath: speed
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 2724937296078793649, guid: b506530583268ce49a7453a184c8ceea,
+        type: 3}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2724937296078793649, guid: b506530583268ce49a7453a184c8ceea,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 2724937296078793649, guid: b506530583268ce49a7453a184c8ceea,
+        type: 3}
+      propertyPath: m_margin.w
+      value: 20.067497
+      objectReference: {fileID: 0}
+    - target: {fileID: 2724937296078793649, guid: b506530583268ce49a7453a184c8ceea,
+        type: 3}
+      propertyPath: m_margin.x
+      value: 24.365852
+      objectReference: {fileID: 0}
+    - target: {fileID: 2724937296078793649, guid: b506530583268ce49a7453a184c8ceea,
+        type: 3}
+      propertyPath: m_margin.y
+      value: 61.6304
+      objectReference: {fileID: 0}
+    - target: {fileID: 2724937296078793649, guid: b506530583268ce49a7453a184c8ceea,
+        type: 3}
+      propertyPath: m_margin.z
+      value: 21.320013
+      objectReference: {fileID: 0}
+    - target: {fileID: 2724937296078793649, guid: b506530583268ce49a7453a184c8ceea,
+        type: 3}
+      propertyPath: m_fontSizeBase
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 2724937296078793649, guid: b506530583268ce49a7453a184c8ceea,
+        type: 3}
+      propertyPath: m_enableAutoSizing
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2724937296078793649, guid: b506530583268ce49a7453a184c8ceea,
+        type: 3}
+      propertyPath: onEmotionChange.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2724937296078793649, guid: b506530583268ce49a7453a184c8ceea,
+        type: 3}
+      propertyPath: onEmotionChange.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2724937296078793649, guid: b506530583268ce49a7453a184c8ceea,
+        type: 3}
+      propertyPath: onEmotionChange.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2724937296078793677, guid: b506530583268ce49a7453a184c8ceea,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2724937296078793677, guid: b506530583268ce49a7453a184c8ceea,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2724937296078793677, guid: b506530583268ce49a7453a184c8ceea,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2724937296078793677, guid: b506530583268ce49a7453a184c8ceea,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2724937296503460414, guid: b506530583268ce49a7453a184c8ceea,
         type: 3}
       propertyPath: m_Name
@@ -1446,7 +1526,8 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: b506530583268ce49a7453a184c8ceea, type: 3}
 --- !u!114 &2724937296789663347 stripped
 MonoBehaviour:
@@ -1475,6 +1556,12 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 6807529571184023732, guid: 8be4dac5825c49a4ab89a71f6b892e97,
         type: 3}
+      propertyPath: endStoryEvent
+      value: 
+      objectReference: {fileID: 11400000, guid: a3a335a39737dc84fb131e5d3b6b4ef1,
+        type: 2}
+    - target: {fileID: 6807529571184023732, guid: 8be4dac5825c49a4ab89a71f6b892e97,
+        type: 3}
       propertyPath: endDialogueEvent
       value: 
       objectReference: {fileID: 0}
@@ -1487,7 +1574,7 @@ PrefabInstance:
     - target: {fileID: 6807529571184023733, guid: 8be4dac5825c49a4ab89a71f6b892e97,
         type: 3}
       propertyPath: m_Name
-      value: QuestManager
+      value: StoryManager
       objectReference: {fileID: 0}
     - target: {fileID: 6807529571184023735, guid: 8be4dac5825c49a4ab89a71f6b892e97,
         type: 3}

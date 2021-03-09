@@ -251,23 +251,6 @@ namespace DatabaseSync.Components
 		}
 	}
 
-	[CustomEditor(typeof(QuestSO))]
-	public class QuestEditor : BaseTableEditor<QuestSO>
-	{
-		protected override void OnChanged()
-		{
-			var t = target as QuestSO;
-			if (t != null && t.ID != UInt32.MaxValue)
-			{
-				var row = TableDatabase.Get.GetRow(t.Name, t.ID);
-
-				// set all the values from the selected row
-				if (row != null)
-					QuestTable.ConvertRow(row, t);
-			}
-		}
-	}
-
 	[CustomEditor(typeof(TaskSO))]
 	public class TaskEditor : BaseTableEditor<TaskSO>
 	{

@@ -108,7 +108,6 @@ namespace DatabaseSync
 		}
 		void AddItem(ItemStack item)
 		{
-			Debug.Log("Adding item to inventory");
 			currentInventory.Add(item.Item, item.Amount);
 		}
 

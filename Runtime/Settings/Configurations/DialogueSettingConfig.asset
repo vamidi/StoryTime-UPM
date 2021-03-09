@@ -15,3 +15,6 @@ MonoBehaviour:
   font: {fileID: 11400000, guid: af61af49f0b8bfa4f8e084fbc3563b82, type: 2}
   charFontSize: 15
   dialogueFontSize: 15
+  autoResize: 1
+  showDialogueAtOnce: 0
+  animatedText: 1

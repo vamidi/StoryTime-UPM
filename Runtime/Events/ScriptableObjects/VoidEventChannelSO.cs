@@ -13,11 +13,7 @@ namespace DatabaseSync.Events
 	{
 		public UnityAction OnEventRaised;
 
-		public void RaiseEvent()
-		{
-			if (OnEventRaised != null)
-				OnEventRaised.Invoke();
-		}
+		public void RaiseEvent() => OnEventRaised?.Invoke();
 	}
 }
 

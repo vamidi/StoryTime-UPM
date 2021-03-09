@@ -32,7 +32,7 @@ namespace DatabaseSync.UI
 
 		[SerializeField] private UIInteractionItemManager interactionItemPanel;
 
-		bool isForCooking = false;
+		bool m_IsForCooking = false;
 
 		private void OnEnable()
 		{
@@ -95,46 +95,42 @@ namespace DatabaseSync.UI
 
 		public void SetInventoryScreenForCooking()
 		{
-			isForCooking = true;
+			m_IsForCooking = true;
 			OpenInventoryScreen();
 
 		}
 
 		public void SetInventoryScreen()
 		{
-			isForCooking = false;
+			m_IsForCooking = false;
 			OpenInventoryScreen();
 
 		}
 
 		void OpenInventoryScreen()
 		{
-			/*
-			inventoryPanel.gameObject.SetActive(true);
 
-			if (isForCooking)
+			// inventoryPanel.gameObject.SetActive(true);
+
+			if (m_IsForCooking)
 			{
-				inventoryPanel.FillInventory(TabType.recipe, true);
-
+				// inventoryPanel.FillInventory(TabType.recipe, true);
 			}
 			else
 			{
-				inventoryPanel.FillInventory();
+				// inventoryPanel.FillInventory();
 			}
-			*/
 		}
 
 
 		public void CloseInventoryScreen()
 		{
-			/*
-			inventoryPanel.gameObject.SetActive(false);
+			// inventoryPanel.gameObject.SetActive(false);
 
-			if (isForCooking)
+			if (m_IsForCooking)
 			{
-				OnInteractionEndedEvent.RaiseEvent();
+				onInteractionEndedEvent.RaiseEvent();
 			}
-			*/
 		}
 
 		public void SetInteractionPanel(bool isOpenEvent, InteractionType interactionType)
