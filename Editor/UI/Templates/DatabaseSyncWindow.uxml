@@ -13,7 +13,7 @@
 			label="Loaded config" tooltip="The config we need to load." name="config-field" class="unity-property-field-input" binding-path="config" allow-scene-objects="false"/>
 		/>
 	</ui:VisualElement>
-	<ui:VisualElement name="rowSettings" style="display:none">
+	<ui:VisualElement name="rowSettings" style="display:none;font-weight:bold;">
 		<ui:TextField label="Database URL" tooltip="The database url to Firebase." name="database-url-field" text="[YOUR_FIREBASE_DATABASE_URL]" class="unity-property-field-input" binding-path="databaseURL" />
 		<ui:TextField label="Project ID" tooltip="The Project id we need to fetch data from." name="project-url-field" text="[YOUR_PROJECT_ID]" class="unity-property-field-input" binding-path="projectID" />
 		<ui:TextField label="Email" tooltip="E-Mail we need to login in to access data from the database." name="email-field" text="[YOUR_FIREBASE_EMAIL_LOGIN]" class="unity-property-field-input" binding-path="email" />
@@ -26,11 +26,13 @@
 		<uie:ObjectField
 			label="Loaded dialogue config" tooltip="The config we need to load." name="dialogue-config-field" class="unity-property-field-input" binding-path="config" allow-scene-objects="false"/>
 	</ui:VisualElement>
-	<ui:VisualElement name="dialogueSettings" style="display:none">
+	<ui:VisualElement name="dialogueSettings" style="display:none;font-weight:bold;">
 		<uie:ObjectField label="Dialogue Font" tooltip="The standard font we use for the dialogue" name="dialogue-font-field" binding-path="font"/>
 		<ui:Toggle label="Auto resize" tooltip="Automatic resize the text when there is less or lots of text on screen." name="dialogue-resize-field" binding-path="autoResize"/>
 		<ui:Toggle label="Show Dialogue all at once" tooltip="Whether to show the dialogue all at once." name="dialogue-show-field" binding-path="showDialogueAtOnce"/>
 		<ui:Toggle label="Animated Text" tooltip="Show text with animation" name="dialogue-animated-field" binding-path="animatedText"/>
+		<uie:ObjectField label="Character sound clip" tooltip="Show text with animation" name="dialogue-char-clip-field" binding-path="charSoundClip"/>
+		<uie:ObjectField label="Punctuation sound clip" tooltip="Show text with animation" name="dialogue-punctuation-field" binding-path="punctuationSoundClip"/>
 <!--		<ui:MinMaxSlider-->
 		<ui:Button label="Save" name="btn-save" class="unity-property-button-input" text="Save Asset"/>
 	</ui:VisualElement>

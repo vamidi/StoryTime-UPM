@@ -33,9 +33,9 @@ namespace DatabaseSync.UI
 		{
 			switch (state)
 			{
-				case StoryState.New: return "Incoming Quest";
-				case StoryState.Update: return "Quest Updated";
-				case StoryState.Complete: return "Quest Completed";
+				case StoryState.New: return "Incoming Story";
+				case StoryState.Update: return "Story Updated";
+				case StoryState.Complete: return "Story Completed";
 			}
 
 			return "";

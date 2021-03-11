@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: DialogueSettingConfig
   m_EditorClassIdentifier: com.vamidicreations.storytime.runtime:DatabaseSync:DialogueSettingConfig
   font: {fileID: 11400000, guid: af61af49f0b8bfa4f8e084fbc3563b82, type: 2}
+  punctuationClip: {fileID: 0}
+  voiceClip: {fileID: 8300000, guid: bac4123181195f64784e0ae513b98dc1, type: 3}
   charFontSize: 15
   dialogueFontSize: 15
   autoResize: 1
