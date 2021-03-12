@@ -8,20 +8,12 @@ namespace DatabaseSync.UI
 
 	public class UIDialogueManager : MonoBehaviour
 	{
-		[SerializeField]
-		DBLocalizeStringEvent sentence;
+		[SerializeField] DBLocalizeStringEvent sentence;
+		[SerializeField] DBLocalizeStringEvent actorName;
 
-		[SerializeField]
-		DBLocalizeStringEvent actorName;
-
-		[SerializeField]
-		private UIDialogueChoicesManager choicesManager;
-
-		[SerializeField]
-		private DialogueChoiceChannelSO showChoicesEvent;
-
-		[SerializeField]
-		private VoidEventChannelSO hideChoicesEvent;
+		[SerializeField] private UIDialogueChoicesManager choicesManager;
+		[SerializeField] private DialogueChoiceChannelSO showChoicesEvent;
+		[SerializeField] private VoidEventChannelSO hideChoicesEvent;
 
 		private void Start()
 		{

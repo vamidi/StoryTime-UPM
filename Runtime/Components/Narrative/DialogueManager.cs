@@ -15,9 +15,11 @@ namespace DatabaseSync.Components
 	/// </summary>
 	public class DialogueManager: MonoBehaviour
 	{
-		[SerializeField] private InputReader inputReader;
+		public GameObject continueBtn;
 
 		private bool ReachedEndOfDialogue => m_CurrentDialogue.NextDialogue == null;
+
+		[SerializeField] private InputReader inputReader;
 
 		[Header("Cameras")]
 		public GameObject gameCam;
@@ -45,13 +47,11 @@ namespace DatabaseSync.Components
 		[Tooltip("This will trigger an event when a dialogue or an option appears")]
 		[SerializeField] private DialogueEventChannelSO dialogueEvent;
 
-		[SerializeField] private TMPAnimated revealer;
+		[SerializeField] private TMPVertexAnimator revealer;
 
 		private StorySO m_CurrentStory;
 		private IDialogueLine m_CurrentDialogue;
 
-		private bool _optionShown;
-		private bool _interacting;
 		private bool _isInputEnabled;
 
 		void Start()
@@ -74,6 +74,8 @@ namespace DatabaseSync.Components
 			virtualCam.Follow = virtualCam.LookAt = targetGroup.transform;
 
 			ToggleCameras(false);
+
+			if(revealer) revealer.allRevealed.AddListener(() => ToggleContinueBtn(true));
 
 			var player = GameObject.FindWithTag("Player");
 			if(player)
@@ -113,6 +115,7 @@ namespace DatabaseSync.Components
 				openUIDialogueEvent.RaiseEvent(dialogueLine, actor);
 			}
 			revealer.RevealNextParagraphAsync();
+			ToggleContinueBtn(false);
 
 			// Call event when the dialogue begins
 			if (dialogueEvent != null && dialogueLine.DialogueEvent != String.Empty)
@@ -192,6 +195,12 @@ namespace DatabaseSync.Components
 
 			// if we reached the end of the dialogue then close everything.
 			StartCoroutine(DialogueEndedAndCloseDialogueUI());
+		}
+
+		private void ToggleContinueBtn(bool toggle)
+		{
+			if(continueBtn)
+				continueBtn.gameObject.SetActive(toggle);
 		}
 
 		private void DisplayChoices(List<DialogueChoiceSO> choices)

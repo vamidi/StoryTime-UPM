@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: com.vamidicreations.storytime.runtime:DatabaseSync:DialogueSettingConfig
   font: {fileID: 11400000, guid: af61af49f0b8bfa4f8e084fbc3563b82, type: 2}
   punctuationClip: {fileID: 0}
-  voiceClip: {fileID: 8300000, guid: bac4123181195f64784e0ae513b98dc1, type: 3}
+  voiceClip: {fileID: 8300000, guid: 0754b1e2dd5f0b943ad5bf6c49e5a99f, type: 3}
   charFontSize: 15
   dialogueFontSize: 15
   autoResize: 1
