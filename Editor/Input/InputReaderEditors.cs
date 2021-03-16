@@ -1,10 +1,12 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-namespace DatabaseSync.Input
+namespace DatabaseSync.Editor.Input
 {
+	using DatabaseSync.Input;
+
 	[CustomEditor(typeof(InputReader))]
-	public class InputReaderEditor : Editor
+	public class InputReaderEditor : UnityEditor.Editor
 	{
 		public override void OnInspectorGUI()
 		{

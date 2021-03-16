@@ -7,7 +7,7 @@ using UnityEditor.UIElements;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace DatabaseSync.UI
+namespace DatabaseSync.Editor.UI
 {
 	class ListViewTableRow : VisualElement
 	{
@@ -98,7 +98,7 @@ namespace DatabaseSync.UI
 			var monoScript = evt.newValue as MonoScript;
 			if (monoScript != null)
 			{
-				if (monoScript.GetClass().BaseType != typeof(BaseTable<TableBehaviour>))
+				if (monoScript.GetClass().BaseType != typeof(BaseTable<Components.TableBehaviour>))
 				{
 					field.SetValueWithoutNotify(evt.previousValue);
 					Debug.Log("Class does not inherit from BaseTable");

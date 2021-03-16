@@ -9,7 +9,7 @@ using UnityEngine.UIElements;
 
 using TMPro;
 
-namespace DatabaseSync.UI
+namespace DatabaseSync.Editor.UI
 {
 	public class DatabaseSyncWindow : EditorWindow
     {

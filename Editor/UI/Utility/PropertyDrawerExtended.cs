@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-namespace DatabaseSync.UI
+namespace DatabaseSync.Editor.UI
 {
     /// <summary>
     /// Supports drawing properties for lists.

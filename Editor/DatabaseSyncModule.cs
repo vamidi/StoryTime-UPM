@@ -9,7 +9,7 @@ using UnityEngine.Networking;
 
 using Newtonsoft.Json.Linq;
 
-namespace DatabaseSync
+namespace DatabaseSync.Editor
 {
 	using Database;
 	using Binary;

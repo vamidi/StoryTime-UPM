@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 using UnityEditor;
 using UnityEngine;
 
-namespace DatabaseSync.UI
+namespace DatabaseSync.Editor.UI
 {
     [CustomPropertyDrawer(typeof(LocalizedTable), true)]
     class TablePropertyDrawer<TCollection>: PropertyDrawerExtended<TablePropertyDrawer<TCollection>.Data> where TCollection : LocalizedTable

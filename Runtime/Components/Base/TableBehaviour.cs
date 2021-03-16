@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace DatabaseSync
+namespace DatabaseSync.Components
 {
     using Database;
     using Binary;
 
-    public class TableBehaviour : ScriptableObject
+    public class TableBehaviour : SerializableScriptableObject
     {
 	    /// <summary>
 	    /// ID of the row inside the table.

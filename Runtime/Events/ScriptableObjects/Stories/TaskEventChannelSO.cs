@@ -14,7 +14,6 @@ namespace DatabaseSync.Events
 	{
 		public UnityAction<Components.TaskSO> OnEventRaised;
 
-
 		/// <summary>
 		///
 		/// </summary>

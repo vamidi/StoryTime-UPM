@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityToolbarExtender;
 
-namespace DatabaseSync
+namespace DatabaseSync.Editor
 {
 	static class ToolbarStyles
 	{

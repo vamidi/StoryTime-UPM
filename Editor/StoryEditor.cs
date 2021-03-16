@@ -2,14 +2,13 @@
 using System.Linq;
 using System.Collections.Generic;
 
-using UnityEditor;
 using UnityEngine;
 
-namespace DatabaseSync.Components
+namespace DatabaseSync.Editor
 {
 	using Database;
 
-	public class BaseTableEditor<T> : Editor where T : TableBehaviour
+	public class BaseTableEditor<T> : UnityEditor.Editor where T : Components.TableBehaviour
 	{
 		protected int Choice
 		{
@@ -30,7 +29,7 @@ namespace DatabaseSync.Components
 			GenerateList();
 
 			// set the id right
-			var t = target as TableBehaviour;
+			var t = target as Components.TableBehaviour;
 			if (t) _choiceIndex = (int) t.ID;
 		}
 
@@ -51,9 +50,9 @@ namespace DatabaseSync.Components
 
 		protected void RenameAsset(UnityEngine.Object t, string fileName)
 		{
-			string assetPath = AssetDatabase.GetAssetPath(t.GetInstanceID());
-			AssetDatabase.RenameAsset(assetPath, fileName);
-			AssetDatabase.SaveAssets();
+			string assetPath = UnityEditor.AssetDatabase.GetAssetPath(t.GetInstanceID());
+			UnityEditor.AssetDatabase.RenameAsset(assetPath, fileName);
+			UnityEditor.AssetDatabase.SaveAssets();
 		}
 
 		protected virtual void OnChanged() { }
@@ -63,8 +62,8 @@ namespace DatabaseSync.Components
 			// Draw the default inspector
 			DrawDefaultInspector();
 			GUIContent arrayLabel = new GUIContent("ID");
-			_choiceIndex = EditorGUILayout.Popup(arrayLabel, _choiceIndex, PopulatedList.Values.ToArray());
-			var t = target as TableBehaviour;
+			_choiceIndex = UnityEditor.EditorGUILayout.Popup(arrayLabel, _choiceIndex, PopulatedList.Values.ToArray());
+			var t = target as Components.TableBehaviour;
 			if (t && t.ID != _choiceIndex)
 			{
 				// Update the selected choice in the underlying object
@@ -72,13 +71,13 @@ namespace DatabaseSync.Components
 				OnChanged();
 
 				// Save the changes back to the object
-				EditorUtility.SetDirty(target);
+				UnityEditor.EditorUtility.SetDirty(target);
 			}
 		}
 
 		protected virtual void GenerateList()
 		{
-			var tableComponent = target as TableBehaviour;
+			var tableComponent = target as Components.TableBehaviour;
 			if (tableComponent != null)
 			{
 				_choiceIndex = (int) tableComponent.ID;
@@ -95,8 +94,8 @@ namespace DatabaseSync.Components
 		}
 	}
 
-	[CustomEditor(typeof(TableBehaviour), true)]
-	public class TableEditor : BaseTableEditor<TableBehaviour>
+	[UnityEditor.CustomEditor(typeof(Components.TableBehaviour), true)]
+	public class TableEditor : BaseTableEditor<Components.TableBehaviour>
 	{
 		public override void OnEnable()
 		{
@@ -108,8 +107,8 @@ namespace DatabaseSync.Components
 	/// <summary>
 	/// ActorSO editor settings
 	/// </summary>
-	[CustomEditor(typeof(ActorSO))]
-	public class ActorEditor : BaseTableEditor<ActorSO>
+	[UnityEditor.CustomEditor(typeof(Components.ActorSO))]
+	public class ActorEditor : BaseTableEditor<Components.ActorSO>
 	{
 		public override void OnEnable()
 		{
@@ -119,7 +118,7 @@ namespace DatabaseSync.Components
 
 		protected override void OnChanged()
 		{
-			var t = target as ActorSO;
+			var t = target as Components.ActorSO;
 			if (t && t.ID != UInt32.MaxValue)
 			{
 				var row = TableDatabase.Get.GetRow(t.Name, t.ID);
@@ -133,19 +132,18 @@ namespace DatabaseSync.Components
 		}
 	}
 
-	[CustomEditor(typeof(StorySO))]
-	public class StoryEditor : BaseTableEditor<StorySO>
+	[UnityEditor.CustomEditor(typeof(Components.StorySO))]
+	public class StoryEditor : BaseTableEditor<Components.StorySO>
 	{
 		protected override void OnChanged()
 		{
-			var t = target as StorySO;
+			var t = target as Components.StorySO;
 			if (t != null && t.ID != UInt32.MaxValue)
 			{
 				var row = TableDatabase.Get.GetRow(t.Name, t.ID);
 
 				// set all the values from the selected row
-				if (row != null)
-					StorySO.StoryTable.ConvertRow(row, t);
+				if (row != null) Components.StorySO.StoryTable.ConvertRow(row, t);
 			}
 		}
 
@@ -235,69 +233,66 @@ namespace DatabaseSync.Components
 		*/
 	}
 
-	[CustomEditor(typeof(DialogueLineSO))]
-	public class DialogueEditor : BaseTableEditor<DialogueLineSO>
+	[UnityEditor.CustomEditor(typeof(Components.DialogueLineSO))]
+	public class DialogueEditor : BaseTableEditor<Components.DialogueLineSO>
 	{
 		protected override void OnChanged()
 		{
-			var t = target as DialogueLineSO;
+			var t = target as Components.DialogueLineSO;
 			if (t != null && t.ID != UInt32.MaxValue)
 			{
 				var row = TableDatabase.Get.GetRow(t.Name, t.ID);
 
 				// set all the values from the selected row
-				if (row != null) DialogueLineSO.ConvertRow(row, t);
+				if (row != null) Components.DialogueLineSO.ConvertRow(row, t);
 			}
 		}
 	}
 
-	[CustomEditor(typeof(TaskSO))]
-	public class TaskEditor : BaseTableEditor<TaskSO>
+	[UnityEditor.CustomEditor(typeof(Components.TaskSO))]
+	public class TaskEditor : BaseTableEditor<Components.TaskSO>
 	{
 		protected override void OnChanged()
 		{
-			var t = target as TaskSO;
+			var t = target as Components.TaskSO;
 			if (t != null && t.ID != UInt32.MaxValue)
 			{
 				var row = TableDatabase.Get.GetRow(t.Name, t.ID);
 
 				// set all the values from the selected row
-				if (row != null)
-					TaskTable.ConvertRow(row, t);
+				if (row != null) Components.TaskTable.ConvertRow(row, t);
 			}
 		}
 	}
 
-	[CustomEditor(typeof(ItemSO))]
-	public class ItemEditor : BaseTableEditor<ItemSO>
+	[UnityEditor.CustomEditor(typeof(Components.ItemSO))]
+	public class ItemEditor : BaseTableEditor<Components.ItemSO>
 	{
 		protected override void OnChanged()
 		{
-			var t = target as ItemSO;
+			var t = target as Components.ItemSO;
 			if (t != null && t.ID != UInt32.MaxValue)
 			{
 				var row = TableDatabase.Get.GetRow(t.Name, t.ID);
 
 				// set all the values from the selected row
-				if (row != null)
-					ItemTable.ConvertRow(row, t);
+				if (row != null) Components.ItemTable.ConvertRow(row, t);
 			}
 		}
 	}
 
-	[CustomEditor(typeof(EnemySO))]
-	public class EnemyEditor : BaseTableEditor<EnemySO>
+	[UnityEditor.CustomEditor(typeof(Components.EnemySO))]
+	public class EnemyEditor : BaseTableEditor<Components.EnemySO>
 	{
 		protected override void OnChanged()
 		{
-			var t = target as EnemySO;
+			var t = target as Components.EnemySO;
 			if (t != null && t.ID != UInt32.MaxValue)
 			{
 				var row = TableDatabase.Get.GetRow(t.Name, t.ID);
 
 				// set all the values from the selected row
-				if (row != null)
-					EnemyTable.ConvertRow(row, t);
+				if (row != null) Components.EnemyTable.ConvertRow(row, t);
 			}
 		}
 	}

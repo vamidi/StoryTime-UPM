@@ -1,10 +1,9 @@
-﻿using UnityEditor;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace DatabaseSync.UI
+namespace DatabaseSync.Editor.UI
 {
-	[CustomEditor(typeof(DatabaseConfig), true)]
-	public class DatabaseConfigEditor : Editor
+	[UnityEditor.CustomEditor(typeof(DatabaseConfig), true)]
+	public class DatabaseConfigEditor : UnityEditor.Editor
 	{
 		static readonly GUIContent EditConfig = new GUIContent("Change", "Open config file in the Database settings window.");
 

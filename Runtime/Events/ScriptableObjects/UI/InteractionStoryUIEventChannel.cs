@@ -7,7 +7,7 @@ namespace DatabaseSync.Events
 	{
 		public Components.StorySO Story;
 		public int Index;
-		public StoryState State;
+		public UI.StoryState State;
 	}
 
 	/// <summary>

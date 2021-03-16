@@ -33,6 +33,10 @@ namespace DatabaseSync
 		// Check if the interaction ended
 		[SerializeField] private VoidEventChannelSO onInteractionEnded;
 
+		[SerializeField] private VoidEventChannelSO onStoryScreenOpenEvent;
+
+		[SerializeField] private VoidEventChannelSO onStoryScreenCloseEvent;
+
 		[Header("BroadCasting on channels")]
 
 		// Events for the different interaction types
@@ -53,12 +57,52 @@ namespace DatabaseSync
 		{
 			inputReader.interactEvent += OnInteractionButtonPress;
 			onInteractionEnded.OnEventRaised += OnInteractionEnd;
+
+			if (onStoryScreenOpenEvent != null)
+			{
+				onStoryScreenOpenEvent.OnEventRaised += () =>
+				{
+					// Change the action map
+					inputReader.EnableMenuInput();
+					m_PlayerInput.SwitchCurrentActionMap("Menus");
+				};
+			}
+
+			if (onStoryScreenCloseEvent != null)
+			{
+				onStoryScreenCloseEvent.OnEventRaised += () =>
+				{
+					// Change the action map
+					inputReader.EnableGameplayInput();
+					m_PlayerInput.SwitchCurrentActionMap("Gameplay");
+				};
+			}
 		}
 
 		private void OnDisable()
 		{
 			inputReader.interactEvent -= OnInteractionButtonPress;
 			onInteractionEnded.OnEventRaised -= OnInteractionEnd;
+
+			if (onStoryScreenOpenEvent != null)
+			{
+				onStoryScreenOpenEvent.OnEventRaised -= () =>
+				{
+					// Change the action map
+					inputReader.EnableMenuInput();
+					m_PlayerInput.SwitchCurrentActionMap("Menus");
+				};
+			}
+
+			if (onStoryScreenCloseEvent != null)
+			{
+				onStoryScreenCloseEvent.OnEventRaised -= () =>
+				{
+					// Change the action map
+					inputReader.EnableGameplayInput();
+					m_PlayerInput.SwitchCurrentActionMap("Gameplay");
+				};
+			}
 		}
 
 		private void Awake()

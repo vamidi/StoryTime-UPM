@@ -36,7 +36,7 @@
 <!--		<ui:MinMaxSlider-->
 		<ui:Button label="Save" name="btn-save" class="unity-property-button-input" text="Save Asset"/>
 	</ui:VisualElement>
-	<DatabaseSync.UI.ListViewTables name="tables-view-panel" style="flex-grow: 1;"/>
+	<DatabaseSync.Editor.UI.ListViewTables name="tables-view-panel" style="flex-grow: 1;"/>
 </UXML>
 
 

@@ -1,4 +1,4 @@
-namespace DatabaseSync.UI
+namespace DatabaseSync.Editor.UI
 {
 	public class LocalizedTable
 	{

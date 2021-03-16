@@ -3,13 +3,12 @@ using UnityEngine.UIElements;
 
 using DatabaseSync.Binary;
 using DatabaseSync.Database;
-using UnityEngine;
 
-namespace DatabaseSync.UI
+namespace DatabaseSync.Editor.UI
 {
 	class ListViewTables : VisualElement
 	{
-		private readonly ScrollView m_LocalesList;
+		// private readonly ScrollView m_LocalesList;
 
 		// private readonly List<Button> m_Buttons = new List<Button>();
 

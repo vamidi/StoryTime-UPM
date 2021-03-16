@@ -45,13 +45,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentStoryLine: {fileID: 0}
   stories: []
-  inventory: {fileID: 0}
+  inventory: {fileID: 11400000, guid: 0d7e522aafa92444d9708b2d70f91e08, type: 2}
+  storyLog: {fileID: 11400000, guid: 0282cdcb1ee31b0409eff77bc44c5c18, type: 2}
   checkDialogueEvent: {fileID: 11400000, guid: 0cf8ed5b07386b54d876842c88e40a0e, type: 2}
   checkTaskValidityEvent: {fileID: 11400000, guid: e705c94ceac130640ab7e80c923d88f6,
     type: 2}
   checkEnemyDestroyedEvent: {fileID: 11400000, guid: 86128d3d324d57944a15f2e13ef16f3a,
     type: 2}
   endDialogueEvent: {fileID: 0}
+  onInteractionEvent: {fileID: 0}
+  onStorySelectEvent: {fileID: 11400000, guid: 68e95a636eae76e4eaf15788f3b1f64a, type: 2}
+  startStoryEvent: {fileID: 11400000, guid: c25384ad445044e459b7546a325bc121, type: 2}
   startTaskEvent: {fileID: 11400000, guid: 925add8049ad3004392b9f7fe5ccef94, type: 2}
   endTaskEvent: {fileID: 11400000, guid: f3a4737356490824cad7adb65ed17ea6, type: 2}
   endStoryEvent: {fileID: 11400000, guid: a3a335a39737dc84fb131e5d3b6b4ef1, type: 2}

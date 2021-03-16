@@ -3,7 +3,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace DatabaseSync.UI
+namespace DatabaseSync.Editor.UI
 {
     static class Resources
     {

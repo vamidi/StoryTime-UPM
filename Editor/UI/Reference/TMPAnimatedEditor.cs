@@ -3,7 +3,7 @@ using UnityEditor;
 
 using TMPro.EditorUtilities;
 
-namespace DatabaseSync.UI
+namespace DatabaseSync.Editor.UI
 {
 	using Components;
 

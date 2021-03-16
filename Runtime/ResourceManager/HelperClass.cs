@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
+using UnityEditor;
 using UnityEngine;
 
 namespace DatabaseSync.ResourceManagement.Util
@@ -57,6 +58,11 @@ namespace DatabaseSync.ResourceManagement.Util
 			a[0] = char.ToUpper(a[0]);
 
 			return new string(a);
+		}
+
+		public static T GetAsset<T>(string guid) where T : Object
+		{
+			return AssetDatabase.LoadAssetAtPath<T>(AssetDatabase.GUIDToAssetPath(guid));
 		}
 	}
 }

@@ -1,7 +1,7 @@
 using System;
 using DatabaseSync.Binary;
 
-public abstract class BaseTable<T> : UnityEditor.MonoScript where T : DatabaseSync.TableBehaviour
+public abstract class BaseTable<T> : UnityEditor.MonoScript where T : DatabaseSync.Components.TableBehaviour
 {
 	public static UnityEditor.MonoScript ConvertRow(TableRow row, T scriptableObject = null)
 	{

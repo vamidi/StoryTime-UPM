@@ -7,18 +7,28 @@ namespace DatabaseSync.UI
 
 	public class UIManager : MonoBehaviour
 	{
-		[Header("Listening on channels")]
-		public DialogueLineChannelSO openUIDialogueEvent;
+		[SerializeField] private Input.InputReader inputReader;
 
+		[Header("Listening on channels")]
+		[Header("Dialogue Events")]
+		public DialogueLineChannelSO openUIDialogueEvent;
 		public VoidEventChannelSO closeUIDialogueEvent;
+
+		[Header("Inventory Events")]
 		public VoidEventChannelSO openInventoryScreenEvent;
 		public VoidEventChannelSO openInventoryScreenForCookingEvent;
-		public VoidEventChannelSO closeInventoryScreenEvent;
-		public VoidEventChannelSO onInteractionEndedEvent;
 
+		[Header("Interaction Events")]
+		public VoidEventChannelSO onInteractionEndedEvent;
 		public InteractionUIEventChannelSO setInteractionEvent;
+
+		[Header("Navigation Events")]
 		public InteractionStoryUIEventChannel showNavigationInteractionEvent;
 		public InteractionItemUIEventChannel showItemInteractionEvent;
+
+		[Header("Story Manager Events")]
+		public VoidEventChannelSO openStoryScreenEvent;
+		public VoidEventChannelSO closeStoryScreenEvent;
 
 		[Header("References")]
 
@@ -26,46 +36,47 @@ namespace DatabaseSync.UI
 
 		// [SerializeField] UIInventoryManager inventoryPanel;
 
+		[SerializeField] UIStoryManager storyManagerPanel;
+
 		[SerializeField] private UIInteractionManager interactionPanel;
 
-		[SerializeField] private UIInteractionStoryManager navigationPanel;
+		[SerializeField] private UIInteractionNavManager navigationPanel;
 
 		[SerializeField] private UIInteractionItemManager interactionItemPanel;
 
-		bool m_IsForCooking = false;
+		[Header("Broadcasting channels")]
+		[SerializeField] private VoidEventChannelSO closeInventoryScreenEvent;
+		[SerializeField] private VoidEventChannelSO storyScreenClosedEvent;
+
+
+		bool m_IsForCooking;
 
 		private void OnEnable()
 		{
-			//Check if the event exists to avoid errors
+			// Check if the event exists to avoid errors
 			if (openUIDialogueEvent != null)
-			{
 				openUIDialogueEvent.OnEventRaised += OpenUIDialogue;
-			}
 
 			if (closeUIDialogueEvent != null)
-			{
 				closeUIDialogueEvent.OnEventRaised += CloseUIDialogue;
-			}
 
 			if (openInventoryScreenForCookingEvent != null)
-			{
 				openInventoryScreenForCookingEvent.OnEventRaised += SetInventoryScreenForCooking;
-			}
 
 			if (openInventoryScreenEvent != null)
-			{
 				openInventoryScreenEvent.OnEventRaised += SetInventoryScreen;
-			}
 
 			if (closeInventoryScreenEvent != null)
-			{
 				closeInventoryScreenEvent.OnEventRaised += CloseInventoryScreen;
-			}
+
+			if (openStoryScreenEvent != null)
+				openStoryScreenEvent.OnEventRaised += OpenStoryScreen;
+
+			if (closeStoryScreenEvent != null)
+				closeStoryScreenEvent.OnEventRaised += CloseStoryScreen;
 
 			if (setInteractionEvent != null)
-			{
 				setInteractionEvent.OnEventRaised += SetInteractionPanel;
-			}
 
 			if (showNavigationInteractionEvent != null)
 				showNavigationInteractionEvent.OnEventRaised += ShowNavigationPanel;
@@ -75,11 +86,14 @@ namespace DatabaseSync.UI
 
 			if (showItemInteractionEvent != null)
 				showItemInteractionEvent.OnEventRaised += ShowItemPanel;
+
+			if(inputReader) inputReader.menuCancelEvent += CloseStoryScreen;
 		}
 
 		private void Start()
 		{
 			CloseUIDialogue();
+			CloseStoryScreen();
 		}
 
 		public void OpenUIDialogue(IDialogueLine dialogueLine, ActorSO actor)
@@ -97,19 +111,16 @@ namespace DatabaseSync.UI
 		{
 			m_IsForCooking = true;
 			OpenInventoryScreen();
-
 		}
 
 		public void SetInventoryScreen()
 		{
 			m_IsForCooking = false;
 			OpenInventoryScreen();
-
 		}
 
 		void OpenInventoryScreen()
 		{
-
 			// inventoryPanel.gameObject.SetActive(true);
 
 			if (m_IsForCooking)
@@ -131,6 +142,21 @@ namespace DatabaseSync.UI
 			{
 				onInteractionEndedEvent.RaiseEvent();
 			}
+		}
+
+		public void OpenStoryScreen()
+		{
+			storyManagerPanel.ShowCategories();
+			storyManagerPanel.gameObject.SetActive(true);
+		}
+
+		public void CloseStoryScreen()
+		{
+			storyManagerPanel.HideCategories();
+			storyManagerPanel.gameObject.SetActive(false);
+
+			if(storyScreenClosedEvent != null) storyScreenClosedEvent.RaiseEvent();
+
 		}
 
 		public void SetInteractionPanel(bool isOpenEvent, InteractionType interactionType)

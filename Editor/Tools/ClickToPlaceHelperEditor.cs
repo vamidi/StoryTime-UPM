@@ -1,51 +1,56 @@
-﻿using UnityEditor;
-using UnityEngine;
+﻿using UnityEngine;
 
-[CustomEditor(typeof(ClickToPlaceHelper))]
-public class ClickToPlaceHelperEditor : Editor
+namespace DatabaseSync.Editor
 {
-	private ClickToPlaceHelper _clickHelper => target as ClickToPlaceHelper;
 
-	public override void OnInspectorGUI()
+	[UnityEditor.CustomEditor(typeof(ClickToPlaceHelper))]
+	public class ClickToPlaceHelperEditor : UnityEditor.Editor
 	{
-		base.OnInspectorGUI();
+		private ClickToPlaceHelper clickHelper => target as ClickToPlaceHelper;
 
-		if (GUILayout.Button("Place at Mouse cursor") && !_clickHelper.IsTargeting)
+		public override void OnInspectorGUI()
 		{
-			_clickHelper.BeginTargeting();
-			SceneView.duringSceneGui += DuringSceneGui;
-		}
-	}
+			base.OnInspectorGUI();
 
-	private void DuringSceneGui(SceneView sceneView)
-	{
-		Event currentGUIEvent = Event.current;
-
-		Vector3 mousePos = currentGUIEvent.mousePosition;
-		float pixelsPerPoint = EditorGUIUtility.pixelsPerPoint;
-		mousePos.y = sceneView.camera.pixelHeight - mousePos.y * pixelsPerPoint;
-		mousePos.x *= pixelsPerPoint;
-
-		Ray ray = sceneView.camera.ScreenPointToRay(mousePos);
-
-		if (Physics.Raycast(ray, out RaycastHit hit))
-		{
-			_clickHelper.UpdateTargeting(hit.point);
+			if (GUILayout.Button("Place at Mouse cursor") && !clickHelper.IsTargeting)
+			{
+				clickHelper.BeginTargeting();
+				UnityEditor.SceneView.duringSceneGui += DuringSceneGui;
+			}
 		}
 
-		switch (currentGUIEvent.type)
+		private void DuringSceneGui(UnityEditor.SceneView sceneView)
 		{
-			case EventType.MouseMove:
-				HandleUtility.Repaint();
-				break;
-			case EventType.MouseDown:
-				if (currentGUIEvent.button == 0) // Wait for Left mouse button down
-				{
-					_clickHelper.EndTargeting();
-					SceneView.duringSceneGui -= DuringSceneGui;
-					currentGUIEvent.Use(); // This consumes the event, so that other controls/buttons won't be able to use it
-				}
-				break;
+			Event currentGUIEvent = Event.current;
+
+			Vector3 mousePos = currentGUIEvent.mousePosition;
+			float pixelsPerPoint = UnityEditor.EditorGUIUtility.pixelsPerPoint;
+			mousePos.y = sceneView.camera.pixelHeight - mousePos.y * pixelsPerPoint;
+			mousePos.x *= pixelsPerPoint;
+
+			Ray ray = sceneView.camera.ScreenPointToRay(mousePos);
+
+			if (Physics.Raycast(ray, out RaycastHit hit))
+			{
+				clickHelper.UpdateTargeting(hit.point);
+			}
+
+			switch (currentGUIEvent.type)
+			{
+				case EventType.MouseMove:
+					UnityEditor.HandleUtility.Repaint();
+					break;
+				case EventType.MouseDown:
+					if (currentGUIEvent.button == 0) // Wait for Left mouse button down
+					{
+						clickHelper.EndTargeting();
+						UnityEditor.SceneView.duringSceneGui -= DuringSceneGui;
+						currentGUIEvent
+							.Use(); // This consumes the event, so that other controls/buttons won't be able to use it
+					}
+					break;
+			}
 		}
 	}
 }
+
