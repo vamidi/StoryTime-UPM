@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 using UnityEditor;
+
 using UnityEngine;
 
 namespace DatabaseSync.ResourceManagement.Util
@@ -53,6 +54,7 @@ namespace DatabaseSync.ResourceManagement.Util
 			{
 				return string.Empty;
 			}
+
 			s = s.ToLower();
 			char[] a = s.ToCharArray();
 			a[0] = char.ToUpper(a[0]);

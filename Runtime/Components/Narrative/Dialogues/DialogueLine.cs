@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+
 using UnityEngine;
+using UnityEngine.Localization;
 
 namespace DatabaseSync.Components
 {
@@ -10,7 +12,7 @@ namespace DatabaseSync.Components
 	public class DialogueLine : IDialogueLine
 	{
 		public UInt32 ID => m_Id;
-		public string Sentence => sentence;
+		public LocalizedString Sentence => sentence;
 		public string DialogueEvent => dialogueEvent;
 		public DialogueType DialogueType => dialogueType;
 		public IDialogueLine NextDialogue
@@ -43,18 +45,14 @@ namespace DatabaseSync.Components
 		/// <summary>
 		///
 		/// </summary>
-		[SerializeField, TextArea, Tooltip("Sentence that will showed when interacting")]
-		private string sentence = String.Empty;
+		[SerializeField, Tooltip("Sentence that will showed when interacting")]
+		private LocalizedString sentence;
 
 		[SerializeField, Tooltip("Event that will be fired once filled in.")]
 		private string dialogueEvent = String.Empty;
 
 		[NonSerialized]
 		private List<DialogueChoiceSO> m_Choices = new List<DialogueChoiceSO>();
-
-		// TODO we need to serialize this back.
-		// [SerializeField, HideInInspector]
-		// private List<int> choiceIds = new List<int>();
 
 		public override string ToString()
 		{
@@ -63,7 +61,7 @@ namespace DatabaseSync.Components
 			return $"ID: {nextDialogueID}, Choices: {m_Choices.Count}, Sentence: {sentence}";
 		}
 
-		public static DialogueLine ConvertRow(TableRow row, DialogueLine dialogueLine = null)
+		public static DialogueLine ConvertRow(StorySO story, TableRow row, DialogueLine dialogueLine = null)
 		{
 			DialogueLine dialogue = dialogueLine ?? new DialogueLine();
 
@@ -74,12 +72,12 @@ namespace DatabaseSync.Components
 
 			foreach (var field in row.Fields)
 			{
-				/*
 				if (field.Key.Equals("id"))
 				{
-					dialogue.ID = uint.Parse(field.Value.Data);
+					dialogue.m_Id = uint.Parse(field.Value.Data);
+					var entryId = (dialogue.ID + 1).ToString();
+
 				}
-				*/
 
 				if (field.Key.Equals("nextId"))
 				{
@@ -87,14 +85,14 @@ namespace DatabaseSync.Components
 					dialogue.nextDialogueID = data == UInt32.MaxValue - 1 ? UInt32.MaxValue : data;
 				}
 
-				if (field.Key.Equals("text"))
-				{
-					dialogue.sentence = (string) field.Value.Data;
-				}
-
 				if (field.Key.Equals("options"))
 				{
-					dialogue.sentence = (string) field.Value.Data;
+					// dialogue.sentence = (string) field.Value.Data;
+				}
+
+				if (field.Key.Equals("text"))
+				{
+					dialogue.sentence = new LocalizedString { TableReference = story.Collection.TableCollectionNameReference, TableEntryReference = "1" };
 				}
 
 				// if (field.Key.Equals("parentId"))

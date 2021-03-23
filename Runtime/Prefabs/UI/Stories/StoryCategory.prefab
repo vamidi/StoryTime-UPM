@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1775205749467147031}
   - component: {fileID: 1775205749467147030}
   - component: {fileID: 1775205749467147025}
-  - component: {fileID: 775130446337842813}
+  - component: {fileID: 6550089058284208536}
   m_Layer: 5
   m_Name: CategoryTitle
   m_TagString: Untagged
@@ -155,7 +155,7 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &775130446337842813
+--- !u!114 &6550089058284208536
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -164,12 +164,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 1775205749467147027}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0785eb0d1ebd464999896b568aea70f3, type: 3}
+  m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stringReference: 
-  formatArguments: []
-  updateString:
+  m_StringReference:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+  m_FormatArguments: []
+  m_UpdateString:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1775205749467147025}
@@ -326,4 +332,10 @@ MonoBehaviour:
   closeStoryScreenEvent: {fileID: 11400000, guid: 731069e53ec04504ea7b286611802680,
     type: 2}
   onStorySelectEvent: {fileID: 11400000, guid: 68e95a636eae76e4eaf15788f3b1f64a, type: 2}
-  categoryTitle: {fileID: 775130446337842813}
+  categoryTitle:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0

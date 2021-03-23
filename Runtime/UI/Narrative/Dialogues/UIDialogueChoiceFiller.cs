@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Localization.Components;
 
 namespace DatabaseSync.UI
 {
@@ -7,7 +8,7 @@ namespace DatabaseSync.UI
 
 	public class UIDialogueChoiceFiller : MonoBehaviour
 	{
-		[SerializeField] private /* LocalizeStringEvent */ DBLocalizeStringEvent choiceText;
+		[SerializeField] private LocalizeStringEvent choiceText;
 		[SerializeField] private DialogueChoiceChannelSO makeAChoiceEvent;
 
 		DialogueChoiceSO m_CurrentChoice;

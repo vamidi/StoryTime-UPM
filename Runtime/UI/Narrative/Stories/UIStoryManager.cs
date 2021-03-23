@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+
 using UnityEngine;
+using UnityEngine.Localization;
 
 namespace DatabaseSync.UI
 {
@@ -12,13 +14,13 @@ namespace DatabaseSync.UI
 		[SerializeField, Tooltip("Check for incoming stories")] private StoryEventChannelSO onStoryStartedEvent;
 
 		[Header("Localization")]
-		public DBLocalizeStringEvent tabTitle;
-		public DBLocalizeStringEvent tabSubTitle;
+		public LocalizedString tabTitle;
+		public LocalizedString tabSubTitle;
 
 		[Header("Information references")]
-		public DBLocalizeStringEvent storyTitle;
-		public DBLocalizeStringEvent taskTitle;
-		public DBLocalizeStringEvent taskDescription;
+		public LocalizedString storyTitle;
+		public LocalizedString taskTitle;
+		public LocalizedString taskDescription;
 
 		[Tooltip("List view that we need to add the stories to.")]
 		public GameObject listView;
@@ -63,18 +65,17 @@ namespace DatabaseSync.UI
 			var task = story.Tasks.Find(o => o.IsDone == false);
 
 			// set the right information
-			storyTitle.StringReference = story ? story.Title : "";
-			taskTitle.StringReference = task ? task.Description : "";
-			taskDescription.StringReference = task ? task.Description : "";
+			// storyTitle.StringReference = story ? story.Title : "";
+			// taskTitle.StringReference = task ? task.Description : "";
+			// taskDescription.StringReference = task ? task.Description : "";
 		}
 
 		public void ShowCategories(QuestType type = QuestType.All)
 		{
-			tabTitle.StringReference = "In Progress";
 			foreach (var category in m_CategoryItems)
 			{
 				// TODO make multi language
-				tabTitle.StringReference = category.Category == type ? type.ToString() : tabTitle.StringReference;
+				// tabTitle = category.Category == type ? type.ToString() : tabTitle;
 
 				// Show the category if category is selected or is the category is set to none.
 				category.gameObject.SetActive(category.Category == type || type == QuestType.All);

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8937513999358929398}
   - component: {fileID: 8984182493175664681}
   m_Layer: 0
-  m_Name: InteractionQuest
+  m_Name: InteractionStory
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -61,11 +61,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b434b514ffb4b29a80c8bfe4333fb0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactionName: {fileID: 1291634727394432595}
+  interactionName: {fileID: 2149918522055697570}
   interactionKeyButton: {fileID: 7077029036031400941}
-  interactionQuestTitle: {fileID: 7241342753373174621}
-  interactionQuestState: {fileID: 8968018416580202141}
-  interactionTaskDescription: {fileID: 9174408882952812202}
+  interactionStoryTitle: {fileID: 0}
+  interactionStoryState: {fileID: 0}
+  interactionTaskDescription: {fileID: 2941075741769879651}
 --- !u!1 &1313424424822533228
 GameObject:
   m_ObjectHideFlags: 0
@@ -77,7 +77,7 @@ GameObject:
   - component: {fileID: 541676275237053356}
   - component: {fileID: 1440957760459635821}
   - component: {fileID: 8968018416580202141}
-  - component: {fileID: 4911487794011815703}
+  - component: {fileID: 8481822039951792798}
   m_Layer: 0
   m_Name: InteractionState
   m_TagString: Untagged
@@ -200,7 +200,7 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &4911487794011815703
+--- !u!114 &8481822039951792798
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -209,12 +209,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 1313424424822533228}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0785eb0d1ebd464999896b568aea70f3, type: 3}
+  m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stringReference: 
-  formatArguments: []
-  updateString:
+  m_StringReference:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+  m_FormatArguments: []
+  m_UpdateString:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 8968018416580202141}
@@ -239,9 +245,9 @@ GameObject:
   - component: {fileID: 3891517849064939724}
   - component: {fileID: 7486150733836090547}
   - component: {fileID: 7241342753373174621}
-  - component: {fileID: 7618304462589980651}
+  - component: {fileID: 9208729492453481198}
   m_Layer: 0
-  m_Name: InteractionQuestTitle
+  m_Name: InteractionStoryTitle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -362,7 +368,7 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &7618304462589980651
+--- !u!114 &9208729492453481198
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -371,12 +377,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 4600949186220366058}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0785eb0d1ebd464999896b568aea70f3, type: 3}
+  m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stringReference: 
-  formatArguments: []
-  updateString:
+  m_StringReference:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+  m_FormatArguments: []
+  m_UpdateString:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 7241342753373174621}
@@ -401,7 +413,7 @@ GameObject:
   - component: {fileID: 2286436947901313862}
   - component: {fileID: 2068227818568588378}
   - component: {fileID: 9174408882952812202}
-  - component: {fileID: 8120116253280991762}
+  - component: {fileID: 2941075741769879651}
   m_Layer: 0
   m_Name: InteractionTaskDescription
   m_TagString: Untagged
@@ -524,7 +536,7 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &8120116253280991762
+--- !u!114 &2941075741769879651
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -533,12 +545,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 5909235484134749924}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0785eb0d1ebd464999896b568aea70f3, type: 3}
+  m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stringReference: 
-  formatArguments: []
-  updateString:
+  m_StringReference:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+  m_FormatArguments: []
+  m_UpdateString:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 9174408882952812202}
@@ -612,7 +630,7 @@ GameObject:
   - component: {fileID: 528783523743959975}
   - component: {fileID: 935232001470459098}
   m_Layer: 5
-  m_Name: InComingQuest
+  m_Name: InComingStory
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -725,6 +743,7 @@ GameObject:
   - component: {fileID: 6167708829974006255}
   - component: {fileID: 6038736772152002796}
   - component: {fileID: 1291634727394432595}
+  - component: {fileID: 2149918522055697570}
   m_Layer: 0
   m_Name: KeyName
   m_TagString: Untagged
@@ -847,6 +866,40 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &2149918522055697570
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8655211421006133958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_StringReference:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+  m_FormatArguments: []
+  m_UpdateString:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1291634727394432595}
+        m_MethodName: set_text
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &9117984532010420914
 GameObject:
   m_ObjectHideFlags: 0

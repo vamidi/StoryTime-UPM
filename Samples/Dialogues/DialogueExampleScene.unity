@@ -445,6 +445,14 @@ PrefabInstance:
       value: Hi there traveler! You are going to the woods? Be carefult while you
         at it.
       objectReference: {fileID: 0}
+    - target: {fileID: 1027676410, guid: e538ce5be5a517a43903fed4114f19e4, type: 3}
+      propertyPath: defaultDialogue.sentence.m_TableEntryReference.m_KeyId
+      value: 98494205952
+      objectReference: {fileID: 0}
+    - target: {fileID: 1027676410, guid: e538ce5be5a517a43903fed4114f19e4, type: 3}
+      propertyPath: defaultDialogue.sentence.m_TableReference.m_TableCollectionName
+      value: GUID:880a163e3a20fbb48aa71546d89bb0e7
+      objectReference: {fileID: 0}
     - target: {fileID: 1426071929389158066, guid: e538ce5be5a517a43903fed4114f19e4,
         type: 3}
       propertyPath: m_RootOrder

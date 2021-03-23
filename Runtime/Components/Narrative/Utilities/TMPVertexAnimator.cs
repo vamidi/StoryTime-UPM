@@ -79,6 +79,8 @@ namespace DatabaseSync.Components
 			// Strip all the text from tags.
 			m_Commands.Clear();
 			text = m_ProcessedMessage;
+
+			RevealNextParagraphAsync();
 		}
 
 		public void ShowEverythingWithoutAnimation()
@@ -122,7 +124,7 @@ namespace DatabaseSync.Components
 			allRevealed.Invoke();
 		}
 
-		public void ShowNextParagraphWithoutAnimation()
+		private void ShowNextParagraphWithoutAnimation()
 		{
 			if (IsAllRevealed()) return;
 
@@ -133,7 +135,7 @@ namespace DatabaseSync.Components
 			// StartCoroutine(RevealNextParagraph());
 		}
 
-		public void RevealNextParagraphAsync()
+		private void RevealNextParagraphAsync()
 		{
 			m_Commands = DialogueUtility.ProcessInputString(m_OriginalString, out m_ProcessedMessage);
 

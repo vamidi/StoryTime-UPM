@@ -13,10 +13,11 @@ namespace DatabaseSync.UI
 			if (m_InteractionQuestSo == null)
 			{
 				m_InteractionQuestSo = ScriptableObject.CreateInstance<InteractionNavSO>();
-				m_InteractionQuestSo.InteractionName = "Press [V] to navigate";
+				// m_InteractionQuestSo.InteractionName = "Press [V] to navigate";
 			}
 
-			m_InteractionQuestSo.interactionStoryState = StateToString(info.State);
+			// TODO Retrieve out of table database.
+			// m_InteractionQuestSo.interactionStoryState.StringReference = StateToString(info.State);
 			m_InteractionQuestSo.interactionStoryTitle = info.Story.Title;
 			m_InteractionQuestSo.interactionTaskDescription = info.Story.Tasks[info.Index].Description;
 		}

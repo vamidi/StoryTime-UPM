@@ -117,7 +117,6 @@ namespace DatabaseSync.Components
 
 				openUIDialogueEvent.RaiseEvent(dialogueLine, actor);
 			}
-			revealer.RevealNextParagraphAsync();
 			ToggleContinueBtn(false);
 
 			// Call event when the dialogue begins

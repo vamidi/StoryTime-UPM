@@ -30,7 +30,7 @@ namespace DatabaseSync.Components
 
 				if (field.Key.Equals("name"))
 				{
-					actor.ActorName = (string) field.Value.Data;
+					// actor.ActorName = (string) field.Value.Data;
 				}
 			}
 

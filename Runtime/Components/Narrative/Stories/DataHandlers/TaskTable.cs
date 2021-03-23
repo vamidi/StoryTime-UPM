@@ -31,7 +31,7 @@ namespace DatabaseSync.Components
 
 				if (field.Key.Equals("description"))
 				{
-					task.Description = (string) field.Value.Data;
+					// task.Description = (string) field.Value.Data;
 				}
 
 				if (field.Key.Equals("hidden"))

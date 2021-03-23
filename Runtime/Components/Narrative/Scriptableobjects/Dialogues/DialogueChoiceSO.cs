@@ -1,18 +1,19 @@
 using System;
 using System.Text.RegularExpressions;
-using DatabaseSync.ResourceManagement.Util;
+
 using UnityEngine;
+using UnityEngine.Localization;
 
 namespace DatabaseSync.Components
 {
 	using Binary;
-
+	using ResourceManagement.Util;
 
 	[CreateAssetMenu(fileName = "newDialogueChoice", menuName = "DatabaseSync/Narrative/Dialogue Choice")]
 	// ReSharper disable once InconsistentNaming
 	public class DialogueChoiceSO : TableBehaviour
 	{
-		public string Sentence => text;
+		public LocalizedString Sentence => text;
 
 		public IDialogueLine NextDialogue
 		{
@@ -30,7 +31,7 @@ namespace DatabaseSync.Components
 		/// The text we use to display.
 		/// </summary>
 		[SerializeField]
-		private string text = "";
+		private LocalizedString text;
 
 		// This needs to be calculated
 		[SerializeField]
@@ -101,7 +102,8 @@ namespace DatabaseSync.Components
 						data = Regex.Replace(data, "<action=(.*?)>", "", RegexOptions.Singleline);
 					}
 
-					dialogueOption.text = data;
+					// TODO get the entry of the string table
+					// dialogueOption.text = data;
 				}
 			}
 

@@ -52,7 +52,7 @@ namespace DatabaseSync.Components
 
 					if (field.Key.Equals("title"))
 					{
-						story.title = (string) field.Value.Data;
+						// story.title = (string) field.Value.Data;
 					}
 
 					if (field.Key.Equals("typeId"))
@@ -95,7 +95,7 @@ namespace DatabaseSync.Components
 
 				// Debug.Log("Current" + currentDialogue);
 
-				ParseNextNodeData(currentDialogue, node, nodes);
+				ParseNextNodeData(story, currentDialogue, node, nodes);
 			}
 
 			/// <summary>
@@ -118,10 +118,11 @@ namespace DatabaseSync.Components
 			/// if it is an option take options[$`optionOut-key`] and then the value
 			/// if it is a dialogue take data["dialogueId"] -> can be Number.MAX_SAFE_INTEGER
 			/// </summary>
+			/// <param name="story"></param>
 			/// <param name="currentDialogue"></param>
 			/// <param name="node"></param>
 			/// <param name="nodes"></param>
-			protected static void ParseNextNodeData(IDialogueLine currentDialogue, JObject node, JObject nodes)
+			protected static void ParseNextNodeData(StorySO story, IDialogueLine currentDialogue, JObject node, JObject nodes)
 			{
 				var data = node["data"].ToObject<JObject>();
 
@@ -163,12 +164,12 @@ namespace DatabaseSync.Components
 								// Fetch the other dialogueId
 								var nextId = otherData["dialogueId"].ToObject<uint>();
 								// validate the data
-								currentDialogue.NextDialogue = DialogueLine.ConvertRow(TableDatabase.Get.GetRow("dialogues", nextId));
+								currentDialogue.NextDialogue = DialogueLine.ConvertRow(story, TableDatabase.Get.GetRow("dialogues", nextId));
 
 								// Debug.Log(" Next: " + currentDialogue.NextDialogue);
 
 								// now we have the next id check if we have a node that comes after.
-								ParseNextNodeData(currentDialogue.NextDialogue, otherNode, nodes);
+								ParseNextNodeData(story, currentDialogue.NextDialogue, otherNode, nodes);
 							}
 							else
 							{
@@ -182,7 +183,7 @@ namespace DatabaseSync.Components
 								var nextId = otherData["dialogueId"].ToObject<uint>();
 
 								// find the next dialogue of this choice.
-								choice.NextDialogue = DialogueLine.ConvertRow(TableDatabase.Get.GetRow("dialogues", nextId));
+								choice.NextDialogue = DialogueLine.ConvertRow(story, TableDatabase.Get.GetRow("dialogues", nextId));
 
 								// Debug.Log(" Choice: " + choice);
 
@@ -193,7 +194,7 @@ namespace DatabaseSync.Components
 								currentDialogue.NextDialogue = null;
 
 								// Find the next dialogue for the choice
-								ParseNextNodeData(choice.NextDialogue, otherNode, nodes);
+								ParseNextNodeData(story, choice.NextDialogue, otherNode, nodes);
 							}
 						}
 					}

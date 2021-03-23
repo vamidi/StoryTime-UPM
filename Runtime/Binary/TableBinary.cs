@@ -86,7 +86,36 @@ namespace DatabaseSync.Binary
 				throw new ArgumentNullException($"{nameof(configFile)} can not be null.", nameof(configFile));
 
 			return configFile;
+		}
 
+		public static string GetIdFromFile(string tableName)
+		{
+			var config = Fetch();
+			string destination = $"{config.dataPath}/{tableName}.json";
+
+			if (!File.Exists(destination)) throw new ArgumentException("Cant find JSON file!");
+
+			var stream = GetStream(destination);
+			var token = GetTableData(stream);
+
+			var id = token["id"].ToObject<string>() ?? throw new ArgumentException("Can't make find metadata from JSON file");
+
+			return id;
+		}
+
+		public static TableMetaData GetMetadata(string tableName)
+		{
+			var config = Fetch();
+			string destination = $"{config.dataPath}/{tableName}.json";
+
+			if (!File.Exists(destination)) throw new ArgumentException("Cant find JSON file!");
+
+			var stream = GetStream(destination);
+			var token = GetTableData(stream);
+
+			var metaData = token["metadata"].ToObject<TableMetaData>() ?? throw new ArgumentException("Can't make find metadata from JSON file");
+
+			return metaData;
 		}
 
 		/// <summary>
@@ -153,7 +182,21 @@ namespace DatabaseSync.Binary
 			}
 
 			var rowProperties = arr[(int)entityID].Children<JProperty>();
+
 			uint i = 0;
+
+			// add ID if we dont have one
+			Debug.Log(rowProperties["id"]);
+			Debug.Log(rowProperties["id"] == null);
+			if (rowProperties["id"] == null)
+			{
+				result.Fields.Add(new TableRowInfo{ ColumnName = "id", ColumnID = i }, new TableField
+				{
+					Data = entityID
+				});
+				i++;
+			}
+
 			foreach (var entity in rowProperties)
 			{
 				TableField field = new TableField();
@@ -534,6 +577,7 @@ namespace DatabaseSync.Binary
 					        break;
 				        case JTokenType.Object:
 					        field.Data = entity.Value.ToObject<JObject>();
+					        // Debug.Log(field.Data.ToString());
 					        break;
 			        }
 

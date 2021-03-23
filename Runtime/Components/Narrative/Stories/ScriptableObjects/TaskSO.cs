@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+
 using UnityEngine;
+using UnityEngine.Localization;
 
 namespace DatabaseSync.Components
 {
@@ -19,7 +21,7 @@ namespace DatabaseSync.Components
 	public class TaskSO : TableBehaviour
 	{
 		public uint NextId { get => nextId; set => nextId = value; }
-		public string Description { get => description; set => description = value; }
+		public LocalizedString Description { get => description; set => description = value; }
 		public bool Hidden { get => hidden; set => hidden = value; }
 		public uint Npc { get => npc; set => npc = value; }
 		public uint EnemyCategory { get => enemyCategory; set => enemyCategory = value; }
@@ -35,7 +37,7 @@ namespace DatabaseSync.Components
 		public TaskEventSO TaskEvent => taskEvent;
 
 		[Tooltip("The description of the mission")]
-		[SerializeField] private string description;
+		[SerializeField] private LocalizedString description;
 
 		[Tooltip("Whether the mission is hidden")]
 		[SerializeField] private bool hidden;

@@ -204,7 +204,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2724937296078793677}
   - component: {fileID: 2724937296078793648}
-  - component: {fileID: 9115476614004916636}
+  - component: {fileID: 8924230437997285842}
   - component: {fileID: 2724937296078793649}
   m_Layer: 5
   m_Name: DialogueLine
@@ -240,7 +240,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2724937296078793676}
   m_CullTransparentMesh: 0
---- !u!114 &9115476614004916636
+--- !u!114 &8924230437997285842
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -249,12 +249,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 2724937296078793676}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0785eb0d1ebd464999896b568aea70f3, type: 3}
+  m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stringReference: 
-  formatArguments: []
-  updateString:
+  m_StringReference:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+  m_FormatArguments: []
+  m_UpdateString:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2724937296078793649}
@@ -370,7 +376,6 @@ MonoBehaviour:
   allRevealed:
     m_PersistentCalls:
       m_Calls: []
-  speed: 0
 --- !u!1 &2724937296120478575
 GameObject:
   m_ObjectHideFlags: 0
@@ -382,7 +387,7 @@ GameObject:
   - component: {fileID: 2724937296120478572}
   - component: {fileID: 2724937296120478547}
   - component: {fileID: 2724937296120478546}
-  - component: {fileID: 6099393291919667068}
+  - component: {fileID: 2798549245861486003}
   m_Layer: 5
   m_Name: CharacterName
   m_TagString: Untagged
@@ -505,7 +510,7 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &6099393291919667068
+--- !u!114 &2798549245861486003
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -514,12 +519,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 2724937296120478575}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0785eb0d1ebd464999896b568aea70f3, type: 3}
+  m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stringReference: 
-  formatArguments: []
-  updateString:
+  m_StringReference:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+  m_FormatArguments: []
+  m_UpdateString:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2724937296120478546}
@@ -669,8 +680,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1c8a6fb4dcc4cadb11a6d53d0e60b81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sentence: {fileID: 9115476614004916636}
-  actorName: {fileID: 6099393291919667068}
+  sentence: {fileID: 8924230437997285842}
+  actorName: {fileID: 2798549245861486003}
   choicesManager: {fileID: 6177156284506376393}
   showChoicesEvent: {fileID: 11400000, guid: ac2f2063026405543b1396308624f775, type: 2}
   hideChoicesEvent: {fileID: 11400000, guid: cc667a3eb43ab1d498a3f6217e8885c5, type: 2}

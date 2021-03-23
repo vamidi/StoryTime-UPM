@@ -293,7 +293,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33bfd247d88045d4a201fdbead8e72b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  choiceText: {fileID: 8696430345178344032}
+  choiceText: {fileID: 1689588490273430856}
   makeAChoiceEvent: {fileID: 11400000, guid: 7fb2fbdd616312641b0c9e9357294c44, type: 2}
 --- !u!1 &8273835280102873130
 GameObject:
@@ -306,7 +306,7 @@ GameObject:
   - component: {fileID: 3198412704238683643}
   - component: {fileID: 9187439845413433614}
   - component: {fileID: 697870515822778586}
-  - component: {fileID: 8696430345178344032}
+  - component: {fileID: 1689588490273430856}
   m_Layer: 5
   m_Name: TextChoice
   m_TagString: Untagged
@@ -430,7 +430,7 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &8696430345178344032
+--- !u!114 &1689588490273430856
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -439,12 +439,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 8273835280102873130}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0785eb0d1ebd464999896b568aea70f3, type: 3}
+  m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stringReference: 
-  formatArguments: []
-  updateString:
+  m_StringReference:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+  m_FormatArguments: []
+  m_UpdateString:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 697870515822778586}
