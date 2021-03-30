@@ -187,7 +187,7 @@ namespace DatabaseSync.Database
 
         public Table GetTable(string tableName)
         {
-            if (!Data.ContainsKey(tableName))
+	        if (!Data.ContainsKey(tableName))
             {
                 Data.Add(tableName, TableBinary.GetTable(tableName));
                 return Data[tableName];
@@ -201,6 +201,7 @@ namespace DatabaseSync.Database
 	        List<Table> tables = new List<Table>();
 	        foreach (var kBinary in _Binaries)
 	        {
+		        Debug.Log(kBinary.Key);
 		        tables.Add(GetTable(kBinary.Key));
 	        }
 

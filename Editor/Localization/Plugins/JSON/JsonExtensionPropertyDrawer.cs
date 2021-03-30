@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-
+using DatabaseSync.ResourceManagement.Util;
 using UnityEngine;
 
 using UnityEditor;
@@ -206,7 +206,7 @@ namespace DatabaseSync.Localization.Plugins.JSON
 				try
 				{
 					var google = GetTableContent(data);
-					var files = google.GetFiles();
+					var files = HelperClass.GetDataFiles();
 
 					var menu = new GenericMenu();
 					foreach (var s in files)

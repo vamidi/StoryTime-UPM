@@ -1,5 +1,5 @@
 using System;
-using System.Text.RegularExpressions;
+// using System.Text.RegularExpressions;
 
 using UnityEngine;
 using UnityEngine.Localization;
@@ -7,7 +7,7 @@ using UnityEngine.Localization;
 namespace DatabaseSync.Components
 {
 	using Binary;
-	using ResourceManagement.Util;
+	// using ResourceManagement.Util;
 
 	[CreateAssetMenu(fileName = "newDialogueChoice", menuName = "DatabaseSync/Narrative/Dialogue Choice")]
 	// ReSharper disable once InconsistentNaming
@@ -70,6 +70,14 @@ namespace DatabaseSync.Components
 				return dialogueOption;
 			}
 
+			DatabaseConfig config = TableBinary.Fetch();
+			if (config != null)
+			{
+				dialogueOption.ID = row.RowId;
+				var entryId = (dialogueOption.ID + 1).ToString();
+				dialogueOption.text = new LocalizedString { TableReference = config.DialogueOptionCollection.TableCollectionNameReference, TableEntryReference = entryId };
+			}
+
 			// Loop through all the fields and acquire the right data
 			// TODO make an interop to let users make their own functions
 			foreach (var field in row.Fields)
@@ -87,7 +95,8 @@ namespace DatabaseSync.Components
 					// uint data = (uint) field.Value.Data;
 					// dialogueOption.ChildId = data == UInt32.MaxValue - 1 ? UInt32.MaxValue : data;
 				}
-
+/*
+				// TODO make regular expression work in dialogue options
 				if (field.Key.Equals("text"))
 				{
 					var data = (string) field.Value.Data;
@@ -105,6 +114,7 @@ namespace DatabaseSync.Components
 					// TODO get the entry of the string table
 					// dialogueOption.text = data;
 				}
+*/
 			}
 
 			return dialogueOption;

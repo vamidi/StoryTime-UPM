@@ -61,7 +61,7 @@ namespace DatabaseSync.Components
 			return $"ID: {nextDialogueID}, Choices: {m_Choices.Count}, Sentence: {sentence}";
 		}
 
-		public static DialogueLine ConvertRow(StorySO story, TableRow row, DialogueLine dialogueLine = null)
+		public static DialogueLine ConvertRow(TableRow row, DialogueLine dialogueLine = null)
 		{
 			DialogueLine dialogue = dialogueLine ?? new DialogueLine();
 
@@ -70,15 +70,16 @@ namespace DatabaseSync.Components
 				return dialogue;
 			}
 
+			DatabaseConfig config = TableBinary.Fetch();
+			if (config != null)
+			{
+				dialogue.m_Id = row.RowId;
+				var entryId = (dialogue.ID + 1).ToString();
+				dialogue.sentence = new LocalizedString { TableReference = config.DialogueCollection.TableCollectionNameReference, TableEntryReference = entryId };
+			}
+
 			foreach (var field in row.Fields)
 			{
-				if (field.Key.Equals("id"))
-				{
-					dialogue.m_Id = uint.Parse(field.Value.Data);
-					var entryId = (dialogue.ID + 1).ToString();
-
-				}
-
 				if (field.Key.Equals("nextId"))
 				{
 					uint data = (uint) field.Value.Data;
@@ -88,11 +89,6 @@ namespace DatabaseSync.Components
 				if (field.Key.Equals("options"))
 				{
 					// dialogue.sentence = (string) field.Value.Data;
-				}
-
-				if (field.Key.Equals("text"))
-				{
-					dialogue.sentence = new LocalizedString { TableReference = story.Collection.TableCollectionNameReference, TableEntryReference = "1" };
 				}
 
 				// if (field.Key.Equals("parentId"))

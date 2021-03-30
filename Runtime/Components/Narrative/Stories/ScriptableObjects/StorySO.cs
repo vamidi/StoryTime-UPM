@@ -5,8 +5,6 @@ using Newtonsoft.Json.Linq;
 using UnityEngine;
 using UnityEngine.Localization;
 
-using UnityEditor.Localization;
-
 namespace DatabaseSync.Components
 {
 	using Database;
@@ -56,8 +54,6 @@ namespace DatabaseSync.Components
 		// rename Dialogue line to story lines
 		public DialogueLine StartDialogue => m_StartDialogue;
 
-		public StringTableCollection Collection => collection;
-
 		[Tooltip("The collection of tasks composing the Quest")] [SerializeField]
 		private List<TaskSO> tasks = new List<TaskSO>();
 
@@ -73,7 +69,7 @@ namespace DatabaseSync.Components
 		/** ------------------------------ DATABASE FIELD ------------------------------ */
 
 		[SerializeField, Tooltip("The title of the quest")]
-		private LocalizedString title = default;
+		private LocalizedString title;
 
 		[SerializeField, Tooltip("The description of the quest")]
 		private string description = String.Empty;
@@ -96,9 +92,6 @@ namespace DatabaseSync.Components
 		[SerializeField, Tooltip("Show the type of the quest. i.e could be part of the main story")]
 		private QuestType typeId = QuestType.WorldQuests;
 
-		[SerializeField, Tooltip("Collection where we need to fetch the dialogue from")]
-		private StringTableCollection collection;
-
 		public StorySO() : base("stories", "title", "parentId") { }
 
 		public virtual void OnEnable()
@@ -107,7 +100,7 @@ namespace DatabaseSync.Components
 			{
 				// Only get the first dialogue.
 				// TODO use custom scripter
-				m_StartDialogue = DialogueLine.ConvertRow(this, TableDatabase.Get.GetRow("dialogues", childId));
+				m_StartDialogue = DialogueLine.ConvertRow(TableDatabase.Get.GetRow("dialogues", childId));
 
 				var field = TableDatabase.Get.GetField(Name, "data", ID);
 				if (field != null)

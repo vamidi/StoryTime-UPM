@@ -2,6 +2,7 @@ using System;
 using UnityEngine.UIElements;
 
 using DatabaseSync.Binary;
+using DatabaseSync.Database;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
@@ -13,16 +14,16 @@ namespace DatabaseSync.Editor.UI
 	{
 		private const string EditorPrefConfigValueKey = "DatabaseSync-Window-Settings-Config";
 
-		private readonly Table m_Table;
+		private readonly string m_TableName;
 
 		internal string ScriptLocation
 		{
-			get => m_Table != null
-				? EditorPrefs.GetString($"{EditorPrefConfigValueKey}{m_Table.metadata.title}", "")
+			get => m_TableName != null
+				? EditorPrefs.GetString($"{EditorPrefConfigValueKey}{m_TableName}", "")
 				: "";
 			set
 			{
-				if(m_Table != null)
+				if(m_TableName != null)
 					EditorPrefs.SetString(EditorPrefConfigValueKey, value);
 			}
 		}
@@ -38,15 +39,15 @@ namespace DatabaseSync.Editor.UI
 			asset.CloneTree(this);
 		}
 
-		public ListViewTableRow(Table table): this()
+		public ListViewTableRow(string title): this()
 		{
 			// Tables
-			m_Table = table;
-			AssignTable(m_Table);
+			m_TableName = title;
+			AssignTable();
 
 			if (ScriptLocation != String.Empty)
 			{
-				var scriptFile = AssetDatabase.LoadAssetAtPath<DatabaseConfig>(AssetDatabase.GUIDToAssetPath(ScriptLocation));
+				var scriptFile = AssetDatabase.LoadAssetAtPath<MonoScript>(AssetDatabase.GUIDToAssetPath(ScriptLocation));
 				if (scriptFile)
 				{
 					if (this.Q("row-object-field") is ObjectField field)
@@ -64,11 +65,11 @@ namespace DatabaseSync.Editor.UI
 			return tableCollection.SharedData.GetEntry(key);
 		}
 */
-		void AssignTable(Table table)
+		void AssignTable()
 		{
 			// box.style.marginLeft = new StyleLength()
 			if (this.Q("row-text-label") is Label lbl)
-				lbl.text = table.metadata.title;
+				lbl.text = m_TableName;
 
 			if (this.Q("row-object-field") is ObjectField field)
 			{
@@ -84,7 +85,11 @@ namespace DatabaseSync.Editor.UI
 			// Button config
 			if (this.Q("btn-refresh") is Button btn)
 			{
-				btn.clickable = new Clickable(() => RefreshTable(table.id));
+				btn.clickable = new Clickable(() =>
+				{
+					Table table = TableDatabase.Get.GetTable(m_TableName);
+					if(table.id != String.Empty) RefreshTable(table.id);
+				});
 			}
 		}
 

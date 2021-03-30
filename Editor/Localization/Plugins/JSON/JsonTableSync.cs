@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
+// using System.IO;
 using System.Linq;
 using System.Text;
 using DatabaseSync.Database;
-using DatabaseSync.ResourceManagement.Util;
+// using DatabaseSync.ResourceManagement.Util;
 using Newtonsoft.Json.Linq;
 // using System.Threading.Tasks;
 
@@ -14,7 +14,7 @@ using UnityEditor.Localization.Reporting;
 using UnityEditor.Localization.Plugins.Google.Columns;
 
 using UnityEngine;
-using UnityEngine.Localization;
+// using UnityEngine.Localization;
 // using UnityEngine.Localization.Tables;
 using static UnityEngine.Localization.Tables.SharedTableData;
 using Object = UnityEngine.Object;
@@ -65,31 +65,6 @@ namespace DatabaseSync.Localization.Plugins.JSON
 			if (string.IsNullOrEmpty(TableId)) throw new Exception($"{nameof(TableId)} is required.");
 
 			return new List<string>{ "text" };
-		}
-
-		/// <summary>
-		/// Returns a list of all the json files in the directory with the id <see cref="TableId"/>.
-		/// </summary>
-		/// <returns>The sheets names and id's.</returns>
-		public List<(string name, string fileName)> GetFiles()
-		{
-			DatabaseConfig config = TableBinary.Fetch();
-
-			var assetDirectory = config.dataPath;
-			if (string.IsNullOrEmpty(assetDirectory)) throw new Exception("The folder could not be found!");
-
-			// Get existing database files
-			var filePaths = Directory.GetFiles(assetDirectory,"*.json");
-			var files = new List<(string name, string fileName)>();
-
-			foreach (var filePath in filePaths)
-			{
-				string fileName = Path.GetFileNameWithoutExtension(filePath);
-				string name = HelperClass.Capitalize(fileName);
-				files.Add((name, fileName));
-			}
-
-			return files;
 		}
 
 		/// <summary>
@@ -255,7 +230,7 @@ namespace DatabaseSync.Localization.Plugins.JSON
             for (int row = 0; row < rowCount; row++)
             {
 	            var localeId = (row + 1).ToString();
-	            var rowKeyEntry = keyColumn.PullKey(localeId, "");
+	            var rowKeyEntry = keyColumn.PullKey(localeId, localeId);
 	            sortedEntries.Add(rowKeyEntry);
 
 	            var keyRowData = rows[row];
@@ -281,6 +256,11 @@ namespace DatabaseSync.Localization.Plugins.JSON
 		            totalCellsProcessed++;
 
 		            // TODO retrieve the right mapped field
+		            if (keyValue.Data is string)
+		            {
+						reporter?.Fail($"Json value is not of type object in {TableId}, key: {mapValue.Column}");
+						break;
+		            }
 		            JObject jsonValue = keyValue.Data;
 		            var mapJsonValue = jsonValue[mapValue.Column];
 

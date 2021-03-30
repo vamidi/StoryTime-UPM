@@ -172,7 +172,10 @@ namespace DatabaseSync.Binary
 
 			// The key-value data
 			JArray arr = tableData["data"].Value<JArray>();
-			TableRow result = new TableRow();
+			TableRow result = new TableRow
+			{
+				RowId = entityID
+			};
 
 			// Invalid ID
 			if (entityID >= arr.Count)
@@ -184,19 +187,6 @@ namespace DatabaseSync.Binary
 			var rowProperties = arr[(int)entityID].Children<JProperty>();
 
 			uint i = 0;
-
-			// add ID if we dont have one
-			Debug.Log(rowProperties["id"]);
-			Debug.Log(rowProperties["id"] == null);
-			if (rowProperties["id"] == null)
-			{
-				result.Fields.Add(new TableRowInfo{ ColumnName = "id", ColumnID = i }, new TableField
-				{
-					Data = entityID
-				});
-				i++;
-			}
-
 			foreach (var entity in rowProperties)
 			{
 				TableField field = new TableField();
@@ -541,11 +531,27 @@ namespace DatabaseSync.Binary
 	        tableStruct.Ujson.EntityCount = (uint)entities.Count;
 
 	        uint i = 0;
+
+	        // add ID if we dont have one
+	        // Debug.Log(rowProperties["id"]);
+	        // Debug.Log(rowProperties["id"] == null);
+	        // if (rowProperties["id"] == null)
+	        // {
+		        // result.Fields.Add(new TableRowInfo{ ColumnName = "id", ColumnID = i }, new TableField
+		        // {
+			        // Data = entityID
+		        // });
+		        // i++;
+	        // }
+
 	        // Loop through all the entities
 	        foreach (var el in entities)
 	        {
 		        var rowParameters = el.Children<JProperty>();
-		        TableRow tblRow = new TableRow();
+		        TableRow tblRow = new TableRow
+		        {
+			        RowId = i
+		        };
 
 		        if (i == 0)
 		        {

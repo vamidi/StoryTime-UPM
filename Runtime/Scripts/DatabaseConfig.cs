@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 
+using UnityEditor.Localization;
+
 namespace DatabaseSync
 {
 	/// <summary>
@@ -16,6 +18,9 @@ namespace DatabaseSync
 		public string Password => password;
 		public bool Authentication => useServer;
 
+		public StringTableCollection DialogueCollection { get => dialoguecollection; set => dialoguecollection = value; }
+		public StringTableCollection DialogueOptionCollection { get => dialogueOptionCollection; set => dialogueOptionCollection = value; }
+
 		[SerializeField] private string databaseURL = "";
 
 		[SerializeField] private string projectID = "";
@@ -27,5 +32,12 @@ namespace DatabaseSync
 		[SerializeField] public string dataPath = "";
 
 		[SerializeField] public bool useServer = false;
+
+		// TableCollection settings
+		[SerializeField, Tooltip("Collection where we need to fetch the dialogue from")]
+		private StringTableCollection dialoguecollection;
+
+		[SerializeField, Tooltip("Collection where we need to fetch the dialogue options from")]
+		private StringTableCollection dialogueOptionCollection;
 	}
 }
