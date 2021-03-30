@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Localization;
 
 namespace DatabaseSync.UI
 {
@@ -13,12 +14,12 @@ namespace DatabaseSync.UI
 	public class InteractionNavSO : InteractionSO
 	{
 		[Tooltip("The Story title")]
-		[SerializeField] public string interactionStoryState;
+		[SerializeField] public LocalizedString interactionStoryState;
 
 		[Tooltip("The Story title")]
-		[SerializeField] public string interactionStoryTitle;
+		[SerializeField] public LocalizedString interactionStoryTitle;
 
 		[Tooltip("The Task title")]
-		[SerializeField] public string interactionTaskDescription;
+		[SerializeField] public LocalizedString interactionTaskDescription;
 	}
 }

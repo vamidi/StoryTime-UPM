@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Localization;
 
 namespace DatabaseSync.Components
 {
@@ -10,13 +11,13 @@ namespace DatabaseSync.Components
 	// ReSharper disable once InconsistentNaming
 	public class ActorSO : TableBehaviour
 	{
-		public string ActorName
+		public LocalizedString ActorName
 		{
-			get => _actorName;
-			set => _actorName = value;
+			get => actorName;
+			set => actorName = value;
 		}
 
-		[SerializeField] private string _actorName = default;
+		[SerializeField] private LocalizedString actorName = default;
 
 		public ActorSO() : base("characters", "name") { }
 	}

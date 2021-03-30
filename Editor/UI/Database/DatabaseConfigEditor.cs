@@ -11,6 +11,7 @@ namespace DatabaseSync.Editor.UI
 		{
 			if (GUILayout.Button(EditConfig))
 			{
+				DatabaseSyncWindow.OpenWindow();
 			}
 		}
 	}

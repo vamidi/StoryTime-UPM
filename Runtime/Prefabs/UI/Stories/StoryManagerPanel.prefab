@@ -841,7 +841,7 @@ GameObject:
   - component: {fileID: 4400916941780403042}
   - component: {fileID: 4400916941780403045}
   - component: {fileID: 4400916941780403044}
-  - component: {fileID: 5097521350873613678}
+  - component: {fileID: 1033024059385330813}
   m_Layer: 5
   m_Name: TaskTitle Text
   m_TagString: Untagged
@@ -984,7 +984,7 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &5097521350873613678
+--- !u!114 &1033024059385330813
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -993,12 +993,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 4400916941780403046}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0785eb0d1ebd464999896b568aea70f3, type: 3}
+  m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stringReference: 
-  formatArguments: []
-  updateString:
+  m_StringReference:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+  m_FormatArguments: []
+  m_UpdateString:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 4400916941780403044}
@@ -1251,11 +1257,41 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   onStoryStartedEvent: {fileID: 0}
-  tabTitle: {fileID: 0}
-  tabSubTitle: {fileID: 0}
-  storyTitle: {fileID: 2450899027977847803}
-  taskTitle: {fileID: 5097521350873613678}
-  taskDescription: {fileID: 8523407491211506982}
+  tabTitle:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+  tabSubTitle:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+  storyTitle:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+  taskTitle:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+  taskDescription:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
   listView: {fileID: 4400916941122213850}
   tabAreaView: {fileID: 4400916941908445451}
   categoryPrefab: {fileID: 8815102496629137727, guid: a31656ed675cffb499cadca0539a594d,
@@ -1310,7 +1346,7 @@ GameObject:
   - component: {fileID: 4400916941861850280}
   - component: {fileID: 4400916941861850262}
   - component: {fileID: 4400916941861850281}
-  - component: {fileID: 1713117361850214577}
+  - component: {fileID: 6412208587854890115}
   m_Layer: 5
   m_Name: TabTitleText
   m_TagString: Untagged
@@ -1433,7 +1469,7 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &1713117361850214577
+--- !u!114 &6412208587854890115
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1442,12 +1478,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 4400916941861850283}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0785eb0d1ebd464999896b568aea70f3, type: 3}
+  m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stringReference: 
-  formatArguments: []
-  updateString:
+  m_StringReference:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+  m_FormatArguments: []
+  m_UpdateString:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 4400916941861850281}
@@ -1495,10 +1537,10 @@ RectTransform:
   m_Father: {fileID: 4400916941568969690}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 891.5, y: -100}
-  m_SizeDelta: {x: 621, y: 100}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4400916941908445687
 CanvasRenderer:
@@ -1924,7 +1966,7 @@ GameObject:
   - component: {fileID: 4400916942142671525}
   - component: {fileID: 4400916942142671524}
   - component: {fileID: 4400916942142671527}
-  - component: {fileID: 8523407491211506982}
+  - component: {fileID: 6158171951525703928}
   m_Layer: 5
   m_Name: TaskDescription Text
   m_TagString: Untagged
@@ -2067,7 +2109,7 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &8523407491211506982
+--- !u!114 &6158171951525703928
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2076,12 +2118,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 4400916942142671545}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0785eb0d1ebd464999896b568aea70f3, type: 3}
+  m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stringReference: 
-  formatArguments: []
-  updateString:
+  m_StringReference:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+  m_FormatArguments: []
+  m_UpdateString:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 4400916942142671527}
@@ -2107,7 +2155,7 @@ GameObject:
   - component: {fileID: 4400916942374343155}
   - component: {fileID: 4400916942374343154}
   - component: {fileID: 4400916942374343157}
-  - component: {fileID: 2450899027977847803}
+  - component: {fileID: 7945047106656031606}
   m_Layer: 5
   m_Name: StoryTitle Text
   m_TagString: Untagged
@@ -2250,7 +2298,7 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &2450899027977847803
+--- !u!114 &7945047106656031606
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2259,12 +2307,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 4400916942374343159}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0785eb0d1ebd464999896b568aea70f3, type: 3}
+  m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stringReference: 
-  formatArguments: []
-  updateString:
+  m_StringReference:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+  m_FormatArguments: []
+  m_UpdateString:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 4400916942374343157}
@@ -2524,10 +2578,10 @@ RectTransform:
   m_Father: {fileID: 4400916941568969690}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 315.5, y: -100}
-  m_SizeDelta: {x: 531, y: 100}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4400916942769206035
 CanvasRenderer:
@@ -2766,7 +2820,7 @@ PrefabInstance:
     - target: {fileID: 2845512682696667989, guid: b2e90fc4b89c3054581ca12d0354b0ca,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2845512682696667989, guid: b2e90fc4b89c3054581ca12d0354b0ca,
         type: 3}
@@ -2776,17 +2830,17 @@ PrefabInstance:
     - target: {fileID: 2845512682696667989, guid: b2e90fc4b89c3054581ca12d0354b0ca,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2845512682696667989, guid: b2e90fc4b89c3054581ca12d0354b0ca,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 100
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2845512682696667989, guid: b2e90fc4b89c3054581ca12d0354b0ca,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 100
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2845512682696667989, guid: b2e90fc4b89c3054581ca12d0354b0ca,
         type: 3}
@@ -2826,12 +2880,12 @@ PrefabInstance:
     - target: {fileID: 2845512682696667989, guid: b2e90fc4b89c3054581ca12d0354b0ca,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 50
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2845512682696667989, guid: b2e90fc4b89c3054581ca12d0354b0ca,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -50
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2845512682696667989, guid: b2e90fc4b89c3054581ca12d0354b0ca,
         type: 3}

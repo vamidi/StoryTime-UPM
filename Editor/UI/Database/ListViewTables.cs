@@ -3,6 +3,8 @@ using UnityEngine.UIElements;
 
 using DatabaseSync.Binary;
 using DatabaseSync.Database;
+using DatabaseSync.ResourceManagement.Util;
+using UnityEngine;
 
 namespace DatabaseSync.Editor.UI
 {
@@ -22,10 +24,10 @@ namespace DatabaseSync.Editor.UI
 			asset.CloneTree(this);
 
 			// Tables
-			List<Table> tables = TableDatabase.Get.GetTables();
+			var tables = HelperClass.GetDataFiles();
 			foreach (var table in tables)
 			{
-				AddTableElement(table);
+				AddTableElement(table.name);
 			}
 
 			// var locales = LocalizationEditorSettings.GetLocales();
@@ -119,7 +121,7 @@ namespace DatabaseSync.Editor.UI
 		}
 		*/
 
-		void AddTableElement(Table table)
+		void AddTableElement(string table)
 		{
 			var el = this.Q("table-container");
 			// Debug.Log(el);

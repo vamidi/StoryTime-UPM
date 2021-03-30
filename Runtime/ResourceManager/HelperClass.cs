@@ -1,12 +1,18 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Collections.Generic;
+using System.IO;
 using System.Text.RegularExpressions;
 
 using UnityEditor;
+
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace DatabaseSync.ResourceManagement.Util
 {
+	using Binary;
+
 	public static class HelperClass
 	{
 		public static void Trace()
@@ -53,6 +59,7 @@ namespace DatabaseSync.ResourceManagement.Util
 			{
 				return string.Empty;
 			}
+
 			s = s.ToLower();
 			char[] a = s.ToCharArray();
 			a[0] = char.ToUpper(a[0]);
@@ -63,6 +70,31 @@ namespace DatabaseSync.ResourceManagement.Util
 		public static T GetAsset<T>(string guid) where T : Object
 		{
 			return AssetDatabase.LoadAssetAtPath<T>(AssetDatabase.GUIDToAssetPath(guid));
+		}
+
+		/// <summary>
+		/// Returns a list of all the json files in the directory with the id <see cref="TableId"/>.
+		/// </summary>
+		/// <returns>The sheets names and id's.</returns>
+		public static List<(string name, string fileName)> GetDataFiles()
+		{
+			DatabaseConfig config = TableBinary.Fetch();
+
+			var assetDirectory = config.dataPath;
+			if (string.IsNullOrEmpty(assetDirectory)) throw new Exception("The folder could not be found!");
+
+			// Get existing database files
+			var filePaths = Directory.GetFiles(assetDirectory,"*.json");
+			var files = new List<(string name, string fileName)>();
+
+			foreach (var filePath in filePaths)
+			{
+				string fileName = Path.GetFileNameWithoutExtension(filePath);
+				string name = Capitalize(fileName);
+				files.Add((name, fileName));
+			}
+
+			return files;
 		}
 	}
 }

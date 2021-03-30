@@ -2,6 +2,7 @@ using System.Collections.Generic;
 
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Localization;
 
 namespace DatabaseSync.UI
 {
@@ -30,7 +31,7 @@ namespace DatabaseSync.UI
 		[SerializeField] private Events.VoidEventChannelSO closeStoryScreenEvent;
 		[SerializeField] private Events.StoryEventChannelSO onStorySelectEvent;
 
-		[SerializeField] private DBLocalizeStringEvent categoryTitle;
+		[SerializeField] private LocalizedString categoryTitle;
 
 		private readonly List<InteractionStoryFiller> m_RowItems = new List<InteractionStoryFiller>();
 
@@ -127,7 +128,7 @@ namespace DatabaseSync.UI
 		{
 			// TODO write a handler that return the text for the subtitle
 			string reference = m_Category.ToString();
-			categoryTitle.StringReference = reference;
+			// categoryTitle.StringReference = reference;
 		}
 	}
 }

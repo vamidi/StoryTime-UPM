@@ -52,7 +52,7 @@ namespace DatabaseSync.Editor
 		// ReSharper disable once InconsistentNaming
 		private static DatabaseToken DATABASE_TOKEN = new DatabaseToken();
 
-		public static event EventHandler FetchCompleted;
+		public static event EventHandler onFetchCompleted;
 
 		private Int64 _lastTimeStamp;
 		private bool _canFetch = true;
@@ -337,7 +337,7 @@ namespace DatabaseSync.Editor
 			File.WriteAllText(destination, _lastTimeStamp.ToString());
 
 			Debug.Log("Invoking fetch");
-			FetchCompleted?.Invoke(this, EventArgs.Empty);
+			onFetchCompleted?.Invoke(this, EventArgs.Empty);
 			Debug.Log("Fetching complete");
 			_canFetch = true;
 		}

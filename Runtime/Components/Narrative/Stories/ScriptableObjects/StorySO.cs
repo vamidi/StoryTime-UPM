@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
+
 using UnityEngine;
+using UnityEngine.Localization;
 
 namespace DatabaseSync.Components
 {
@@ -39,7 +41,7 @@ namespace DatabaseSync.Components
 	// ReSharper disable once InconsistentNaming
 	public partial class StorySO : TableBehaviour
 	{
-		public string Title => title;
+		public LocalizedString Title => title;
 		public string CharacterName => characterName;
 		public string Description => description;
 		public uint ParentId => parentId;
@@ -67,7 +69,7 @@ namespace DatabaseSync.Components
 		/** ------------------------------ DATABASE FIELD ------------------------------ */
 
 		[SerializeField, Tooltip("The title of the quest")]
-		private string title = String.Empty;
+		private LocalizedString title;
 
 		[SerializeField, Tooltip("The description of the quest")]
 		private string description = String.Empty;

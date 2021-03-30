@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+
 using UnityEngine;
+using UnityEngine.Localization.Components;
 
 namespace DatabaseSync.UI
 {
@@ -8,8 +10,8 @@ namespace DatabaseSync.UI
 
 	public class UIDialogueManager : MonoBehaviour
 	{
-		[SerializeField] DBLocalizeStringEvent sentence;
-		[SerializeField] DBLocalizeStringEvent actorName;
+		[SerializeField] LocalizeStringEvent sentence;
+		[SerializeField] LocalizeStringEvent actorName;
 
 		[SerializeField] private UIDialogueChoicesManager choicesManager;
 		[SerializeField] private DialogueChoiceChannelSO showChoicesEvent;

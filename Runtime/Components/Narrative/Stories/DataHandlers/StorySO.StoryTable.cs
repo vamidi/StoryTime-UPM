@@ -52,7 +52,7 @@ namespace DatabaseSync.Components
 
 					if (field.Key.Equals("title"))
 					{
-						story.title = (string) field.Value.Data;
+						// story.title = (string) field.Value.Data;
 					}
 
 					if (field.Key.Equals("typeId"))

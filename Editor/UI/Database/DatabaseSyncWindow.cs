@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 
 using UnityEditor;
 using UnityEditor.UIElements;
@@ -8,6 +7,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 
 using TMPro;
+using UnityEditor.Localization;
 
 namespace DatabaseSync.Editor.UI
 {
@@ -21,7 +21,7 @@ namespace DatabaseSync.Editor.UI
         // static readonly Vector2 MinSize = new Vector2(450, 600);
         // List<ToolbarToggle> m_TabToggles;
         // List<VisualElement> m_TabPanels;
-	    List<VisualElement> m_TableRows;
+	    // List<VisualElement> m_TableRows;
 
 	    /*
 	    public bool IsDocked
@@ -126,7 +126,29 @@ namespace DatabaseSync.Editor.UI
 			            SaveConfig(configFile);
 		            };
 
-		            // <ui:Button label="Save Asset" name="btn-choose-path" class="unity-property-button-input"/>
+		            var collectionField = root.Q<ObjectField>("config-dialogue-collection-field");
+		            collectionField.objectType = typeof(StringTableCollection);
+
+		            collectionField.RegisterValueChangedCallback((evt) =>
+		            {
+			            var newValue = evt.newValue as StringTableCollection;
+			            if (newValue != null)
+			            {
+				            configFile.DialogueCollection = newValue;
+			            }
+		            });
+
+		            collectionField = root.Q<ObjectField>("config-dialogue-option-collection-field");
+		            collectionField.objectType = typeof(StringTableCollection);
+
+		            collectionField.RegisterValueChangedCallback((evt) =>
+		            {
+			            var newValue = evt.newValue as StringTableCollection;
+			            if (newValue != null)
+			            {
+				            configFile.DialogueOptionCollection = newValue;
+			            }
+		            });
 	            }
             }
 

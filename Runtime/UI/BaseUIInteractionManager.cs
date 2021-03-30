@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 
 using UnityEngine;
+using UnityEngine.Localization.Components;
 
 using TMPro;
 
@@ -28,7 +29,7 @@ namespace DatabaseSync.UI
 	public abstract class BaseUIInteractionItemFiller<T> : MonoBehaviour
 	{
 		// TODO make multi language and change it back to string reference
-		[SerializeField] protected TextMeshProUGUI interactionName;
+		[SerializeField] protected LocalizeStringEvent interactionName;
 
 		[SerializeField] protected TextMeshProUGUI interactionKeyButton;
 
@@ -37,7 +38,7 @@ namespace DatabaseSync.UI
 			if (interactionItem is InteractionSO interaction)
 			{
 				// StringReference normally fire the update event and also updates the interaction title.
-				interactionName.text /* .StringReference */ = interaction.InteractionName;
+				interactionName.StringReference = interaction.InteractionName;
 				interactionKeyButton.text = KeyCode.E.ToString(); // this keycode will be modified later on
 			}
 		}

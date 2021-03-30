@@ -1,12 +1,12 @@
-﻿using DatabaseSync.UI;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.Localization;
 
 namespace DatabaseSync
 {
 	[CreateAssetMenu(fileName = "Interaction", menuName = "DatabaseSync/UI/Interaction", order = 51)]
 	public class InteractionSO : ScriptableObject
 	{
-		public string InteractionName
+		public LocalizedString InteractionName
 		{
 			get => interactionName;
 			set => interactionName = value;
@@ -16,7 +16,7 @@ namespace DatabaseSync
 
 		// TODO add multi language support
 		[Tooltip("The interaction name")]
-		[SerializeField] private string interactionName;
+		[SerializeField] private LocalizedString interactionName;
 
 		[Tooltip("The Interaction Type")]
 		[SerializeField] private InteractionType interactionType;

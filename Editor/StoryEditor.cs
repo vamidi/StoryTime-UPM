@@ -21,7 +21,7 @@ namespace DatabaseSync.Editor
 
 		public virtual void OnEnable()
 		{
-			DatabaseSyncModule.FetchCompleted += (o, args) =>
+			DatabaseSyncModule.onFetchCompleted += (o, args) =>
 			{
 				TableDatabase.Get.Refresh();
 				GenerateList();
@@ -126,7 +126,7 @@ namespace DatabaseSync.Editor
 				{
 					// set all the values from the selected row
 					// t = CharacterTable.ConvertRow(row);
-					RenameAsset(target, t.ActorName);
+					// RenameAsset(target, t.ActorName);
 				}
 			}
 		}

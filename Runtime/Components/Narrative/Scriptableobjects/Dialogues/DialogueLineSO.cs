@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+
 using UnityEngine;
+using UnityEngine.Localization;
 
 namespace DatabaseSync.Components
 {
@@ -14,7 +16,7 @@ namespace DatabaseSync.Components
 	// ReSharper disable once InconsistentNaming
 	public class DialogueLineSO : TableBehaviour, IDialogueLine
 	{
-		public string Sentence => sentence;
+		public LocalizedString Sentence => sentence;
 		public string DialogueEvent => dialogueEvent;
 		public DialogueType DialogueType => dialogueType;
 		public IDialogueLine NextDialogue
@@ -43,8 +45,8 @@ namespace DatabaseSync.Components
 		/// <summary>
 		///
 		/// </summary>
-		[SerializeField, TextArea(1, 5), Tooltip("Sentence that will showed when interacting")]
-		private string sentence = "";
+		[SerializeField, Tooltip("Sentence that will showed when interacting")]
+		private LocalizedString sentence;
 
 		[SerializeField, Tooltip("Event that will be fired once filled in.")]
 		string dialogueEvent = String.Empty;
@@ -78,7 +80,7 @@ namespace DatabaseSync.Components
 
 				if (field.Key.Equals("text"))
 				{
-					dialogue.sentence = (string) field.Value.Data;
+					// dialogue.sentence = (string) field.Value.Data;
 				}
 
 				// if (field.Key.Equals("parentId"))
