@@ -128,6 +128,7 @@ namespace DatabaseSync.Editor.UI
 
 		            var collectionField = root.Q<ObjectField>("config-dialogue-collection-field");
 		            collectionField.objectType = typeof(StringTableCollection);
+		            collectionField.value = configFile.DialogueCollection;
 
 		            collectionField.RegisterValueChangedCallback((evt) =>
 		            {
@@ -140,6 +141,7 @@ namespace DatabaseSync.Editor.UI
 
 		            collectionField = root.Q<ObjectField>("config-dialogue-option-collection-field");
 		            collectionField.objectType = typeof(StringTableCollection);
+		            collectionField.value = configFile.DialogueOptionCollection;
 
 		            collectionField.RegisterValueChangedCallback((evt) =>
 		            {
