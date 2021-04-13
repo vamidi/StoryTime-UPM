@@ -1,9 +1,16 @@
-﻿using UnityEditor;
+﻿using System;
+
+using UnityEditor;
+
 using UnityEngine;
+
 using UnityToolbarExtender;
 
 namespace DatabaseSync.Editor
 {
+	using Binary;
+	using Database;
+	using ResourceManagement.Util;
 	static class ToolbarStyles
 	{
 		public static readonly GUIStyle CommandButtonStyle;
@@ -23,25 +30,65 @@ namespace DatabaseSync.Editor
 	[InitializeOnLoad]
 	public class DatabaseSyncButton
 	{
-		static string iconLocation = "Packages/com.unity.vamidicreations.storytime/Editor/Images/";
+		public static readonly Texture SyncIcon;
+		public static readonly Texture SyncIconPro;
+
+		private static int ChoiceIndex
+		{
+			get => EditorPrefs.GetInt(EditorPrefSelectedValueKey, 0);
+			set => EditorPrefs.SetInt(EditorPrefSelectedValueKey, value);
+		}
+
+		private const string EditorPrefSelectedValueKey = "DatabaseSync-Toolbar-Selected-Index";
+
+		private static readonly string[] TableNames;
+
+		private static string iconLocation = "Packages/com.unity.vamidicreations.storytime/Editor/Images/";
+
 		static DatabaseSyncButton()
 		{
 			ToolbarExtender.LeftToolbarGUI.Add(OnToolbarGUI);
+
+			SyncIcon = (Texture) EditorGUIUtility.Load($"{iconLocation}sync.png");
+			SyncIconPro = (Texture) EditorGUIUtility.Load($"{iconLocation}sync-white.png");
+
+			var tables = HelperClass.GetDataFiles();
+			// add sync all tables func
+			TableNames = new string[tables.Count + 1];
+			TableNames[0] = "All tables";
+
+			// Tables
+			for (int i = 1; i < tables.Count; i++)
+			{
+				TableNames[i] = tables[i].name;
+			}
 		}
 
 		static void OnToolbarGUI()
 		{
+			EditorGUI.BeginDisabledGroup(EditorApplication.isPlaying);
 			GUILayout.FlexibleSpace();
 
-			Texture content = EditorGUIUtility.isProSkin
-				? (Texture) EditorGUIUtility.Load( $"{iconLocation}sync-white.png")
-				: (Texture) EditorGUIUtility.Load($"{iconLocation}sync.png");
+			Texture content = EditorGUIUtility.isProSkin ? SyncIconPro : SyncIcon;
+
+			ChoiceIndex = EditorGUILayout.Popup(new GUIContent(""), ChoiceIndex, TableNames,
+				GUILayout.Width(100.0f), GUILayout.ExpandHeight(true));
 
 			// When we press sync to get the table data from the server.
 			if(GUILayout.Button(new GUIContent(content, "Sync the Database"), ToolbarStyles.CommandButtonStyle))
 			{
-				DatabaseSyncModule.Get.RequestTableUpdate();
+				if (ChoiceIndex == 0)
+				{
+					DatabaseSyncModule.Get.RequestTableUpdate();
+				}
+				else
+				{
+					Table table = TableDatabase.Get.GetTable(TableNames[ChoiceIndex]);
+					if(table.id != String.Empty) DatabaseSyncModule.Get.RequestTableUpdate(table.id);
+				}
 			}
+
+			EditorGUI.EndDisabledGroup();
 		}
 	}
 
@@ -53,17 +100,17 @@ namespace DatabaseSync.Editor
 			Password = (1 << 1),
 		}
 
-		private static SerializedObject _databaseConfig;
+		private static SerializedObject s_DatabaseConfig;
 		public static readonly string FileName = "DatabaseConfig";
 
 		public static void Open(DatabaseConfig config)
 		{
-			_databaseConfig = new SerializedObject(config);
+			s_DatabaseConfig = new SerializedObject(config);
 		}
 
 		public void OnEnable()
 		{
-			_databaseConfig = LoadConfig();
+			s_DatabaseConfig = LoadConfig();
 		}
 
 		public void OnGUI()
@@ -73,8 +120,8 @@ namespace DatabaseSync.Editor
 
 			EditorGUILayout.Space(10, true);
 
-			DrawProperty(_databaseConfig.FindProperty("email"), false);
-			DrawProperty(_databaseConfig.FindProperty("password"), false, PropertyFlags.Password);
+			DrawProperty(s_DatabaseConfig.FindProperty("email"), false);
+			DrawProperty(s_DatabaseConfig.FindProperty("password"), false, PropertyFlags.Password);
 
 			EditorGUILayout.Space(10, true);
 

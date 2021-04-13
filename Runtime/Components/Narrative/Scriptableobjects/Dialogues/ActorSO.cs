@@ -7,15 +7,11 @@ namespace DatabaseSync.Components
 	/// Scriptable Object that represents an "Actor", that is the protagonist of a Dialogue
 	/// </summary>
 
-	[CreateAssetMenu(fileName = "newActor", menuName = "DatabaseSync/Narrative/Actor")]
+	[CreateAssetMenu(fileName = "newActor", menuName = "DatabaseSync/Stories/Actor")]
 	// ReSharper disable once InconsistentNaming
-	public class ActorSO : TableBehaviour
+	public partial class ActorSO : TableBehaviour
 	{
-		public LocalizedString ActorName
-		{
-			get => actorName;
-			set => actorName = value;
-		}
+		public LocalizedString ActorName => actorName;
 
 		[SerializeField] private LocalizedString actorName = default;
 

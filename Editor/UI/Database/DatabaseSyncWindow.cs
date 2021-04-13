@@ -190,11 +190,13 @@ namespace DatabaseSync.Editor.UI
 
 		            var audioClipField = root.Q<ObjectField>("dialogue-char-clip-field");
 					audioClipField.objectType = typeof(AudioClip);
+
 					audioClipField.value = dialogueConfigFile.VoiceClip;
 					audioClipField.RegisterValueChangedCallback(evt => dialogueConfigFile.VoiceClip = evt.newValue as AudioClip);
 
 					audioClipField = root.Q<ObjectField>("dialogue-punctuation-field");
 		            audioClipField.objectType = typeof(AudioClip);
+
 		            audioClipField.value = dialogueConfigFile.PunctuationClip;
 		            audioClipField.RegisterValueChangedCallback(evt => dialogueConfigFile.PunctuationClip = evt.newValue as AudioClip);
 

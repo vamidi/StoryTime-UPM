@@ -10,33 +10,41 @@ namespace DatabaseSync.UI
 		[SerializeField] private Input.InputReader inputReader;
 
 		[Header("Listening on channels")]
+
 		[Header("Dialogue Events")]
-		public DialogueLineChannelSO openUIDialogueEvent;
-		public VoidEventChannelSO closeUIDialogueEvent;
+		[SerializeField] private DialogueLineChannelSO openUIDialogueEvent;
+
+		[SerializeField] private VoidEventChannelSO closeUIDialogueEvent;
 
 		[Header("Inventory Events")]
-		public VoidEventChannelSO openInventoryScreenEvent;
-		public VoidEventChannelSO openInventoryScreenForCookingEvent;
+		[SerializeField] private VoidEventChannelSO openInventoryScreenEvent;
+		[SerializeField] private VoidEventChannelSO closeInventoryScreenEvent;
+
+		[Header("Crafting/Cooking Events")]
+		[SerializeField] private CollectionEventChannelSO openInventoryScreenForCookingEvent;
+		[SerializeField] private VoidEventChannelSO closeInventoryScreenForCookingEvent;
 
 		[Header("Interaction Events")]
-		public VoidEventChannelSO onInteractionEndedEvent;
-		public InteractionUIEventChannelSO setInteractionEvent;
+		[SerializeField] private VoidEventChannelSO onInteractionEndedEvent;
+
+		[SerializeField] private InteractionUIEventChannelSO setInteractionEvent;
 
 		[Header("Navigation Events")]
-		public InteractionStoryUIEventChannel showNavigationInteractionEvent;
-		public InteractionItemUIEventChannel showItemInteractionEvent;
+		[SerializeField] private InteractionStoryUIEventChannel showNavigationInteractionEvent;
+
+		[SerializeField] private InteractionItemUIEventChannel showItemInteractionEvent;
 
 		[Header("Story Manager Events")]
-		public VoidEventChannelSO openStoryScreenEvent;
-		public VoidEventChannelSO closeStoryScreenEvent;
+		[SerializeField] private VoidEventChannelSO openStoryScreenEvent;
+		[SerializeField] private VoidEventChannelSO closeStoryScreenEvent;
 
 		[Header("References")]
+		[SerializeField] private UIDialogueManager dialogueController;
 
-		[SerializeField] UIDialogueManager dialogueController;
+		[SerializeField] private UIInventoryManager inventoryPanel;
+		[SerializeField] private UICraftingManager craftingPanel;
 
-		// [SerializeField] UIInventoryManager inventoryPanel;
-
-		[SerializeField] UIStoryManager storyManagerPanel;
+		[SerializeField] private UIStoryManager storyManagerPanel;
 
 		[SerializeField] private UIInteractionManager interactionPanel;
 
@@ -45,11 +53,10 @@ namespace DatabaseSync.UI
 		[SerializeField] private UIInteractionItemManager interactionItemPanel;
 
 		[Header("Broadcasting channels")]
-		[SerializeField] private VoidEventChannelSO closeInventoryScreenEvent;
 		[SerializeField] private VoidEventChannelSO storyScreenClosedEvent;
 
 
-		bool m_IsForCooking;
+		bool m_IsForCookingOrCraft;
 
 		private void OnEnable()
 		{
@@ -61,7 +68,10 @@ namespace DatabaseSync.UI
 				closeUIDialogueEvent.OnEventRaised += CloseUIDialogue;
 
 			if (openInventoryScreenForCookingEvent != null)
-				openInventoryScreenForCookingEvent.OnEventRaised += SetInventoryScreenForCooking;
+				openInventoryScreenForCookingEvent.OnRecipeEventRaised += SetInventoryScreenForCooking;
+
+			if (closeInventoryScreenForCookingEvent != null)
+				closeInventoryScreenForCookingEvent.OnEventRaised += CloseInventoryScreen;
 
 			if (openInventoryScreenEvent != null)
 				openInventoryScreenEvent.OnEventRaised += SetInventoryScreen;
@@ -87,7 +97,7 @@ namespace DatabaseSync.UI
 			if (showItemInteractionEvent != null)
 				showItemInteractionEvent.OnEventRaised += ShowItemPanel;
 
-			if(inputReader) inputReader.menuCancelEvent += CloseStoryScreen;
+			if (inputReader) inputReader.menuCancelEvent += CloseStoryScreen;
 		}
 
 		private void Start()
@@ -107,41 +117,49 @@ namespace DatabaseSync.UI
 			dialogueController.gameObject.SetActive(false);
 		}
 
-		public void SetInventoryScreenForCooking()
+		public void SetInventoryScreenForCooking(RecipeCollectionSO recipeCollection)
 		{
-			m_IsForCooking = true;
-			OpenInventoryScreen();
+			m_IsForCookingOrCraft = true;
+			OpenInventoryScreen(recipeCollection);
 		}
 
 		public void SetInventoryScreen()
 		{
-			m_IsForCooking = false;
-			OpenInventoryScreen();
+			m_IsForCookingOrCraft = false;
+			// TODO change when we need multiple bags.
+			OpenInventoryScreen(null);
 		}
 
-		void OpenInventoryScreen()
+		protected void OpenInventoryScreen(object inventory)
 		{
-			// inventoryPanel.gameObject.SetActive(true);
+			TabType tabType = TabType.None;
 
-			if (m_IsForCooking)
+			if (m_IsForCookingOrCraft)
 			{
-				// inventoryPanel.FillInventory(TabType.recipe, true);
+				tabType = TabType.Recipes;
+
+				craftingPanel.SetInventory = inventory as RecipeCollectionSO;
+				craftingPanel.gameObject.SetActive(true);
+				craftingPanel.FillInventory(tabType);
+				return;
 			}
-			else
-			{
-				// inventoryPanel.FillInventory();
-			}
+
+			inventoryPanel.gameObject.SetActive(true);
+			inventoryPanel.FillInventory(tabType);
 		}
 
 
 		public void CloseInventoryScreen()
 		{
-			// inventoryPanel.gameObject.SetActive(false);
-
-			if (m_IsForCooking)
+			if (m_IsForCookingOrCraft)
 			{
+				craftingPanel.gameObject.SetActive(false);
 				onInteractionEndedEvent.RaiseEvent();
+
+				return;
 			}
+			inventoryPanel.gameObject.SetActive(false);
+			onInteractionEndedEvent.RaiseEvent();
 		}
 
 		public void OpenStoryScreen()
@@ -155,8 +173,7 @@ namespace DatabaseSync.UI
 			storyManagerPanel.HideCategories();
 			storyManagerPanel.gameObject.SetActive(false);
 
-			if(storyScreenClosedEvent != null) storyScreenClosedEvent.RaiseEvent();
-
+			if (storyScreenClosedEvent != null) storyScreenClosedEvent.RaiseEvent();
 		}
 
 		public void SetInteractionPanel(bool isOpenEvent, InteractionType interactionType)

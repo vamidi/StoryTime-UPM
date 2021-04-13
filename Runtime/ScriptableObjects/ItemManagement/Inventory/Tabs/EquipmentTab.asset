@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8a7491943a1e6d48bfc3a2537914e28, type: 3}
+  m_Name: EquipmentTab
+  m_EditorClassIdentifier: 
+  tabName:
+    m_TableReference:
+      m_TableCollectionName: GUID:342c31ba0a1f3b3448e07ffa97c05d65
+    m_TableEntryReference:
+      m_KeyId: 809021886464
+      m_Key: 
+    m_FallbackState: 0
+  tabIcon: {fileID: 21300000, guid: 2f1eaeeaad36ee5469eff7ff158f37ba, type: 3}
+  tabType: 1

@@ -234,14 +234,15 @@ namespace DatabaseSync.Localization.Plugins.JSON
 	            sortedEntries.Add(rowKeyEntry);
 
 	            var keyRowData = rows[row];
-	            var keyValue = keyRowData.rowData.Find(JsonField.ColumnHeader);
 
 	            // Skip rows with no key data
 	            if (rowKeyEntry == null)
 	            {
-		            messages.AppendLine($"No key data was found for row {localeId} with Value '{keyValue}' and Note '{localeId}'.");
+		            messages.AppendLine($"No key data was found for row {localeId} with Note '{localeId}'.");
 		            continue;
 	            }
+
+	            var keyValue = keyRowData.rowData.Find((keyColumn as SheetColumn)?.Column);
 
 	            for (int map = 1; map < fieldMapping.Count; ++map)
 	            {
@@ -256,9 +257,10 @@ namespace DatabaseSync.Localization.Plugins.JSON
 		            totalCellsProcessed++;
 
 		            // TODO retrieve the right mapped field
-		            if (keyValue.Data is string)
+		            if (keyValue == null || keyValue.Data is string)
 		            {
-						reporter?.Fail($"Json value is not of type object in {TableId}, key: {mapValue.Column}");
+			            var v = keyValue != null ? keyValue.Data : "null";
+			            reporter?.Fail($"Json value is not of type object in {TableId}, value: {v}, key: {mapValue.Column}");
 						break;
 		            }
 		            JObject jsonValue = keyValue.Data;

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace DatabaseSync.Components
 {
-	[CreateAssetMenu(fileName = "storyLog", menuName = "DatabaseSync/Stories/Story Inventory", order = 51)]
+	[CreateAssetMenu(fileName = "storyLog", menuName = "DatabaseSync/Stories/Story Log", order = 51)]
 	// ReSharper disable once InconsistentNaming
 	public class StoryLogSO : ScriptableObject
 	{

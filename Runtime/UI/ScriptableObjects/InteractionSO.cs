@@ -4,6 +4,7 @@ using UnityEngine.Localization;
 namespace DatabaseSync
 {
 	[CreateAssetMenu(fileName = "Interaction", menuName = "DatabaseSync/UI/Interaction", order = 51)]
+	// ReSharper disable once InconsistentNaming
 	public class InteractionSO : ScriptableObject
 	{
 		public LocalizedString InteractionName

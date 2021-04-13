@@ -1,13 +1,9 @@
-﻿using System.Collections.Generic;
-using UnityEngine.UIElements;
-
-using DatabaseSync.Binary;
-using DatabaseSync.Database;
-using DatabaseSync.ResourceManagement.Util;
-using UnityEngine;
+﻿using UnityEngine.UIElements;
 
 namespace DatabaseSync.Editor.UI
 {
+	using ResourceManagement.Util;
+
 	class ListViewTables : VisualElement
 	{
 		// private readonly ScrollView m_LocalesList;

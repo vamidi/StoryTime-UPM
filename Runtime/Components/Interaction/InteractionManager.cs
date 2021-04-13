@@ -11,6 +11,7 @@ namespace DatabaseSync
 		None = 0,
 		PickUp,
 		Cook,
+		Craft,
 		Talk,
 		Navigate,
 		Item,
@@ -34,8 +35,15 @@ namespace DatabaseSync
 		[SerializeField] private VoidEventChannelSO onInteractionEnded;
 
 		[SerializeField] private VoidEventChannelSO onStoryScreenOpenEvent;
-
 		[SerializeField] private VoidEventChannelSO onStoryScreenCloseEvent;
+
+		[Header("Inventory")]
+		[SerializeField] private VoidEventChannelSO onInventoryScreenOpenEvent;
+		[SerializeField] private VoidEventChannelSO onCloseInventoryScreenEvent;
+
+		[Header("Crafting / Cooking")]
+		[SerializeField] private VoidEventChannelSO onCloseCookingScreenEvent;
+
 
 		[Header("BroadCasting on channels")]
 
@@ -46,7 +54,8 @@ namespace DatabaseSync
 
 		[SerializeField] private ItemEventChannelSO onObjectPickUp;
 
-		[SerializeField] private VoidEventChannelSO onCookingStart;
+		[SerializeField] private VoidEventChannelSO startCooking;
+		[SerializeField] private CollectionEventChannelSO startCrafting;
 
 		[SerializeField] private DialogueActorChannelSO startTalking;
 
@@ -58,24 +67,44 @@ namespace DatabaseSync
 			inputReader.interactEvent += OnInteractionButtonPress;
 			onInteractionEnded.OnEventRaised += OnInteractionEnd;
 
+			void EnableMenuInput()
+			{
+				// Change the action map
+				inputReader.EnableMenuInput();
+				m_PlayerInput.SwitchCurrentActionMap("Menus");
+			}
+
+			void DisableMenuInput()
+			{
+				// Change the action map
+				inputReader.EnableGameplayInput();
+				m_PlayerInput.SwitchCurrentActionMap("Gameplay");
+			}
+
 			if (onStoryScreenOpenEvent != null)
 			{
-				onStoryScreenOpenEvent.OnEventRaised += () =>
-				{
-					// Change the action map
-					inputReader.EnableMenuInput();
-					m_PlayerInput.SwitchCurrentActionMap("Menus");
-				};
+				onStoryScreenOpenEvent.OnEventRaised += EnableMenuInput;
 			}
 
 			if (onStoryScreenCloseEvent != null)
 			{
-				onStoryScreenCloseEvent.OnEventRaised += () =>
-				{
-					// Change the action map
-					inputReader.EnableGameplayInput();
-					m_PlayerInput.SwitchCurrentActionMap("Gameplay");
-				};
+				onStoryScreenCloseEvent.OnEventRaised += DisableMenuInput;
+
+			}
+
+			if (onInventoryScreenOpenEvent != null)
+			{
+				onInventoryScreenOpenEvent.OnEventRaised += EnableMenuInput;
+			}
+
+			if (onCloseInventoryScreenEvent != null)
+			{
+				onCloseInventoryScreenEvent.OnEventRaised += DisableMenuInput;
+			}
+
+			if (onCloseCookingScreenEvent != null)
+			{
+				onCloseCookingScreenEvent.OnEventRaised += DisableMenuInput;
 			}
 		}
 
@@ -156,10 +185,10 @@ namespace DatabaseSync
 					Destroy(_currentInteractableObject);
 					break;
 				case InteractionType.Cook:
-					if (onCookingStart != null)
+					if (startCooking != null)
 					{
-						onCookingStart.RaiseEvent();
-						Debug.Log("Cooking/Craft event raised");
+						startCooking.RaiseEvent();
+						Debug.Log("Cooking event raised");
 						//Change the action map
 						inputReader.EnableMenuInput();
 						m_PlayerInput.SwitchCurrentActionMap("Menus");
@@ -167,7 +196,26 @@ namespace DatabaseSync
 						//set current interaction for state machine
 						currentInteraction = InteractionType.Cook;
 					}
+					break;
+				case InteractionType.Craft:
+					if(startCrafting != null)
+					{
+						// Debug.Log("Craft event raised");
+						// raise an event with an actor as parameter
+						// TODO check if the manager is set or that we should call the ui manager directly.
+						var recipeManager = _currentInteractableObject.GetComponent<RecipeManager>();
+						if (recipeManager)
+						{
+							recipeManager.InteractWithCharacter();
 
+							//Change the action map
+							inputReader.EnableMenuInput();
+							m_PlayerInput.SwitchCurrentActionMap("Menus");
+						}
+
+						// Set current interaction for state machine
+						currentInteraction = InteractionType.Craft;
+					}
 					break;
 				case InteractionType.Talk:
 					if (_currentInteractableObject != null)
@@ -200,13 +248,19 @@ namespace DatabaseSync
 			if (other.CompareTag("Pickable"))
 			{
 				_potentialInteraction = InteractionType.PickUp;
-				Debug.Log("I triggered a pickable object!");
+				// Debug.Log("I triggered a pickable object!");
 				DisplayInteractionUI();
 			}
 			else if (other.CompareTag("CookingPot"))
 			{
 				_potentialInteraction = InteractionType.Cook;
 				Debug.Log("I triggered a cooking pot!");
+				DisplayInteractionUI();
+			}
+			else if (other.CompareTag("CraftingBench"))
+			{
+				_potentialInteraction = InteractionType.Craft;
+				// Debug.Log("I triggered a crafting bench!");
 				DisplayInteractionUI();
 			}
 			else if (other.CompareTag("NPC"))

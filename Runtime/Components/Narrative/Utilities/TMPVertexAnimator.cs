@@ -283,7 +283,7 @@ namespace DatabaseSync.Components
 			// reveal the current dialogue text.
 			RevealNextParagraphAsync();
 
-			onCharReveal.AddListener(OnCharacterRevealed);
+			onCharReveal?.AddListener(OnCharacterRevealed);
 		}
 
 		private static bool ShouldShowNextCharacter(float secondsPerCharacter, float timeOfLastCharacter) {

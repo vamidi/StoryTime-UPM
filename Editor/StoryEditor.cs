@@ -17,6 +17,7 @@ namespace DatabaseSync.Editor
 
 		private int _choiceIndex = Int32.MaxValue;
 
+		protected bool IsJsonObj;
 		protected Dictionary<uint, string> PopulatedList = new Dictionary<uint, string>();
 
 		public virtual void OnEnable()
@@ -77,19 +78,24 @@ namespace DatabaseSync.Editor
 
 		protected virtual void GenerateList()
 		{
-			var tableComponent = target as Components.TableBehaviour;
-			if (tableComponent != null)
+			var tblComp = target as Components.TableBehaviour;
+			if (tblComp != null)
 			{
-				_choiceIndex = (int) tableComponent.ID;
+				_choiceIndex = (int) tblComp.ID;
 
-				var binary = TableDatabase.Get.GetBinary(tableComponent.Name);
-				string linkColumn = tableComponent.LinkedColumn;
-				uint linkId = tableComponent.LinkedID;
-				PopulatedList = linkColumn != "" && linkId != UInt32.MaxValue ? binary.PopulateWithLink(
-					tableComponent.DropdownColumn,
+				var binary = TableDatabase.Get.GetBinary(tblComp.Name);
+				string linkColumn = tblComp.LinkedColumn;
+				uint linkId = tblComp.LinkedID;
+				bool linkTable = tblComp.LinkedTable != String.Empty;
+
+				// retrieve the column we need to show
+				PopulatedList = linkColumn != "" && (linkTable || linkId != UInt32.MaxValue) ? binary.PopulateWithLink(
+					tblComp.DropdownColumn,
 					linkColumn,
-					linkId
-				) : binary.Populate(tableComponent.DropdownColumn);
+					linkId,
+					out IsJsonObj,
+					tblComp.LinkedTable
+				) : binary.Populate(tblComp.DropdownColumn, out IsJsonObj);
 			}
 		}
 	}
@@ -121,13 +127,9 @@ namespace DatabaseSync.Editor
 			var t = target as Components.ActorSO;
 			if (t && t.ID != UInt32.MaxValue)
 			{
-				var row = TableDatabase.Get.GetRow(t.Name, t.ID);
-				if (row != null)
-				{
-					// set all the values from the selected row
-					// t = CharacterTable.ConvertRow(row);
-					// RenameAsset(target, t.ActorName);
-				}
+				var row = t.GetRow(t.Name, t.ID);
+				// set all the values from the selected row
+				if (row != null) Components.ActorSO.CharacterTable.ConvertRow(row, t);
 			}
 		}
 	}
@@ -140,7 +142,7 @@ namespace DatabaseSync.Editor
 			var t = target as Components.StorySO;
 			if (t != null && t.ID != UInt32.MaxValue)
 			{
-				var row = TableDatabase.Get.GetRow(t.Name, t.ID);
+				var row = t.GetRow(t.Name, t.ID);
 
 				// set all the values from the selected row
 				if (row != null) Components.StorySO.StoryTable.ConvertRow(row, t);
@@ -241,7 +243,7 @@ namespace DatabaseSync.Editor
 			var t = target as Components.DialogueLineSO;
 			if (t != null && t.ID != UInt32.MaxValue)
 			{
-				var row = TableDatabase.Get.GetRow(t.Name, t.ID);
+				var row = t.GetRow(t.Name, t.ID);
 
 				// set all the values from the selected row
 				if (row != null) Components.DialogueLineSO.ConvertRow(row, t);
@@ -257,7 +259,7 @@ namespace DatabaseSync.Editor
 			var t = target as Components.TaskSO;
 			if (t != null && t.ID != UInt32.MaxValue)
 			{
-				var row = TableDatabase.Get.GetRow(t.Name, t.ID);
+				var row = t.GetRow(t.Name, t.ID);
 
 				// set all the values from the selected row
 				if (row != null) Components.TaskTable.ConvertRow(row, t);
@@ -270,13 +272,16 @@ namespace DatabaseSync.Editor
 	{
 		protected override void OnChanged()
 		{
+			Debug.Log($"is JObject {IsJsonObj}");
 			var t = target as Components.ItemSO;
 			if (t != null && t.ID != UInt32.MaxValue)
 			{
-				var row = TableDatabase.Get.GetRow(t.Name, t.ID);
+				var row = t.GetRow(t.Name, t.ID);
 
 				// set all the values from the selected row
 				if (row != null) Components.ItemTable.ConvertRow(row, t);
+				UnityEditor.EditorUtility.SetDirty(t);
+				Repaint();
 			}
 		}
 	}
@@ -289,7 +294,7 @@ namespace DatabaseSync.Editor
 			var t = target as Components.EnemySO;
 			if (t != null && t.ID != UInt32.MaxValue)
 			{
-				var row = TableDatabase.Get.GetRow(t.Name, t.ID);
+				var row = t.GetRow(t.Name, t.ID);
 
 				// set all the values from the selected row
 				if (row != null) Components.EnemyTable.ConvertRow(row, t);

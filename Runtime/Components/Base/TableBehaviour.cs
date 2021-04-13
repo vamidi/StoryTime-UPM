@@ -25,40 +25,32 @@ namespace DatabaseSync.Components
 	    /// Name of the table that we are using.
 	    /// </summary>
 	    public string Name { get => tableName; protected set => tableName = value; }
-
 	    public string DropdownColumn { get => dropdownColumn; protected set => dropdownColumn = value; }
-
-	    public string LinkedColumn { get => linkedColumn; protected set => linkedColumn = value; }
 	    public UInt32 LinkedID { get => linkID; protected set => linkID = value; }
+	    public string LinkedColumn { get => linkedColumn; protected set => linkedColumn = value; }
+		public string LinkedTable { get => linkedTable; protected set => linkedTable = value; }
 
-	    [SerializeField, HideInInspector]
-	    private UInt32 id = UInt32.MaxValue;
+	    [SerializeField, HideInInspector] private UInt32 id = UInt32.MaxValue;
+	    [SerializeField, HideInInspector] private string tableName = String.Empty;
+	    [SerializeField, HideInInspector] private string dropdownColumn = String.Empty;
+	    [SerializeField, HideInInspector] private UInt32 linkID = UInt32.MaxValue;
+	    [SerializeField, HideInInspector] private string linkedColumn = String.Empty;
+	    [SerializeField, HideInInspector] private string linkedTable = String.Empty;
 
-	    [SerializeField, HideInInspector]
-	    private string tableName = String.Empty;
-
-	    [SerializeField, HideInInspector]
-	    private string linkedColumn = String.Empty;
-
-	    [SerializeField, HideInInspector]
-	    private string dropdownColumn = String.Empty;
-
-	    [SerializeField, HideInInspector]
-	    private UInt32 linkID = UInt32.MaxValue;
-
-		public TableBehaviour(string name, string dropdownColumn, string linkedColumn = "",
-			UInt32 linkedId = UInt32.MaxValue)
+	    public TableBehaviour(string name, string dropdownColumn, string linkedColumn = "",
+			UInt32 linkedId = UInt32.MaxValue, string linkedTable = "")
 	    {
-		    Init(name, dropdownColumn, linkedColumn, linkedId);
+		    Init(name, dropdownColumn, linkedColumn, linkedId, linkedTable);
 	    }
 
-	    public void Init(string name, string dropdownColumn, string linkedColumn, UInt32 linkedId)
+	    public void Init(string name, string dropdownColumn, string linkedColumn, UInt32 linkedId, string linkedTable)
 	    {
 		    Name = name;
 		    DropdownColumn = dropdownColumn;
 
 		    LinkedColumn = linkedColumn;
 		    LinkedID = linkedId;
+		    LinkedTable = linkedTable;
 	    }
 
 	    public TableField GetField(string tableName, string columnName, uint id)

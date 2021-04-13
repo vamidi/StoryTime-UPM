@@ -75,7 +75,8 @@ namespace DatabaseSync.Components
 			{
 				dialogue.m_Id = row.RowId;
 				var entryId = (dialogue.ID + 1).ToString();
-				dialogue.sentence = new LocalizedString { TableReference = config.DialogueCollection.TableCollectionNameReference, TableEntryReference = entryId };
+				if(config.DialogueCollection)
+					dialogue.sentence = new LocalizedString { TableReference = config.DialogueCollection.TableCollectionNameReference, TableEntryReference = entryId };
 			}
 
 			foreach (var field in row.Fields)

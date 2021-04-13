@@ -20,7 +20,7 @@ namespace DatabaseSync.Components
 			get => nextDialogue;
 			set
 			{
-				Debug.Assert(value is DialogueLine, "Expected to pass in a DialogueLine in class DialogueLine.");
+				Debug.Assert(value is DialogueLine || value == null, "Expected to pass in a DialogueLine in class DialogueLine.");
 				nextDialogue = (DialogueLine) value;
 			}
 		}
@@ -90,11 +90,16 @@ namespace DatabaseSync.Components
 				*/
 
 				// TODO comes from the node editor
-				if (field.Key.Equals("childId"))
-				{
+				// if (field.Key.Equals("childId"))
+				// {
 					// uint data = (uint) field.Value.Data;
 					// dialogueOption.ChildId = data == UInt32.MaxValue - 1 ? UInt32.MaxValue : data;
-				}
+				// }
+
+				// if (field.Key.Equals("text"))
+				// {
+				// 	Debug.Log(field.Value.Data);
+				// }
 /*
 				// TODO make regular expression work in dialogue options
 				if (field.Key.Equals("text"))

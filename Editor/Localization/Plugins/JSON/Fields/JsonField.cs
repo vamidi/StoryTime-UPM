@@ -61,7 +61,7 @@ namespace DatabaseSync.Localization.Plugins.JSON.Fields
 				}
 
 
-				Debug.Log($"adding key {cellValue }");
+				// Debug.Log($"adding key {cellValue }");
 				// Create a new entry with the id
 				return m_SharedTableData.AddKey(cellValue, keyId);
 			}

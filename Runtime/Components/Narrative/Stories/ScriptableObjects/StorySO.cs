@@ -43,7 +43,7 @@ namespace DatabaseSync.Components
 	{
 		public LocalizedString Title => title;
 		public string CharacterName => characterName;
-		public string Description => description;
+		public LocalizedString Description => description;
 		public uint ParentId => parentId;
 		public uint ChildId => childId;
 		public QuestType TypeId => typeId;
@@ -72,7 +72,7 @@ namespace DatabaseSync.Components
 		private LocalizedString title;
 
 		[SerializeField, Tooltip("The description of the quest")]
-		private string description = String.Empty;
+		private LocalizedString description;
 
 		[SerializeField, HideInInspector]
 		private string characterName = String.Empty;

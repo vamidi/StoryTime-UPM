@@ -1,11 +1,10 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Collections.Generic;
-using System.IO;
 using System.Text.RegularExpressions;
 
 using UnityEditor;
-
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -72,26 +71,46 @@ namespace DatabaseSync.ResourceManagement.Util
 			return AssetDatabase.LoadAssetAtPath<T>(AssetDatabase.GUIDToAssetPath(guid));
 		}
 
+		public static List<T> FindAssetsByType<T>() where T : Object
+		{
+			List<T> assets = new List<T>();
+			string[] guids = AssetDatabase.FindAssets(string.Format("t:{0}", typeof(T)));
+			for (int i = 0; i < guids.Length; i++)
+			{
+				string assetPath = AssetDatabase.GUIDToAssetPath(guids[i]);
+				T asset = AssetDatabase.LoadAssetAtPath<T>(assetPath);
+				if (asset != null)
+				{
+					assets.Add(asset);
+				}
+			}
+
+			return assets;
+		}
+
 		/// <summary>
 		/// Returns a list of all the json files in the directory with the id <see cref="TableId"/>.
 		/// </summary>
 		/// <returns>The sheets names and id's.</returns>
 		public static List<(string name, string fileName)> GetDataFiles()
 		{
-			DatabaseConfig config = TableBinary.Fetch();
-
-			var assetDirectory = config.dataPath;
-			if (string.IsNullOrEmpty(assetDirectory)) throw new Exception("The folder could not be found!");
-
-			// Get existing database files
-			var filePaths = Directory.GetFiles(assetDirectory,"*.json");
 			var files = new List<(string name, string fileName)>();
 
-			foreach (var filePath in filePaths)
+			DatabaseConfig config = TableBinary.Fetch();
+			if (config != null)
 			{
-				string fileName = Path.GetFileNameWithoutExtension(filePath);
-				string name = Capitalize(fileName);
-				files.Add((name, fileName));
+				var assetDirectory = config.dataPath;
+				if (string.IsNullOrEmpty(assetDirectory)) throw new Exception("The folder could not be found!");
+
+				// Get existing database files
+				var filePaths = Directory.GetFiles(assetDirectory, "*.json");
+
+				foreach (var filePath in filePaths)
+				{
+					string fileName = Path.GetFileNameWithoutExtension(filePath);
+					string name = Capitalize(fileName);
+					files.Add((name, fileName));
+				}
 			}
 
 			return files;

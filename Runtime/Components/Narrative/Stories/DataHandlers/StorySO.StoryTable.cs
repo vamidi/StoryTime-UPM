@@ -1,4 +1,6 @@
+using System;
 using System.Linq;
+
 using UnityEngine;
 
 using Newtonsoft.Json.Linq;
@@ -20,6 +22,15 @@ namespace DatabaseSync.Components
 				if (row.Fields.Count == 0)
 				{
 					return story;
+				}
+
+				DatabaseConfig config = TableBinary.Fetch();
+				if (config != null)
+				{
+					story.ID = row.RowId;
+					var entryId = (story.ID + 1).ToString();
+					story.title.TableEntryReference = entryId;
+					story.Description.TableEntryReference = entryId;
 				}
 
 				foreach (var field in row.Fields)
@@ -45,28 +56,10 @@ namespace DatabaseSync.Components
 						story.parentId = data == uint.MaxValue - 1 ? uint.MaxValue : data;
 					}
 
-					if (field.Key.Equals("description"))
-					{
-						story.description = (string) field.Value.Data;
-					}
-
-					if (field.Key.Equals("title"))
-					{
-						// story.title = (string) field.Value.Data;
-					}
-
 					if (field.Key.Equals("typeId"))
 					{
 						story.typeId = (QuestType) field.Value.Data;
 					}
-
-					// We dont have to parse during editor mode
-					// if (field.Key.Equals("data"))
-					// {
-					// 	Debug.Log("Converting the story data");
-					// 	// we are dealing with an json object
-					// 	ParseNodeData(story, (JObject) field.Value.Data);
-					// }
 				}
 
 				return story;
@@ -77,6 +70,9 @@ namespace DatabaseSync.Components
 			/// </summary>
 			public static void ParseNodeData(StorySO story, JObject jObject)
 			{
+				if (jObject["nodes"] == null)
+					return;
+
 				JObject nodes = jObject["nodes"].ToObject<JObject>();
 
 				// Retrieve the first node. because that is the start node.
@@ -123,6 +119,9 @@ namespace DatabaseSync.Components
 			/// <param name="nodes"></param>
 			protected static void ParseNextNodeData(IDialogueLine currentDialogue, JObject node, JObject nodes)
 			{
+				if (node["data"] == null)
+					return;
+
 				var data = node["data"].ToObject<JObject>();
 
 				// check what is inside the node
@@ -141,29 +140,35 @@ namespace DatabaseSync.Components
 						var connections = output["connections"].ToArray();
 
 						// see if we have a connection
-						if (connections.Length == 0)
-							continue;
+						// if (connections.Length == 0)
+							// continue;
+
+						var emptyObj = new JObject();
 
 						// See if we are dealing with an option
 						bool containsOption = outputToken.Key.Contains("option");
 
-						var connection = connections[0];
-						// grab the other node.
-						string nodeId = connection["node"].ToObject<int>().ToString();
-						JObject otherNode = nodes[nodeId].Value<JObject>();
-
-						var otherData = otherNode["data"].ToObject<JObject>();
+						var connection = connections.Length > 0 ? connections[0] : emptyObj;
+						// grab the other node id.
+						string nodeId =  connection["node"]?.ToObject<int>().ToString() ?? String.Empty;
+						// grab the other node object.
+						JObject otherNode = nodeId != String.Empty ? nodes[nodeId].Value<JObject>() : emptyObj;
+						// grab the data from the other node.
+						var otherData = otherNode["data"]?.ToObject<JObject>() ?? emptyObj;
 
 						if (currentDialogue != null)
 						{
+							// Fetch the other dialogueId
+							var nextId = otherData["dialogueId"]?.ToObject<uint>() ?? UInt32.MaxValue;
+
 							// if this node does not consist of any choices
 							// go this way
 							if (!containsOption)
 							{
-								// Fetch the other dialogueId
-								var nextId = otherData["dialogueId"].ToObject<uint>();
 								// validate the data
-								currentDialogue.NextDialogue = DialogueLine.ConvertRow(TableDatabase.Get.GetRow("dialogues", nextId));
+								currentDialogue.NextDialogue = nextId != UInt32.MaxValue ?
+									DialogueLine.ConvertRow(TableDatabase.Get.GetRow("dialogues", nextId))
+									: null;
 
 								// Debug.Log(" Next: " + currentDialogue.NextDialogue);
 
@@ -178,11 +183,10 @@ namespace DatabaseSync.Components
 								// Grab the choice
 								DialogueChoiceSO choice = DialogueChoiceSO.ConvertRow(TableDatabase.Get.GetRow("dialogueOptions", optionId));
 
-								// Fetch the other dialogueId
-								var nextId = otherData["dialogueId"].ToObject<uint>();
-
 								// find the next dialogue of this choice.
-								choice.NextDialogue = DialogueLine.ConvertRow(TableDatabase.Get.GetRow("dialogues", nextId));
+								choice.NextDialogue = nextId != UInt32.MaxValue ?
+									DialogueLine.ConvertRow(TableDatabase.Get.GetRow("dialogues", nextId))
+									: null;
 
 								// Debug.Log(" Choice: " + choice);
 
