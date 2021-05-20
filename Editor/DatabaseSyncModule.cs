@@ -60,7 +60,7 @@ namespace DatabaseSync.Editor
 		// Check to see if we're about to be destroyed.
 		// private static bool m_ShuttingDown = false;
 		// private static object m_Lock = new object();
-		private static DatabaseSyncModule s_Instance;
+		// private static DatabaseSyncModule s_Instance;
 
 		/// <summary>
 		/// Access singleton instance through this propriety.
@@ -329,12 +329,15 @@ namespace DatabaseSync.Editor
 				// auto& PropertyModule = FModuleManager::LoadModuleChecked< FPropertyEditorModule >("PropertyEditor");
 				// PropertyModule.NotifyCustomizationModuleChanged();
 #endif
+			DatabaseConfig config = Fetch();
+			if (config && !string.IsNullOrEmpty(config.dataPath))
+			{
+				// Update timestamp
+				_lastTimeStamp = DateTime.Now.Ticks;
 
-			// Update timestamp
-			_lastTimeStamp = DateTime.Now.Ticks;
-			string dir = $"{s_DataPath}/Data";
-			string destination = dir + "/uptime.txt";
-			File.WriteAllText(destination, _lastTimeStamp.ToString());
+				string destination = $"{config.dataPath}/uptime.txt";
+				File.WriteAllText(destination, _lastTimeStamp.ToString());
+			}
 
 			Debug.Log("Invoking fetch");
 			onFetchCompleted?.Invoke(this, EventArgs.Empty);
