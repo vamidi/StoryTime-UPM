@@ -45,10 +45,10 @@ namespace DatabaseSync.Packages
 					foreach (var line in content)
 					{
 						var split = line.Split('@');
-						PackageEntry entry = new PackageEntry();
-
-						entry.name = split[0];
-						entry.version = split.Length > 1 ? split[1] : null;
+						PackageEntry entry = new PackageEntry
+						{
+							name = split[0], version = split.Length > 1 ? split[1] : null
+						};
 
 						packageToAdd.Add(entry);
 					}
