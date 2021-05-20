@@ -1,31 +1,45 @@
 {
-  "name": "com.unity.vamidicreations.storytime",
-  "version": "1.0.0",
-  "displayName": "StoryTime",
-  "description": "StoryTime is package that provides components to make RPG games.",
-  "unity": "2019.4",
-  "unityRelease": "17f1",
-  "dependencies": {
-    "com.unity.nuget.newtonsoft-json": "1.1.2",
-    "com.unity.textmeshpro": "2.1.1",
-    "com.unity.inputsystem": "1.0.1",
-    "com.unity.cinemachine": "2.7.1",
-    "com.unity.animation.rigging": "0.2.7-preview",
-    "com.unity.visualeffectgraph": "7.5.3",
-    "com.unity.addressables": "1.16.16",
-    "com.unity.localization": "0.10.0-preview"
-  },
-  "keywords": [
-    "StoryTime",
-    "RPG",
-    "Dialogues",
-    "Quests",
-    "Localization"
-  ],
-  "author": {
-    "name": "Valencio Hoffman",
-    "email": "valencio.hoffman@gmail.com",
-    "url": "https://storytime.vamidicreations.nl/"
-  },
-  "type": "tool"
+	"name": "com.unity.vamidicreations.storytime",
+	"version": "1.0.0",
+	"displayName": "StoryTime",
+	"description": "StoryTime is package that provides components to make RPG games.",
+	"unity": "2019.4",
+	"unityRelease": "17f1",
+	"dependencies": {
+		"com.unity.nuget.newtonsoft-json": "1.1.2",
+		"com.unity.textmeshpro": "2.1.1",
+		"com.unity.inputsystem": "1.0.1",
+		"com.unity.cinemachine": "2.7.1",
+		"com.unity.animation.rigging": "0.2.7-preview",
+		"com.unity.visualeffectgraph": "7.5.3",
+		"com.unity.addressables": "1.16.16",
+		"com.unity.localization": "0.10.0-preview"
+	},
+	"keywords": [
+		"StoryTime",
+		"RPG",
+		"Dialogues",
+		"Stories",
+		"Crafting",
+		"Inventory",
+		"Localization"
+	],
+	"author": {
+		"name": "Valencio Hoffman",
+		"email": "valencio.hoffman@gmail.com",
+		"url": "https://storytime.vamidicreations.nl/"
+	},
+	"samples": [
+		{
+			"displayName": "Dialogue Scene",
+			"description": "NPC with dialogues and crafting possibilities. Also able to battle enemies.",
+			"path": "Samples~/Dialogues"
+		},
+		{
+			"displayName": "Gameplay Scene",
+			"description": "Persistent managers",
+			"path": "Samples~/Gameplay"
+		}
+	],
+	"type": "tool"
 }

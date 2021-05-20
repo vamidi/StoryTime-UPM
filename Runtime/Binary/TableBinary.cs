@@ -138,7 +138,7 @@ namespace DatabaseSync.Binary
 		public static Table GetTable(string tableName)
 		{
 			DatabaseConfig config = Fetch();
-			string destination = $"{config.dataPath}/{tableName}.json";
+			string destination = $"{config?.dataPath}/{tableName}.json";
 
 			if (!File.Exists(destination))
 				throw new ArgumentException($"{tableName} couldn't be found!");

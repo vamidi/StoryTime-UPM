@@ -102,15 +102,19 @@ namespace DatabaseSync.ResourceManagement.Util
 				var assetDirectory = config.dataPath;
 				if (string.IsNullOrEmpty(assetDirectory)) throw new Exception("The folder could not be found!");
 
-				// Get existing database files
-				var filePaths = Directory.GetFiles(assetDirectory, "*.json");
-
-				foreach (var filePath in filePaths)
+				try
 				{
-					string fileName = Path.GetFileNameWithoutExtension(filePath);
-					string name = Capitalize(fileName);
-					files.Add((name, fileName));
+					// Get existing database files
+					var filePaths = Directory.GetFiles(assetDirectory, "*.json");
+
+					foreach (var filePath in filePaths)
+					{
+						string fileName = Path.GetFileNameWithoutExtension(filePath);
+						string name = Capitalize(fileName);
+						files.Add((name, fileName));
+					}
 				}
+				catch(DirectoryNotFoundException e) { Debug.Log(e); }
 			}
 
 			return files;
