@@ -22,8 +22,6 @@ namespace DatabaseSync.Localization.Plugins.JSON
 
 		public SerializedProperty m_Fields;
 
-		public SerializedProperty m_TableName;
-
 		public SerializedProperty m_TableId;
 
 		public SerializedProperty m_RemoveMissingPulledKeys;
@@ -77,7 +75,6 @@ namespace DatabaseSync.Localization.Plugins.JSON
 			{
 				m_Collection = property.FindPropertyRelative("m_Collection"),
 				m_JsonServiceProvider = property.FindPropertyRelative("jsonServiceProvider"),
-				m_TableName = property.FindPropertyRelative("tableName"),
 				m_TableId = property.FindPropertyRelative("tableId"),
 				m_Fields = property.FindPropertyRelative("fields"),
 				m_RemoveMissingPulledKeys = property.FindPropertyRelative("removeMissingPulledKeys")
@@ -166,9 +163,6 @@ namespace DatabaseSync.Localization.Plugins.JSON
 			EditorGUI.BeginDisabledGroup(data.m_JsonServiceProvider.objectReferenceValue == null);
 			using (new EditorGUI.DisabledGroupScope(data.m_JsonServiceProvider.objectReferenceValue == null))
 			{
-				EditorGUI.PropertyField(position, data.m_TableName, Styles.TableName);
-				position.MoveToNextLine();
-
 				DrawTableNameField(data, ref position);
 				DrawColumnsField(data, ref position);
 				DrawSyncControls(data, property, ref position);
@@ -186,8 +180,6 @@ namespace DatabaseSync.Localization.Plugins.JSON
 
 		void DrawTableNameField(JsonExtensionPropertyDrawerData data, ref Rect position)
 		{
-			EditorGUI.BeginDisabledGroup(string.IsNullOrEmpty(data.m_TableName.stringValue));
-
 #region inner
 			EditorGUI.BeginDisabledGroup(string.IsNullOrEmpty(data.m_TableId.stringValue));
 			var sheetNamePos = position.SplitHorizontal();
@@ -213,7 +205,6 @@ namespace DatabaseSync.Localization.Plugins.JSON
 					{
 						menu.AddItem(new GUIContent(s.name), false, () =>
 						{
-							data.m_TableName.stringValue = s.name;
 							data.m_TableId.stringValue = s.fileName;
 							data.m_TableId.serializedObject.ApplyModifiedProperties();
 						});
@@ -235,7 +226,6 @@ namespace DatabaseSync.Localization.Plugins.JSON
 			}
 
 			position.MoveToNextLine();
-			EditorGUI.EndDisabledGroup();
 		}
 
 		void DrawColumnsField(JsonExtensionPropertyDrawerData data, ref Rect position)

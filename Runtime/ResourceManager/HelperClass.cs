@@ -100,7 +100,11 @@ namespace DatabaseSync.ResourceManagement.Util
 			if (config != null)
 			{
 				var assetDirectory = config.dataPath;
-				if (string.IsNullOrEmpty(assetDirectory)) throw new Exception("The folder could not be found!");
+				if (string.IsNullOrEmpty(assetDirectory))
+				{
+					Debug.LogWarning("Data directory in config could not be found!");
+					return files;
+				}
 
 				try
 				{

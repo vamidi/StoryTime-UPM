@@ -32,14 +32,14 @@
   },
   "samples": [
     {
-      "displayName": "Dialogue Scene",
-      "description": "NPC with dialogues and crafting possibilities. Also able to battle enemies.",
-      "path": "Samples~/Dialogues"
+      "displayName": "Story Showcase",
+      "description": "A showcase of the usage of StoryTime.",
+      "path": "Samples~/Showcase"
     },
     {
-      "displayName": "Gameplay Scene",
-      "description": "Persistent managers",
-      "path": "Samples~/Gameplay"
+      "displayName": "Prefabs",
+      "description": "Basic prefabs that can be used to create your games.",
+      "path": "Samples~/Showcase/Prefabs"
     }
   ],
   "type": "tool"

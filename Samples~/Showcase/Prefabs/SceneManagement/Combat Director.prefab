@@ -1,0 +1,69 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1294032051746362396
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1294032051746362397}
+  - component: {fileID: 1294032051746362399}
+  - component: {fileID: 1294032051746362400}
+  m_Layer: 16
+  m_Name: Combat Director
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1294032051746362397
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1294032051746362396}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 10.59, y: 0, z: 12.25}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &1294032051746362399
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1294032051746362396}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 10
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1294032051746362400
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1294032051746362396}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d202b60f53c2df047bb02dfdf9ba6ca1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawns:
+  - prefab: {fileID: 2011021909507319000, guid: 3ac2dd7eaceaa504dbb1b175fcef06a2,
+      type: 3}
+    weight: 0
+  - prefab: {fileID: 795065429481735329, guid: e9569c7e13e51264082910415a120d38, type: 3}
+    weight: 0
+  levelBounds: {x: 10, y: 10}
+  range: 10
+  taskToListen: {fileID: 11400000, guid: 5ae2524dae1989845bd9e597cd44dded, type: 2}
+  startTaskEvent: {fileID: 11400000, guid: 925add8049ad3004392b9f7fe5ccef94, type: 2}
