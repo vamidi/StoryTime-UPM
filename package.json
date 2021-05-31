@@ -32,14 +32,24 @@
   },
   "samples": [
     {
-      "displayName": "StoryTime Showcase",
-      "description": "A showcase of the usage of StoryTime.",
-      "path": "Samples~/Showcase"
+      "displayName": "Essentials",
+      "description": "All the essentials to get started with StoryTime.",
+      "path": "Samples~/Essentials"
     },
     {
-      "displayName": "Prefabs",
+      "displayName": "Persistence Managers",
+      "description": "Managers bundled in one scene.",
+      "path": "Samples~/Persistence Managers"
+    },
+    {
+      "displayName": "Placeholders",
       "description": "Basic prefabs that can be used to create your games.",
-      "path": "Samples~/Showcase/Prefabs"
+      "path": "Samples~/Placeholders"
+    },
+    {
+      "displayName": "Example Scenes",
+      "description": "Showcase within different scenes.",
+      "path": "Samples~/Example Scenes"
     }
   ],
   "type": "tool"

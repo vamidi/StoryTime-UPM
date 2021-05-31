@@ -25,7 +25,7 @@ namespace DatabaseSync
 		private InteractionType _potentialInteraction;
 		[HideInInspector] public InteractionType currentInteraction;
 
-		[SerializeField] private InputReader inputReader;
+		[SerializeField] private BaseInputReader inputReader;
 
 		//To store the object we are currently interacting with
 		private GameObject _currentInteractableObject;

@@ -7,7 +7,7 @@ namespace DatabaseSync.UI
 
 	public class UIManager : MonoBehaviour
 	{
-		[SerializeField] private Input.InputReader inputReader;
+		[SerializeField] private Input.BaseInputReader inputReader;
 
 		[Header("Listening on channels")]
 
@@ -55,10 +55,9 @@ namespace DatabaseSync.UI
 		[Header("Broadcasting channels")]
 		[SerializeField] private VoidEventChannelSO storyScreenClosedEvent;
 
+		private bool m_IsForCookingOrCraft;
 
-		bool m_IsForCookingOrCraft;
-
-		private void OnEnable()
+		protected void OnEnable()
 		{
 			// Check if the event exists to avoid errors
 			if (openUIDialogueEvent != null)

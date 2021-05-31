@@ -19,7 +19,7 @@ namespace DatabaseSync.Components
 
 		private bool ReachedEndOfDialogue => m_CurrentDialogue.NextDialogue == null;
 
-		[SerializeField] private InputReader inputReader;
+		[SerializeField] private BaseInputReader inputReader;
 
 		[Header("Cameras")]
 		public GameObject gameCam;

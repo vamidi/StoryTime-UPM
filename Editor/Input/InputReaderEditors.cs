@@ -5,7 +5,7 @@ namespace DatabaseSync.Editor.Input
 {
 	using DatabaseSync.Input;
 
-	[CustomEditor(typeof(InputReader))]
+	[CustomEditor(typeof(BaseInputReader))]
 	public class InputReaderEditor : UnityEditor.Editor
 	{
 		public override void OnInspectorGUI()
@@ -15,7 +15,7 @@ namespace DatabaseSync.Editor.Input
 			if (!Application.isPlaying)
 				return;
 
-			ScriptableObjectHelper.GenerateButtonsForEvents<InputReader>(target);
+			ScriptableObjectHelper.GenerateButtonsForEvents<BaseInputReader>(target);
 		}
 	}
 }
