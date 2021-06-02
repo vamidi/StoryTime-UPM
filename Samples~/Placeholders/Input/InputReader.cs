@@ -5,39 +5,39 @@ using UnityEngine.Events;
 namespace DatabaseSync.Input
 {
 	[CreateAssetMenu(fileName = "InputReader", menuName = "DatabaseSync/Game/Input Reader")]
-	public class InputReader : ScriptableObject, GameInput.IGameplayActions, GameInput.IDialoguesActions,
+	public class InputReader : BaseInputReader, GameInput.IGameplayActions, GameInput.IDialoguesActions,
 		GameInput.IMenusActions
 	{
 		// Gameplay
-		public event UnityAction jumpEvent = delegate { };
-		public event UnityAction jumpCanceledEvent = delegate { };
-		public event UnityAction fireEvent = delegate { };
-		public event UnityAction aimEvent = delegate { };
-		public event UnityAction interactEvent = delegate { }; // Used to talk, pickup objects, interact with tools like the cooking cauldron
-		public event UnityAction openInventoryEvent = delegate { }; // Used to bring up the inventory
-		public event UnityAction pauseEvent = delegate { };
-		public event UnityAction<Vector2> moveEvent = delegate { };
-		public event UnityAction<Vector2, bool> cameraMoveEvent = delegate { };
-		public event UnityAction enableMouseControlCameraEvent = delegate { };
-		public event UnityAction disableMouseControlCameraEvent = delegate { };
-		public event UnityAction startAbility1 = delegate { };
-		public event UnityAction stopAbility1 = delegate { };
-
+		public override event UnityAction jumpEvent = delegate { };
+		public override event UnityAction jumpCanceledEvent = delegate { };
+		public override event UnityAction fireEvent = delegate { };
+		public override event UnityAction aimEvent = delegate { };
+		public override event UnityAction interactEvent = delegate { }; // Used to talk, pickup objects, interact with tools like the cooking cauldron
+		public override event UnityAction openInventoryEvent = delegate { }; // Used to bring up the inventory
+		public override event UnityAction pauseEvent = delegate { };
+		public override event UnityAction<Vector2> moveEvent = delegate { };
+		public override event UnityAction<Vector2, bool> cameraMoveEvent = delegate { };
+		public override event UnityAction enableMouseControlCameraEvent = delegate { };
+		public override event UnityAction disableMouseControlCameraEvent = delegate { };
+		public override event UnityAction startAbility1 = delegate { };
+		public override event UnityAction stopAbility1 = delegate { };
+ 
 		// Shared between menus and dialogues
-		public event UnityAction moveSelectionEvent = delegate { };
-
+		public override event UnityAction moveSelectionEvent = delegate { };
+ 
 		// Dialogues
-		public event UnityAction advanceDialogueEvent = delegate { };
-
+		public override event UnityAction advanceDialogueEvent = delegate { };
+ 
 		// Menus
-		public event UnityAction menuMouseMoveEvent = delegate { };
-		public event UnityAction menuConfirmEvent = delegate { };
-		public event UnityAction menuCancelEvent = delegate { };
-		public event UnityAction menuUnpauseEvent = delegate { };
+		public override event UnityAction menuMouseMoveEvent = delegate { };
+		public override event UnityAction menuConfirmEvent = delegate { };
+		public override event UnityAction menuCancelEvent = delegate { };
+		public override event UnityAction menuUnpauseEvent = delegate { };
 
 		private GameInput gameInput;
 
-		private void OnEnable()
+		protected override void OnEnable()
 		{
 			if (gameInput == null)
 			{
@@ -50,7 +50,7 @@ namespace DatabaseSync.Input
 			EnableGameplayInput();
 		}
 
-		private void OnDisable()
+		protected override void OnDisable()
 		{
 			DisableAllInput();
 		}
@@ -169,7 +169,7 @@ namespace DatabaseSync.Input
 				menuUnpauseEvent.Invoke                                                                                                                                                                                                                                                                                                                                                                         ();
 		}
 
-		public void EnableDialogueInput()
+		public override void EnableDialogueInput()
 		{
 			gameInput.Menus.Disable();
 			gameInput.Gameplay.Disable();
@@ -177,7 +177,7 @@ namespace DatabaseSync.Input
 			gameInput.Dialogues.Enable();
 		}
 
-		public void EnableGameplayInput()
+		public override void EnableGameplayInput()
 		{
 			gameInput.Menus.Disable();
 			gameInput.Dialogues.Disable();
@@ -185,7 +185,7 @@ namespace DatabaseSync.Input
 			gameInput.Gameplay.Enable();
 		}
 
-		public void EnableMenuInput()
+		public override void EnableMenuInput()
 		{
 			gameInput.Dialogues.Disable();
 			gameInput.Gameplay.Disable();
@@ -193,13 +193,11 @@ namespace DatabaseSync.Input
 			gameInput.Menus.Enable();
 		}
 
-		public void DisableAllInput()
+		public override void DisableAllInput()
 		{
 			gameInput.Gameplay.Disable();
 			gameInput.Menus.Disable();
 			gameInput.Dialogues.Disable();
 		}
-
-		public bool LeftMouseDown() => Mouse.current.leftButton.isPressed;
 	}
 }

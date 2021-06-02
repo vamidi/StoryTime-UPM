@@ -14,7 +14,6 @@ namespace DatabaseSync.Database
     public sealed class TableDatabase
     {
         // private UInt64 DatabaseVersion = 0;
-        private const string DataPath = "Packages/com.unity.vamidicreations.storytime";
 
         /// <summary>
         /// All the data (sorted per table) the application needs for reading
@@ -36,19 +35,12 @@ namespace DatabaseSync.Database
         private TableDatabase()
         {
 	        // locate the data folder
-	        string dataLocation = $"{DataPath}/Data/";
-	        if (!Directory.Exists(dataLocation))
-	        {
-		        Directory.CreateDirectory(dataLocation);
-	        }
-            // Get existing database files
-            var filePaths = Directory.GetFiles(dataLocation,"*.json");
+	        var config = TableBinary.Fetch();
 
-            foreach (var filePath in filePaths)
-            {
-	            string name = Path.GetFileNameWithoutExtension(filePath);
-                _Binaries.Add(name, new TableBinary(name));
-            }
+	        if (config == null)
+		        return;
+
+	        Reload(config);
 
             // Get database version
             // UpdateTime();
@@ -235,8 +227,24 @@ namespace DatabaseSync.Database
 
         void RemoveCache()
         {
-            // Data.Empty();
+            Data.Clear();
+        }
 
+	    void Reload(DatabaseConfig config)
+        {
+	        string dataLocation = $"{config.dataPath}/Data/";
+	        if (!Directory.Exists(dataLocation))
+	        {
+		        Directory.CreateDirectory(dataLocation);
+	        }
+	        // Get existing database files
+	        var filePaths = Directory.GetFiles(dataLocation,"*.json");
+
+	        foreach (var filePath in filePaths)
+	        {
+		        string name = Path.GetFileNameWithoutExtension(filePath);
+		        _Binaries.Add(name, new TableBinary(name));
+	        }
         }
 
         public void Refresh()
