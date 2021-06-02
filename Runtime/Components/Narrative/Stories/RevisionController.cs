@@ -6,12 +6,9 @@ namespace DatabaseSync.Components
 
 	// this script needs to be put on the actor, and takes care of the current step to accomplish.
 	// the step contains a dialogue and maybe an event.
-
+    [AddComponentMenu("DatabaseSync/RevisionController")]
 	public class RevisionController : MonoBehaviour
 	{
-		// Gets assigned automatically
-		[HideInInspector]
-		public UnityEngine.InputSystem.PlayerInput playerInput;
 		// TODO rename this to Character
 		public ActorSO Actor => actor;
 
@@ -44,6 +41,8 @@ namespace DatabaseSync.Components
 		// [SerializeField] private DialogueLineChannelSO startDialogueEvent;
 		[SerializeField] private TransformEventChannelSO startTransformDialogue;
 
+		private UnityEngine.InputSystem.PlayerInput m_PlayerInput;
+
 		// check if character is active. An active character is the character concerned by the task.
 		private bool _hasActiveStory;
 		private bool _hasActiveTask;
@@ -60,7 +59,7 @@ namespace DatabaseSync.Components
 
 		private void Start()
 		{
-			playerInput = FindObjectOfType<UnityEngine.InputSystem.PlayerInput>();
+			m_PlayerInput = FindObjectOfType<UnityEngine.InputSystem.PlayerInput>();
 			if (endDialogueEvent != null)
 			{
 				endDialogueEvent.OnEventRaised += EndDialogue;
@@ -103,7 +102,7 @@ namespace DatabaseSync.Components
 
 			if(closeDialogueUIEvent != null)
 			{
-				closeDialogueUIEvent.OnEventRaised += () => playerInput.SwitchCurrentActionMap("Gameplay");
+				closeDialogueUIEvent.OnEventRaised += () => m_PlayerInput.SwitchCurrentActionMap("Gameplay");
 			}
 
 			_hasActiveStory = defaultStory != null;
