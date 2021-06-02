@@ -9,6 +9,8 @@ namespace DatabaseSync.Components
 
 	public class RevisionController : MonoBehaviour
 	{
+		// Gets assigned automatically
+		[HideInInspector]
 		public UnityEngine.InputSystem.PlayerInput playerInput;
 		// TODO rename this to Character
 		public ActorSO Actor => actor;

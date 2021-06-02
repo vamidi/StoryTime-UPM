@@ -34,7 +34,7 @@ namespace DatabaseSync.Packages
 					SearchOption.AllDirectories);
 				if (packageListFile.Length == 0)
 				{
-					Debug.LogError(
+					Debug.LogWarning(
 						"[Auto Package] : Couldn't find the packages list. Be sure there is a file called PackageImportList in your project");
 				}
 				else
