@@ -8,7 +8,7 @@ namespace DatabaseSync.Components
 	{
 		uint ID { get; }
 		LocalizedString Sentence { get; }
-		string DialogueEvent { get; }
+		DialogueEventSO DialogueEvent { get; set; }
 		DialogueType DialogueType { get; }
 		IDialogueLine NextDialogue { get; set; }
 		uint NextDialogueID { get; }

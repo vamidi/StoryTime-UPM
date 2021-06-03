@@ -17,7 +17,11 @@ namespace DatabaseSync.Components
 	public class DialogueLineSO : TableBehaviour, IDialogueLine
 	{
 		public LocalizedString Sentence => sentence;
-		public string DialogueEvent => dialogueEvent;
+		public DialogueEventSO DialogueEvent
+		{
+			get => dialogueEvent;
+			set => dialogueEvent =  value;
+		}
 		public DialogueType DialogueType => dialogueType;
 		public IDialogueLine NextDialogue
 		{
@@ -49,7 +53,7 @@ namespace DatabaseSync.Components
 		private LocalizedString sentence;
 
 		[SerializeField, Tooltip("Event that will be fired once filled in.")]
-		string dialogueEvent = String.Empty;
+		private DialogueEventSO dialogueEvent;
 
 		[SerializeField]
 		private List<DialogueChoiceSO> choices = new List<DialogueChoiceSO>();

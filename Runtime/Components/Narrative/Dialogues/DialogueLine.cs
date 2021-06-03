@@ -13,7 +13,12 @@ namespace DatabaseSync.Components
 	{
 		public UInt32 ID => m_Id;
 		public LocalizedString Sentence => sentence;
-		public string DialogueEvent => dialogueEvent;
+		public DialogueEventSO DialogueEvent
+		{
+			get => dialogueEvent;
+			set => dialogueEvent = value;
+		}
+
 		public DialogueType DialogueType => dialogueType;
 		public IDialogueLine NextDialogue
 		{
@@ -49,7 +54,7 @@ namespace DatabaseSync.Components
 		private LocalizedString sentence;
 
 		[SerializeField, Tooltip("Event that will be fired once filled in.")]
-		private string dialogueEvent = String.Empty;
+		private DialogueEventSO dialogueEvent;
 
 		[NonSerialized]
 		private List<DialogueChoiceSO> m_Choices = new List<DialogueChoiceSO>();
