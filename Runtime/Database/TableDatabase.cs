@@ -232,7 +232,7 @@ namespace DatabaseSync.Database
 
 	    void Reload(DatabaseConfig config)
         {
-	        string dataLocation = $"{config.dataPath}/Data/";
+	        string dataLocation = config.dataPath;
 	        if (!Directory.Exists(dataLocation))
 	        {
 		        Directory.CreateDirectory(dataLocation);
