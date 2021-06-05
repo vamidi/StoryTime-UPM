@@ -10,6 +10,7 @@ namespace DatabaseSync.UI
 		Complete
 	}
 
+	[CreateAssetMenu(fileName = "InteractionNav", menuName = "DatabaseSync/UI/Interaction Navigation", order = 51)]
 	// ReSharper disable once InconsistentNaming
 	public class InteractionNavSO : InteractionSO
 	{

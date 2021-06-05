@@ -50,6 +50,7 @@ namespace DatabaseSync.Components
 		[SerializeField] private TMPVertexAnimator revealer;
 
 		private StorySO m_CurrentStory;
+		private ActorSO m_CurrentActor;
 		private IDialogueLine m_CurrentDialogue;
 
 		private bool _isInputEnabled;
@@ -93,10 +94,11 @@ namespace DatabaseSync.Components
 		/// </summary>
 		/// <param name="dialogueDataSo"></param>
 		/// <param name="dialogueLine"></param>
-		public void Interact(StorySO dialogueDataSo, IDialogueLine dialogueLine)
+		/// <param name="actor"></param>
+		public void Interact(StorySO dialogueDataSo, IDialogueLine dialogueLine, ActorSO actor = null)
 		{
 			BeginDialogueStory(dialogueDataSo);
-			ShowDialogue(dialogueLine, dialogueDataSo.Actor);
+			ShowDialogue(dialogueLine, actor ? actor : dialogueDataSo.Actor);
 			SetActiveDialogue(dialogueLine);
 			ToggleCameras(true);
 		}
@@ -120,10 +122,12 @@ namespace DatabaseSync.Components
 			ToggleContinueBtn(false);
 
 			// Call event when the dialogue begins
-			if (dialogueEvent != null && dialogueLine.DialogueEvent != String.Empty)
+			if (dialogueEvent != null && dialogueLine.DialogueEvent.EventName != String.Empty)
 			{
-				dialogueEvent.RaiseEvent(dialogueLine.DialogueEvent, m_CurrentStory);
+				dialogueEvent.RaiseEvent(dialogueLine.DialogueEvent.EventName, dialogueLine.DialogueEvent.Value);
 			}
+
+			m_CurrentActor = actor;
 		}
 
 		/// <summary>
@@ -135,7 +139,7 @@ namespace DatabaseSync.Components
 			// TODO make this work with increment only instead of setting the next dialogue.
 			// increment to the next dialogue sequence
 			DialogueChoiceEndAndCloseUI(true);
-			ShowDialogue(nextDialogueLineSo, m_CurrentStory.Actor);
+			ShowDialogue(nextDialogueLineSo, m_CurrentActor);
 		}
 
 		/// <summary>
@@ -191,7 +195,7 @@ namespace DatabaseSync.Components
 				m_CurrentDialogue = m_CurrentDialogue.NextDialogue;
 				// TODO grab the actor from the node editor.
 
-				ShowDialogue(m_CurrentDialogue, m_CurrentStory.Actor);
+				ShowDialogue(m_CurrentDialogue, m_CurrentActor);
 				return;
 			}
 

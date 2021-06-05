@@ -4,7 +4,7 @@ using UnityEngine;
 namespace DatabaseSync.Components
 {
     [DefaultExecutionOrder(100)]
-    public class SpitterBehaviour : EnemyBehaviour
+    public class SpitterBehaviour : EnemyBehaviour, IMessageReceiver
     {
         public static readonly int hashVerticalDot = Animator.StringToHash("VerticalHitDot");
         public static readonly int hashHorizontalDot = Animator.StringToHash("HorizontalHitDot");
@@ -42,15 +42,15 @@ namespace DatabaseSync.Components
             SceneLinkedSMB<SpitterBehaviour>.Initialise(m_EnemyController.animator, this);
         }
 
-        public override void OnReceiveMessage(MessageType type, Damageable.DamageMessage msg)
+        public override void OnReceiveMessage(MessageType type, object sender, object msg)
         {
             switch (type)
             {
                 case MessageType.Dead:
-                    Death(msg);
+	                Death((Damageable.DamageMessage)msg);
                     break;
                 case MessageType.Damaged:
-                    ApplyDamage(msg);
+	                ApplyDamage((Damageable.DamageMessage)msg);
                     break;
                 default:
                     break;

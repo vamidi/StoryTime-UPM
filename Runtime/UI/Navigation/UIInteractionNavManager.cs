@@ -1,4 +1,6 @@
+using System;
 using UnityEngine;
+using UnityEngine.Localization;
 
 namespace DatabaseSync.UI
 {
@@ -6,40 +8,38 @@ namespace DatabaseSync.UI
 
 	public class UIInteractionNavManager : BaseUIInteractionManager<InteractionNavSO, UIInteractionNavFiller>
 	{
-		private InteractionNavSO m_InteractionQuestSo;
-
-		public void SetQuest(StoryInfo info)
+		[SerializeField] private LocalizedString newState;
+		[SerializeField] private LocalizedString updateState;
+		[SerializeField] private LocalizedString completeState;
+		public void SetQuest(StoryInfo info, InteractionType interactionType)
 		{
-			if (m_InteractionQuestSo == null)
+			if (listInteractions != null && interactionItem != null)
 			{
-				m_InteractionQuestSo = ScriptableObject.CreateInstance<InteractionNavSO>();
-				// m_InteractionQuestSo.InteractionName = "Press [V] to navigate";
-			}
+				if (listInteractions.Exists(o => o.InteractionType == interactionType))
+				{
+					var interaction = listInteractions.Find(o =>
+						o.InteractionType == interactionType);
 
-			// TODO Retrieve out of table database.
-			// m_InteractionQuestSo.interactionStoryState.StringReference = StateToString(info.State);
-			m_InteractionQuestSo.interactionStoryTitle = info.Story.Title;
-			m_InteractionQuestSo.interactionTaskDescription = info.Story.Tasks[info.Index].Description;
-		}
-
-		public override void FillInteractionPanel(InteractionType interactionType)
-		{
-			if (interactionItem != null)
-			{
-				interactionItem.FillInteractionPanel(m_InteractionQuestSo);
+					if (interaction != null)
+					{
+						interaction.interactionStoryState = StateToString(info.State);
+						interaction.interactionStoryTitle = info.Story.Title;
+						interaction.interactionTaskDescription = info.Story.Tasks[info.Index].Description;
+					}
+				}
 			}
 		}
 
-		string StateToString(StoryState state)
+		LocalizedString StateToString(StoryState state)
 		{
 			switch (state)
 			{
-				case StoryState.New: return "Incoming Story";
-				case StoryState.Update: return "Story Updated";
-				case StoryState.Complete: return "Story Completed";
+				case StoryState.New: return newState;
+				case StoryState.Update: return updateState;
+				case StoryState.Complete: return completeState;
 			}
 
-			return "";
+			return null;
 		}
 	}
 }

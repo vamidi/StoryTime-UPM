@@ -216,7 +216,7 @@ namespace DatabaseSync.Components
 
 			if (startStoryEvent != null)
 			{
-				startStoryEvent.RaiseEvent(defaultStory, _currentDialogue);
+				startStoryEvent.RaiseEvent(defaultStory, _currentDialogue, actor);
 			}
 		}
 

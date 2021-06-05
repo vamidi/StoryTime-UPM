@@ -91,7 +91,7 @@ namespace DatabaseSync.Components
 
 				// Debug.Log("Current" + currentDialogue);
 
-				ParseNextNodeData(currentDialogue, node, nodes);
+				ParseNextNodeData(story, currentDialogue, node, nodes);
 			}
 
 			/// <summary>
@@ -117,7 +117,7 @@ namespace DatabaseSync.Components
 			/// <param name="currentDialogue"></param>
 			/// <param name="node"></param>
 			/// <param name="nodes"></param>
-			protected static void ParseNextNodeData(IDialogueLine currentDialogue, JObject node, JObject nodes)
+			protected static void ParseNextNodeData(StorySO story, IDialogueLine currentDialogue, JObject node, JObject nodes)
 			{
 				if (node["data"] == null)
 					return;
@@ -125,11 +125,12 @@ namespace DatabaseSync.Components
 				var data = node["data"].ToObject<JObject>();
 
 				// check what is inside the node
-				if (data != null && data.ContainsKey("dialogueId"))
+				if (data != null)
 				{
 					// get the outputs
 					var outputs = node["outputs"].ToObject<JObject>();
 
+					Debug.Log("Checking data");
 					// loop through the outputs
 					// Outputs can be
 					// Dialogue to dialogue
@@ -138,23 +139,70 @@ namespace DatabaseSync.Components
 					{
 						var output = outputToken.Value.ToObject<JObject>();
 						var connections = output["connections"].ToArray();
+						var emptyObj = new JObject();
+
+						string nodeId;
+						JObject otherNode;
+						JObject otherData;
+						Debug.Log(outputToken.Key.Contains("exec"));
+						if (outputToken.Key.Contains("exec") && connections.Length > 0)
+						{
+							foreach (var con in connections)
+							{
+								// grab the other node id.
+								nodeId =  con["node"]?.ToObject<int>().ToString() ?? String.Empty;
+								// grab the other node object.
+								otherNode = nodeId != String.Empty ? nodes[nodeId].Value<JObject>() : emptyObj;
+								// grab the data from the other node.
+								otherData = otherNode["data"]?.ToObject<JObject>() ?? emptyObj;
+
+								if (currentDialogue != null)
+								{
+									// fetch the event name
+									var eventId = otherData["eventId"]?.ToObject<uint>() ?? UInt32.MaxValue;
+									var eventName = "";
+									if (eventId != UInt32.MaxValue)
+									{
+										var row = TableDatabase.Get.GetRow("events", eventId);
+
+										// validate the data
+										if (row.Fields.Count > 0)
+										{
+											var field = row.Find("name");
+											if (field != null)
+											{
+												eventName = (string) field.Data;
+											}
+										}
+										// fetch the parameters
+										//  TODO mark event value as dynamic to support multiple parameters
+										JObject events = otherData["events"]?.ToObject<JObject>() ?? emptyObj;
+										foreach (var @event in events)
+										{
+											// int value = @event.Value["value"]["value"].ToObject<int>();
+											currentDialogue.DialogueEvent = new DialogueEventSO(eventName, story);
+											Debug.Log(currentDialogue.DialogueEvent);
+											Debug.Log($"{story}");
+										}
+									}
+								}
+							}
+						}
 
 						// see if we have a connection
 						// if (connections.Length == 0)
 							// continue;
-
-						var emptyObj = new JObject();
 
 						// See if we are dealing with an option
 						bool containsOption = outputToken.Key.Contains("option");
 
 						var connection = connections.Length > 0 ? connections[0] : emptyObj;
 						// grab the other node id.
-						string nodeId =  connection["node"]?.ToObject<int>().ToString() ?? String.Empty;
+						nodeId =  connection["node"]?.ToObject<int>().ToString() ?? String.Empty;
 						// grab the other node object.
-						JObject otherNode = nodeId != String.Empty ? nodes[nodeId].Value<JObject>() : emptyObj;
+						otherNode = nodeId != String.Empty ? nodes[nodeId].Value<JObject>() : emptyObj;
 						// grab the data from the other node.
-						var otherData = otherNode["data"]?.ToObject<JObject>() ?? emptyObj;
+						otherData = otherNode["data"]?.ToObject<JObject>() ?? emptyObj;
 
 						if (currentDialogue != null)
 						{
@@ -173,7 +221,7 @@ namespace DatabaseSync.Components
 								// Debug.Log(" Next: " + currentDialogue.NextDialogue);
 
 								// now we have the next id check if we have a node that comes after.
-								ParseNextNodeData(currentDialogue.NextDialogue, otherNode, nodes);
+								ParseNextNodeData(story, currentDialogue.NextDialogue, otherNode, nodes);
 							}
 							else
 							{
@@ -197,7 +245,7 @@ namespace DatabaseSync.Components
 								currentDialogue.NextDialogue = null;
 
 								// Find the next dialogue for the choice
-								ParseNextNodeData(choice.NextDialogue, otherNode, nodes);
+								ParseNextNodeData(story, choice.NextDialogue, otherNode, nodes);
 							}
 						}
 					}

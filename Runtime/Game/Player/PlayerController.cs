@@ -157,10 +157,6 @@ namespace DatabaseSync.Components
             SceneLinkedSMB<PlayerController>.Initialise(m_Animator, this);
 
             m_Damageable = GetComponent<Damageable>();
-
-            if(m_Damageable.DamageReceiverChannel != null)
-	            m_Damageable.DamageReceiverChannel.OnEventRaised += OnReceiveMessage;
-
             m_Damageable.IsInvulnerable = true;
 
             EquipMeleeWeapon(false);
@@ -171,13 +167,10 @@ namespace DatabaseSync.Components
         // Called automatically by Unity whenever the script is disabled.
         void OnDisable()
         {
-	        if(m_Damageable.DamageReceiverChannel != null)
-		        m_Damageable.DamageReceiverChannel.OnEventRaised -= OnReceiveMessage;
-
-            for (int i = 0; i < m_Renderers.Length; ++i)
-            {
-                m_Renderers[i].enabled = true;
-            }
+	        foreach (var r in m_Renderers)
+	        {
+		        r.enabled = true;
+	        }
         }
 
         // Called automatically by Unity once every Physics step.

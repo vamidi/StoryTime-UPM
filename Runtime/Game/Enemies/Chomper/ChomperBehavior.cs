@@ -3,7 +3,7 @@
 namespace DatabaseSync.Components
 {
     [DefaultExecutionOrder(100)]
-    public class ChomperBehavior : EnemyBehaviour
+    public class ChomperBehavior : EnemyBehaviour, IMessageReceiver
     {
         public static readonly int hashInPursuit = Animator.StringToHash("InPursuit");
         public static readonly int hashAttack = Animator.StringToHash("Attack");
@@ -83,9 +83,8 @@ namespace DatabaseSync.Components
                 spottedAudio.PlayRandomClip();
         }
 
-        protected override void OnDisable()
+        protected void OnDisable()
         {
-	        base.OnDisable();
             if (m_FollowerInstance != null)
                 m_FollowerInstance.distributor.UnregisterFollower(m_FollowerInstance);
         }
@@ -212,15 +211,15 @@ namespace DatabaseSync.Components
             meleeWeapon.EndAttack();
         }
 
-        public override void OnReceiveMessage(MessageType type, Damageable.DamageMessage msg)
+        public override void OnReceiveMessage(MessageType type, object sender, object msg)
         {
             switch (type)
             {
                 case MessageType.Dead:
-                    Death(msg);
+                    Death((Damageable.DamageMessage)msg);
                     break;
                 case MessageType.Damaged:
-                    ApplyDamage(msg);
+                    ApplyDamage((Damageable.DamageMessage)msg);
                     break;
                 default:
                     break;

@@ -17,19 +17,10 @@ namespace DatabaseSync.Components
 		protected virtual void OnEnable()
 		{
 			m_Damageable = GetComponentInChildren<Damageable>();
-
-			if(m_Damageable.DamageReceiverChannel != null)
-				m_Damageable.DamageReceiverChannel.OnEventRaised += OnReceiveMessage;
-
 			m_EnemyController = GetComponentInChildren<EnemyController>();
 		}
 
-		protected virtual void OnDisable()
-		{
-			if(m_Damageable.DamageReceiverChannel != null)
-				m_Damageable.DamageReceiverChannel.OnEventRaised -= OnReceiveMessage;
-		}
-
-		public virtual void OnReceiveMessage(MessageType type, Damageable.DamageMessage msg) { }
+		public virtual void OnReceiveMessage(MessageType type, object sender, object msg)
+		{ }
 	}
 }

@@ -53,7 +53,7 @@ namespace DatabaseSync.Components
 		private LocalizedString sentence;
 
 		[SerializeField, Tooltip("Event that will be fired once filled in.")]
-		private DialogueEventSO dialogueEvent;
+		private DialogueEventSO dialogueEvent = new DialogueEventSO("", null);
 
 		[SerializeField]
 		private List<DialogueChoiceSO> choices = new List<DialogueChoiceSO>();

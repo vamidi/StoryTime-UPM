@@ -189,7 +189,7 @@ namespace DatabaseSync.UI
 		{
 			if (isOpenEvent)
 			{
-				navigationPanel.SetQuest(info);
+				navigationPanel.SetQuest(info, interactionType);
 				navigationPanel.FillInteractionPanel(interactionType);
 			}
 

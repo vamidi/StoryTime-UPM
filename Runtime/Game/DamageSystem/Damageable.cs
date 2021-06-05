@@ -1,9 +1,11 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+
+using UnityEngine;
 using UnityEngine.Events;
 
 namespace DatabaseSync.Components
 {
-	using Events;
+	using Attributes;
 
 	public enum MessageType
 	{
@@ -14,12 +16,16 @@ namespace DatabaseSync.Components
 		// Add your user defined message type after
 	}
 
+	public interface IMessageReceiver
+	{
+		void OnReceiveMessage(MessageType type, object sender, object msg);
+	}
+
     public partial class Damageable : MonoBehaviour
     {
-	    public DamageReceiverChannelSO DamageReceiverChannel => onDamageMessageReceivers;
-
 	    [Tooltip("When this gameObject is damaged, these other gameObjects are notified.")]
-	    [SerializeField] protected DamageReceiverChannelSO onDamageMessageReceivers;
+	    [EnforceType(typeof(IMessageReceiver))]
+	    [SerializeField] protected List<MonoBehaviour> onDamageMessageReceivers = new List<MonoBehaviour>();
 	    //
         public int maxHitPoints;
 
@@ -113,7 +119,12 @@ namespace DatabaseSync.Components
                 onReceiveDamage.Invoke();
 
             var messageType = CurrentHitPoints <= 0 ? MessageType.Dead : MessageType.Damaged;
-            if(onDamageMessageReceivers != null) onDamageMessageReceivers.RaiseEvent(messageType, data);
+            foreach (var behaviour in onDamageMessageReceivers)
+            {
+	            // ReSharper disable once SuspiciousTypeConversion.Global
+	            if(behaviour is IMessageReceiver receiver)
+		            receiver.OnReceiveMessage(messageType, this, data);
+            }
         }
 
         void LateUpdate()
