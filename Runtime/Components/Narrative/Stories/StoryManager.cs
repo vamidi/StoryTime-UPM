@@ -165,7 +165,6 @@ namespace DatabaseSync.Components
 
 		void StartStory(StorySO currentStory, UI.StoryState state = UI.StoryState.New)
 		{
-			Debug.Log(currentStory.Title);
 			if (m_CurrentStory == currentStory)
 				return;
 

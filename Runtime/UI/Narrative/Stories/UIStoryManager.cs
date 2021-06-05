@@ -2,6 +2,7 @@ using System.Collections.Generic;
 
 using UnityEngine;
 using UnityEngine.Localization;
+using UnityEngine.Localization.Components;
 
 namespace DatabaseSync.UI
 {
@@ -18,13 +19,14 @@ namespace DatabaseSync.UI
 		public LocalizedString tabSubTitle;
 
 		[Header("Information references")]
-		public LocalizedString storyTitle;
-		public LocalizedString taskTitle;
-		public LocalizedString taskDescription;
+		public LocalizeStringEvent storyTitle;
+		public LocalizeStringEvent taskTitle;
+		public LocalizeStringEvent taskDescription;
 
 		[Tooltip("List view that we need to add the stories to.")]
 		public GameObject listView;
 		public GameObject tabAreaView;
+		public GameObject panel;
 
 		[Tooltip("The prefab that defines a category in the list view.")]
 		public StoryCategoryFiller categoryPrefab;
@@ -65,9 +67,13 @@ namespace DatabaseSync.UI
 			var task = story.Tasks.Find(o => o.IsDone == false);
 
 			// set the right information
-			// storyTitle.StringReference = story ? story.Title : "";
-			// taskTitle.StringReference = task ? task.Description : "";
-			// taskDescription.StringReference = task ? task.Description : "";
+			storyTitle.StringReference = story ? story.Title : null;
+			// TODO see if we need a title
+			taskTitle.StringReference = task ? task.Description : null;
+			taskDescription.StringReference = task ? task.Description : null;
+
+			if (panel)
+				panel.SetActive(true);
 		}
 
 		public void ShowCategories(QuestType type = QuestType.All)

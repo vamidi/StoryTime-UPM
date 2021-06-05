@@ -47,6 +47,8 @@ namespace DatabaseSync.UI
 			InteractionStoryFiller row = Instantiate(storyRowPrefab, Vector3.zero, Quaternion.identity);
 			row.categoryManager = this;
 
+			selectedRow = row;
+
 			var trans = row.transform;
 			trans.SetParent(transform);
 			trans.localScale = Vector3.one;

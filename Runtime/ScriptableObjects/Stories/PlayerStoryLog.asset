@@ -13,5 +13,4 @@ MonoBehaviour:
   m_Name: PlayerStoryLog
   m_EditorClassIdentifier: 
   storyCategories: 0100000002000000
-  stories:
-  - {fileID: 11400000, guid: 27310dc031734d84dad84ad73992c506, type: 2}
+  stories: []

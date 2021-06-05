@@ -1,7 +1,8 @@
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
-using UnityEngine.Localization;
+using UnityEngine.Localization.Components;
 
 namespace DatabaseSync.UI
 {
@@ -17,8 +18,8 @@ namespace DatabaseSync.UI
 		public UnityEvent onRowSelected;
 		public UnityEvent onRowDeselected;
 
-		[SerializeField] private LocalizedString storyTitle;
-		[SerializeField] private LocalizedString storySubTitle;
+		[SerializeField] private LocalizeStringEvent storyTitle;
+		[SerializeField] private LocalizeStringEvent storySubTitle;
 
 		private StorySO m_Story;
 
@@ -69,8 +70,8 @@ namespace DatabaseSync.UI
 		public void FillInteractionPanel()
 		{
 			// TODO write a handler that return the text for the subtitle
-			storyTitle = m_Story.Title;
-			// storySubTitle = ""; // Add subtitle to the database.
+			storyTitle.StringReference = m_Story.Title;
+			storySubTitle.StringReference = m_Story.Tasks.First(o => !o.IsDone).Description;
 		}
 
 		public void Select()

@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 
+using DG.Tweening;
+
 namespace DatabaseSync.UI
 {
 	using Components;
@@ -86,9 +88,6 @@ namespace DatabaseSync.UI
 
 			if (setInteractionEvent != null)
 				setInteractionEvent.OnEventRaised += SetInteractionPanel;
-
-			if (showNavigationInteractionEvent != null)
-				showNavigationInteractionEvent.OnEventRaised += ShowNavigationPanel;
 
 			if (showNavigationInteractionEvent != null)
 				showNavigationInteractionEvent.OnEventRaised += ShowNavigationPanel;
@@ -191,6 +190,14 @@ namespace DatabaseSync.UI
 			{
 				navigationPanel.SetQuest(info, interactionType);
 				navigationPanel.FillInteractionPanel(interactionType);
+
+				navigationPanel.transform.DOMoveX(200, 1.0f).SetEase(Ease.InOutQuad).OnComplete(
+					() => navigationPanel.transform.DOMoveX(200, 5.0f).SetEase(Ease.InOutQuad).OnComplete(
+						() => navigationPanel.transform.DOMoveX(-200, 1.0f).SetEase(Ease.InOutQuad).OnComplete(
+							() => navigationPanel.gameObject.SetActive(false)
+						)
+					)
+				);
 			}
 
 			navigationPanel.gameObject.SetActive(isOpenEvent);

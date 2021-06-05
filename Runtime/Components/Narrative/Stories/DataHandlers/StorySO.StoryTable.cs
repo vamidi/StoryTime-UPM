@@ -130,7 +130,6 @@ namespace DatabaseSync.Components
 					// get the outputs
 					var outputs = node["outputs"].ToObject<JObject>();
 
-					Debug.Log("Checking data");
 					// loop through the outputs
 					// Outputs can be
 					// Dialogue to dialogue
@@ -144,8 +143,7 @@ namespace DatabaseSync.Components
 						string nodeId;
 						JObject otherNode;
 						JObject otherData;
-						Debug.Log(outputToken.Key.Contains("exec"));
-						if (outputToken.Key.Contains("exec") && connections.Length > 0)
+						if (outputToken.Key.Contains("Exec") && connections.Length > 0)
 						{
 							foreach (var con in connections)
 							{
@@ -181,8 +179,6 @@ namespace DatabaseSync.Components
 										{
 											// int value = @event.Value["value"]["value"].ToObject<int>();
 											currentDialogue.DialogueEvent = new DialogueEventSO(eventName, story);
-											Debug.Log(currentDialogue.DialogueEvent);
-											Debug.Log($"{story}");
 										}
 									}
 								}
