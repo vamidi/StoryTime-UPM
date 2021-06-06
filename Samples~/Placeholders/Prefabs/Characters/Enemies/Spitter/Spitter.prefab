@@ -2451,7 +2451,7 @@ GameObject:
   - component: {fileID: 114437624635966428}
   - component: {fileID: 2011021909507319000}
   - component: {fileID: 195830191348564100}
-  - component: {fileID: 114673357908241292}
+  - component: {fileID: 5763667401255046369}
   - component: {fileID: 65583866204139870}
   - component: {fileID: 114262391854553980}
   - component: {fileID: 54840076793666620}
@@ -2581,7 +2581,7 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &114673357908241292
+--- !u!114 &5763667401255046369
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2590,14 +2590,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 1500461124768838}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0149b5ab8f608c943b260125ac76d875, type: 3}
+  m_Script: {fileID: 11500000, guid: 5ee96f7fdced465790c0ba1e07b33cc9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onDamageMessageReceivers:
+  - {fileID: 114818483862689138}
   maxHitPoints: 1
   invulnerabiltyTime: 0
   hitAngle: 360
   hitForwardRotation: 360
-  OnDeath:
+  onDeath:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2011021909507319000}
@@ -2611,20 +2613,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnReceiveDamage:
+  onReceiveDamage:
     m_PersistentCalls:
       m_Calls: []
-  OnHitWhileInvulnerable:
+  onHitWhileInvulnerable:
     m_PersistentCalls:
       m_Calls: []
-  OnBecomeVulnerable:
+  onBecomeVulnerable:
     m_PersistentCalls:
       m_Calls: []
-  OnResetDamage:
+  onResetDamage:
     m_PersistentCalls:
       m_Calls: []
-  onDamageMessageReceivers:
-  - {fileID: 114818483862689138}
 --- !u!65 &65583866204139870
 BoxCollider:
   m_ObjectHideFlags: 0

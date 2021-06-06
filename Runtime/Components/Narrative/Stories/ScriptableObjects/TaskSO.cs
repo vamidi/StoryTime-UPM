@@ -64,13 +64,13 @@ namespace DatabaseSync.Components
 		[Tooltip("The Character this mission belongs to and will need to interaction with")]
 		[SerializeField] private ActorSO actor;
 
-		[Tooltip("The dialogue that will be displayed before an action, if any")]
+		[Tooltip("The story that will be displayed before an action, if any")]
 		[SerializeField] private DialogueLineSO dialogueBeforeTask;
 
-		[Tooltip("The dialogue that will be displayed when the step is achieved")]
+		[Tooltip("The story that will be displayed when the step is achieved")]
 		[SerializeField] private DialogueLineSO completeDialogue;
 
-		[Tooltip("The dialogue that will be displayed if the step is not achieved yet")]
+		[Tooltip("The story that will be displayed if the step is not achieved yet")]
 		[SerializeField] private DialogueLineSO incompleteDialogue;
 
 		[Tooltip("The item to check/give/reward (can be multiple)")]

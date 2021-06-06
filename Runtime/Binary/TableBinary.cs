@@ -137,13 +137,7 @@ namespace DatabaseSync.Binary
 		 */
 		public static Table GetTable(string tableName)
 		{
-			DatabaseConfig config = Fetch();
-			string destination = $"{config?.dataPath}/{tableName}.json";
-
-			if (!File.Exists(destination))
-				throw new ArgumentException($"{tableName} couldn't be found!");
-
-			var stru = new TableStruct
+			var tblStruct = new TableStruct
 			{
 				Table = new Table(),
 				Ujson =
@@ -153,14 +147,58 @@ namespace DatabaseSync.Binary
 				Data = new List<TableField>()
 			};
 
-			var table = ParseData(GetTableData(GetStream(destination)), ref stru);
+			DatabaseConfig config = Fetch();
+			if (config == null)
+			{
+#if UNITY_EDITOR
+				Debug.LogWarning("Config file not found. Have you created the database config file?");
+#else
+				throw new ArgumentException($"{tableName} couldn't be found!");
+#endif
+				return tblStruct.Table;
+			}
+
+			string destination = $"{config.dataPath}/{tableName}.json";
+
+			if (!File.Exists(destination))
+#if UNITY_EDITOR
+			Debug.LogWarning($"{tableName} couldn't be found!");
+#else
+				throw new ArgumentException($"{tableName} couldn't be found!");
+#endif
+
+			var table = ParseData(GetTableData(GetStream(destination)), ref tblStruct);
 			return table;
 		}
 
 		public static TableRow GetRow(string tableName, uint entityID)
 		{
 			DatabaseConfig config = Fetch();
+
+			TableRow result = new TableRow
+			{
+				RowId = entityID
+			};
+
+			if (config == null)
+			{
+#if UNITY_EDITOR
+				Debug.LogWarning("Config file not found. Have you created the database config file?");
+#else
+				throw new ArgumentException($"{tableName} couldn't be found!");
+#endif
+				return result;
+			}
+
 			string destination = $"{config.dataPath}/{tableName}.json";
+
+			if (!File.Exists(destination))
+#if UNITY_EDITOR
+				Debug.LogWarning($"{tableName} couldn't be found!");
+#else
+				throw new ArgumentException($"{tableName} couldn't be found!");
+#endif
+
 			if (!File.Exists(destination))
 			{
 				throw new ArgumentException($"{tableName} couldn't be found!");
@@ -171,10 +209,6 @@ namespace DatabaseSync.Binary
 
 			// The key-value data
 			JArray arr = tableData["data"].Value<JArray>();
-			TableRow result = new TableRow
-			{
-				RowId = entityID
-			};
 
 			// Invalid ID
 			if (entityID >= arr.Count)

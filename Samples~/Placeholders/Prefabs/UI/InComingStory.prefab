@@ -63,8 +63,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactionName: {fileID: 2149918522055697570}
   interactionKeyButton: {fileID: 7077029036031400941}
-  interactionStoryTitle: {fileID: 0}
-  interactionStoryState: {fileID: 0}
+  interactionStoryTitle: {fileID: 9208729492453481198}
+  interactionStoryState: {fileID: 8481822039951792798}
   interactionTaskDescription: {fileID: 2941075741769879651}
 --- !u!1 &1313424424822533228
 GameObject:
@@ -730,8 +730,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e90b85f04b7b4ffd8c628d41365bf622, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  listInteractions: []
+  listInteractions:
+  - {fileID: 11400000, guid: 1bc2c726c4cf9bc4abff87b4b2c068dc, type: 2}
   interactionItem: {fileID: 8984182493175664681}
+  newState:
+    m_TableReference:
+      m_TableCollectionName: GUID:4e7ebdfa10b67e04b97ed9f15524fef8
+    m_TableEntryReference:
+      m_KeyId: 8951443456
+      m_Key: 
+    m_FallbackState: 0
+  updateState:
+    m_TableReference:
+      m_TableCollectionName: GUID:4e7ebdfa10b67e04b97ed9f15524fef8
+    m_TableEntryReference:
+      m_KeyId: 624633327616
+      m_Key: 
+    m_FallbackState: 0
+  completeState:
+    m_TableReference:
+      m_TableCollectionName: GUID:4e7ebdfa10b67e04b97ed9f15524fef8
+    m_TableEntryReference:
+      m_KeyId: 714538233856
+      m_Key: 
+    m_FallbackState: 0
 --- !u!1 &8655211421006133958
 GameObject:
   m_ObjectHideFlags: 0

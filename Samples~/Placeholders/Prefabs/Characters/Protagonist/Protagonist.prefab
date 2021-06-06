@@ -106,7 +106,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ee96f7fdced465790c0ba1e07b33cc9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onDamageMessageReceivers: {fileID: 0}
+  onDamageMessageReceivers:
+  - {fileID: 0}
   maxHitPoints: 5
   invulnerabiltyTime: 5
   hitAngle: 360
@@ -36938,6 +36939,12 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8953430744842566978, guid: 483778ca9fd0abf44a9f1588041f185d,
+        type: 3}
+      propertyPath: inputReader
+      value: 
+      objectReference: {fileID: 11400000, guid: 5f1cee8fc8a52c348ac8d6aa41f2ddda,
+        type: 2}
     - target: {fileID: 8953430744842566978, guid: 483778ca9fd0abf44a9f1588041f185d,
         type: 3}
       propertyPath: startCrafting

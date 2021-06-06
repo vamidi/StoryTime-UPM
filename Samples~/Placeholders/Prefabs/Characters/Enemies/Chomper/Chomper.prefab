@@ -3370,7 +3370,7 @@ GameObject:
   - component: {fileID: 4111328061247126}
   - component: {fileID: 95449222272042074}
   - component: {fileID: 114290622220327500}
-  - component: {fileID: 114700785457422906}
+  - component: {fileID: 4275947604787638523}
   - component: {fileID: 114675004760664532}
   - component: {fileID: 65771025306039616}
   - component: {fileID: 114643127116660914}
@@ -3450,7 +3450,7 @@ MonoBehaviour:
   gruntAudio: {fileID: 114720182369786316}
   deathAudio: {fileID: 114771674042626142}
   spottedAudio: {fileID: 114643955118306876}
---- !u!114 &114700785457422906
+--- !u!114 &4275947604787638523
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3459,14 +3459,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 1722084123150156}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0149b5ab8f608c943b260125ac76d875, type: 3}
+  m_Script: {fileID: 11500000, guid: 5ee96f7fdced465790c0ba1e07b33cc9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onDamageMessageReceivers:
+  - {fileID: 114290622220327500}
   maxHitPoints: 1
   invulnerabiltyTime: 0
   hitAngle: 360
   hitForwardRotation: 360
-  OnDeath:
+  onDeath:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 795065429481735329}
@@ -3480,20 +3482,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnReceiveDamage:
+  onReceiveDamage:
     m_PersistentCalls:
       m_Calls: []
-  OnHitWhileInvulnerable:
+  onHitWhileInvulnerable:
     m_PersistentCalls:
       m_Calls: []
-  OnBecomeVulnerable:
+  onBecomeVulnerable:
     m_PersistentCalls:
       m_Calls: []
-  OnResetDamage:
+  onResetDamage:
     m_PersistentCalls:
       m_Calls: []
-  onDamageMessageReceivers:
-  - {fileID: 114290622220327500}
 --- !u!114 &114675004760664532
 MonoBehaviour:
   m_ObjectHideFlags: 0
