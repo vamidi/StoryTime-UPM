@@ -7,7 +7,6 @@ using UnityEngine;
 using UnityEngine.UIElements;
 
 using TMPro;
-using UnityEditor.Localization;
 
 namespace DatabaseSync.Editor.UI
 {
@@ -125,32 +124,6 @@ namespace DatabaseSync.Editor.UI
 			            configFile.dataPath = assetDirectory;
 			            SaveConfig(configFile);
 		            };
-
-		            var collectionField = root.Q<ObjectField>("config-dialogue-collection-field");
-		            collectionField.objectType = typeof(StringTableCollection);
-		            collectionField.value = configFile.DialogueCollection;
-
-		            collectionField.RegisterValueChangedCallback((evt) =>
-		            {
-			            var newValue = evt.newValue as StringTableCollection;
-			            if (newValue != null)
-			            {
-				            configFile.DialogueCollection = newValue;
-			            }
-		            });
-
-		            collectionField = root.Q<ObjectField>("config-dialogue-option-collection-field");
-		            collectionField.objectType = typeof(StringTableCollection);
-		            collectionField.value = configFile.DialogueOptionCollection;
-
-		            collectionField.RegisterValueChangedCallback((evt) =>
-		            {
-			            var newValue = evt.newValue as StringTableCollection;
-			            if (newValue != null)
-			            {
-				            configFile.DialogueOptionCollection = newValue;
-			            }
-		            });
 	            }
             }
 

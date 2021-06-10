@@ -1,14 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+
 using Newtonsoft.Json.Linq;
 
 using UnityEngine;
 using UnityEngine.Localization;
 
+#if UNITY_EDITOR
+using UnityEditor.Localization;
+#endif
+
 namespace DatabaseSync.Components
 {
-	using Database;
 	using Binary;
+	using Database;
+	using Attributes;
 
 	public enum QuestType
 	{
@@ -52,21 +58,33 @@ namespace DatabaseSync.Components
 		public ActorSO Actor => actor;
 
 		// rename Dialogue line to story lines
-		public DialogueLine StartDialogue => m_StartDialogue;
+		public DialogueLine StartDialogue => startDialogue;
 
-		[Tooltip("The collection of tasks composing the Quest")] [SerializeField]
-		private List<TaskSO> tasks = new List<TaskSO>();
+		[Tooltip("The collection of tasks composing the Quest")]
+		[SerializeField] private List<TaskSO> tasks = new List<TaskSO>();
 
 		private bool m_IsDone;
 
-		// public QuestSO() : base("quests", "title") { }
+		// public StorySO() : base("stories", "title") { }
 
 		[SerializeField] private ActorSO actor;
 
 		// Is being calculated in the story editor.
-		private DialogueLine m_StartDialogue;
+		[SerializeField] private DialogueLine startDialogue;
 
 		/** ------------------------------ DATABASE FIELD ------------------------------ */
+
+		[SerializeField, Tooltip("Override where we should get the dialogue data from.")]
+		private bool overrideDialogueTable;
+
+		[SerializeField, Tooltip("Override where we should get the dialogue options data from.")]
+		private bool overrideDialogueOptionsTable;
+
+		[SerializeField, ConditionalField("overrideDialogueTable"), Tooltip("Table collection we are going to use for the sentence")]
+		private StringTableCollection dialogueCollection;
+
+		[SerializeField, ConditionalField("overrideDialogueTable"), Tooltip("Table collection we are going to use for the sentence")]
+		private StringTableCollection dialogueOptionsCollection;
 
 		[SerializeField, Tooltip("The title of the quest")]
 		private LocalizedString title;
@@ -99,8 +117,8 @@ namespace DatabaseSync.Components
 			if (childId != UInt32.MaxValue)
 			{
 				// Only get the first dialogue.
-				// TODO use custom scripter
-				m_StartDialogue = DialogueLine.ConvertRow(TableDatabase.Get.GetRow("dialogues", childId));
+				startDialogue = DialogueLine.ConvertRow(TableDatabase.Get.GetRow("dialogues", childId),
+					overrideDialogueTable ? dialogueCollection : LocalizationEditorSettings.GetStringTableCollection("Dialogues"));
 
 				var field = TableDatabase.Get.GetField(Name, "data", ID);
 				if (field != null)

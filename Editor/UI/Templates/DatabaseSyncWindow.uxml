@@ -12,12 +12,6 @@
 		<uie:ObjectField
 			label="Loaded config" tooltip="The config we need to load." name="config-field" class="unity-property-field-input" binding-path="config" allow-scene-objects="false"/>
 		/>
-		<uie:ObjectField
-			label="Loaded dialogue collection" tooltip="The collection we need to show dialogues." name="config-dialogue-collection-field" class="unity-property-field-input" binding-path="config" allow-scene-objects="false"/>
-		/>
-		<uie:ObjectField
-			label="Loaded dialogue option collection" tooltip="The collection we need to show dialogue options." name="config-dialogue-option-collection-field" class="unity-property-field-input" binding-path="config" allow-scene-objects="false"/>
-		/>
 	</ui:VisualElement>
 	<ui:VisualElement name="rowSettings" style="display:none;font-weight:bold;">
 		<ui:TextField label="Database URL" tooltip="The database url to Firebase." name="database-url-field" text="[YOUR_FIREBASE_DATABASE_URL]" class="unity-property-field-input" binding-path="databaseURL" />

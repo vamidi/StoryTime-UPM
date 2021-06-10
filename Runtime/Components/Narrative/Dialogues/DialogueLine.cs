@@ -1,12 +1,16 @@
 using System;
 using System.Collections.Generic;
-
 using UnityEngine;
 using UnityEngine.Localization;
+
+#if UNITY_EDITOR
+using UnityEditor.Localization;
+#endif
 
 namespace DatabaseSync.Components
 {
 	using Binary;
+	using Attributes;
 
 	[Serializable]
 	public class DialogueLine : IDialogueLine
@@ -31,7 +35,7 @@ namespace DatabaseSync.Components
 		}
 
 		public uint NextDialogueID => nextDialogueID;
-		public List<DialogueChoiceSO> Choices => m_Choices;
+		public List<DialogueChoiceSO> Choices => choices;
 
 		private uint m_Id = UInt32.MaxValue;
 
@@ -50,23 +54,23 @@ namespace DatabaseSync.Components
 		/// <summary>
 		///
 		/// </summary>
-		[SerializeField, Tooltip("Sentence that will showed when interacting")]
+		[SerializeField, ConditionalField("overrideTableName"), Tooltip("Sentence that will showed when interacting")]
 		private LocalizedString sentence;
 
 		[SerializeField, Tooltip("Event that will be fired once filled in.")]
 		private DialogueEventSO dialogueEvent = new DialogueEventSO("", null);
 
-		[NonSerialized]
-		private List<DialogueChoiceSO> m_Choices = new List<DialogueChoiceSO>();
+		// [NonSerialized]
+		[SerializeField] private List<DialogueChoiceSO> choices = new List<DialogueChoiceSO>();
 
 		public override string ToString()
 		{
 			// public uint NextDialogueID => nextDialogueID;
 			// public List<DialogueOption> Choices => choices;
-			return $"ID: {nextDialogueID}, Choices: {m_Choices.Count}, Sentence: {sentence}";
+			return $"ID: {nextDialogueID}, Choices: {choices.Count}, Sentence: {sentence}";
 		}
 
-		public static DialogueLine ConvertRow(TableRow row, DialogueLine dialogueLine = null)
+		public static DialogueLine ConvertRow(TableRow row, StringTableCollection collection, DialogueLine dialogueLine = null)
 		{
 			DialogueLine dialogue = dialogueLine ?? new DialogueLine();
 
@@ -75,14 +79,12 @@ namespace DatabaseSync.Components
 				return dialogue;
 			}
 
-			DatabaseConfig config = TableBinary.Fetch();
-			if (config != null)
-			{
-				dialogue.m_Id = row.RowId;
-				var entryId = (dialogue.ID + 1).ToString();
-				if(config.DialogueCollection)
-					dialogue.sentence = new LocalizedString { TableReference = config.DialogueCollection.TableCollectionNameReference, TableEntryReference = entryId };
-			}
+			dialogue.m_Id = row.RowId;
+			var entryId = (dialogue.ID + 1).ToString();
+			if(collection)
+				dialogue.sentence = new LocalizedString { TableReference = collection.TableCollectionNameReference, TableEntryReference = entryId };
+			else
+				Debug.LogError("Collection not found. Did you create any localization tables");
 
 			foreach (var field in row.Fields)
 			{

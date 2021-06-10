@@ -9,6 +9,6 @@ ScriptedImporter:
   assetBundleVariant: 
   script: {fileID: 11500000, guid: 8404be70184654265930450def6a9037, type: 3}
   generateWrapperCode: 1
-  wrapperCodePath: C:/Personal/Werk/HTML/StoryTime/unity/StoryTime/Packages/StoryTime/Runtime/Input/GameInput.cs
+  wrapperCodePath: Assets/Samples/StoryTime/1.0.0-preview/Placeholders/Input/GameInput.cs
   wrapperClassName: 
   wrapperCodeNamespace: DatabaseSync.Input

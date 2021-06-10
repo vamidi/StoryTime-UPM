@@ -275,7 +275,7 @@ namespace DatabaseSync
 
 		private void DisplayInteractionUI()
 		{
-			//Raise event to display UI
+			// Raise event to display UI
 			toggleInteractionUI.RaiseEvent(true, _potentialInteraction);
 		}
 

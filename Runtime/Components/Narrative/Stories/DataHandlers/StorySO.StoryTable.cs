@@ -1,9 +1,13 @@
 using System;
 using System.Linq;
 
+using Newtonsoft.Json.Linq;
+
 using UnityEngine;
 
-using Newtonsoft.Json.Linq;
+#if UNITY_EDITOR
+using UnityEditor.Localization;
+#endif
 
 namespace DatabaseSync.Components
 {
@@ -29,8 +33,11 @@ namespace DatabaseSync.Components
 				{
 					story.ID = row.RowId;
 					var entryId = (story.ID + 1).ToString();
-					story.title.TableEntryReference = entryId;
-					story.Description.TableEntryReference = entryId;
+					if (!story.title.IsEmpty)
+						story.title.TableEntryReference = entryId;
+
+					if(!story.Description.IsEmpty)
+						story.Description.TableEntryReference = entryId;
 				}
 
 				foreach (var field in row.Fields)
@@ -87,7 +94,7 @@ namespace DatabaseSync.Components
 				}
 
 				// start with the start dialogue
-				DialogueLine currentDialogue = story.m_StartDialogue;
+				DialogueLine currentDialogue = story.startDialogue;
 
 				// Debug.Log("Current" + currentDialogue);
 
@@ -211,7 +218,8 @@ namespace DatabaseSync.Components
 							{
 								// validate the data
 								currentDialogue.NextDialogue = nextId != UInt32.MaxValue ?
-									DialogueLine.ConvertRow(TableDatabase.Get.GetRow("dialogues", nextId))
+									DialogueLine.ConvertRow(TableDatabase.Get.GetRow("dialogues", nextId),
+										story.overrideDialogueTable ? story.dialogueCollection : LocalizationEditorSettings.GetStringTableCollection("Dialogues"))
 									: null;
 
 								// Debug.Log(" Next: " + currentDialogue.NextDialogue);
@@ -225,11 +233,14 @@ namespace DatabaseSync.Components
 								var optionId = data["options"][outputToken.Key]["value"].ToObject<uint>();
 
 								// Grab the choice
-								DialogueChoiceSO choice = DialogueChoiceSO.ConvertRow(TableDatabase.Get.GetRow("dialogueOptions", optionId));
+								DialogueChoiceSO choice = DialogueChoiceSO.ConvertRow(TableDatabase.Get.GetRow("dialogueOptions", optionId),
+									story.overrideDialogueOptionsTable ? story.dialogueOptionsCollection : LocalizationEditorSettings.GetStringTableCollection("DialogueOptions")
+								);
 
 								// find the next dialogue of this choice.
 								choice.NextDialogue = nextId != UInt32.MaxValue ?
-									DialogueLine.ConvertRow(TableDatabase.Get.GetRow("dialogues", nextId))
+									DialogueLine.ConvertRow(TableDatabase.Get.GetRow("dialogues", nextId),
+										story.overrideDialogueTable ? story.dialogueCollection : LocalizationEditorSettings.GetStringTableCollection("Dialogues"))
 									: null;
 
 								// Debug.Log(" Choice: " + choice);

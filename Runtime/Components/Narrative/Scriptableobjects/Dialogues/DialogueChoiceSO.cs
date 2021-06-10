@@ -4,6 +4,10 @@ using System;
 using UnityEngine;
 using UnityEngine.Localization;
 
+#if UNITY_EDITOR
+using UnityEditor.Localization;
+#endif
+
 namespace DatabaseSync.Components
 {
 	using Binary;
@@ -57,9 +61,10 @@ namespace DatabaseSync.Components
 		/// This can then be immediately use in the game.
 		/// </summary>
 		/// <param name="row"></param>
+		/// <param name="collection"></param>
 		/// <param name="option"></param>
 		/// <returns>DialogueOption</returns>
-		public static DialogueChoiceSO ConvertRow(TableRow row, DialogueChoiceSO option = null)
+		public static DialogueChoiceSO ConvertRow(TableRow row, StringTableCollection collection, DialogueChoiceSO option = null)
 		{
 			// Make an empty object.
 			DialogueChoiceSO dialogueOption = option ? option : CreateInstance<DialogueChoiceSO>();
@@ -70,12 +75,14 @@ namespace DatabaseSync.Components
 				return dialogueOption;
 			}
 
-			DatabaseConfig config = TableBinary.Fetch();
-			if (config != null)
+			if (collection != null)
 			{
 				dialogueOption.ID = row.RowId;
 				var entryId = (dialogueOption.ID + 1).ToString();
-				dialogueOption.text = new LocalizedString { TableReference = config.DialogueOptionCollection.TableCollectionNameReference, TableEntryReference = entryId };
+				if(collection)
+					dialogueOption.text = new LocalizedString { TableReference = collection.TableCollectionNameReference, TableEntryReference = entryId };
+				else
+					Debug.LogError("Collection not found. Did you create any localization tables");
 			}
 
 			// Loop through all the fields and acquire the right data
