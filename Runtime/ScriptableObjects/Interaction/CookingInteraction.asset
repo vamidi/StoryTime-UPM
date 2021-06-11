@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 05899ba0aa29467eb8480eec7decf62e, type: 3}
-  m_Name: NPCInteraction
+  m_Name: CookingInteraction
   m_EditorClassIdentifier: 
   interactionName:
     m_TableReference:
       m_TableCollectionName: GUID:aa5b18277a15a4113950a3cc2f1e9909
     m_TableEntryReference:
-      m_KeyId: 90730127360
+      m_KeyId: 362814627840
       m_Key: 
     m_FallbackState: 0
-  interactionType: 4
+  interactionType: 2

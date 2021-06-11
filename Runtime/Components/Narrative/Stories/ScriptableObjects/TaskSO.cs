@@ -29,11 +29,11 @@ namespace DatabaseSync.Components
 		public uint RequiredCount { get => requiredCount; set => requiredCount = value; }
 		public List<ItemStack> Items { get => items; set => items = value; }
 		public TaskCompletionType Type { get => type; set => type = value; }
-		public DialogueLineSO DialogueBeforeTask => dialogueBeforeTask;
-		public DialogueLineSO WinDialogue => completeDialogue;
-		public DialogueLineSO LoseDialogue => incompleteDialogue;
+		public StorySO StoryBeforeTask => storyBeforeTask;
+		public StorySO WinStory => completeStory;
+		public StorySO LoseStory => incompleteStory;
 		public bool IsDone => isDone;
-		public ActorSO Actor => actor;
+		public CharacterSO Character => character;
 		public TaskEventSO TaskEvent => taskEvent;
 
 		[Tooltip("The description of the mission")]
@@ -62,16 +62,16 @@ namespace DatabaseSync.Components
 		private int m_Count;
 
 		[Tooltip("The Character this mission belongs to and will need to interaction with")]
-		[SerializeField] private ActorSO actor;
+		[SerializeField] private CharacterSO character;
 
 		[Tooltip("The story that will be displayed before an action, if any")]
-		[SerializeField] private DialogueLineSO dialogueBeforeTask;
+		[SerializeField] private StorySO storyBeforeTask;
 
 		[Tooltip("The story that will be displayed when the step is achieved")]
-		[SerializeField] private DialogueLineSO completeDialogue;
+		[SerializeField] private StorySO completeStory;
 
 		[Tooltip("The story that will be displayed if the step is not achieved yet")]
-		[SerializeField] private DialogueLineSO incompleteDialogue;
+		[SerializeField] private StorySO incompleteStory;
 
 		[Tooltip("The item to check/give/reward (can be multiple)")]
 		[SerializeField] private List<ItemStack> items;

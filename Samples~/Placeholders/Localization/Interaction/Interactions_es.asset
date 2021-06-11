@@ -9,14 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 05899ba0aa29467eb8480eec7decf62e, type: 3}
-  m_Name: CraftingCookingInteraction
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: Interactions_es
   m_EditorClassIdentifier: 
-  interactionName:
-    m_TableReference:
-      m_TableCollectionName: 
-    m_TableEntryReference:
-      m_KeyId: 0
-      m_Key: 
-    m_FallbackState: 0
-  interactionType: 3
+  m_LocaleId:
+    m_Code: es
+  m_SharedData: {fileID: 11400000, guid: aa5b18277a15a4113950a3cc2f1e9909, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData: []
+  references:
+    version: 1

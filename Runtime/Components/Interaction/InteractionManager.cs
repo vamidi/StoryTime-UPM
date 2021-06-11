@@ -57,7 +57,7 @@ namespace DatabaseSync
 		[SerializeField] private VoidEventChannelSO startCooking;
 		[SerializeField] private CollectionEventChannelSO startCrafting;
 
-		[SerializeField] private DialogueActorChannelSO startTalking;
+		[SerializeField] private DialogueCharacterChannelSO startTalking;
 
 		// UI events
 		[SerializeField] private InteractionUIEventChannelSO toggleInteractionUI;

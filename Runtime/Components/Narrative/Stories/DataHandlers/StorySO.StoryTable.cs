@@ -122,9 +122,10 @@ namespace DatabaseSync.Components
 			/// if it is a dialogue take data["dialogueId"] -> can be Number.MAX_SAFE_INTEGER
 			/// </summary>
 			/// <param name="currentDialogue"></param>
+			/// <param name="story"></param>
 			/// <param name="node"></param>
 			/// <param name="nodes"></param>
-			protected static void ParseNextNodeData(StorySO story, IDialogueLine currentDialogue, JObject node, JObject nodes)
+			private static void ParseNextNodeData(StorySO story, IDialogueLine currentDialogue, JObject node, JObject nodes)
 			{
 				if (node["data"] == null)
 					return;
@@ -219,7 +220,7 @@ namespace DatabaseSync.Components
 								// validate the data
 								currentDialogue.NextDialogue = nextId != UInt32.MaxValue ?
 									DialogueLine.ConvertRow(TableDatabase.Get.GetRow("dialogues", nextId),
-										story.overrideDialogueTable ? story.dialogueCollection : LocalizationEditorSettings.GetStringTableCollection("Dialogues"))
+										story.overrideTable ? story.collection : LocalizationEditorSettings.GetStringTableCollection("Dialogues"))
 									: null;
 
 								// Debug.Log(" Next: " + currentDialogue.NextDialogue);
@@ -240,7 +241,7 @@ namespace DatabaseSync.Components
 								// find the next dialogue of this choice.
 								choice.NextDialogue = nextId != UInt32.MaxValue ?
 									DialogueLine.ConvertRow(TableDatabase.Get.GetRow("dialogues", nextId),
-										story.overrideDialogueTable ? story.dialogueCollection : LocalizationEditorSettings.GetStringTableCollection("Dialogues"))
+										story.overrideTable ? story.collection : LocalizationEditorSettings.GetStringTableCollection("Dialogues"))
 									: null;
 
 								// Debug.Log(" Choice: " + choice);

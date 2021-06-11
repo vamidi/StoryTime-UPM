@@ -70,6 +70,13 @@ namespace DatabaseSync.Components
 			return $"ID: {nextDialogueID}, Choices: {choices.Count}, Sentence: {sentence}";
 		}
 
+		/// <summary>
+		///
+		/// </summary>
+		/// <param name="row"></param>
+		/// <param name="collection"></param>
+		/// <param name="dialogueLine"></param>
+		/// <returns></returns>
 		public static DialogueLine ConvertRow(TableRow row, StringTableCollection collection, DialogueLine dialogueLine = null)
 		{
 			DialogueLine dialogue = dialogueLine ?? new DialogueLine();

@@ -45,7 +45,7 @@ namespace DatabaseSync.Components
 	/// </summary>
 	[CreateAssetMenu(fileName = "newStory", menuName = "DatabaseSync/Stories/Story", order = 51)]
 	// ReSharper disable once InconsistentNaming
-	public partial class StorySO : TableBehaviour
+	public partial class StorySO : LocalizationBehaviour
 	{
 		public LocalizedString Title => title;
 		public string CharacterName => characterName;
@@ -55,7 +55,7 @@ namespace DatabaseSync.Components
 		public QuestType TypeId => typeId;
 		public List<TaskSO> Tasks => tasks;
 		public bool IsDone => m_IsDone;
-		public ActorSO Actor => actor;
+		public CharacterSO Character => character;
 
 		// rename Dialogue line to story lines
 		public DialogueLine StartDialogue => startDialogue;
@@ -67,29 +67,23 @@ namespace DatabaseSync.Components
 
 		// public StorySO() : base("stories", "title") { }
 
-		[SerializeField] private ActorSO actor;
+		[SerializeField] private CharacterSO character;
 
 		// Is being calculated in the story editor.
 		[SerializeField] private DialogueLine startDialogue;
 
 		/** ------------------------------ DATABASE FIELD ------------------------------ */
 
-		[SerializeField, Tooltip("Override where we should get the dialogue data from.")]
-		private bool overrideDialogueTable;
-
 		[SerializeField, Tooltip("Override where we should get the dialogue options data from.")]
 		private bool overrideDialogueOptionsTable;
 
-		[SerializeField, ConditionalField("overrideDialogueTable"), Tooltip("Table collection we are going to use for the sentence")]
-		private StringTableCollection dialogueCollection;
-
-		[SerializeField, ConditionalField("overrideDialogueTable"), Tooltip("Table collection we are going to use for the sentence")]
+		[SerializeField, ConditionalField("overrideDialogueOptionsTable"), Tooltip("Table collection we are going to use for the sentence")]
 		private StringTableCollection dialogueOptionsCollection;
 
-		[SerializeField, Tooltip("The title of the quest")]
+		[SerializeField, HideInInspector, Tooltip("The title of the quest")]
 		private LocalizedString title;
 
-		[SerializeField, Tooltip("The description of the quest")]
+		[SerializeField, HideInInspector, Tooltip("The description of the quest")]
 		private LocalizedString description;
 
 		[SerializeField, HideInInspector]
@@ -112,13 +106,31 @@ namespace DatabaseSync.Components
 
 		public StorySO() : base("stories", "title", "parentId") { }
 
+		protected override void OnTableIDChanged()
+		{
+			base.OnTableIDChanged();
+			Initialize();
+		}
+
 		public virtual void OnEnable()
+		{
+#if UNITY_EDITOR
+			Initialize();
+#endif
+		}
+
+		public void FinishStory()
+		{
+			m_IsDone = true;
+		}
+
+		private void Initialize()
 		{
 			if (childId != UInt32.MaxValue)
 			{
 				// Only get the first dialogue.
 				startDialogue = DialogueLine.ConvertRow(TableDatabase.Get.GetRow("dialogues", childId),
-					overrideDialogueTable ? dialogueCollection : LocalizationEditorSettings.GetStringTableCollection("Dialogues"));
+					overrideTable ? collection : LocalizationEditorSettings.GetStringTableCollection("Dialogues"));
 
 				var field = TableDatabase.Get.GetField(Name, "data", ID);
 				if (field != null)
@@ -139,11 +151,6 @@ namespace DatabaseSync.Components
 					Debug.Log(characterName);
 				}
 			}
-		}
-
-		public void FinishStory()
-		{
-			m_IsDone = true;
 		}
 	}
 }

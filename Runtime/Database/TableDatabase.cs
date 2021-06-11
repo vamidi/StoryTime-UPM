@@ -206,20 +206,14 @@ namespace DatabaseSync.Database
 
             foreach (KeyValuePair<uint, TableRow> row in table.Rows)
             {
-                foreach (KeyValuePair<TableRowInfo, TableField> field in row.Value.Fields)
-                {
-                    if (!field.Key.Equals(columnName))
-                        continue;
-
-                    if (field.Value.Size != 0)
-                    {
-                        double d = UInt32.MaxValue;
-                        // memcpy(&d, field.Value.Data.Get(), FMath::Min((size_t)sizeof(double), (size_t)field.Value.Size));
-
-                        if ((uint)d == id)
-                            return new Tuple<uint, TableRow>(row.Key, row.Value);
-                    }
-                }
+	            var field = row.Value.Find(columnName);
+	            if (field != null)
+	            {
+		            double d = field.Data;
+		            // memcpy(&d, field.Value.Data.Get(), FMath::Min((size_t)sizeof(double), (size_t)field.Value.Size));
+		            if ((uint) d == id)
+			            return new Tuple<uint, TableRow>(row.Key, row.Value);
+	            }
             }
 
             return new Tuple<uint, TableRow>(UInt32.MaxValue, null);

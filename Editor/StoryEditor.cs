@@ -113,8 +113,8 @@ namespace DatabaseSync.Editor
 	/// <summary>
 	/// ActorSO editor settings
 	/// </summary>
-	[UnityEditor.CustomEditor(typeof(Components.ActorSO))]
-	public class ActorEditor : BaseTableEditor<Components.ActorSO>
+	[UnityEditor.CustomEditor(typeof(Components.CharacterSO))]
+	public class ActorEditor : BaseTableEditor<Components.CharacterSO>
 	{
 		public override void OnEnable()
 		{
@@ -124,12 +124,12 @@ namespace DatabaseSync.Editor
 
 		protected override void OnChanged()
 		{
-			var t = target as Components.ActorSO;
+			var t = target as Components.CharacterSO;
 			if (t && t.ID != UInt32.MaxValue)
 			{
 				var row = t.GetRow(t.Name, t.ID);
 				// set all the values from the selected row
-				if (row != null) Components.ActorSO.CharacterTable.ConvertRow(row, t);
+				if (row != null) Components.CharacterSO.CharacterTable.ConvertRow(row, t);
 			}
 		}
 	}

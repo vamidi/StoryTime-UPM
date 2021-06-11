@@ -1,12 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-
+using DatabaseSync.Attributes;
+using UnityEditor.Localization;
 using UnityEngine;
+
 using UnityEngine.Localization;
 using UnityEngine.Localization.Settings;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace DatabaseSync.Components
 {
+	using Binary;
+	using Database;
+
+
 	/// <summary>
     /// Called whenever a localized string is available.
     /// When the first <see cref="LocalizedAsset{TObject}.ChangeHandler"/> is added, a loading operation will automatically start and the localized string value will be sent to the event when completed.
@@ -51,7 +57,7 @@ namespace DatabaseSync.Components
     /// </example>
 	[CreateAssetMenu(fileName = "Item", menuName = "DatabaseSync/Item Management/Item", order = 51)]
 	// ReSharper disable once InconsistentNaming
-	public class ItemSO : TableBehaviour
+	public class ItemSO : LocalizationBehaviour
 	{
 		public LocalizedString ItemName { get => itemName; set => itemName = value; }
 		public LocalizedString Description { get => description; set => description = value; }
@@ -63,12 +69,18 @@ namespace DatabaseSync.Components
 		public LocalizedSprite LocalizePreviewImage => localizePreviewImage;
 		public bool IsLocalized => isLocalized;
 
-		[SerializeField, Tooltip("The name of the item")] private LocalizedString itemName;
+		[SerializeField, Tooltip("Override where we should get the item description data from.")]
+		private bool overrideDescriptionTable;
+
+		[SerializeField, ConditionalField("overrideDescriptionTable"), Tooltip("Table collection we are going to use for the sentence")]
+		private StringTableCollection itemDescriptionCollection;
+
+		[SerializeField, HideInInspector, Tooltip("The name of the item")] private LocalizedString itemName;
+		[SerializeField, HideInInspector, Tooltip("A description of the item")] private LocalizedString description;
 		[SerializeField, Tooltip("A preview image for the item")] private Sprite previewImage;
-		[SerializeField, Tooltip("A description of the item")] private LocalizedString description;
 		[SerializeField, Tooltip("The type of item")] private ItemTypeSO itemType;
 		[SerializeField, Tooltip("A prefab reference for the model of the item")] private GameObject prefab;
-		[SerializeField,Tooltip("If the player is able to sell this item")] private bool sellable;
+		[SerializeField, Tooltip("If the player is able to sell this item")] private bool sellable;
 		[SerializeField, Tooltip("If the item is sellable, how much will it cost")] private double sellValue;
 		[SerializeField, Tooltip("A localized preview image for the item")] private LocalizedSprite localizePreviewImage;
 		[SerializeField, Tooltip("a checkbox for localized asset")] private bool isLocalized;
@@ -80,5 +92,32 @@ namespace DatabaseSync.Components
 			UInt32 linkedId = UInt32.MaxValue, string linkedTable = "") : base(name, dropdownColumn, linkedColumn, linkedId, linkedTable) { }
 
 		ItemSO(): base("items", "name") {}
+
+		protected override void OnTableIDChanged()
+		{
+			base.OnTableIDChanged();
+			Initialize();
+		}
+
+		public virtual void OnEnable()
+		{
+			Initialize();
+		}
+
+		protected virtual void Initialize()
+		{
+			var entryId = (ID + 1).ToString();
+			collection = LocalizationEditorSettings.GetStringTableCollection("Item Names");
+			if (collection != null)
+				itemName = new LocalizedString { TableReference = collection.TableCollectionNameReference, TableEntryReference = entryId };
+			else
+				Debug.LogError("Collection not found. Did you create any localization tables");
+
+			var descriptionCollection = overrideDescriptionTable ? itemDescriptionCollection : LocalizationEditorSettings.GetStringTableCollection("Item Descriptions");
+			if (descriptionCollection != null)
+				description = new LocalizedString { TableReference = descriptionCollection.TableCollectionNameReference, TableEntryReference = entryId };
+			else
+				Debug.LogError("Collection not found. Did you create any localization tables");
+		}
 	}
 }

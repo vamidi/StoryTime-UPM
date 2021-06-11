@@ -7,10 +7,10 @@ namespace DatabaseSync.Events
 	// ReSharper disable once InconsistentNaming
 	public class DialogueStoryChannelSO : ScriptableObject
 	{
-		public UnityAction<Components.StorySO, Components.IDialogueLine, Components.ActorSO> OnEventRaised;
-		public void RaiseEvent(Components.StorySO story, Components.IDialogueLine dialogueLine, Components.ActorSO actor = null)
+		public UnityAction<Components.StorySO> OnEventRaised;
+		public void RaiseEvent(Components.StorySO story)
 		{
-			OnEventRaised?.Invoke(story, dialogueLine, actor);
+			OnEventRaised?.Invoke(story);
 		}
 	}
 }

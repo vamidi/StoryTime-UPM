@@ -4,16 +4,16 @@ namespace DatabaseSync.Components
 {
 	using Events;
 
-	// this script needs to be put on the actor, and takes care of the current step to accomplish.
-	// the step contains a dialogue and maybe an event.
+	// this script needs to be put on the character, and takes care of the current task that the player has to accomplish.
+	// the task contains a story and maybe an event.
     [AddComponentMenu("DatabaseSync/RevisionController")]
 	public class RevisionController : MonoBehaviour
 	{
 		// TODO rename this to Character
-		public ActorSO Actor => actor;
+		public CharacterSO Character => character;
 
 		[Header("Data")]
-		[SerializeField] private ActorSO actor;
+		[SerializeField] private CharacterSO character;
 
 		[SerializeField] private DialogueLine defaultDialogue;
 		[SerializeField] private StorySO defaultStory;
@@ -23,7 +23,7 @@ namespace DatabaseSync.Components
 
 		// This is for each dialogue we call an even
 		[SerializeField] private DialogueLineChannelSO endDialogueEvent;
-		[SerializeField] private DialogueActorChannelSO interactionEvent;
+		[SerializeField] private DialogueCharacterChannelSO interactionEvent;
 
 		[SerializeField] private VoidEventChannelSO completeDialogueEvent;
 		[SerializeField] private VoidEventChannelSO incompleteDialogueEvent;
@@ -48,7 +48,7 @@ namespace DatabaseSync.Components
 		private bool _hasActiveTask;
 		private TaskSO _currentTask;
 
-		private IDialogueLine _currentDialogue;
+		private StorySO _currentStory;
 
 		public void TurnToPlayer(Vector3 playerPos)
 		{
@@ -111,9 +111,9 @@ namespace DatabaseSync.Components
 		// play default dialogue if no step
 		void PlayDefaultDialogue()
 		{
-			if (defaultDialogue != null)
+			if (defaultStory != null)
 			{
-				_currentDialogue = defaultDialogue;
+				_currentStory = defaultStory;
 				StartDialogue();
 			}
 		}
@@ -123,14 +123,14 @@ namespace DatabaseSync.Components
 		{
 			if (defaultStory != null)
 			{
-				_currentDialogue = defaultStory.StartDialogue;
+				_currentStory = defaultStory;
 				StartDialogue();
 			}
 		}
 
 		void CheckTaskInvolvement(TaskSO task)
 		{
-			if (actor == task.Actor)
+			if (character == task.Character)
 			{
 				RegisterTask(task);
 			}
@@ -139,17 +139,18 @@ namespace DatabaseSync.Components
 		// register a step
 		void RegisterTask(TaskSO task)
 		{
+			Debug.Log(task);
 			_currentTask = task;
-			_currentDialogue = defaultStory.StartDialogue;
+			_currentStory = defaultStory;
 			_hasActiveTask = true;
 		}
 
 		// start a dialogue when interaction
 		// some Tasks need to be instantaneous. And do not need the interact button.
 		// when interaction again, restart same dialogue.
-		void InteractWithCharacter(ActorSO actorToInteractWith)
+		void InteractWithCharacter(CharacterSO actorToInteractWith)
 		{
-			if (actorToInteractWith == actor)
+			if (actorToInteractWith == character)
 			{
 				if (_hasActiveStory)
 				{
@@ -195,9 +196,9 @@ namespace DatabaseSync.Components
 					CheckTaskValidity();
 				}
 				// The player is going to get a tasks handed over
-				else if (_currentTask.DialogueBeforeTask != null)
+				else if (_currentTask.StoryBeforeTask != null)
 				{
-					_currentDialogue = _currentTask.DialogueBeforeTask;
+					_currentStory = _currentTask.StoryBeforeTask;
 					StartDialogue();
 				}
 				else
@@ -216,16 +217,16 @@ namespace DatabaseSync.Components
 
 			if (startStoryEvent != null)
 			{
-				startStoryEvent.RaiseEvent(defaultStory, _currentDialogue, actor);
+				startStoryEvent.RaiseEvent(_currentStory);
 			}
 		}
 
 		void PlayLoseDialogue()
 		{
 			if (_currentTask != null)
-				if (_currentTask.LoseDialogue != null)
+				if (_currentTask.LoseStory != null)
 				{
-					_currentDialogue = _currentTask.LoseDialogue;
+					_currentStory = _currentTask.LoseStory;
 					StartDialogue();
 				}
 
@@ -234,15 +235,15 @@ namespace DatabaseSync.Components
 		void PlayWinDialogue()
 		{
 			if (_currentTask != null)
-				if (_currentTask.WinDialogue != null)
+				if (_currentTask.WinStory != null)
 				{
-					_currentDialogue = _currentTask.WinDialogue;
+					_currentStory = _currentTask.WinStory;
 					StartDialogue();
 				}
 		}
 
 		//End dialogue
-		void EndDialogue(IDialogueLine dialogue, ActorSO actorSo)
+		void EndDialogue(IDialogueLine dialogue, CharacterSO actorSo)
 		{
 			// depending on the dialogue that ended, do something. The dialogue type can be different from the current dialogue type
 			switch (dialogue.DialogueType)
@@ -258,9 +259,9 @@ namespace DatabaseSync.Components
 				case DialogueType.LoseDialogue:
 					// closeDialogue
 					// replay start Dialogue if the lose Dialogue ended
-					if (_currentTask.DialogueBeforeTask != null)
+					if (_currentTask.StoryBeforeTask != null)
 					{
-						_currentDialogue = _currentTask.DialogueBeforeTask;
+						_currentStory = _currentTask.StoryBeforeTask;
 					}
 					break;
 				case DialogueType.DefaultDialogue:
@@ -304,7 +305,7 @@ namespace DatabaseSync.Components
 			_currentTask = null;
 			_hasActiveTask = false;
 			_hasActiveStory = false;
-			_currentDialogue = defaultDialogue;
+			_currentStory = defaultStory;
 		}
 
 		// https://forum.unity.com/threads/left-right-test-function.31420/

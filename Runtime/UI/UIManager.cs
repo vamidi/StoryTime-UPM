@@ -104,9 +104,9 @@ namespace DatabaseSync.UI
 			CloseStoryScreen();
 		}
 
-		public void OpenUIDialogue(IDialogueLine dialogueLine, ActorSO actor)
+		public void OpenUIDialogue(IDialogueLine dialogueLine, CharacterSO character)
 		{
-			dialogueController.SetDialogue(dialogueLine, actor);
+			dialogueController.SetDialogue(dialogueLine, character);
 			dialogueController.gameObject.SetActive(true);
 		}
 

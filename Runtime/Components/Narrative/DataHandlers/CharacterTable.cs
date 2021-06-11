@@ -10,22 +10,22 @@ namespace DatabaseSync.Components
 	/// these are the base variables that we need to set
 	/// up the dialogue system
 	/// </summary>
-	public class CharacterTable : BaseTable<ActorSO>
+	public class CharacterTable : BaseTable<CharacterSO>
 	{
-		public new static ActorSO ConvertRow(TableRow row, ActorSO scriptableObject)
+		public new static CharacterSO ConvertRow(TableRow row, CharacterSO scriptableObject)
 		{
-			ActorSO actor = scriptableObject ? scriptableObject : ScriptableObject.CreateInstance<ActorSO>();
+			CharacterSO character = scriptableObject ? scriptableObject : ScriptableObject.CreateInstance<CharacterSO>();
 
 			if (row.Fields.Count == 0)
 			{
-				return actor;
+				return character;
 			}
 
 			foreach (var field in row.Fields)
 			{
 				if (field.Key.Equals("id"))
 				{
-					actor.ID = uint.Parse(field.Value.Data);
+					character.ID = uint.Parse(field.Value.Data);
 				}
 
 				if (field.Key.Equals("name"))
@@ -34,7 +34,7 @@ namespace DatabaseSync.Components
 				}
 			}
 
-			return actor;
+			return character;
 		}
 	}
 }

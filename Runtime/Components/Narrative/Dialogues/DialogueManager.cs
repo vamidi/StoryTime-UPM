@@ -30,6 +30,7 @@ namespace DatabaseSync.Components
 
 		[Header("Listening on channels")]
 		[SerializeField] private DialogueStoryChannelSO startStoryEvent;
+		[SerializeField] private DialogueChannelSO startDialogue;
 		[SerializeField] private DialogueChoiceChannelSO makeDialogueChoiceEvent;
 
 		[SerializeField] private TransformEventChannelSO startTransformDialogue;
@@ -50,7 +51,7 @@ namespace DatabaseSync.Components
 		[SerializeField] private TMPVertexAnimator revealer;
 
 		private StorySO m_CurrentStory;
-		private ActorSO m_CurrentActor;
+		private CharacterSO m_CurrentActor;
 		private IDialogueLine m_CurrentDialogue;
 
 		private bool _isInputEnabled;
@@ -61,6 +62,9 @@ namespace DatabaseSync.Components
 			{
 				startStoryEvent.OnEventRaised += Interact;
 			}
+
+			if (startDialogue != null)
+				startDialogue.OnEventRaised += DisplayDialogueLine;
 
 			if (startTransformDialogue != null) // Set the target to the person we are talking to.
 				startTransformDialogue.OnEventRaised += (tr) => targetGroup.m_Targets[1].target = tr;
@@ -92,14 +96,11 @@ namespace DatabaseSync.Components
 		/// Displays DialogueData in the UI, one by one.
 		/// Start interaction with the NPC
 		/// </summary>
-		/// <param name="dialogueDataSo"></param>
-		/// <param name="dialogueLine"></param>
-		/// <param name="actor"></param>
-		public void Interact(StorySO dialogueDataSo, IDialogueLine dialogueLine, ActorSO actor = null)
+		/// <param name="storyDataSo"></param>
+		public void Interact(StorySO storyDataSo)
 		{
-			BeginDialogueStory(dialogueDataSo);
-			ShowDialogue(dialogueLine, actor ? actor : dialogueDataSo.Actor);
-			SetActiveDialogue(dialogueLine);
+			BeginDialogueStory(storyDataSo);
+			DisplayDialogueLine(storyDataSo.StartDialogue, storyDataSo.Character);
 			ToggleCameras(true);
 		}
 
@@ -108,16 +109,18 @@ namespace DatabaseSync.Components
 		/// This function is also called by <c>DialogueBehaviour</c> from clips on Timeline during cutscenes.
 		/// </summary>
 		/// <param name="dialogueLine"></param>
-		/// <param name="actor"></param>
-		public void ShowDialogue(IDialogueLine dialogueLine, ActorSO actor)
+		/// <param name="character"></param>
+		public void DisplayDialogueLine(IDialogueLine dialogueLine, CharacterSO character)
 		{
+			Debug.Log(dialogueLine);
+			Debug.Log(character);
 			if (openUIDialogueEvent != null)
 			{
 				// send event out before the dialogue starts
 				// InitEvents();
 				// CallEvents(true);
 
-				openUIDialogueEvent.RaiseEvent(dialogueLine, actor);
+				openUIDialogueEvent.RaiseEvent(dialogueLine, character);
 			}
 			ToggleContinueBtn(false);
 
@@ -127,7 +130,9 @@ namespace DatabaseSync.Components
 				dialogueEvent.RaiseEvent(dialogueLine.DialogueEvent.EventName, dialogueLine.DialogueEvent.Value);
 			}
 
-			m_CurrentActor = actor;
+			m_CurrentActor = character;
+
+			SetActiveDialogue(dialogueLine);
 		}
 
 		/// <summary>
@@ -139,18 +144,18 @@ namespace DatabaseSync.Components
 			// TODO make this work with increment only instead of setting the next dialogue.
 			// increment to the next dialogue sequence
 			DialogueChoiceEndAndCloseUI(true);
-			ShowDialogue(nextDialogueLineSo, m_CurrentActor);
+			DisplayDialogueLine(nextDialogueLineSo, m_CurrentActor);
 		}
 
 		/// <summary>
 		/// Prepare DialogueManager when first time displaying DialogueData.
-		/// <param name="dialogueDataSo"></param>
+		/// <param name="storyDataSo"></param>
 		/// </summary>
-		private void BeginDialogueStory(StorySO dialogueDataSo)
+		private void BeginDialogueStory(StorySO storyDataSo)
 		{
 			inputReader.EnableDialogueInput();
 			inputReader.advanceDialogueEvent += OnAdvance;
-			m_CurrentStory = dialogueDataSo;
+			m_CurrentStory = storyDataSo;
 			_isInputEnabled = false;
 			StopAllCoroutines();
 		}
@@ -195,7 +200,7 @@ namespace DatabaseSync.Components
 				m_CurrentDialogue = m_CurrentDialogue.NextDialogue;
 				// TODO grab the actor from the node editor.
 
-				ShowDialogue(m_CurrentDialogue, m_CurrentActor);
+				DisplayDialogueLine(m_CurrentDialogue, m_CurrentActor);
 				return;
 			}
 

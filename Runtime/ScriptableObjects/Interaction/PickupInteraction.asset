@@ -12,5 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05899ba0aa29467eb8480eec7decf62e, type: 3}
   m_Name: PickupInteraction
   m_EditorClassIdentifier: 
-  interactionName: 'Pickup '
+  interactionName:
+    m_TableReference:
+      m_TableCollectionName: GUID:aa5b18277a15a4113950a3cc2f1e9909
+    m_TableEntryReference:
+      m_KeyId: 429239820288
+      m_Key: 
+    m_FallbackState: 0
   interactionType: 1

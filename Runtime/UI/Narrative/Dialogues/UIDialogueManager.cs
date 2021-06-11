@@ -28,11 +28,12 @@ namespace DatabaseSync.UI
 			HideChoices();
 		}
 
-		public void SetDialogue(IDialogueLine dialogueLine, ActorSO actor)
+		public void SetDialogue(IDialogueLine dialogueLine, CharacterSO character)
 		{
 			// TODO see class LocalizeStringEvent for the reference variables
 			sentence.StringReference = dialogueLine.Sentence;
-			actorName.StringReference = actor.ActorName;
+			// User can optionally show the name of the character.
+			if(character) actorName.StringReference = character.CharacterName;
 		}
 
 		void ShowChoices(List<DialogueChoiceSO> choices)

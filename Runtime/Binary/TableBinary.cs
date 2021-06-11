@@ -69,8 +69,9 @@ namespace DatabaseSync.Binary
 		{
 			var path = EditorPrefs.GetString("DatabaseSync-Window-Settings-Config", "");
 			var configFile = AssetDatabase.LoadAssetAtPath<DatabaseConfig>(AssetDatabase.GUIDToAssetPath(path));
-			if (configFile == null)
-				throw new ArgumentNullException($"{nameof(configFile)} can not be null.", nameof(configFile));
+			// TODO this will ruin the editor and stops the database sync setting window.
+			// if (configFile == null)
+				// throw new ArgumentNullException($"{nameof(configFile)} can not be null.", nameof(configFile));
 
 			return configFile;
 		}

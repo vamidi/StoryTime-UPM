@@ -234,7 +234,7 @@ namespace DatabaseSync.Components
 			}
 		}
 
-		void EndDialogue(IDialogueLine dialogue, ActorSO actorSo)
+		void EndDialogue(IDialogueLine dialogue, CharacterSO actorSo)
 		{
 			// depending on the dialogue that ended, do something
 			switch (dialogue.DialogueType)

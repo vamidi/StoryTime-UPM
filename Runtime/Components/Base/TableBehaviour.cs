@@ -77,7 +77,7 @@ namespace DatabaseSync.Components
 	    {
 		    return TableDatabase.Get.FindLinks(tableName, columnName, id);
 	    }
-	    public virtual void OnTableIDChanged()
+	    protected virtual void OnTableIDChanged()
 	    {
 		    TableDatabase.Get.Refresh();
 	    }

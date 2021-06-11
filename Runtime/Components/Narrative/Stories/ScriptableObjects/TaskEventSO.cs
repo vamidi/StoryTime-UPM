@@ -5,12 +5,12 @@ namespace DatabaseSync.Components
 	[CreateAssetMenu(menuName = "DatabaseSync/Events/Stories/Task Event")]
 	public class TaskEventSO : ScriptableObject
 	{
-		public ActorSO Actor => actor;
+		public CharacterSO Character => character;
 		public Events.TaskEventType TaskEventType => taskEventType;
 		public ScriptableObject Value => value;
 
 		[Tooltip("Actor reference")]
-		[SerializeField] private ActorSO actor;
+		[SerializeField] private CharacterSO character;
 
 		[Tooltip("Specify the type of the event")]
 		[SerializeField] private Events.TaskEventType taskEventType;
