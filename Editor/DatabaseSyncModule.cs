@@ -45,7 +45,7 @@ namespace DatabaseSync.Editor
 
 	public class DatabaseSyncModule
 	{
-		private static readonly string s_DataPath = "Packages/com.unity.vamidicreations.storytime";
+		private static readonly string s_DataPath = "Packages/com.vamidicreations.storytime";
 
 		private static readonly string FirebaseAppFile;
 

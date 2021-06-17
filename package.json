@@ -1,8 +1,8 @@
 {
-  "name": "com.unity.vamidicreations.storytime",
+  "name": "com.vamidicreations.storytime",
   "version": "1.4.2-preview",
   "displayName": "StoryTime",
-  "description": "StoryTime is package that provides components to make RPG games.",
+  "description": "-- DISCLAIMER --\nYou will need the StoryTime DB application in order to communicate the game data back and forth.\n\nStoryTime is package that provides components to make RPG games.",
   "unity": "2019.4",
   "unityRelease": "26f1",
   "dependencies": {

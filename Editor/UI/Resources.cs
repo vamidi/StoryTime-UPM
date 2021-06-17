@@ -7,9 +7,9 @@ namespace DatabaseSync.Editor.UI
 {
     static class Resources
     {
-	    const string m_ResourceRoot = "Packages/com.unity.vamidicreations.storytime/Editor/Resources";
-        const string m_TemplateRoot = "Packages/com.unity.vamidicreations.storytime/Editor/UI/Templates";
-        const string m_StyleRoot = "Packages/com.unity.vamidicreations.storytime/Editor/UI/Styles";
+	    const string m_ResourceRoot = "Packages/com.vamidicreations.storytime/Editor/Resources";
+        const string m_TemplateRoot = "Packages/com.vamidicreations.storytime/Editor/UI/Templates";
+        const string m_StyleRoot = "Packages/com.vamidicreations.storytime/Editor/UI/Styles";
 
         public static string GetStyleSheetPath(string filename) => $"{m_StyleRoot}/{filename}.uss";
 
