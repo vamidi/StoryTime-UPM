@@ -91,7 +91,7 @@ namespace DatabaseSync.Components
 			if(collection)
 				dialogue.sentence = new LocalizedString { TableReference = collection.TableCollectionNameReference, TableEntryReference = entryId };
 			else
-				Debug.LogError("Collection not found. Did you create any localization tables");
+				Debug.LogWarning("Collection not found. Did you create any localization tables");
 
 			foreach (var field in row.Fields)
 			{

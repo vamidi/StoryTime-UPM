@@ -15,10 +15,10 @@ namespace DatabaseSync.Editor
 			set => _choiceIndex = value;
 		}
 
-		private int _choiceIndex = Int32.MaxValue;
-
 		protected bool IsJsonObj;
-		protected Dictionary<uint, string> PopulatedList = new Dictionary<uint, string>();
+
+		private Dictionary<uint, string> m_PopulatedList = new Dictionary<uint, string>();
+		private int _choiceIndex;
 
 		public virtual void OnEnable()
 		{
@@ -31,7 +31,8 @@ namespace DatabaseSync.Editor
 
 			// set the id right
 			var t = target as Components.TableBehaviour;
-			if (t) _choiceIndex = (int) t.ID;
+
+			if (t) _choiceIndex = Array.FindIndex(m_PopulatedList.Keys.ToArray(), idx => idx == t.ID);
 		}
 
 		protected virtual string GetGameObjectName() => typeof(T).Name;
@@ -63,16 +64,22 @@ namespace DatabaseSync.Editor
 			// Draw the default inspector
 			DrawDefaultInspector();
 			GUIContent arrayLabel = new GUIContent("ID");
-			_choiceIndex = UnityEditor.EditorGUILayout.Popup(arrayLabel, _choiceIndex, PopulatedList.Values.ToArray());
+			_choiceIndex = UnityEditor.EditorGUILayout.Popup(arrayLabel, _choiceIndex, m_PopulatedList.Values.ToArray());
 			var t = target as Components.TableBehaviour;
-			if (t && t.ID != _choiceIndex)
+			if (_choiceIndex >= 0)
 			{
-				// Update the selected choice in the underlying object
-				t.ID = (uint) _choiceIndex;
-				OnChanged();
+				var newID = m_PopulatedList.Keys.ToArray()[_choiceIndex];
+				if (t && t.ID != newID)
+				{
+					// TODO split these two arrays
+					// Update the selected choice in the underlying object
+					t.ID = newID;
 
-				// Save the changes back to the object
-				UnityEditor.EditorUtility.SetDirty(target);
+					OnChanged();
+
+					// Save the changes back to the object
+					UnityEditor.EditorUtility.SetDirty(target);
+				}
 			}
 		}
 
@@ -81,7 +88,7 @@ namespace DatabaseSync.Editor
 			var tblComp = target as Components.TableBehaviour;
 			if (tblComp != null)
 			{
-				_choiceIndex = (int) tblComp.ID;
+				_choiceIndex = Array.FindIndex(m_PopulatedList.Keys.ToArray(), idx => idx == tblComp.ID);
 
 				var binary = TableDatabase.Get.GetBinary(tblComp.Name);
 				string linkColumn = tblComp.LinkedColumn;
@@ -89,7 +96,7 @@ namespace DatabaseSync.Editor
 				bool linkTable = tblComp.LinkedTable != String.Empty;
 
 				// retrieve the column we need to show
-				PopulatedList = linkColumn != "" && (linkTable || linkId != UInt32.MaxValue) ? binary.PopulateWithLink(
+				m_PopulatedList = linkColumn != "" && (linkTable || linkId != UInt32.MaxValue) ? binary.PopulateWithLink(
 					tblComp.DropdownColumn,
 					linkColumn,
 					linkId,
@@ -146,6 +153,7 @@ namespace DatabaseSync.Editor
 
 				// set all the values from the selected row
 				if (row != null) Components.StorySO.StoryTable.ConvertRow(row, t);
+				else t.Reset();
 			}
 		}
 
@@ -262,7 +270,7 @@ namespace DatabaseSync.Editor
 				var row = t.GetRow(t.Name, t.ID);
 
 				// set all the values from the selected row
-				if (row != null) Components.TaskTable.ConvertRow(row, t);
+				if (row != null) Components.TaskSO.TaskTable.ConvertRow(row, t);
 			}
 		}
 	}

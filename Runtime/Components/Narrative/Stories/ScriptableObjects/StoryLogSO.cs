@@ -7,9 +7,9 @@ namespace DatabaseSync.Components
 	// ReSharper disable once InconsistentNaming
 	public class StoryLogSO : ScriptableObject
 	{
-		public Dictionary<QuestType, List<StorySO>> Stories => GetStories();
+		public Dictionary<StoryType, List<StorySO>> Stories => GetStories();
 
-		[SerializeField] private List<QuestType> storyCategories = new List<QuestType>();
+		[SerializeField] private List<StoryType> storyCategories = new List<StoryType>();
 
 		[SerializeField] private List<StorySO> stories = new List<StorySO>();
 
@@ -51,9 +51,9 @@ namespace DatabaseSync.Components
 			return stories.Find(s => s == story) != null;
 		}
 
-		private Dictionary<QuestType, List<StorySO>> GetStories()
+		private Dictionary<StoryType, List<StorySO>> GetStories()
 		{
-			Dictionary<QuestType, List<StorySO>> currStories = new Dictionary<QuestType, List<StorySO>>();
+			Dictionary<StoryType, List<StorySO>> currStories = new Dictionary<StoryType, List<StorySO>>();
 
 			if (storyCategories.Count == 0)
 				return currStories;

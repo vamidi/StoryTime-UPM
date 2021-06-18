@@ -50,7 +50,7 @@ namespace DatabaseSync.Components
 
 		[SerializeField] private TMPVertexAnimator revealer;
 
-		private StorySO m_CurrentStory;
+		private SimpleStorySO m_CurrentStory;
 		private CharacterSO m_CurrentActor;
 		private IDialogueLine m_CurrentDialogue;
 
@@ -97,7 +97,7 @@ namespace DatabaseSync.Components
 		/// Start interaction with the NPC
 		/// </summary>
 		/// <param name="storyDataSo"></param>
-		public void Interact(StorySO storyDataSo)
+		public void Interact(SimpleStorySO storyDataSo)
 		{
 			BeginDialogueStory(storyDataSo);
 			DisplayDialogueLine(storyDataSo.StartDialogue, storyDataSo.Character);
@@ -151,7 +151,7 @@ namespace DatabaseSync.Components
 		/// Prepare DialogueManager when first time displaying DialogueData.
 		/// <param name="storyDataSo"></param>
 		/// </summary>
-		private void BeginDialogueStory(StorySO storyDataSo)
+		private void BeginDialogueStory(SimpleStorySO storyDataSo)
 		{
 			inputReader.EnableDialogueInput();
 			inputReader.advanceDialogueEvent += OnAdvance;

@@ -53,6 +53,8 @@ namespace DatabaseSync.Components
 		    LinkedTable = linkedTable;
 	    }
 
+	    public virtual void Reset() { }
+
 	    public TableField GetField(string tableName, string columnName, uint id)
 	    {
 		    return TableDatabase.Get.GetField(tableName, columnName, id);

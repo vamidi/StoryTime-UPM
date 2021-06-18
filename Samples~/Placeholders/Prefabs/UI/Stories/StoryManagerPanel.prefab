@@ -1271,29 +1271,12 @@ MonoBehaviour:
       m_KeyId: 0
       m_Key: 
     m_FallbackState: 0
-  storyTitle:
-    m_TableReference:
-      m_TableCollectionName: 
-    m_TableEntryReference:
-      m_KeyId: 0
-      m_Key: 
-    m_FallbackState: 0
-  taskTitle:
-    m_TableReference:
-      m_TableCollectionName: 
-    m_TableEntryReference:
-      m_KeyId: 0
-      m_Key: 
-    m_FallbackState: 0
-  taskDescription:
-    m_TableReference:
-      m_TableCollectionName: 
-    m_TableEntryReference:
-      m_KeyId: 0
-      m_Key: 
-    m_FallbackState: 0
+  storyTitle: {fileID: 7945047106656031606}
+  taskTitle: {fileID: 1033024059385330813}
+  taskDescription: {fileID: 6158171951525703928}
   listView: {fileID: 4400916941122213850}
   tabAreaView: {fileID: 4400916941908445451}
+  panel: {fileID: 0}
   categoryPrefab: {fileID: 8815102496629137727, guid: a31656ed675cffb499cadca0539a594d,
     type: 3}
   categoryTabPrefab: {fileID: -45420337971292890, guid: b2e90fc4b89c3054581ca12d0354b0ca,
@@ -2737,6 +2720,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8456842932808168004, guid: 536d83926040bde4a945983b9c581389,
+        type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 536d83926040bde4a945983b9c581389, type: 3}
 --- !u!224 &4400916942540048968 stripped

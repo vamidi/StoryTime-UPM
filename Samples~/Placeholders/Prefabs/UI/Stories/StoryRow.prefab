@@ -311,20 +311,8 @@ MonoBehaviour:
   onRowDeselected:
     m_PersistentCalls:
       m_Calls: []
-  storyTitle:
-    m_TableReference:
-      m_TableCollectionName: 
-    m_TableEntryReference:
-      m_KeyId: 0
-      m_Key: 
-    m_FallbackState: 0
-  storySubTitle:
-    m_TableReference:
-      m_TableCollectionName: 
-    m_TableEntryReference:
-      m_KeyId: 0
-      m_Key: 
-    m_FallbackState: 0
+  storyTitle: {fileID: 6705526173498025246}
+  storySubTitle: {fileID: 4861422001757793050}
 --- !u!1 &4971008524959635438
 GameObject:
   m_ObjectHideFlags: 0

@@ -71,7 +71,11 @@ namespace DatabaseSync.UI
 		{
 			// TODO write a handler that return the text for the subtitle
 			storyTitle.StringReference = m_Story.Title;
-			storySubTitle.StringReference = m_Story.Tasks.First(o => !o.IsDone).Description;
+			if (m_Story.Tasks.Count > 0)
+			{
+				TaskSO task = m_Story.Tasks.FirstOrDefault(o => !o.IsDone) ?? m_Story.Tasks[0];
+				storySubTitle.StringReference = task.Description;
+			}
 		}
 
 		public void Select()

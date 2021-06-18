@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using System.Collections.Generic;
+
+using UnityEngine;
 
 namespace DatabaseSync.Components
 {
@@ -15,8 +18,11 @@ namespace DatabaseSync.Components
 		[Header("Data")]
 		[SerializeField] private CharacterSO character;
 
-		[SerializeField] private DialogueLine defaultDialogue;
-		[SerializeField] private StorySO defaultStory;
+		[SerializeField, Tooltip("Simple story we want to display")]
+		private SimpleStorySO defaultStory;
+
+		[SerializeField, Tooltip("Stories that belongs to this character")]
+		private List<StorySO> stories;
 
 		[Header("Listening to channels")]
 		[SerializeField] private TaskEventChannelSO startTaskEvent;
@@ -41,20 +47,33 @@ namespace DatabaseSync.Components
 		// [SerializeField] private DialogueLineChannelSO startDialogueEvent;
 		[SerializeField] private TransformEventChannelSO startTransformDialogue;
 
+		[Header("Revision"), Tooltip("Determines in which state the current controller is for the story.")]
+		[SerializeField] private int revisionId = -1;
+
 		private UnityEngine.InputSystem.PlayerInput m_PlayerInput;
 
 		// check if character is active. An active character is the character concerned by the task.
 		private bool _hasActiveStory;
 		private bool _hasActiveTask;
 		private TaskSO _currentTask;
-
-		private StorySO _currentStory;
+		private SimpleStorySO _currentStory;
 
 		public void TurnToPlayer(Vector3 playerPos)
 		{
 			// transform.DOLookAt(playerPos, Vector3.Distance(transform.position, playerPos) / 5);
 			// string turnMotion = isRightSide(transform.forward, playerPos, Vector3.up) ? "rturn" : "lturn";
 			// animator.SetTrigger(turnMotion);
+		}
+
+		/// <summary>
+		/// Update current revision.
+		/// </summary>
+		/// <param name="newId"></param>
+		public void UpdateRevisionId(int newId = -1)
+		{
+			if (newId == -1)
+				revisionId++;
+			else revisionId = newId;
 		}
 
 		private void Start()
@@ -139,9 +158,11 @@ namespace DatabaseSync.Components
 		// register a step
 		void RegisterTask(TaskSO task)
 		{
-			Debug.Log(task);
 			_currentTask = task;
-			_currentStory = defaultStory;
+			// Find me a story where the task belongs to.
+			_currentStory = stories.FirstOrDefault((s) => s.ID == task.ParentId) ?? defaultStory;
+			revisionId = stories.FindIndex(s => s == _currentStory);
+			Debug.Log(revisionId);
 			_hasActiveTask = true;
 		}
 
@@ -300,16 +321,24 @@ namespace DatabaseSync.Components
 		}
 
 		//unregister a step when it ends.
-		void UnregisterTask()
+		private void UnregisterTask()
 		{
+			UpdateRevisionId();
+
 			_currentTask = null;
 			_hasActiveTask = false;
 			_hasActiveStory = false;
-			_currentStory = defaultStory;
+			if (stories != null)
+			{
+				if (stories.Count > revisionId)
+				{
+					_currentStory = stories.FirstOrDefault(s => !s.IsDone);
+				}
+			}
 		}
 
 		// https://forum.unity.com/threads/left-right-test-function.31420/
-		bool isRightSide(Vector3 fwd, Vector3 targetDir, Vector3 up)
+		private bool isRightSide(Vector3 fwd, Vector3 targetDir, Vector3 up)
 		{
 			Vector3 right = Vector3.Cross(up.normalized, fwd.normalized);        // right vector
 			float dir = Vector3.Dot(right, targetDir.normalized);

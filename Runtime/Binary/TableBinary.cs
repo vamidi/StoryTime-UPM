@@ -62,7 +62,10 @@ namespace DatabaseSync.Binary
 		private bool _listUpdated;
 		private string _shownColumn;
 
-		private readonly Dictionary<uint, string> _list = new Dictionary<uint, string>();
+		private readonly Dictionary<uint, string> _list = new Dictionary<uint, string>
+		{
+			{ UInt32.MaxValue, "None" }
+		};
 		private readonly DatabaseConfig m_ConfigFile;
 
 		public static DatabaseConfig Fetch()

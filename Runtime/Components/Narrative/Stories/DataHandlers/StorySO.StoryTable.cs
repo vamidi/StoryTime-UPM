@@ -65,7 +65,7 @@ namespace DatabaseSync.Components
 
 					if (field.Key.Equals("typeId"))
 					{
-						story.typeId = (QuestType) field.Value.Data;
+						story.typeId = (StoryType) field.Value.Data;
 					}
 				}
 

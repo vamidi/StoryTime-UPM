@@ -76,7 +76,7 @@ namespace DatabaseSync.UI
 				panel.SetActive(true);
 		}
 
-		public void ShowCategories(QuestType type = QuestType.All)
+		public void ShowCategories(StoryType type = StoryType.All)
 		{
 			foreach (var category in m_CategoryItems)
 			{
@@ -84,7 +84,7 @@ namespace DatabaseSync.UI
 				// tabTitle = category.Category == type ? type.ToString() : tabTitle;
 
 				// Show the category if category is selected or is the category is set to none.
-				category.gameObject.SetActive(category.Category == type || type == QuestType.All);
+				category.gameObject.SetActive(category.Category == type || type == StoryType.All);
 			}
 		}
 		public void HideCategories()
@@ -100,7 +100,7 @@ namespace DatabaseSync.UI
 			foreach (var filler in m_CategoryItems)
 			{
 				// add it to the main list as well.
-				if (filler.Category == QuestType.All || filler.Category == story.TypeId)
+				if (filler.Category == StoryType.All || filler.Category == story.TypeId)
 				{
 					filler.Add(story);
 					return;
@@ -108,10 +108,10 @@ namespace DatabaseSync.UI
 			}
 
 			// this means we don't have the category, add it to the list
-			Create(new KeyValuePair<QuestType, List<StorySO>>(story.TypeId, new List<StorySO>{ story }));
+			Create(new KeyValuePair<StoryType, List<StorySO>>(story.TypeId, new List<StorySO>{ story }));
 		}
 
-		private void Create(KeyValuePair<QuestType, List<StorySO>> pair)
+		private void Create(KeyValuePair<StoryType, List<StorySO>> pair)
 		{
 			StoryCategoryFiller categoryFiller = Instantiate(categoryPrefab, Vector3.zero, Quaternion.identity);
 			categoryFiller.manager = this;

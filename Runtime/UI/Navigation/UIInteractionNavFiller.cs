@@ -1,10 +1,10 @@
-using System;
 using UnityEngine;
 using UnityEngine.Localization.Components;
-using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace DatabaseSync.UI
 {
+	using Localization;
+
 	public class UIInteractionNavFiller : BaseUIInteractionItemFiller<InteractionNavSO>
 	{
 		[SerializeField] LocalizeStringEvent interactionStoryTitle;
@@ -13,7 +13,7 @@ namespace DatabaseSync.UI
 
 		[SerializeField] LocalizeStringEvent interactionTaskDescription;
 
-		private AsyncOperationHandle<string> m_StoryStateListener;
+		private string m_StoryStateListener;
 
 		public override void FillInteractionPanel(InteractionNavSO interactionItem)
 		{
@@ -23,12 +23,14 @@ namespace DatabaseSync.UI
 
 			interactionStoryTitle.StringReference = interactionItem.interactionStoryTitle;
 			interactionStoryState.StringReference = interactionItem.interactionStoryState;
-			m_StoryStateListener = interactionStoryState.StringReference.GetLocalizedString();
 			interactionTaskDescription.StringReference = interactionItem.interactionTaskDescription;
 
 			// show the text if the quest is not completed
-			if (m_StoryStateListener.IsDone && m_StoryStateListener.Status == AsyncOperationStatus.Succeeded)
-				interactionTaskDescription.gameObject.SetActive(!m_StoryStateListener.Result.Contains("Completed"));
+			if (interactionStoryState)
+			{
+				m_StoryStateListener = interactionStoryState.StringReference.GetLocalizedStringImmediateSafe();
+				interactionTaskDescription.gameObject.SetActive(!m_StoryStateListener.Contains("Completed"));
+			}
 		}
 	}
 }

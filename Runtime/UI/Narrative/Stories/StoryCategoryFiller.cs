@@ -25,7 +25,7 @@ namespace DatabaseSync.UI
 		public InteractionStoryFiller selectedRow;
 		public UIStoryManager manager;
 
-		public QuestType Category => m_Category;
+		public StoryType Category => m_Category;
 
 		[Header("Broadcasting channels")]
 		[SerializeField] private Events.VoidEventChannelSO closeStoryScreenEvent;
@@ -35,7 +35,7 @@ namespace DatabaseSync.UI
 
 		private readonly List<InteractionStoryFiller> m_RowItems = new List<InteractionStoryFiller>();
 
-		private QuestType m_Category;
+		private StoryType m_Category;
 
 		public void Start()
 		{
@@ -113,7 +113,7 @@ namespace DatabaseSync.UI
 			// }
 		}
 
-		public void FillCategory(KeyValuePair<QuestType, List<StorySO>> item)
+		public void FillCategory(KeyValuePair<StoryType, List<StorySO>> item)
 		{
 			m_Category = item.Key;
 
@@ -121,7 +121,7 @@ namespace DatabaseSync.UI
 
 			foreach (var story in item.Value)
 			{
-				if( m_Category == QuestType.All || story.TypeId == m_Category)
+				if( m_Category == StoryType.All || story.TypeId == m_Category)
 					Add(story);
 			}
 		}

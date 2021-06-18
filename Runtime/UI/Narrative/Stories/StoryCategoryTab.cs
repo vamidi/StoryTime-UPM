@@ -11,7 +11,7 @@ namespace DatabaseSync.UI
 	{
 		public Sprite categoryImage;
 		public UIStoryManager manager;
-		public QuestType type;
+		public StoryType type;
 
 		[Header("Events")]
 		public UnityEvent onTabSelected;

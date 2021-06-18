@@ -111,13 +111,13 @@ namespace DatabaseSync.Components
 			if (collection != null)
 				itemName = new LocalizedString { TableReference = collection.TableCollectionNameReference, TableEntryReference = entryId };
 			else
-				Debug.LogError("Collection not found. Did you create any localization tables");
+				Debug.LogWarning("Collection not found. Did you create any localization tables");
 
 			var descriptionCollection = overrideDescriptionTable ? itemDescriptionCollection : LocalizationEditorSettings.GetStringTableCollection("Item Descriptions");
 			if (descriptionCollection != null)
 				description = new LocalizedString { TableReference = descriptionCollection.TableCollectionNameReference, TableEntryReference = entryId };
 			else
-				Debug.LogError("Collection not found. Did you create any localization tables");
+				Debug.LogWarning("Collection not found. Did you create any localization tables");
 		}
 	}
 }

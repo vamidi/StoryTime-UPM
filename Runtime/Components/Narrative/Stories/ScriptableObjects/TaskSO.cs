@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using UnityEditor.Localization;
+
 using UnityEngine;
 using UnityEngine.Localization;
 
@@ -18,14 +20,14 @@ namespace DatabaseSync.Components
 
 	[CreateAssetMenu(fileName = "Task", menuName = "DatabaseSync/Stories/Task", order = 51)]
 	// ReSharper disable once InconsistentNaming
-	public class TaskSO : TableBehaviour
+	public partial class TaskSO : LocalizationBehaviour
 	{
 		public uint NextId { get => nextId; set => nextId = value; }
-		public LocalizedString Description { get => description; set => description = value; }
+		public LocalizedString Description => description;
 		public bool Hidden { get => hidden; set => hidden = value; }
 		public uint Npc { get => npc; set => npc = value; }
-		public uint EnemyCategory { get => enemyCategory; set => enemyCategory = value; }
-		public uint ParentId { get => parentId; set => parentId = value; }
+		public uint EnemyCategory => enemyCategory;
+		public uint ParentId { get; set; } = UInt32.MaxValue;
 		public uint RequiredCount { get => requiredCount; set => requiredCount = value; }
 		public List<ItemStack> Items { get => items; set => items = value; }
 		public TaskCompletionType Type { get => type; set => type = value; }
@@ -36,8 +38,8 @@ namespace DatabaseSync.Components
 		public CharacterSO Character => character;
 		public TaskEventSO TaskEvent => taskEvent;
 
-		[Tooltip("The description of the mission")]
-		[SerializeField] private LocalizedString description;
+		[SerializeField, HideInInspector, Tooltip("The description of the mission")]
+		private LocalizedString description;
 
 		[Tooltip("Whether the mission is hidden")]
 		[SerializeField] private bool hidden;
@@ -53,7 +55,6 @@ namespace DatabaseSync.Components
 		[SerializeField] private uint enemyCategory = UInt32.MaxValue;
 
 		// Reference to the parent, which is the quest.
-		private uint parentId = UInt32.MaxValue;
 
 		[Tooltip("Requirement amount to complete the mission")]
 		[SerializeField] private uint requiredCount;
@@ -84,8 +85,17 @@ namespace DatabaseSync.Components
 
 		[SerializeField] bool isDone;
 
-		public void OnEnable()
+		protected override void OnTableIDChanged()
 		{
+			base.OnTableIDChanged();
+			Initialize();
+		}
+
+		public virtual void OnEnable()
+		{
+#if UNITY_EDITOR
+			Initialize();
+#endif
 			m_Count = 0;
 			isDone = false;
 		}
@@ -111,5 +121,19 @@ namespace DatabaseSync.Components
 		}
 
 		TaskSO(): base("tasks", "description") {}
+
+		private void Initialize()
+		{
+			if (ID != UInt32.MaxValue)
+			{
+				collection = LocalizationEditorSettings.GetStringTableCollection("Task Descriptions");
+				// Only get the first dialogue.
+				var entryId = (ID + 1).ToString();
+				if(collection)
+					description = new LocalizedString { TableReference = collection.TableCollectionNameReference, TableEntryReference = entryId };
+				else
+					Debug.LogWarning("Collection not found. Did you create any localization tables");
+			}
+		}
 	}
 }
