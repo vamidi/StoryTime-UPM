@@ -61,12 +61,7 @@ namespace DatabaseSync.Components
 		/// <summary>
 		/// We need to tell objects around the game to tell that a certain task has ended.
 		/// </summary>
-		[SerializeField] private VoidEventChannelSO endTaskEvent;
-
-		/// <summary>
-		/// We need to tell all the object that the last task has been completed.
-		/// </summary>
-		[SerializeField] private TaskEventChannelSO endStoryEvent;
+		[SerializeField] private TaskEventChannelSO endTaskEvent;
 
 		/// <summary>
 		/// Show complete dialogue
@@ -196,8 +191,9 @@ namespace DatabaseSync.Components
 				if (m_CurrentStory.Tasks.Count > m_CurrentTaskIndex)
 				{
 					m_CurrentTask = m_CurrentStory.Tasks[m_CurrentTaskIndex];
+					m_CurrentTask.StartTask();
 
-					startTaskEvent.RaiseEvent(m_CurrentTask);
+					startTaskEvent.RaiseEvent(m_CurrentTask, null);
 				}
 			}
 		}
@@ -260,10 +256,9 @@ namespace DatabaseSync.Components
 					{
 						if (stories[m_CurrentQuestIndex].Tasks.Count > m_CurrentTaskIndex)
 						{
-							if (endTaskEvent != null)
-								endTaskEvent.RaiseEvent();
-
 							TaskSO task = stories[m_CurrentQuestIndex].Tasks[m_CurrentTaskIndex];
+
+							if (endTaskEvent != null) endTaskEvent.RaiseEvent(task, null);
 
 							// finish the task
 							task.FinishTask();
@@ -284,8 +279,6 @@ namespace DatabaseSync.Components
 							}
 							else
 							{
-								if (endStoryEvent != null) endStoryEvent.RaiseEvent(task);
-
 								navigationInteractionUI.RaiseEvent(true, new StoryInfo
 								{
 									// this is a new quest so grab the first quest.
@@ -294,7 +287,7 @@ namespace DatabaseSync.Components
 									State = UI.StoryState.Complete
 								}, InteractionType.Navigate);
 
-								EndQuest();
+								EndStory();
 							}
 						}
 					}
@@ -307,7 +300,7 @@ namespace DatabaseSync.Components
 		/// The user can override this function to add behaviour on
 		/// top of this (like i.e continue new quest).
 		/// </summary>
-		protected virtual void EndQuest()
+		protected virtual void EndStory()
 		{
 			if (m_CurrentStory != null)
 			{

@@ -1,17 +1,19 @@
-using UnityEngine;
 
-using TMPro;
+using UnityEngine;
+using UnityEngine.Localization.Components;
 
 namespace DatabaseSync.UI
 {
 	public class UIInteractionItemFiller : BaseUIInteractionItemFiller<InteractionItemSO>
 	{
+		[SerializeField] protected LocalizeStringEvent interactionDescription;
+
 		public override void FillInteractionPanel(InteractionItemSO interactionItem)
 		{
-			base.FillInteractionPanel(interactionItem);
-
-			// TODO add ui for pickup up items.
-			// TODO add new for items that we dont have.
+			// TODO unlock this if we want to show interaction type on screen.
+			// base.FillInteractionPanel(interactionItem);
+			interactionName.StringReference = interactionItem.InteractionName;
+			interactionDescription.StringReference = interactionItem.interactionItemDescription;
 		}
 	}
 }

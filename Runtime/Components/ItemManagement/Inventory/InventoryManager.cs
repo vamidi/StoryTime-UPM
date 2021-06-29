@@ -18,6 +18,7 @@ namespace DatabaseSync
 		[SerializeField] private ItemEventChannelSO addItemEvent;
 		[SerializeField] private ItemEventChannelSO addItemsEvent;
 		[SerializeField] private ItemEventChannelSO removeItemEvent;
+		[SerializeField] private ItemEventChannelSO removeItemsEvent;
 
 		private void OnEnable()
 		{
@@ -44,6 +45,12 @@ namespace DatabaseSync
 			{
 				removeItemEvent.OnItemEventRaised += RemoveItem;
 			}
+
+			if (removeItemsEvent != null)
+			{
+				removeItemsEvent.OnItemsEventRaised += RemoveItems;
+			}
+
 			if (rewardItemEvent != null)
 			{
 				rewardItemEvent.OnItemEventRaised += AddItem;
@@ -115,6 +122,11 @@ namespace DatabaseSync
 		void RemoveItem(ItemStack item)
 		{
 			currentInventory.Remove(item.Item, item.Amount);
+		}
+
+		void RemoveItems(List<ItemStack> items)
+		{
+			currentInventory.Remove(items);
 		}
 
 		public void UseItemEventRaised(ItemStack item)

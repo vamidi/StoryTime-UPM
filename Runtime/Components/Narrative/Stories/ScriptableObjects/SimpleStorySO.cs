@@ -40,6 +40,8 @@ namespace DatabaseSync.Components
 		// rename Dialogue line to story lines
 		public DialogueLine StartDialogue => startDialogue;
 
+		public bool IsDone => m_IsDone;
+
 		/** ------------------------------ DATABASE FIELD ------------------------------ */
 
 		public uint ParentId => parentId;
@@ -72,6 +74,9 @@ namespace DatabaseSync.Components
 
 		[SerializeField, HideInInspector] // Tooltip("The id where the dialogue should go first")]
 		protected uint childId = UInt32.MaxValue;
+
+		// ReSharper disable once InconsistentNaming
+		protected bool m_IsDone;
 
 		public SimpleStorySO() : base("stories", "title", "parentId") { }
 

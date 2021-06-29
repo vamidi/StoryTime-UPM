@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-namespace Gamekit3D
+namespace DatabaseSync.Graphics
 {
-    public class Dissolve : MonoBehaviour
+    public class DissolveWithEmission : MonoBehaviour
     {
         public float minStartTime = 2f;
         public float maxStartTime = 6f;

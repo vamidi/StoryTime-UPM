@@ -10,17 +10,18 @@ namespace DatabaseSync.Events
 
 	[CreateAssetMenu(menuName = "DatabaseSync/Events/Stories/Task Event Channel")]
 	// ReSharper disable once InconsistentNaming
-	public class TaskEventChannelSO : ScriptableObject
+	public class TaskEventChannelSO : EventChannelBaseSO
 	{
-		public UnityAction<Components.TaskSO> OnEventRaised;
+		public UnityAction<Components.TaskSO, Components.TaskEventSO> OnEventRaised;
 
 		/// <summary>
 		///
 		/// </summary>
 		/// <param name="task"></param>
-		public void RaiseEvent(Components.TaskSO task)
+		/// <param name="value"></param>
+		public void RaiseEvent(Components.TaskSO task, Components.TaskEventSO value)
 		{
-			OnEventRaised?.Invoke(task);
+			OnEventRaised?.Invoke(task, value);
 		}
 	}
 }

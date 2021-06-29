@@ -30,11 +30,8 @@ namespace DatabaseSync.Components
 		public LocalizedString Description => description;
 		public StoryType TypeId => typeId;
 		public List<TaskSO> Tasks => tasks;
-		public bool IsDone => m_IsDone;
 
 		[SerializeField, Tooltip("The collection of tasks composing the Quest")] private List<TaskSO> tasks = new List<TaskSO>();
-
-		private bool m_IsDone;
 
 		[SerializeField, HideInInspector, Tooltip("The title of the quest")]
 		private LocalizedString title;

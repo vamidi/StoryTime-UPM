@@ -306,6 +306,57 @@ namespace DatabaseSync.Binary
 			return result;
 		}
 
+			public TableField GetField(string tableName, string columnName, uint entityID)
+        		{
+        			string destination = $"{m_ConfigFile.dataPath}/{tableName}.json";
+        			if (!File.Exists(destination))
+        			{
+        				throw new ArgumentException($"{tableName} couldn't be found!");
+        			}
+
+        			string jsonString = GetStream(destination);
+        			JToken tableData = GetTableData(jsonString);
+
+        			// The key-value data
+        			JArray arr = tableData["data"].Value<JArray>();
+
+        			TableField result = new TableField();
+
+        			// Invalid ID
+        			if (entityID >= arr.Count)
+        			{
+        				return new TableField();
+        			}
+
+        			var rowProperties = arr[(int) entityID].Children<JProperty>();
+
+                    foreach (var entity in rowProperties)
+                    {
+	                    if (entity.Name == columnName)
+	                    {
+		                    switch (entity.Value.Type)
+		                    {
+			                    case JTokenType.Boolean:
+				                    result.Data = entity.Value.ToObject<bool>();
+				                    break;
+			                    case JTokenType.Integer:
+				                    result.Data = entity.Value.ToObject<double>();
+				                    break;
+			                    case JTokenType.String:
+				                    result.Data = entity.Value.ToObject<string>();
+				                    break;
+			                    case JTokenType.Object:
+				                    result.Data = entity.Value.ToObject<JObject>();
+				                    break;
+		                    }
+
+		                    break;
+	                    }
+                    }
+
+                    return result;
+        		}
+
 		public uint GetColumnID(string columnName)
 		{
 			string cName = columnName;
@@ -381,22 +432,44 @@ namespace DatabaseSync.Binary
 			// Debug.Log($"index linkedID: {uiLinkedID}");
 
 			// Remove if not linked
+			// Remove if not linked
 			if (uiLinkedID != uint.MaxValue && linkedColumn != "")
 			{
 				List<uint> keys = new List<uint>(newList.Keys);
 
 				foreach (uint key in keys)
 				{
-					TableField field = GetField(tableBinary._tableName, uiLinkedID, key);
+					TableField currentField = GetField(_tableName, uiLinkedID, key);
+					if (currentField != null)
+					{
+						if (currentField.Data != null)
+						{
+							uint id = (uint) currentField.Data;
+							TableField otherfield = GetField(tableBinary._tableName, columnToShow, id);
 
-					double d = field.Data;
+							if (otherfield != null)
+							{
+								string d = "";
+								if (otherfield.Data is JObject)
+								{
+									d += $"[{key}] {otherfield.Data["en"]}";
+								}
+								else
+									d += $"[{key}] {otherfield.Data}";
+
+								newList[key] = d;
+							}
+						}
+					}
+
 					// memcpy(&d, Field.Data.Get(), Field.Size);
 
-					if ((uint) d != linkedId && otherTable == String.Empty) newList.Remove(key);
+					// if ((uint) d != linkedId && otherTable == String.Empty) newList.Remove(key);
 				}
 
 				// NewList.Compact();
 			}
+
 
 			return newList;
 		}

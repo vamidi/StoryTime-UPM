@@ -287,7 +287,26 @@ namespace DatabaseSync.Editor
 				var row = t.GetRow(t.Name, t.ID);
 
 				// set all the values from the selected row
-				if (row != null) Components.ItemTable.ConvertRow(row, t);
+				if (row != null) Components.ItemSO.ItemTable.ConvertRow(row, t);
+				UnityEditor.EditorUtility.SetDirty(t);
+				Repaint();
+			}
+		}
+	}
+
+	[UnityEditor.CustomEditor(typeof(Components.ItemRecipeSO))]
+	public class ItemRecipeEditor : BaseTableEditor<Components.ItemRecipeSO>
+	{
+		protected override void OnChanged()
+		{
+			Debug.Log($"is JObject {IsJsonObj}");
+			var t = target as Components.ItemRecipeSO;
+			if (t != null && t.ID != UInt32.MaxValue)
+			{
+				var row = t.GetRow(t.Name, t.ID);
+
+				// set all the values from the selected row
+				if (row != null) Components.ItemSO.ItemTable.ConvertRow(row, t);
 				UnityEditor.EditorUtility.SetDirty(t);
 				Repaint();
 			}

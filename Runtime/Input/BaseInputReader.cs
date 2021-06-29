@@ -33,6 +33,9 @@ namespace DatabaseSync.Input
 		public abstract event UnityAction menuCancelEvent;
 		public abstract event UnityAction menuUnpauseEvent;
 
+		public event UnityAction toggleDebugEvent = delegate { };
+		public event UnityAction returnEvent = delegate { };
+
 		public bool LeftMouseDown() => Mouse.current.leftButton.isPressed;
 
 		protected virtual void OnEnable()
@@ -43,6 +46,18 @@ namespace DatabaseSync.Input
 		protected virtual void OnDisable()
 		{
 			DisableAllInput();
+		}
+
+		public virtual void OnToggleDebug(InputAction.CallbackContext context)
+		{
+			if (context.phase == InputActionPhase.Performed)
+				toggleDebugEvent.Invoke();
+		}
+
+		public virtual void OnReturn(InputAction.CallbackContext context)
+		{
+			if (context.phase == InputActionPhase.Performed)
+				returnEvent.Invoke();
 		}
 
 		public abstract void EnableDialogueInput();

@@ -57,7 +57,7 @@ namespace DatabaseSync.Components
     /// </example>
 	[CreateAssetMenu(fileName = "Item", menuName = "DatabaseSync/Item Management/Item", order = 51)]
 	// ReSharper disable once InconsistentNaming
-	public class ItemSO : LocalizationBehaviour
+	public partial class ItemSO : LocalizationBehaviour
 	{
 		public LocalizedString ItemName { get => itemName; set => itemName = value; }
 		public LocalizedString Description { get => description; set => description = value; }
@@ -70,21 +70,20 @@ namespace DatabaseSync.Components
 		public bool IsLocalized => isLocalized;
 
 		[SerializeField, Tooltip("Override where we should get the item description data from.")]
-		private bool overrideDescriptionTable;
+		protected bool overrideDescriptionTable;
 
 		[SerializeField, ConditionalField("overrideDescriptionTable"), Tooltip("Table collection we are going to use for the sentence")]
-		private StringTableCollection itemDescriptionCollection;
+		protected StringTableCollection itemDescriptionCollection;
 
-		[SerializeField, HideInInspector, Tooltip("The name of the item")] private LocalizedString itemName;
-		[SerializeField, HideInInspector, Tooltip("A description of the item")] private LocalizedString description;
-		[SerializeField, Tooltip("A preview image for the item")] private Sprite previewImage;
-		[SerializeField, Tooltip("The type of item")] private ItemTypeSO itemType;
-		[SerializeField, Tooltip("A prefab reference for the model of the item")] private GameObject prefab;
-		[SerializeField, Tooltip("If the player is able to sell this item")] private bool sellable;
-		[SerializeField, Tooltip("If the item is sellable, how much will it cost")] private double sellValue;
-		[SerializeField, Tooltip("A localized preview image for the item")] private LocalizedSprite localizePreviewImage;
-		[SerializeField, Tooltip("a checkbox for localized asset")] private bool isLocalized;
-
+		[SerializeField, HideInInspector, Tooltip("The name of the item")] protected LocalizedString itemName;
+		[SerializeField, HideInInspector, Tooltip("A description of the item")] protected LocalizedString description;
+		[SerializeField, Tooltip("A preview image for the item")] protected Sprite previewImage;
+		[SerializeField, Tooltip("The type of item")] protected ItemTypeSO itemType;
+		[SerializeField, Tooltip("A prefab reference for the model of the item")] protected GameObject prefab;
+		[SerializeField, Tooltip("If the player is able to sell this item")] protected bool sellable;
+		[SerializeField, Tooltip("If the item is sellable, how much will it cost")] protected double sellValue;
+		[SerializeField, Tooltip("A localized preview image for the item")] protected LocalizedSprite localizePreviewImage;
+		[SerializeField, Tooltip("a checkbox for localized asset")] protected bool isLocalized;
 		// Effect Primary Value
 		// Effect Type Id
 

@@ -7,6 +7,7 @@ using Random = UnityEngine.Random;
 
 using DatabaseSync.Components;
 using DatabaseSync.Events;
+using UnityEngine.UIElements;
 
 [Serializable]
 public class Spawn
@@ -35,11 +36,13 @@ public class CombatDirector : MonoBehaviour
 
     private int m_EnemyAmount;
     private bool m_Spawn;
+    private Vector3 position;
 
     void Start()
     {
+	    position = transform.position;
 	    if (startTaskEvent)
-		    startTaskEvent.OnEventRaised += (task) =>
+		    startTaskEvent.OnEventRaised += (task, value) =>
 		    {
 			    m_Spawn = false;
 			    if (task == taskToListen)
@@ -69,7 +72,7 @@ public class CombatDirector : MonoBehaviour
 
     void SpawnPrefab()
     {
-        Vector3 origin = new Vector3(Random.Range(-levelBounds.x, levelBounds.x), 0, Random.Range(-levelBounds.y, levelBounds.y));
+        Vector3 origin = new Vector3(position.x + Random.Range(-levelBounds.x, levelBounds.x), 0, position.z + Random.Range(-levelBounds.y, levelBounds.y));
         if (RandomPoint(origin, out Vector3 point))
         {
 	        float level = 1 + ((1 + ((Time.time / 60) * 0.046f)) - 1) / 0.33f;

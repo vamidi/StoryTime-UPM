@@ -78,6 +78,14 @@ namespace DatabaseSync.Editor
 			RetrieveAppFile();
 
 			// When we retrieved the file check if the user is already logged in
+			// EditorUtility.DisplayProgressBar("Simple Progress Bar", "Doing some work...", t / secs);
+			// for (float t = 0; t < secs; t += step)
+			// {
+				// Normally, some computation happens here.
+				// This example uses Sleep.
+				// Thread.Sleep((int)(step * 1000.0f));
+			// }
+			// EditorUtility.ClearProgressBar();
 			CheckLogin(() => { });
 		}
 

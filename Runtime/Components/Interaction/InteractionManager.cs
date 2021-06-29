@@ -62,6 +62,8 @@ namespace DatabaseSync
 		// UI events
 		[SerializeField] private InteractionUIEventChannelSO toggleInteractionUI;
 
+		[SerializeField] private InteractionItemUIEventChannel toggleInteractionItemUI;
+
 		private void OnEnable()
 		{
 			inputReader.interactEvent += OnInteractionButtonPress;
@@ -178,6 +180,9 @@ namespace DatabaseSync
 
 							// set current interaction for state machine
 							currentInteraction = InteractionType.PickUp;
+
+							if (toggleInteractionItemUI != null)
+								toggleInteractionItemUI.RaiseEvent(true, currentItem, currentInteraction);
 						}
 					}
 
@@ -187,11 +192,13 @@ namespace DatabaseSync
 				case InteractionType.Cook:
 					if (startCooking != null)
 					{
-						startCooking.RaiseEvent();
 						Debug.Log("Cooking event raised");
-						//Change the action map
+
+						// Change the action map
 						inputReader.EnableMenuInput();
 						m_PlayerInput.SwitchCurrentActionMap("Menus");
+
+						startCooking.RaiseEvent();
 
 						//set current interaction for state machine
 						currentInteraction = InteractionType.Cook;
@@ -206,11 +213,11 @@ namespace DatabaseSync
 						var recipeManager = _currentInteractableObject.GetComponent<RecipeManager>();
 						if (recipeManager)
 						{
-							recipeManager.InteractWithCharacter();
-
-							//Change the action map
+							// Change the action map
 							inputReader.EnableMenuInput();
 							m_PlayerInput.SwitchCurrentActionMap("Menus");
+
+							recipeManager.InteractWithCharacter();
 						}
 
 						// Set current interaction for state machine
@@ -222,14 +229,14 @@ namespace DatabaseSync
 					{
 						if (startTalking != null)
 						{
+							// Change the action map
+							inputReader.EnableDialogueInput();
+							m_PlayerInput.SwitchCurrentActionMap("Dialogues");
+
 							// raise an event with an actor as parameter
 							var revisionController = _currentInteractableObject.GetComponent<RevisionController>();
 							revisionController.TurnToPlayer(transform.root.position);
 							revisionController.InteractWithCharacter();
-
-							// Change the action map
-							inputReader.EnableDialogueInput();
-							m_PlayerInput.SwitchCurrentActionMap("Dialogues");
 
 							//set current interaction for state machine
 							currentInteraction = InteractionType.Talk;

@@ -1,14 +1,16 @@
 using System;
+using System.IO;
 using System.Linq;
 using System.Collections.Generic;
 
 using Newtonsoft.Json.Linq;
-
 #if UNITY_EDITOR
 using UnityEditor;
+using UnityEditor.Localization;
 #endif
 
 using UnityEngine;
+using UnityEngine.Localization;
 
 namespace DatabaseSync.Components
 {
@@ -20,6 +22,14 @@ namespace DatabaseSync.Components
 	{
 		public List<ItemStack> IngredientsList => ingredientsList;
 		public ItemSO ResultingDish => resultingDish;
+
+		public uint ChildId
+		{
+			get => childId;
+			set => childId = value;
+		}
+
+		[SerializeField, HideInInspector, Tooltip("Child id, which is the reference to the itemId")] protected UInt32 childId;
 
 		// TODO add Recipe functionality
 		[SerializeField, Tooltip("The list of the ingredients necessary to the recipe")]
@@ -45,13 +55,33 @@ namespace DatabaseSync.Components
 
 		protected override void Initialize()
 		{
-			base.Initialize();
 #if UNITY_EDITOR
 			if (ID != UInt32.MaxValue)
 			{
-				var field = TableDatabase.Get.GetField(LinkedTable, "data", ID);
+				var entryId = (childId + 1).ToString();
+				collection = LocalizationEditorSettings.GetStringTableCollection("Item Names");
+				if (collection != null)
+					itemName = new LocalizedString { TableReference = collection.TableCollectionNameReference, TableEntryReference = entryId };
+				else
+					Debug.LogWarning("Collection not found. Did you create any localization tables");
+
+				var descriptionCollection = overrideDescriptionTable ? itemDescriptionCollection : LocalizationEditorSettings.GetStringTableCollection("Item Descriptions");
+				if (descriptionCollection != null)
+					description = new LocalizedString { TableReference = descriptionCollection.TableCollectionNameReference, TableEntryReference = entryId };
+				else
+					Debug.LogWarning("Collection not found. Did you create any localization tables");
+
+				var field = TableDatabase.Get.GetField(Name, "data", ID);
 				if (field != null)
 				{
+#if UNITY_EDITOR
+					// if we want to remove the exising list.
+					// if (ingredientsList.Count > 0 && EditorUtility.DisplayDialog("Remove existing ingredients",
+						// "Do you want to remove existing list?\n\nYou cannot undo this action.", "Yes", "No"))
+					// {
+						// ingredientsList.Clear();
+					// }
+#endif
 					ParseNodeData(this, (JObject) field.Data);
 				}
 			}
@@ -142,7 +172,11 @@ namespace DatabaseSync.Components
 									{
 										ItemSO asset = CreateInstance<ItemSO>();
 
-										AssetDatabase.CreateAsset(asset, "./ingredients");
+										var destination = "./ingredients";
+										if (!Directory.Exists(destination))
+											Directory.CreateDirectory(destination);
+
+										AssetDatabase.CreateAsset(asset, destination);
 										AssetDatabase.SaveAssets();
 									}
 

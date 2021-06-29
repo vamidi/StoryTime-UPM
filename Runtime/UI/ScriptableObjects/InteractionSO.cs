@@ -7,7 +7,11 @@ namespace DatabaseSync
 	// ReSharper disable once InconsistentNaming
 	public class InteractionSO : ScriptableObject
 	{
-		public LocalizedString InteractionName => interactionName;
+		public LocalizedString InteractionName
+		{
+			get => interactionName;
+			set => interactionName = value;
+		}
 		public InteractionType InteractionType => interactionType;
 
 		// TODO add multi language support

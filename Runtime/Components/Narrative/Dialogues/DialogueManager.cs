@@ -147,6 +147,15 @@ namespace DatabaseSync.Components
 			DisplayDialogueLine(nextDialogueLineSo, m_CurrentActor);
 		}
 
+		public void ToggleCameras(bool enable)
+		{
+			if(gameCam)
+				gameCam.SetActive(!enable);
+
+			if(dialogueCam)
+				dialogueCam.SetActive(enable);
+		}
+
 		/// <summary>
 		/// Prepare DialogueManager when first time displaying DialogueData.
 		/// <param name="storyDataSo"></param>
@@ -287,15 +296,6 @@ namespace DatabaseSync.Components
 			_isInputEnabled = true;
 
 			yield return null;
-		}
-
-		private void ToggleCameras(bool enable)
-		{
-			if(gameCam)
-				gameCam.SetActive(!enable);
-
-			if(dialogueCam)
-				dialogueCam.SetActive(enable);
 		}
 
 		/*

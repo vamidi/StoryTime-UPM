@@ -67,6 +67,21 @@ namespace DatabaseSync.Components
 		/// <summary>
 		///
 		/// </summary>
+		/// <param name="stacks"></param>
+		public virtual void Remove(List<TStack> stacks)
+		{
+			if (stacks.Count == 0)
+				return;
+
+			foreach (var stack in stacks)
+			{
+				Remove(stack.Item, stack.Amount);
+			}
+		}
+
+		/// <summary>
+		///
+		/// </summary>
 		/// <param name="item"></param>
 		/// <param name="amount"></param>
 		/// <returns></returns>

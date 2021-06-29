@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using DatabaseSync.Events;
 using UnityEditor.Localization;
 
 using UnityEngine;
@@ -31,12 +31,13 @@ namespace DatabaseSync.Components
 		public uint RequiredCount { get => requiredCount; set => requiredCount = value; }
 		public List<ItemStack> Items { get => items; set => items = value; }
 		public TaskCompletionType Type { get => type; set => type = value; }
-		public StorySO StoryBeforeTask => storyBeforeTask;
-		public StorySO WinStory => completeStory;
-		public StorySO LoseStory => incompleteStory;
+		public SimpleStorySO StoryBeforeTask => storyBeforeTask;
+		public SimpleStorySO WinStory => completeStory;
+		public SimpleStorySO LoseStory => incompleteStory;
 		public bool IsDone => isDone;
 		public CharacterSO Character => character;
-		public TaskEventSO TaskEvent => taskEvent;
+		public TaskEventChannelSO StartTaskEvent => endTaskEvent;
+		public TaskEventChannelSO EndTaskEvent => endTaskEvent;
 
 		[SerializeField, HideInInspector, Tooltip("The description of the mission")]
 		private LocalizedString description;
@@ -62,17 +63,17 @@ namespace DatabaseSync.Components
 		// Keep reference to the amount we killed or collected.
 		private int m_Count;
 
-		[Tooltip("The Character this mission belongs to and will need to interaction with")]
+		[Tooltip("The Character this mission belongs or we will need to interact with")]
 		[SerializeField] private CharacterSO character;
 
 		[Tooltip("The story that will be displayed before an action, if any")]
-		[SerializeField] private StorySO storyBeforeTask;
+		[SerializeField] private SimpleStorySO storyBeforeTask;
 
 		[Tooltip("The story that will be displayed when the step is achieved")]
-		[SerializeField] private StorySO completeStory;
+		[SerializeField] private SimpleStorySO completeStory;
 
 		[Tooltip("The story that will be displayed if the step is not achieved yet")]
-		[SerializeField] private StorySO incompleteStory;
+		[SerializeField] private SimpleStorySO incompleteStory;
 
 		[Tooltip("The item to check/give/reward (can be multiple)")]
 		[SerializeField] private List<ItemStack> items;
@@ -80,8 +81,13 @@ namespace DatabaseSync.Components
 		[Tooltip("The type of the task")]
 		[SerializeField] private TaskCompletionType type;
 
-		[Tooltip("An event that we can trigger when a certain task is being enabled")]
-		[SerializeField] private TaskEventSO taskEvent;
+		[SerializeField, Tooltip("An event that we trigger when a certain task is started.")]
+		private TaskEventChannelSO startTaskEvent;
+
+		[SerializeField, Tooltip("An event that we trigger when a certain task is finished.")]
+		private TaskEventChannelSO endTaskEvent;
+
+		[SerializeField, Tooltip("Task event value we want to attach.")] private TaskEventSO taskEvent;
 
 		[SerializeField] bool isDone;
 
@@ -115,9 +121,15 @@ namespace DatabaseSync.Components
 			return m_Count >= requiredCount;
 		}
 
+		public void StartTask()
+		{
+			if(startTaskEvent) startTaskEvent.RaiseEvent(this, taskEvent);
+		}
+
 		public void FinishTask()
 		{
 			isDone = true;
+			if (endTaskEvent != null) endTaskEvent.RaiseEvent(this, taskEvent);
 		}
 
 		TaskSO(): base("tasks", "description") {}
@@ -126,7 +138,7 @@ namespace DatabaseSync.Components
 		{
 			if (ID != UInt32.MaxValue)
 			{
-				collection = LocalizationEditorSettings.GetStringTableCollection("Task Descriptions");
+				collection = overrideTable ? collection : LocalizationEditorSettings.GetStringTableCollection("Task Descriptions");
 				// Only get the first dialogue.
 				var entryId = (ID + 1).ToString();
 				if(collection)

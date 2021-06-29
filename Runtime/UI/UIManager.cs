@@ -58,6 +58,7 @@ namespace DatabaseSync.UI
 		[SerializeField] private VoidEventChannelSO storyScreenClosedEvent;
 
 		private bool m_IsForCookingOrCraft;
+		private bool m_IsAnimating;
 
 		protected void OnEnable()
 		{
@@ -203,12 +204,35 @@ namespace DatabaseSync.UI
 			navigationPanel.gameObject.SetActive(isOpenEvent);
 		}
 
+		/// <summary>
+		/// TODO make this in a queue form for multiple items
+		/// </summary>
+		/// <param name="isOpenEvent"></param>
+		/// <param name="itemInfo"></param>
+		/// <param name="interactionType"></param>
+		/// <returns></returns>
 		public void ShowItemPanel(bool isOpenEvent, ItemStack itemInfo, InteractionType interactionType)
 		{
 			if (isOpenEvent)
 			{
-				interactionItemPanel.SetItem(itemInfo);
+				interactionItemPanel.SetItem(itemInfo, interactionType);
 				interactionItemPanel.FillInteractionPanel(interactionType);
+
+				if (!m_IsAnimating)
+				{
+					m_IsAnimating = true;
+					interactionItemPanel.transform.DOMoveX(200, 1.0f).SetEase(Ease.InOutQuad).OnComplete(
+						() => interactionItemPanel.transform.DOMoveX(200, 5.0f).SetEase(Ease.InOutQuad).OnComplete(
+							() => interactionItemPanel.transform.DOMoveX(-200, 1.0f).SetEase(Ease.InOutQuad).OnComplete(
+								() =>
+								{
+									interactionItemPanel.gameObject.SetActive(false);
+									m_IsAnimating = false;
+								}
+							)
+						)
+					);
+				}
 			}
 
 			interactionItemPanel.gameObject.SetActive(isOpenEvent);

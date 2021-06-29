@@ -22,22 +22,23 @@ namespace DatabaseSync.Components
 		private SimpleStorySO defaultStory;
 
 		[SerializeField, Tooltip("Stories that belongs to this character")]
-		private List<StorySO> stories;
+		private List<SimpleStorySO> stories;
+
+		[Header("BroadCasting on channels")]
+		[SerializeField] private VoidEventChannelSO onInteractionEnded;
 
 		[Header("Listening to channels")]
 		[SerializeField] private TaskEventChannelSO startTaskEvent;
+		[SerializeField] private TaskEventChannelSO endTaskEvent;
+
+		[SerializeField] private VoidEventChannelSO continueWithTask;
+		[SerializeField] private VoidEventChannelSO completeDialogueEvent;
+		[SerializeField] private VoidEventChannelSO incompleteDialogueEvent;
+		[SerializeField] private VoidEventChannelSO closeDialogueUIEvent;
 
 		// This is for each dialogue we call an even
 		[SerializeField] private DialogueLineChannelSO endDialogueEvent;
 		[SerializeField] private DialogueCharacterChannelSO interactionEvent;
-
-		[SerializeField] private VoidEventChannelSO completeDialogueEvent;
-		[SerializeField] private VoidEventChannelSO incompleteDialogueEvent;
-		[SerializeField] private VoidEventChannelSO continueWithTask;
-		[SerializeField] private VoidEventChannelSO endTaskEvent;
-		[SerializeField] private VoidEventChannelSO closeDialogueUIEvent;
-
-		[SerializeField] private TaskEventChannelSO endStoryEvent;
 
 		[Header("Broadcasting on channels")]
 		[SerializeField] private VoidEventChannelSO checkTaskValidityEvent;
@@ -49,8 +50,6 @@ namespace DatabaseSync.Components
 
 		[Header("Revision"), Tooltip("Determines in which state the current controller is for the story.")]
 		[SerializeField] private int revisionId = -1;
-
-		private UnityEngine.InputSystem.PlayerInput m_PlayerInput;
 
 		// check if character is active. An active character is the character concerned by the task.
 		private bool _hasActiveStory;
@@ -78,7 +77,6 @@ namespace DatabaseSync.Components
 
 		private void Start()
 		{
-			m_PlayerInput = FindObjectOfType<UnityEngine.InputSystem.PlayerInput>();
 			if (endDialogueEvent != null)
 			{
 				endDialogueEvent.OnEventRaised += EndDialogue;
@@ -109,11 +107,6 @@ namespace DatabaseSync.Components
 				endTaskEvent.OnEventRaised += EndTask;
 			}
 
-			if (endStoryEvent != null)
-			{
-				endStoryEvent.OnEventRaised += EndTask;
-			}
-
 			if (continueWithTask != null)
 			{
 				continueWithTask.OnEventRaised += ContinueWithTask;
@@ -121,7 +114,10 @@ namespace DatabaseSync.Components
 
 			if(closeDialogueUIEvent != null)
 			{
-				closeDialogueUIEvent.OnEventRaised += () => m_PlayerInput.SwitchCurrentActionMap("Gameplay");
+				closeDialogueUIEvent.OnEventRaised += () =>
+				{
+					if (onInteractionEnded != null) onInteractionEnded.RaiseEvent();
+				};
 			}
 
 			_hasActiveStory = defaultStory != null;
@@ -135,6 +131,11 @@ namespace DatabaseSync.Components
 				_currentStory = defaultStory;
 				StartDialogue();
 			}
+			else
+			{
+				// if we have nothing to show go back to normal input
+				if (onInteractionEnded != null) onInteractionEnded.RaiseEvent();
+			}
 		}
 
 		// play dialogue of the story
@@ -147,7 +148,7 @@ namespace DatabaseSync.Components
 			}
 		}
 
-		void CheckTaskInvolvement(TaskSO task)
+		void CheckTaskInvolvement(TaskSO task, TaskEventSO value)
 		{
 			if (character == task.Character)
 			{
@@ -305,7 +306,7 @@ namespace DatabaseSync.Components
 			}
 		}
 
-		void EndTask(TaskSO stepToFinish)
+		void EndTask(TaskSO stepToFinish, TaskEventSO value)
 		{
 			if (stepToFinish == _currentTask)
 				UnregisterTask();
@@ -315,10 +316,10 @@ namespace DatabaseSync.Components
 			}
 		}
 
-		void EndTask()
-		{
-			UnregisterTask();
-		}
+		// void EndTask()
+		// {
+		// 	UnregisterTask();
+		// }
 
 		//unregister a step when it ends.
 		private void UnregisterTask()
