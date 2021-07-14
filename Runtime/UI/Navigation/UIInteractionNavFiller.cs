@@ -3,7 +3,7 @@ using UnityEngine.Localization.Components;
 
 namespace DatabaseSync.UI
 {
-	using Localization;
+	using Extensions.Localization;
 
 	public class UIInteractionNavFiller : BaseUIInteractionItemFiller<InteractionNavSO>
 	{

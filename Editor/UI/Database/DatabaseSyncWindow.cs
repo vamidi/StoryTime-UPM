@@ -52,7 +52,7 @@ namespace DatabaseSync.Editor.UI
 	        private set => EditorPrefs.SetString(EditorPrefDialogueConfigValueKey, value);
         }
 
-        [MenuItem("Window/DatabaseSync/Global Settings")]
+        [MenuItem("Tools/DatabaseSync/Global Settings")]
         public static void ShowWindow() => OpenWindow();
 
         public static void OpenWindow()

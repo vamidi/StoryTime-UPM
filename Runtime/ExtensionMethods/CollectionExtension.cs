@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Collections.Generic;
 
-namespace DatabaseSync.Extension
+namespace DatabaseSync.Extensions
 {
 	public static class CollectionExtension
 	{

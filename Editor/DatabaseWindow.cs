@@ -14,6 +14,7 @@ namespace DatabaseSync.Editor
 	static class ToolbarStyles
 	{
 		public static readonly GUIStyle CommandButtonStyle;
+		public static readonly GUIStyle CommandPopupStyle;
 
 		static ToolbarStyles()
 		{
@@ -22,7 +23,15 @@ namespace DatabaseSync.Editor
 				fontSize = 16,
 				alignment = TextAnchor.MiddleCenter,
 				imagePosition = ImagePosition.ImageAbove,
-				fontStyle = FontStyle.Bold
+				fontStyle = FontStyle.Bold,
+			};
+
+			CommandPopupStyle = new GUIStyle("Command")
+			{
+				fontSize = 16,
+				alignment = TextAnchor.MiddleCenter,
+				imagePosition = ImagePosition.ImageAbove,
+				fontStyle = FontStyle.Bold,
 			};
 		}
 	}
@@ -71,6 +80,7 @@ namespace DatabaseSync.Editor
 
 			Texture content = EditorGUIUtility.isProSkin ? SyncIconPro : SyncIcon;
 
+			EditorStyles.popup.fixedHeight = 22;
 			ChoiceIndex = EditorGUILayout.Popup(new GUIContent(""), ChoiceIndex, TableNames,
 				GUILayout.Width(100.0f), GUILayout.ExpandHeight(true));
 

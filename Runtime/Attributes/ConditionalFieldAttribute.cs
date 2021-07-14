@@ -11,7 +11,7 @@ using UnityEditor;
 
 namespace DatabaseSync.Attributes
 {
-	using Extension;
+	using Extensions;
 
 	/// <summary>
 	/// Conditionally Show/Hide field in inspector, based on some other field value
