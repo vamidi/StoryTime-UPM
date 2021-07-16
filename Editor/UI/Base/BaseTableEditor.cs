@@ -3,6 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace DatabaseSync.Editor
 {
@@ -19,6 +20,11 @@ namespace DatabaseSync.Editor
 
 		private Dictionary<uint, string> m_PopulatedList = new Dictionary<uint, string>();
 		private int _choiceIndex;
+
+		public override VisualElement CreateInspectorGUI()
+		{
+			return base.CreateInspectorGUI();
+		}
 
 		public virtual void OnEnable()
 		{
@@ -61,10 +67,14 @@ namespace DatabaseSync.Editor
 
 		public override void OnInspectorGUI()
 		{
-			// Draw the default inspector
-			DrawDefaultInspector();
 			GUIContent arrayLabel = new GUIContent("ID");
 			_choiceIndex = UnityEditor.EditorGUILayout.Popup(arrayLabel, _choiceIndex, m_PopulatedList.Values.ToArray());
+
+			// Draw the default inspector
+			base.OnInspectorGUI();
+			//
+			// DrawDefaultInspector();
+
 			var t = target as Components.TableBehaviour;
 			if (_choiceIndex >= 0)
 			{
@@ -290,6 +300,7 @@ namespace DatabaseSync.Editor
 				if (row != null) Components.ItemSO.ItemTable.ConvertRow(row, t);
 				UnityEditor.EditorUtility.SetDirty(t);
 				Repaint();
+				Debug.Log("repaint");
 			}
 		}
 	}

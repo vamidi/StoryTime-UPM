@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 using UnityEditor;
 
-namespace DatabaseSync.Extension
+namespace DatabaseSync.Extensions
 {
 	public static class SerializedPropertyExtension
 	{

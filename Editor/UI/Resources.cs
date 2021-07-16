@@ -28,9 +28,9 @@ namespace DatabaseSync.Editor.UI
             return asset;
         }
 
-        public static VisualElement GetTemplate(string templateFilename)
+        public static TemplateContainer GetTemplate(string templateFilename)
         {
-            return GetTemplateAsset(templateFilename).CloneTree();
+	        return GetTemplateAsset(templateFilename).CloneTree();
         }
 
         public static StyleSheet GetStyleAsset(string styleFileName)

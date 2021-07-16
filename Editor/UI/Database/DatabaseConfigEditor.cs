@@ -5,7 +5,7 @@ namespace DatabaseSync.Editor.UI
 	[UnityEditor.CustomEditor(typeof(DatabaseConfig), true)]
 	public class DatabaseConfigEditor : UnityEditor.Editor
 	{
-		static readonly GUIContent EditConfig = new GUIContent("Change", "Open config file in the Database settings window.");
+		static readonly GUIContent EditConfig = new GUIContent("Open", "Open config file in the Database settings window.");
 
 		public override void OnInspectorGUI()
 		{

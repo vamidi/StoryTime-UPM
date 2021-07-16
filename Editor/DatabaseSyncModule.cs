@@ -181,7 +181,7 @@ namespace DatabaseSync.Editor
 			wr.SetRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 			wr.SendWebRequest().completed += operation =>
 			{
-				if (wr.isNetworkError || wr.responseCode == 401 || wr.responseCode == 500)
+				if (wr.result == UnityWebRequest.Result.ConnectionError || wr.responseCode == 401 || wr.responseCode == 500)
 					throw new ArgumentException("Error: ", wr.error);
 
 				// Handle result
@@ -224,7 +224,7 @@ namespace DatabaseSync.Editor
 			wr.SetRequestHeader("Authorization", "Bearer " + DATABASE_TOKEN.refresh_token);
 			wr.SendWebRequest().completed += operation =>
 			{
-				if (wr.isNetworkError || wr.responseCode == 401 || wr.responseCode == 500)
+				if (wr.result == UnityWebRequest.Result.ConnectionError || wr.responseCode == 401 || wr.responseCode == 500)
 				{
 					Debug.Log("Error: " + wr.error);
 					return;
@@ -290,7 +290,7 @@ namespace DatabaseSync.Editor
 			// FetchNotification->SetCompletionState(bWasSuccessful? SNotificationItem::CS_Success : SNotificationItem::CS_Fail);
 			// FetchNotification->ExpireAndFadeout();
 
-			if (request.isNetworkError || request.responseCode == 401 || request.responseCode == 500)
+			if (request.result == UnityWebRequest.Result.ConnectionError || request.responseCode == 401 || request.responseCode == 500)
 			{
 				Debug.Log("Error: " + request.error);
 				Debug.Log("Error: " + request.downloadHandler.text);
@@ -323,7 +323,7 @@ namespace DatabaseSync.Editor
 				foreach (var item in jsonArray.Children())
 				{
 					Table tableData = item.ToObject<Table>();
-					if(tableData.metadata == null || tableData.metadata.title == "")
+					if(tableData == null || tableData.metadata == null || tableData.metadata.title == "" )
 						throw new ArgumentException("Can't make Table from JSON file");
 
 					// Get table name and store it as individual data

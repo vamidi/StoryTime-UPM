@@ -1,0 +1,77 @@
+﻿TemplateContainer
+{
+	flex-grow: 1;
+	flex-direction: column;
+}
+
+ListView
+{
+	width: 225px;
+	-unity-text-align: middle-left;
+	border-right-width: 1px;
+	border-right-color: #181818;
+}
+
+Button:hover {
+	cursor: link;
+}
+
+.header
+{
+	-unity-font-style: bold;
+	-unity-text-align: middle-center;
+	font-size: 20px;
+}
+
+.panel {
+	flex-grow: 1;
+	flex-direction: row;
+	height: 100%;
+}
+
+.btn {
+	margin: 8px;
+	padding: 12px 18px;
+	color: #fff;
+}
+
+.btn-primary {
+	background-color: #3366ff;
+}
+
+.btn-primary.active {
+	background-color: #598bff;
+}
+
+.btn-danger {
+	background-color: #ff3d71;
+}
+
+#content {
+	flex-grow: 1;
+	flex-direction: row;
+}
+
+#card {
+	height: 100%;
+	flex-grow: 1;
+}
+
+#preview
+{
+	height: 300px;
+	width: 300px;
+	align-self: center;
+}
+
+#card-info-scroll
+{
+	flex-grow: 1;
+}
+
+#box-controls
+{
+	height: auto;
+	flex-direction: row;
+	justify-content: flex-end;
+}
