@@ -1,5 +1,5 @@
 ﻿using System;
-
+using DatabaseSync.Game;
 using Newtonsoft.Json.Linq;
 
 using UnityEngine;
@@ -20,16 +20,19 @@ namespace DatabaseSync.Components
 	public partial class CharacterSO : LocalizationBehaviour
 	{
 		public LocalizedString CharacterName => characterName;
+		public CharacterStatSO CharacterStats => characterStats;
 
-		[SerializeField] private LocalizedString characterName = default;
+		[SerializeField] private LocalizedString characterName;
 
+		// TODO see if we need to make an list out of this.
+		[SerializeField, Tooltip("All the stats the character currently has.")] private CharacterStatSO characterStats;
 		protected override void OnTableIDChanged()
 		{
 			base.OnTableIDChanged();
 			Initialize();
 		}
 
-		public virtual void OnEnable()
+		public void OnEnable()
 		{
 #if UNITY_EDITOR
 			Initialize();

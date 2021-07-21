@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using DatabaseSync.Attributes;
+using DatabaseSync.Game;
 using UnityEditor.Localization;
 using UnityEngine;
 
@@ -66,6 +68,7 @@ namespace DatabaseSync.Components
 		public ItemTypeSO ItemType { get => itemType; set => itemType = value; }
 		public Sprite PreviewImage => previewImage;
 		public GameObject Prefab => prefab;
+		public List<StatModifier> StatModifiers => statModifiers;
 		public LocalizedSprite LocalizePreviewImage => localizePreviewImage;
 		public bool IsLocalized => isLocalized;
 
@@ -82,8 +85,12 @@ namespace DatabaseSync.Components
 		[SerializeField, Tooltip("A prefab reference for the model of the item")] protected GameObject prefab;
 		[SerializeField, Tooltip("If the player is able to sell this item")] protected bool sellable;
 		[SerializeField, Tooltip("If the item is sellable, how much will it cost")] protected double sellValue;
+		[SerializeField, Tooltip("Stat modifiers")] protected List<StatModifier> statModifiers;
 		[SerializeField, Tooltip("A localized preview image for the item")] protected LocalizedSprite localizePreviewImage;
 		[SerializeField, Tooltip("a checkbox for localized asset")] protected bool isLocalized;
+
+		private CharacterSO _character = null;
+
 		// Effect Primary Value
 		// Effect Type Id
 
@@ -101,6 +108,21 @@ namespace DatabaseSync.Components
 		public virtual void OnEnable()
 		{
 			Initialize();
+
+			if (_character)
+			{
+				_character.CharacterStats.Add(statModifiers[0]);
+				_character.CharacterStats.Add(statModifiers[1]);
+			}
+		}
+
+		public void OnDisable()
+		{
+			if (_character)
+			{
+				_character.CharacterStats.Remove(statModifiers[0]);
+				_character.CharacterStats.Remove(statModifiers[1]);
+			}
 		}
 
 		protected virtual void Initialize()
