@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using UnityEditor;
-using UnityEditor.Localization.Plugins.XLIFF.V12;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;

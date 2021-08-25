@@ -1,5 +1,5 @@
 {
-    "name": "NavMeshComponents",
+    "name": "com.vamidicreations.storytime.navmesh.runtime",
     "references": [],
     "optionalUnityReferences": [],
     "includePlatforms": [],

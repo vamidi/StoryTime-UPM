@@ -143,6 +143,7 @@ namespace DatabaseSync.Editor.UI
 
 			// TODO make template
 			m_ListView = listView;
+			m_ListView.Clear();
 			m_ListView.makeItem = () => new Label();
 			m_ListView.bindItem = (element, i) =>
 			{
@@ -168,7 +169,7 @@ namespace DatabaseSync.Editor.UI
 
 			cardInfo.Add(m_DefaultInspector);
 
-			m_ListView.onSelectionChange += enumerable => SelectChange(cardInfo, enumerable);
+			m_ListView.onSelectionChange += SelectChange;
 			m_ListView.Refresh();
 		}
 
@@ -176,7 +177,7 @@ namespace DatabaseSync.Editor.UI
 
 		protected virtual void OnChanged() { }
 
-		protected virtual void SelectChange(Box cardInfo, IEnumerable<object> enumerable)
+		protected virtual void SelectChange(IEnumerable<object> enumerable)
 		{
 			foreach (var obj in enumerable)
 			{
@@ -189,7 +190,12 @@ namespace DatabaseSync.Editor.UI
 
 					GenerateList();
 
-					DrawSelection(cardInfo, it);
+					// DrawSelection(cardInfo, it);
+
+					// If there isn't a Transform currently selected then destroy the existing editor
+					if (_editor != null)
+						UnityEngine.Object.DestroyImmediate(_editor);
+
 					_editor = UnityEditor.Editor.CreateEditor(it);
 
 					// Selection.activeObject = it;
@@ -231,7 +237,7 @@ namespace DatabaseSync.Editor.UI
 
 		private void CreateNew()
 		{
-			var path = EditorUtility.SaveFilePanel("Create Table Collection", defaultPath, "", "asset");
+			var path = EditorUtility.SaveFilePanel("Create new", defaultPath, "", "asset");
 			if (string.IsNullOrEmpty(path))
 				return;
 
