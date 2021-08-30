@@ -195,7 +195,6 @@ namespace DatabaseSync.Editor
 					exp = exp.AddSeconds(DATABASE_TOKEN.expires_in);
 					DATABASE_TOKEN.expire_time += exp.Ticks;
 					File.WriteAllText(FirebaseAppFile, JsonUtility.ToJson(DATABASE_TOKEN));
-					Debug.Log(FirebaseAppFile);
 				}
 				catch (ArgumentNullException e)
 				{

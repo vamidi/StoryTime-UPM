@@ -14,7 +14,7 @@ For more information check out our [Documentations](https://valencio-masaki16.gi
 ## Getting Started
 > **Make sure if you use an existing project that is has Universal Render Pipeline (URP) enabled.**
 
-To get started, you'll need to install StoryTime in your Unity project. Yarn Spinner is available as a package via OpenUPM,
+To get started, you'll need to install StoryTime in your Unity project. StoryTime is available as a package via OpenUPM,
 and via direct download as a `.unitypackage` file.
 
 ### Quick Start: Direct download

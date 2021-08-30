@@ -1,0 +1,66 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2835031409797653669
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2835031409797653691}
+  - component: {fileID: 2835031409797653668}
+  m_Layer: 28
+  m_Name: NPC
+  m_TagString: NPC
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2835031409797653691
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2835031409797653669}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.1497575, y: 0.13119316, z: -2.2074327}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2835031409797653668
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2835031409797653669}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4fd6c88a2301ec42880aed28ab8cb40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  character: {fileID: 0}
+  defaultStory: {fileID: 0}
+  stories: []
+  onInteractionEnded: {fileID: 11400000, guid: ce90a23bef1ec06428be699e8ab14bc0, type: 2}
+  startTaskEvent: {fileID: 11400000, guid: 925add8049ad3004392b9f7fe5ccef94, type: 2}
+  endTaskEvent: {fileID: 0}
+  continueWithTask: {fileID: 11400000, guid: 776fce244873b5f499a5a86e99f8f2b0, type: 2}
+  completeDialogueEvent: {fileID: 11400000, guid: 45c43269234872e45a12feccfc7e9c80,
+    type: 2}
+  incompleteDialogueEvent: {fileID: 11400000, guid: 3d3ce7e06b2b8b94a8da07e9cde0aabc,
+    type: 2}
+  closeDialogueUIEvent: {fileID: 11400000, guid: cbd4abfb8d701dc479f2506c899ce498,
+    type: 2}
+  endDialogueEvent: {fileID: 0}
+  interactionEvent: {fileID: 11400000, guid: 14b80f2cdae173b4fb8683269d32eddf, type: 2}
+  checkTaskValidityEvent: {fileID: 11400000, guid: e705c94ceac130640ab7e80c923d88f6,
+    type: 2}
+  startStoryEvent: {fileID: 11400000, guid: 1dafebf8ffa94d14cb84dfa1290f7581, type: 2}
+  startTransformDialogue: {fileID: 11400000, guid: 20882f855bf38c8498571e8ea0479453,
+    type: 2}
+  revisionId: -1
