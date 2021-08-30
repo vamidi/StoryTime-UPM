@@ -85,11 +85,24 @@ namespace DatabaseSync.Components
 				// Retrieve the first node. because that is the start node.
 				// if not debug show error.
 				var nodeToken = nodes.First.Value<JProperty>();
+				var node = new JObject();
 
-				var node = nodeToken.Value.ToObject<JObject>();
-				if (node["name"].ToObject<string>().ToLower() != "start")
+				while (nodeToken != null)
 				{
-					Debug.LogWarning("First Node is not the start node");
+					node = nodeToken.Value.ToObject<JObject>();
+
+					if (node["name"].ToObject<string>().ToLower() == "start")
+						nodeToken = null; // we found the start node.
+					else
+					{
+						node.RemoveAll();
+						nodeToken = nodeToken.Next != null ? nodeToken.Next.Value<JProperty>() : null;
+					}
+				}
+
+				if (!node.HasValues)
+				{
+					Debug.LogWarning("Start Node could not be found!");
 					return;
 				}
 

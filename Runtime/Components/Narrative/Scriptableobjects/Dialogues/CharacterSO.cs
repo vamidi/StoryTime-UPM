@@ -9,13 +9,10 @@ using UnityEditor.Localization;
 
 namespace DatabaseSync.Components
 {
-	using Binary;
-	using Database;
-
 	/// <summary>
 	/// Scriptable Object that represents an "Actor", that is the protagonist of a Dialogue
 	/// </summary>
-	[CreateAssetMenu(fileName = "newCharatcer", menuName = "DatabaseSync/Stories/Character")]
+	[CreateAssetMenu(fileName = "newCharacter", menuName = "DatabaseSync/Stories/Character")]
 	// ReSharper disable once InconsistentNaming
 	public partial class CharacterSO : LocalizationBehaviour
 	{

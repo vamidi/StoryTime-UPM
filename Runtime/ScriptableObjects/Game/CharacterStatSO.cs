@@ -7,7 +7,7 @@ namespace DatabaseSync.Game
 {
 	using DatabaseSync.Components;
 
-	[CreateAssetMenu(fileName = "FILENAME", menuName = "MENUNAME", order = 0)]
+	[CreateAssetMenu(fileName = "newCharacterStat", menuName = "DatabaseSync/Stats/Character Stats")]
 	// ReSharper disable once InconsistentNaming
 	public class CharacterStatSO : TableBehaviour
 	{

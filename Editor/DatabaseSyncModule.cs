@@ -292,8 +292,8 @@ namespace DatabaseSync.Editor
 
 			if (request.result == UnityWebRequest.Result.ConnectionError || request.responseCode == 401 || request.responseCode == 500)
 			{
-				Debug.Log("Error: " + request.error);
-				Debug.Log("Error: " + request.downloadHandler.text);
+				Debug.LogError("Error: " + request.error);
+				Debug.LogError("Error: " + request.downloadHandler.text);
 				_canFetch = true;
 				return;
 			}

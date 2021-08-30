@@ -107,13 +107,17 @@ namespace DatabaseSync.UI
 
 		public void OpenUIDialogue(IDialogueLine dialogueLine, CharacterSO character)
 		{
-			dialogueController.SetDialogue(dialogueLine, character);
-			dialogueController.gameObject.SetActive(true);
+			if (dialogueController)
+			{
+				dialogueController.SetDialogue(dialogueLine, character);
+				dialogueController.gameObject.SetActive(true);
+			}
 		}
 
 		public void CloseUIDialogue()
 		{
-			dialogueController.gameObject.SetActive(false);
+			if(dialogueController)
+				dialogueController.gameObject.SetActive(false);
 		}
 
 		public void SetInventoryScreenForCooking(RecipeCollectionSO recipeCollection)
@@ -163,45 +167,57 @@ namespace DatabaseSync.UI
 
 		public void OpenStoryScreen()
 		{
-			storyManagerPanel.ShowCategories();
-			storyManagerPanel.gameObject.SetActive(true);
+			if (storyManagerPanel)
+			{
+				storyManagerPanel.ShowCategories();
+				storyManagerPanel.gameObject.SetActive(true);
+			}
 		}
 
 		public void CloseStoryScreen()
 		{
-			storyManagerPanel.HideCategories();
-			storyManagerPanel.gameObject.SetActive(false);
+			if (storyManagerPanel)
+			{
+				storyManagerPanel.HideCategories();
+				storyManagerPanel.gameObject.SetActive(false);
 
-			if (storyScreenClosedEvent != null) storyScreenClosedEvent.RaiseEvent();
+				if (storyScreenClosedEvent != null) storyScreenClosedEvent.RaiseEvent();
+			}
 		}
 
 		public void SetInteractionPanel(bool isOpenEvent, InteractionType interactionType)
 		{
-			if (isOpenEvent)
+			if (interactionPanel)
 			{
-				interactionPanel.FillInteractionPanel(interactionType);
-			}
+				if (isOpenEvent)
+				{
+					interactionPanel.FillInteractionPanel(interactionType);
+				}
 
-			interactionPanel.gameObject.SetActive(isOpenEvent);
+				interactionPanel.gameObject.SetActive(isOpenEvent);
+			}
 		}
 
 		public void ShowNavigationPanel(bool isOpenEvent, StoryInfo info, InteractionType interactionType)
 		{
-			if (isOpenEvent)
+			if (interactionPanel)
 			{
-				navigationPanel.SetQuest(info, interactionType);
-				navigationPanel.FillInteractionPanel(interactionType);
+				if (isOpenEvent)
+				{
+					navigationPanel.SetQuest(info, interactionType);
+					navigationPanel.FillInteractionPanel(interactionType);
 
-				navigationPanel.transform.DOMoveX(200, 1.0f).SetEase(Ease.InOutQuad).OnComplete(
-					() => navigationPanel.transform.DOMoveX(200, 5.0f).SetEase(Ease.InOutQuad).OnComplete(
-						() => navigationPanel.transform.DOMoveX(-200, 1.0f).SetEase(Ease.InOutQuad).OnComplete(
-							() => navigationPanel.gameObject.SetActive(false)
+					navigationPanel.transform.DOMoveX(200, 1.0f).SetEase(Ease.InOutQuad).OnComplete(
+						() => navigationPanel.transform.DOMoveX(200, 5.0f).SetEase(Ease.InOutQuad).OnComplete(
+							() => navigationPanel.transform.DOMoveX(-200, 1.0f).SetEase(Ease.InOutQuad).OnComplete(
+								() => navigationPanel.gameObject.SetActive(false)
+							)
 						)
-					)
-				);
-			}
+					);
+				}
 
-			navigationPanel.gameObject.SetActive(isOpenEvent);
+				navigationPanel.gameObject.SetActive(isOpenEvent);
+			}
 		}
 
 		/// <summary>

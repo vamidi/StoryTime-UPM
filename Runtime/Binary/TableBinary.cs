@@ -43,6 +43,9 @@ namespace DatabaseSync.Binary
 
 	public class TableBinary
 	{
+		public Table Table => _table;
+
+		private readonly Table _table = new Table();
 		/// <summary>
 		/// This is the name of the table
 		/// </summary>
@@ -395,7 +398,7 @@ namespace DatabaseSync.Binary
 			var token = GetTableData(stream);
 			var stru = new TableStruct
 			{
-				Table = new Table(),
+				Table = _table,
 				Ujson = _ujson,
 				Data = _data
 			};
@@ -469,7 +472,6 @@ namespace DatabaseSync.Binary
 
 				// NewList.Compact();
 			}
-
 
 			return newList;
 		}
@@ -741,7 +743,10 @@ namespace DatabaseSync.Binary
 					j++;
 				}
 
-				tableStruct.Table.Rows.Add(i, tblRow);
+				if (tableStruct.Table.Rows.ContainsKey(i))
+					tableStruct.Table.Rows[i] = tblRow;
+				else
+					tableStruct.Table.Rows.Add(i, tblRow);
 				i++;
 			}
 
