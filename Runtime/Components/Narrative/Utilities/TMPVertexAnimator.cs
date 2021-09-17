@@ -356,13 +356,17 @@ namespace DatabaseSync.Components
 		{
 			m_StopAnimating = false;
 
+			text = m_ProcessedMessage;
+			_nRevealedCharacters = m_ProcessedMessage.Length;
+
 			if (IsAllRevealed())
 				allRevealed.Invoke();
 
 			_isRevealing = false;
 		}
 
-		private Vector3 GetAnimPosAdjustment(TextAnimInfo[] textAnimInfo, int charIndex, float curFontSize, float time) {
+		private Vector3 GetAnimPosAdjustment(TextAnimInfo[] textAnimInfo, int charIndex, float curFontSize, float time)
+		{
 			float x = 0;
 			float y = 0;
 			foreach (var info in textAnimInfo)

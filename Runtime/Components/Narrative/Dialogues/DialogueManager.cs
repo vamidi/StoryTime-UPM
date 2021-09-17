@@ -55,6 +55,7 @@ namespace DatabaseSync.Components
 		private IDialogueLine m_CurrentDialogue;
 
 		private bool _isInputEnabled;
+		private bool _canContinue;
 
 		void Start()
 		{
@@ -83,13 +84,21 @@ namespace DatabaseSync.Components
 
 			ToggleCameras(false);
 
-			if(revealer) revealer.allRevealed.AddListener(() => ToggleContinueBtn(true));
+			if(revealer)
+				revealer.allRevealed.AddListener(() =>
+				{
+					_canContinue = true;
+					ToggleContinueBtn(true);
+				});
 
 			var player = GameObject.FindWithTag("Player");
 			if(player)
 			{
 				targetGroup.m_Targets[0].target = player.transform;
 			}
+
+			if(inputReader)
+				inputReader.advanceDialogueEvent += OnAdvance;
 		}
 
 		/// <summary>
@@ -112,8 +121,8 @@ namespace DatabaseSync.Components
 		/// <param name="character"></param>
 		public void DisplayDialogueLine(IDialogueLine dialogueLine, CharacterSO character)
 		{
-			Debug.Log(dialogueLine);
-			Debug.Log(character);
+			_canContinue = false;
+
 			if (openUIDialogueEvent != null)
 			{
 				// send event out before the dialogue starts
@@ -163,7 +172,6 @@ namespace DatabaseSync.Components
 		private void BeginDialogueStory(SimpleStorySO storyDataSo)
 		{
 			inputReader.EnableDialogueInput();
-			inputReader.advanceDialogueEvent += OnAdvance;
 			m_CurrentStory = storyDataSo;
 			_isInputEnabled = false;
 			StopAllCoroutines();
@@ -204,7 +212,7 @@ namespace DatabaseSync.Components
 			// Hide the option when advancing. // TODO this will be helpful for later when we use index instead of next dialogue
 			DialogueChoiceEndAndCloseUI();
 
-			if (!ReachedEndOfDialogue)
+			if (!ReachedEndOfDialogue && _canContinue)
 			{
 				m_CurrentDialogue = m_CurrentDialogue.NextDialogue;
 				// TODO grab the actor from the node editor.
@@ -290,7 +298,7 @@ namespace DatabaseSync.Components
 
 			// if (endStoryEvent != null) endStoryEvent.RaiseEvent(m_CurrentStory, null);
 
-			inputReader.advanceDialogueEvent -= OnAdvance;
+			DialogueChoiceEndAndCloseUI();
 			inputReader.EnableGameplayInput();
 
 			_isInputEnabled = true;
