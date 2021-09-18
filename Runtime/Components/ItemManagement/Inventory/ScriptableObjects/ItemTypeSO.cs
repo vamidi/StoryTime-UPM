@@ -14,11 +14,11 @@ namespace DatabaseSync
 	}
 	public enum ItemInventoryActionType
 	{
+		DoNothing,
 		Cook,
 		Craft,
 		Use,
-		Equip,
-		DoNothing
+		Equip
 	}
 
 	[CreateAssetMenu(fileName = "ItemType", menuName = "DatabaseSync/Item Management/Item Type", order = 51)]
