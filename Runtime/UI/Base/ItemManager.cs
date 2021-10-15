@@ -51,8 +51,8 @@ namespace DatabaseSync.UI
 		[SerializeField] protected List<InventoryTabTypeSO> tabTypesList = new List<InventoryTabTypeSO>();
 		[SerializeField] protected LocalizeStringEvent currentTabCategory;
 
-		[Header("Listening to channels")] [SerializeField]
-		protected TabEventChannelSO changeTabEvent;
+		[Header("Listening to channels")]
+		[SerializeField] protected TabEventChannelSO changeTabEvent;
 
 		[SerializeField] protected ItemEventChannelSO selectItemEvent;
 		[SerializeField] protected VoidEventChannelSO onInteractionEndedEvent;

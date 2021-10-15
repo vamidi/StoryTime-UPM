@@ -10,6 +10,7 @@ namespace DatabaseSync
 
 	public class InventoryManager : MonoBehaviour
 	{
+		[Header("Listening to channels")]
 		[SerializeField] private InventorySO currentInventory;
 		[SerializeField] private ItemEventChannelSO useItemEvent;
 		[SerializeField] private ItemEventChannelSO equipItemEvent;

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -7,6 +8,7 @@ namespace DatabaseSync.Events
 	public class InteractionItemUIEventChannel : ScriptableObject
 	{
 		public UnityAction<bool, Components.ItemStack, InteractionType> OnEventRaised;
+		public UnityAction<bool, List<Components.ItemStack>, InteractionType> OnEventsRaised;
 
 		/// <summary>
 		///
@@ -16,5 +18,8 @@ namespace DatabaseSync.Events
 		/// <param name="interactionType"></param>
 		public void RaiseEvent(bool state, Components.ItemStack itemInfo, InteractionType interactionType)
 			=> OnEventRaised?.Invoke(state, itemInfo, interactionType);
+
+		public void RaiseEvent(bool state, List<Components.ItemStack> itemInfo, InteractionType interactionType)
+			=> OnEventsRaised?.Invoke(state, itemInfo, interactionType);
 	}
 }

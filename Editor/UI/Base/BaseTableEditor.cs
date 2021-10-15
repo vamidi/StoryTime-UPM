@@ -167,6 +167,24 @@ namespace DatabaseSync.Editor
 			}
 		}
 
+
+		[UnityEditor.CustomEditor(typeof(Components.SkillSO))]
+		public class SkillEditor : BaseTableEditor<Components.StorySO>
+		{
+			protected override void OnChanged()
+			{
+				var t = target as Components.SkillSO;
+				if (t != null && t.ID != UInt32.MaxValue)
+				{
+					var row = t.GetRow(t.Name, t.ID);
+
+					// set all the values from the selected row
+					if (row != null) Components.SkillSO.SkillTable.ConvertRow(row, t);
+					else t.Reset();
+				}
+			}
+		}
+
 		/*
 		public override void OnInspectorGUI()
 		{

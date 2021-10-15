@@ -135,6 +135,12 @@ namespace DatabaseSync.Editor.UI
 				button.clickable = new Clickable(CreateNew);
 			}
 
+			button = this.Q<Button>("btn-select");
+			if (button != null)
+			{
+				button.clickable = new Clickable(SelectItem);
+			}
+
 			button = this.Q<Button>("btn-delete");
 			if (button != null)
 			{
@@ -233,6 +239,12 @@ namespace DatabaseSync.Editor.UI
 					target.LinkedTable
 				) : binary.Populate(target.DropdownColumn, out IsJsonObj);
 			}
+		}
+
+		private void SelectItem()
+		{
+			if(serializedObject.targetObject != null)
+				Selection.activeObject = serializedObject.targetObject;
 		}
 
 		private void CreateNew()

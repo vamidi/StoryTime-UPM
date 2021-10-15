@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 005ed34442294098b84e57a2b2abfc5d, type: 3}
   m_Name: Gameplay
   m_EditorClassIdentifier: 
-  sceneAsset: {fileID: 102900000, guid: 6bff84d75166a7c4d80e73cec6976a9c, type: 3}
-  scenePath: Assets/Samples/StoryTime/1.4.2-preview/Example Scenes/Scenes/Gameplay.unity
+  sceneAsset: {fileID: 102900000, guid: 045bcf2c80de9624fafb5b63dc166216, type: 3}
+  scenePath: Assets/Samples/StoryTime/1.6.2-preview/Example Scenes/Scenes/Gameplay.unity
   shortDescription: Gameplay elements including UI and inventory managers
   music: {fileID: 0}

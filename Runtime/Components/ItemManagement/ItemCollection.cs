@@ -13,14 +13,33 @@ namespace DatabaseSync.Components
 		[Tooltip("The collection of items and their quantities.")]
 		[SerializeField] protected List<TStack> items = new List<TStack>();
 
+		public virtual void OnEnable()
+		{
+			items.Clear();
+		}
+
+		public virtual bool AvailabilityCheck(TStack item)
+		{
+			if (item.Amount <= 0)
+				return false;
+
+			TStack itemStack = items.Find((stack) => stack == item);
+
+			// When we don't have the item at all.
+			if (itemStack == null)
+				return true;
+
+			// Add if we have equal or more items available
+			return itemStack.Max >= item.Amount;
+		}
+
 		/// <summary>
 		///
 		/// </summary>
 		/// <param name="item"></param>
-		/// <param name="count"></param>
-		public void Add(TStack item, int count = 1)
+		public void Add(TStack item)
 		{
-			if (count <= 0)
+			if (item.Amount <= 0)
 				return;
 
 			foreach (var currentItemStack in items)
@@ -30,7 +49,8 @@ namespace DatabaseSync.Components
 					// only add to the amount if the item is usable
 					// if (currentItemStack.Item.ItemType.ActionType == ItemInventoryActionType.Use)
 					// {
-						currentItemStack.Amount += count;
+						// if the addition is higher than the max we take the max.
+						currentItemStack.Amount = Mathf.Min(currentItemStack.Max, currentItemStack.Amount + item.Amount);
 					// }
 
 					return;
@@ -83,13 +103,12 @@ namespace DatabaseSync.Components
 		///
 		/// </summary>
 		/// <param name="item"></param>
-		/// <param name="amount"></param>
 		/// <returns></returns>
-		public virtual bool Contains(TStack item, int amount = 1)
+		public virtual bool Contains(TStack item)
 		{
 			foreach (var currentItemStack in items)
 			{
-				if (item.Item == currentItemStack.Item && currentItemStack.Amount >= amount)
+				if (item.Item == currentItemStack.Item && currentItemStack.Amount >= item.Amount)
 				{
 					return true;
 				}
@@ -108,7 +127,7 @@ namespace DatabaseSync.Components
 			bool hasAllItems = false;
 			foreach (var item in itemsCollected)
 			{
-				hasAllItems = Contains(item, item.Amount);
+				hasAllItems = Contains(item);
 			}
 
 			return hasAllItems;

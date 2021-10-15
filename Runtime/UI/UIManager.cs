@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 using DG.Tweening;
 
@@ -26,6 +27,9 @@ namespace DatabaseSync.UI
 		[SerializeField] private CollectionEventChannelSO openInventoryScreenForCookingEvent;
 		[SerializeField] private VoidEventChannelSO closeInventoryScreenForCookingEvent;
 
+		[Header("Stat events")]
+		[SerializeField] private CharacterEventChannelSO openStatsScreenEvent;
+
 		[Header("Interaction Events")]
 		[SerializeField] private VoidEventChannelSO onInteractionEndedEvent;
 
@@ -45,6 +49,7 @@ namespace DatabaseSync.UI
 
 		[SerializeField] private UIInventoryManager inventoryPanel;
 		[SerializeField] private UICraftingManager craftingPanel;
+		[SerializeField] private UIStatsManager statsPanel;
 
 		[SerializeField] private UIStoryManager storyManagerPanel;
 
@@ -94,7 +99,13 @@ namespace DatabaseSync.UI
 				showNavigationInteractionEvent.OnEventRaised += ShowNavigationPanel;
 
 			if (showItemInteractionEvent != null)
+			{
 				showItemInteractionEvent.OnEventRaised += ShowItemPanel;
+				showItemInteractionEvent.OnEventsRaised += ShowItemPanel;
+			}
+
+			if (openStatsScreenEvent != null)
+				openStatsScreenEvent.OnEventRaised += ShowStatsPanel;
 
 			if (inputReader) inputReader.menuCancelEvent += CloseStoryScreen;
 		}
@@ -185,6 +196,16 @@ namespace DatabaseSync.UI
 			}
 		}
 
+		public void ShowStatsPanel(CharacterSO characterToInspect)
+		{
+			if (statsPanel)
+			{
+				statsPanel.SetCharacter = characterToInspect;
+				statsPanel.gameObject.SetActive(true);
+				statsPanel.FillStats();
+			}
+		}
+
 		public void SetInteractionPanel(bool isOpenEvent, InteractionType interactionType)
 		{
 			if (interactionPanel)
@@ -232,6 +253,33 @@ namespace DatabaseSync.UI
 			if (isOpenEvent)
 			{
 				interactionItemPanel.SetItem(itemInfo, interactionType);
+				interactionItemPanel.FillInteractionPanel(interactionType);
+
+				if (!m_IsAnimating)
+				{
+					m_IsAnimating = true;
+					interactionItemPanel.transform.DOMoveX(200, 1.0f).SetEase(Ease.InOutQuad).OnComplete(
+						() => interactionItemPanel.transform.DOMoveX(200, 5.0f).SetEase(Ease.InOutQuad).OnComplete(
+							() => interactionItemPanel.transform.DOMoveX(-200, 1.0f).SetEase(Ease.InOutQuad).OnComplete(
+								() =>
+								{
+									interactionItemPanel.gameObject.SetActive(false);
+									m_IsAnimating = false;
+								}
+							)
+						)
+					);
+				}
+			}
+
+			interactionItemPanel.gameObject.SetActive(isOpenEvent);
+		}
+
+		public void ShowItemPanel(bool isOpenEvent, List<ItemStack> itemInfo, InteractionType interactionType)
+		{
+			if (isOpenEvent)
+			{
+				// interactionItemPanel.SetItem(itemInfo, interactionType);
 				interactionItemPanel.FillInteractionPanel(interactionType);
 
 				if (!m_IsAnimating)

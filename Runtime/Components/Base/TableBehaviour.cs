@@ -75,6 +75,13 @@ namespace DatabaseSync.Components
 		    return TableDatabase.Get.FindLink(tableName, columnName, id);
 	    }
 
+	    /// <summary>
+	    /// Find rows that are associated with the id given.
+	    /// </summary>
+	    /// <param name="tableName"></param>
+	    /// <param name="columnName"></param>
+	    /// <param name="id"></param>
+	    /// <returns></returns>
 	    public List<Tuple<uint, TableRow>> FindLinks(string tableName, string columnName, UInt32 id)
 	    {
 		    return TableDatabase.Get.FindLinks(tableName, columnName, id);

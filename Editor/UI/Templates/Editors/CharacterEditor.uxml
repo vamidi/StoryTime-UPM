@@ -2,8 +2,9 @@
 	<ui:ListView name="item-list"/>
 	<ui:Box id="card" name="card">
 		<ui:Box name="box-controls">
+			<ui:Button name="btn-delete" text="Delete" class="btn btn-danger"/>
 			<ui:Button name="btn-new" text="Create new" class="btn btn-primary"/>
-			<ui:Button text="Delete" class="btn btn-danger"/>
+			<ui:Button name="btn-select" text="Select" class="btn btn-primary"/>
 		</ui:Box>
 		<ui:ScrollView name="card-info-scroll">
 			<ui:Box name="item-info"/>

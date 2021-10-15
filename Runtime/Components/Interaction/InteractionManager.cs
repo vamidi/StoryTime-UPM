@@ -1,4 +1,8 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
+
+
+using StoryTime.Game;
 
 namespace DatabaseSync
 {
@@ -110,6 +114,11 @@ namespace DatabaseSync
 			}
 		}
 
+		private void Awake()
+		{
+			m_PlayerInput = transform.root.GetComponent<UnityEngine.InputSystem.PlayerInput>();
+		}
+
 		private void OnDisable()
 		{
 			inputReader.interactEvent -= OnInteractionButtonPress;
@@ -136,13 +145,54 @@ namespace DatabaseSync
 			}
 		}
 
-		private void Awake()
+		protected virtual void PickupItem()
 		{
-			m_PlayerInput = transform.root.GetComponent<UnityEngine.InputSystem.PlayerInput>();
+			if (_currentInteractableObject != null)
+			{
+				if (onObjectPickUp != null)
+				{
+					Debug.Log("PickUp event raised");
+
+					// set current interaction for state machine
+					currentInteraction = InteractionType.PickUp;
+
+					//raise an event with an item as parameter (to add object to inventory)
+					CollectibleItem currentItem = _currentInteractableObject.GetComponent<CollectibleItem>();
+					if (currentItem != null)
+					{
+						ItemStack itemStack = currentItem.GetItem();
+
+						if(onObjectPickUp != null)
+							onObjectPickUp.RaiseEvent(itemStack);
+
+						if (toggleInteractionItemUI != null)
+							toggleInteractionItemUI.RaiseEvent(true, itemStack, currentInteraction);
+
+						// destroy the GO
+						Destroy(_currentInteractableObject);
+					}
+
+					Chest currentChest = _currentInteractableObject.GetComponent<Chest>();
+					if (currentChest != null)
+					{
+						List<ItemStack> items = currentChest.Open();
+
+						if(onObjectPickUp != null)
+							onObjectPickUp.RaiseEvent(items);
+
+						if (toggleInteractionItemUI != null)
+							toggleInteractionItemUI.RaiseEvent(true, items, currentInteraction);
+					}
+				}
+			}
+		}
+
+		protected void Interact()
+		{
 		}
 
 		//When the interaction ends, we still want to display the interaction UI if we are still in the trigger zone
-		void OnInteractionEnd()
+		private void OnInteractionEnd()
 		{
 			inputReader.EnableGameplayInput();
 			m_PlayerInput.SwitchCurrentActionMap("Gameplay");
@@ -168,26 +218,7 @@ namespace DatabaseSync
 				case InteractionType.None:
 					return;
 				case InteractionType.PickUp:
-					if (_currentInteractableObject != null)
-					{
-						if (onObjectPickUp != null)
-						{
-							//raise an event with an item as parameter (to add object to inventory)
-							ItemStack currentItem = _currentInteractableObject.GetComponent<CollectibleItem>().GetItem();
-							onObjectPickUp.RaiseEvent(currentItem);
-
-							Debug.Log("PickUp event raised");
-
-							// set current interaction for state machine
-							currentInteraction = InteractionType.PickUp;
-
-							if (toggleInteractionItemUI != null)
-								toggleInteractionItemUI.RaiseEvent(true, currentItem, currentInteraction);
-						}
-					}
-
-					// destroy the GO
-					Destroy(_currentInteractableObject);
+					PickupItem();
 					break;
 				case InteractionType.Cook:
 					if (startCooking != null)

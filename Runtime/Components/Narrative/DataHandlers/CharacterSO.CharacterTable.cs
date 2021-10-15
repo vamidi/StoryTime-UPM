@@ -36,6 +36,16 @@ namespace DatabaseSync.Components
 					{
 						character.ID = uint.Parse(field.Value.Data);
 					}
+
+					if (field.Key.Equals("initialLevel"))
+					{
+						character.initialLevel = uint.Parse(field.Value.Data);
+					}
+
+					if (field.Key.Equals("maxLevel"))
+					{
+						character.maxLevel = uint.Parse(field.Value.Data);
+					}
 				}
 
 				return character;

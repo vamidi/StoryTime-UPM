@@ -6,21 +6,28 @@
 		<ui:Label text="StoryTime manager"/>
 		<uie:Toolbar style="flex-direction: row;">
 			<uie:ToolbarToggle text="Characters" name="character-editor-table-tab" />
-			<uie:ToolbarToggle text="Enemies" name="enemy-editor-table-tab" />
-			<uie:ToolbarToggle text="Items" name="item-editor-table-tab" />
-			<uie:ToolbarToggle text="Recipes / Craftables" name="recipe-editor-table-tab" />
+			<uie:ToolbarToggle text="Classes" name="class-editor-table-tab" />
+			<uie:ToolbarToggle text="Skills" name="skill-editor-table-tab" />
+			<uie:ToolbarToggle text="Equipments" name="equipment-editor-table-tab" />
 			<uie:ToolbarToggle text="Stories" name="story-editor-table-tab" />
 			<uie:ToolbarToggle text="Tasks" name="task-editor-table-tab" />
+			<uie:ToolbarToggle text="Items" name="item-editor-table-tab" />
+			<uie:ToolbarToggle text="Enemies" name="enemy-editor-table-tab" />
+			<uie:ToolbarToggle text="Recipes / Craftables" name="recipe-editor-table-tab" />
+
 			<uie:ToolbarSpacer style="flex-grow: 1;"/>
 		</uie:Toolbar>
 	</ui:Box>
 	<ui:Box name="content">
 		<DatabaseSync.Editor.UI.CharacterEditor name="character-editor-table-tab-panel" class="panel"/>
-		<DatabaseSync.Editor.UI.EnemyEditor name="enemy-editor-table-tab-panel" class="panel"/>
-		<DatabaseSync.Editor.UI.ItemEditor name="item-editor-table-tab-panel" class="panel"/>
-		<DatabaseSync.Editor.UI.RecipeEditor name="recipe-editor-table-tab-panel" class="panel"/>
+		<DatabaseSync.Editor.UI.ClassEditor name="class-editor-table-tab-panel" class="panel"/>
+		<DatabaseSync.Editor.UI.SkillEditor name="skill-editor-table-tab-panel" class="panel"/>
+		<DatabaseSync.Editor.UI.EquipmentEditor name="equipment-editor-table-tab-panel" class="panel"/>
 		<DatabaseSync.Editor.UI.StoryEditor name="story-editor-table-tab-panel" class="panel"/>
 		<DatabaseSync.Editor.UI.TaskEditor name="task-editor-table-tab-panel" class="panel"/>
+		<DatabaseSync.Editor.UI.ItemEditor name="item-editor-table-tab-panel" class="panel"/>
+		<DatabaseSync.Editor.UI.EnemyEditor name="enemy-editor-table-tab-panel" class="panel"/>
+		<DatabaseSync.Editor.UI.RecipeEditor name="recipe-editor-table-tab-panel" class="panel"/>
 	</ui:Box>
 </UXML>
 

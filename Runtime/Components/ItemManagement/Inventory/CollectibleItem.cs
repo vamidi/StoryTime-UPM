@@ -6,8 +6,6 @@ namespace DatabaseSync.Components
 	{
 		[SerializeField] private ItemStack currentItem;
 
-		public virtual void PickedItem() { }
-
 		public ItemStack GetItem()
 		{
 			return currentItem;

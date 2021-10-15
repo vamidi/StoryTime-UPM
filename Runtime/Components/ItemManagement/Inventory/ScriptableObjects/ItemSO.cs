@@ -7,7 +7,6 @@ using UnityEngine;
 
 using UnityEngine.Localization;
 using UnityEngine.Localization.Settings;
-using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace DatabaseSync.Components
 {
@@ -111,8 +110,8 @@ namespace DatabaseSync.Components
 
 			if (_character)
 			{
-				_character.CharacterStats.Add(statModifiers[0]);
-				_character.CharacterStats.Add(statModifiers[1]);
+				_character.CharacterClass.Stats[0].Add(statModifiers[0]);
+				_character.CharacterClass.Stats[0].Add(statModifiers[1]);
 			}
 		}
 
@@ -120,8 +119,8 @@ namespace DatabaseSync.Components
 		{
 			if (_character)
 			{
-				_character.CharacterStats.Remove(statModifiers[0]);
-				_character.CharacterStats.Remove(statModifiers[1]);
+				_character.CharacterClass.Stats[0].Remove(statModifiers[0]);
+				_character.CharacterClass.Stats[0].Remove(statModifiers[1]);
 			}
 		}
 

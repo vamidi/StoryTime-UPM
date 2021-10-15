@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using DatabaseSync.Events;
-using UnityEditor.Localization;
 
 using UnityEngine;
 using UnityEngine.Localization;
+using UnityEditor.Localization;
 
 namespace DatabaseSync.Components
 {
@@ -144,7 +144,7 @@ namespace DatabaseSync.Components
 				if(collection)
 					description = new LocalizedString { TableReference = collection.TableCollectionNameReference, TableEntryReference = entryId };
 				else
-					Debug.LogWarning("Collection not found. Did you create any localization tables");
+					Debug.LogWarning("Collection not found. Did you create any localization tables for Tasks");
 			}
 		}
 	}

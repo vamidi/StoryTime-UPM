@@ -2,17 +2,17 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using UnityEngine;
+using UnityEngine.Localization;
 
 namespace DatabaseSync.Game
 {
-	using DatabaseSync.Components;
+	using Attributes;
 
-	[CreateAssetMenu(fileName = "newCharacterStat", menuName = "DatabaseSync/Stats/Character Stats")]
-	// ReSharper disable once InconsistentNaming
-	public class CharacterStatSO : TableBehaviour
+	[Serializable]
+	public class CharacterStats
 	{
-		public string StatName => statName;
 		public ReadOnlyCollection<StatModifier> StatModifiers => statModifiers.AsReadOnly();
+
 		public float Value
 		{
 			get
@@ -28,15 +28,29 @@ namespace DatabaseSync.Game
 			}
 		}
 
-		[SerializeField] protected string statName;
-		[SerializeField] protected float baseValue;
+		public bool IsLocalized => isLocalized;
+		public LocalizedSprite LocalizePreviewImage => localizePreviewImage;
+		public Sprite PreviewImage => previewImage;
+
+		public string alias = "";
+		public string paramFormula = "";
+		public uint index = 0;
+		public float flat = 0f;
+		public float rate = 0f;
+
+		public LocalizedString statName;
+		public string statAlias;
+		[SerializeField] protected bool isLocalized;
+		[SerializeField, ConditionalField("overrideDescriptionTable")] protected LocalizedSprite localizePreviewImage;
+		[SerializeField] protected Sprite previewImage;
+		public float baseValue;
 		[SerializeField] protected List<StatModifier> statModifiers = new List<StatModifier>();
 
 		private bool _isDirty = true;
 		private float _lastBaseValue = float.MinValue;
 		private float _value;
 
-		public CharacterStatSO() : base("", "") { }
+		public CharacterStats() {}
 
 		public void Add(StatModifier mod)
 		{
