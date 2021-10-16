@@ -10,10 +10,6 @@ using UnityEngine.Localization.Settings;
 
 namespace DatabaseSync.Components
 {
-	using Binary;
-	using Database;
-
-
 	/// <summary>
     /// Called whenever a localized string is available.
     /// When the first <see cref="LocalizedAsset{TObject}.ChangeHandler"/> is added, a loading operation will automatically start and the localized string value will be sent to the event when completed.
@@ -88,8 +84,6 @@ namespace DatabaseSync.Components
 		[SerializeField, Tooltip("A localized preview image for the item")] protected LocalizedSprite localizePreviewImage;
 		[SerializeField, Tooltip("a checkbox for localized asset")] protected bool isLocalized;
 
-		private CharacterSO _character = null;
-
 		// Effect Primary Value
 		// Effect Type Id
 
@@ -107,21 +101,6 @@ namespace DatabaseSync.Components
 		public virtual void OnEnable()
 		{
 			Initialize();
-
-			if (_character)
-			{
-				_character.CharacterClass.Stats[0].Add(statModifiers[0]);
-				_character.CharacterClass.Stats[0].Add(statModifiers[1]);
-			}
-		}
-
-		public void OnDisable()
-		{
-			if (_character)
-			{
-				_character.CharacterClass.Stats[0].Remove(statModifiers[0]);
-				_character.CharacterClass.Stats[0].Remove(statModifiers[1]);
-			}
 		}
 
 		protected virtual void Initialize()

@@ -50,8 +50,6 @@ namespace DatabaseSync.Game
 		private float _lastBaseValue = float.MinValue;
 		private float _value;
 
-		public CharacterStats() {}
-
 		public void Add(StatModifier mod)
 		{
 			_isDirty = true;
@@ -72,6 +70,11 @@ namespace DatabaseSync.Game
 		{
 			 _isDirty = statModifiers.Remove(mod);
 			 return _isDirty;
+		}
+
+		public void Clear()
+		{
+			statModifiers.Clear();
 		}
 
 		public bool RemoveAllFromSource(object source)

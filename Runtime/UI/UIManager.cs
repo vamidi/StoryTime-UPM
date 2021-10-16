@@ -24,7 +24,7 @@ namespace DatabaseSync.UI
 		[SerializeField] private VoidEventChannelSO closeInventoryScreenEvent;
 
 		[Header("Crafting/Cooking Events")]
-		[SerializeField] private CollectionEventChannelSO openInventoryScreenForCookingEvent;
+		[SerializeField] private VoidEventChannelSO openInventoryScreenForCookingEvent;
 		[SerializeField] private VoidEventChannelSO closeInventoryScreenForCookingEvent;
 
 		[Header("Stat events")]
@@ -75,7 +75,7 @@ namespace DatabaseSync.UI
 				closeUIDialogueEvent.OnEventRaised += CloseUIDialogue;
 
 			if (openInventoryScreenForCookingEvent != null)
-				openInventoryScreenForCookingEvent.OnRecipeEventRaised += SetInventoryScreenForCooking;
+				openInventoryScreenForCookingEvent.OnEventRaised += SetInventoryScreenForCooking;
 
 			if (closeInventoryScreenForCookingEvent != null)
 				closeInventoryScreenForCookingEvent.OnEventRaised += CloseInventoryScreen;
@@ -131,20 +131,20 @@ namespace DatabaseSync.UI
 				dialogueController.gameObject.SetActive(false);
 		}
 
-		public void SetInventoryScreenForCooking(RecipeCollectionSO recipeCollection)
+		public void SetInventoryScreenForCooking()
 		{
 			m_IsForCookingOrCraft = true;
-			OpenInventoryScreen(recipeCollection);
+			OpenInventoryScreen();
 		}
 
 		public void SetInventoryScreen()
 		{
 			m_IsForCookingOrCraft = false;
 			// TODO change when we need multiple bags.
-			OpenInventoryScreen(null);
+			OpenInventoryScreen();
 		}
 
-		protected void OpenInventoryScreen(object inventory)
+		protected void OpenInventoryScreen()
 		{
 			TabType tabType = TabType.None;
 
@@ -152,7 +152,6 @@ namespace DatabaseSync.UI
 			{
 				tabType = TabType.Recipes;
 
-				craftingPanel.SetInventory = inventory as RecipeCollectionSO;
 				craftingPanel.gameObject.SetActive(true);
 				craftingPanel.FillInventory(tabType);
 				return;

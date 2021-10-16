@@ -124,7 +124,7 @@ namespace DatabaseSync.UI
 		public void FillStats()
 		{
 			statName.StringReference = currentStats.statName;
-			statValue.text = currentStats.baseValue.ToString(CultureInfo.InvariantCulture);
+			statValue.text = currentStats.Value.ToString(CultureInfo.InvariantCulture);
 		}
 	}
 }

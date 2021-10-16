@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace DatabaseSync.Game
 {
+	/**
+	 * @source https://youtu.be/SH25f3cXBVc
+	 */
 	public enum StatModType
 	{
 		Flat = 100, // Flexible to create values in between values if the user wants to.
@@ -18,6 +21,7 @@ namespace DatabaseSync.Game
 
 		public int Order => order;
 
+		// Useful for sharing information what is providing the modifier.
 		public readonly object Source;
 
 		[SerializeField] private float value;
@@ -26,11 +30,15 @@ namespace DatabaseSync.Game
 
 		public StatModifier() { }
 
-		public StatModifier(float value, StatModType type, int index = 0)
+		public StatModifier(float value, StatModType type, int index, object source = null)
 		{
 			this.value = value;
 			statType = type;
 			order = index;
+			Source = source;
 		}
+
+		public StatModifier(float value, StatModType type): this(value, type, (int)type) { }
+		public StatModifier(float value, StatModType type, object source): this(value, type, (int)type, source) { }
 	}
 }

@@ -20,7 +20,7 @@ namespace DatabaseSync.Components
 
 		public ItemBaseStack()
 		{
-			item = null;
+			item = default;
 			amount = 0;
 		}
 

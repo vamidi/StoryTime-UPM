@@ -1,12 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using DatabaseSync.Game;
-using UnityEditor.Localization;
 using UnityEngine;
 using UnityEngine.Localization;
 
 namespace DatabaseSync.Components
 {
+	using Game;
+
 	public enum EquipmentCategory
 	{
 		Weapon,
@@ -34,24 +35,23 @@ namespace DatabaseSync.Components
 
 	}
 
+	[Serializable]
 	public struct EquipmentStat
 	{
-		public string Alias;
-		public float Flat;
-		public StatModType StatType;
+		public string alias;
+		public float flat;
+		public StatModType statType;
 	}
 
 	[CreateAssetMenu(fileName = "Equipment", menuName = "DatabaseSync/Item Management/Equipment", order = 50)]
 	// ReSharper disable once InconsistentNaming
-	public class EquipmentSO : LocalizationBehaviour
+	public class EquipmentSO : ItemSO
 	{
-		public LocalizedString EquipmentName => equipmentName;
 		public EquipmentCategory Category => category;
 		public EquipmentType Type => type;
 		public ClassType ClassType => classType;
 		public ReadOnlyCollection<EquipmentStat> Stats => stats.AsReadOnly();
 
-		[SerializeField, Tooltip("Name of the equipment")] protected LocalizedString equipmentName;
 		[SerializeField, Tooltip("In which category this weapon/armor/accessory falls into.")] protected EquipmentCategory category;
 		[SerializeField, Tooltip("The type of weapon or armor this equipment is.")] protected EquipmentType type;
 		[SerializeField, Tooltip("The class where this equipment belongs to.")] protected ClassType classType;
@@ -59,22 +59,25 @@ namespace DatabaseSync.Components
 
 		public EquipmentSO() : base("equipments", "name") { }
 
+		public override void OnEnable()
+		{
+			base.OnEnable();
+#if UNITY_EDITOR
+			Initialize();
+#endif
+		}
+
 		protected override void OnTableIDChanged()
 		{
 			base.OnTableIDChanged();
 			Initialize();
 		}
 
-		public void OnEnable()
+		protected override void Initialize()
 		{
-#if UNITY_EDITOR
-			Initialize();
-#endif
-		}
-
-		public void Initialize()
-		{
+			base.Initialize();
 			// Get the equipment curves
+			stats.Clear();
 			var links = FindLinks("parameterCurves", "equipmentId", ID);
 			foreach (var link in links)
 			{
@@ -91,12 +94,17 @@ namespace DatabaseSync.Components
 
 					if (field.Key.Equals("base") || field.Key.Equals("flat"))
 					{
-						stat.Flat = (float)field.Value.Data;
+						stat.flat = (float)field.Value.Data;
 					}
 
 					if (field.Key.Equals("alias"))
 					{
-						stat.Alias = (string)field.Value.Data;
+						stat.alias = (string)field.Value.Data;
+					}
+
+					if (field.Key.Equals("statType"))
+					{
+						stat.statType = (StatModType)field.Value.Data;
 					}
 				}
 

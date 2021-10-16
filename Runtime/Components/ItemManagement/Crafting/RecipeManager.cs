@@ -15,14 +15,14 @@ namespace DatabaseSync.Components
 		[SerializeField] private ItemEventChannelSO cookRecipeEvent;
 
 		[Header("Broadcasting channels")]
-		[SerializeField] private CollectionEventChannelSO startCrafting;
+		[SerializeField] private VoidEventChannelSO startCrafting;
 
 		[SerializeField] private ItemEventChannelSO addItemEvent;
 		[SerializeField] private ItemEventChannelSO removeItemEvent;
 
 		public void InteractWithCharacter()
 		{
-			startCrafting.RaiseEvent(recipeInventory);
+			startCrafting.RaiseEvent();
 		}
 
 		private void OnEnable()

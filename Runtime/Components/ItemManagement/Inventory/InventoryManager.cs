@@ -10,10 +10,12 @@ namespace DatabaseSync
 
 	public class InventoryManager : MonoBehaviour
 	{
+		[Header("Broadcasting on channels")]
+		[SerializeField] private ItemEventChannelSO equipItemEvent;
+
 		[Header("Listening to channels")]
 		[SerializeField] private InventorySO currentInventory;
 		[SerializeField] private ItemEventChannelSO useItemEvent;
-		[SerializeField] private ItemEventChannelSO equipItemEvent;
 		[SerializeField] private ItemEventChannelSO rewardItemEvent;
 		[SerializeField] private ItemEventChannelSO giveItemEvent;
 		[SerializeField] private ItemEventChannelSO addItemEvent;
@@ -28,10 +30,7 @@ namespace DatabaseSync
 			{
 				useItemEvent.OnItemEventRaised += UseItemEventRaised;
 			}
-			if (equipItemEvent != null)
-			{
-				equipItemEvent.OnItemEventRaised += EquipItemEventRaised;
-			}
+
 			if (addItemEvent != null)
 			{
 				addItemEvent.OnItemEventRaised += AddItem;
@@ -67,10 +66,6 @@ namespace DatabaseSync
 			if (useItemEvent != null)
 			{
 				useItemEvent.OnItemEventRaised -= UseItemEventRaised;
-			}
-			if (equipItemEvent != null)
-			{
-				equipItemEvent.OnItemEventRaised -= EquipItemEventRaised;
 			}
 			if (addItemEvent != null)
 			{
@@ -133,11 +128,6 @@ namespace DatabaseSync
 		public void UseItemEventRaised(ItemStack item)
 		{
 			RemoveItem(item);
-		}
-
-		public void EquipItemEventRaised(ItemStack item)
-		{
-			throw new NotImplementedException();
 		}
 	}
 }

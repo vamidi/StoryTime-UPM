@@ -59,7 +59,7 @@ namespace DatabaseSync
 		[SerializeField] private ItemEventChannelSO onObjectPickUp;
 
 		[SerializeField] private VoidEventChannelSO startCooking;
-		[SerializeField] private CollectionEventChannelSO startCrafting;
+		// [SerializeField] private VoidEventChannelSO startCrafting;
 
 		[SerializeField] private DialogueCharacterChannelSO startTalking;
 
@@ -236,7 +236,7 @@ namespace DatabaseSync
 					}
 					break;
 				case InteractionType.Craft:
-					if(startCrafting != null)
+					// if(startCrafting != null)
 					{
 						// Debug.Log("Craft event raised");
 						// raise an event with an actor as parameter

@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 84c26aeb528641c0bee870465f2cc3cc, type: 3}
-  m_Name: OpenCraftingUIEvent
+  m_Script: {fileID: 11500000, guid: 0c5e278e524442d39e386d55a199cf29, type: 3}
+  m_Name: OpenCraftingEvent
   m_EditorClassIdentifier: 
   description: Raised when we want to open the crafting/cooking screen.

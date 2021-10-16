@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using DatabaseSync.Game;
 using UnityEngine;
 using UnityEngine.Localization;
@@ -15,7 +16,12 @@ namespace DatabaseSync.Components
 	public partial class CharacterSO : LocalizationBehaviour
 	{
 		public LocalizedString CharacterName => characterName;
+
+		public LocalizedString Description => characterDescription;
+
 		public CharacterClassSO CharacterClass => characterClass;
+
+		public ReadOnlyCollection<EquipmentSO> Equipments => equipments.AsReadOnly();
 
 		public int Level => currentLevel;
 		public int MaxLevel => maxLevel;
@@ -45,29 +51,27 @@ namespace DatabaseSync.Components
 #endif
 		}
 
+		public void Equip(EquipmentSO equipment)
+		{
+			// loop through all the stats that the equipment has.
+			foreach (var stat in equipment.Stats)
+			{
+				// find the alias in the character to see if we have an equipment that updates or downgrades the stat.
+				var characterStat = characterClass.Find(stat.alias);
+				characterStat?.Add(new StatModifier(stat.flat, stat.statType, this));
+			}
+		}
+
 		CharacterSO() : base("characters", "name") { }
 
 		private void Initialize()
 		{
 			if (ID != UInt32.MaxValue)
 			{
+				// Set level to initial level.
 				currentLevel = initialLevel;
 
-				// loop through all the equipments that we have
-				foreach (var equipment in equipments)
-				{
-					// loop through all the stats that the equipment has.
-					foreach (var stat in equipment.Stats)
-					{
-						// find the alias in the character to see if we have an equipment that updates or downgrades the stat.
-						var characterStat = characterClass.Find(stat.Alias);
-						characterStat.Add(new StatModifier(stat.Flat, stat.StatType));
-					}
-				}
-
-
 				var entryId = (ID + 1).ToString();
-
 				collection = overrideTable ? collection : LocalizationEditorSettings.GetStringTableCollection("Characters");
 				if(collection)
 					characterName = new LocalizedString { TableReference = collection.TableCollectionNameReference, TableEntryReference = entryId };

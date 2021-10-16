@@ -14,10 +14,12 @@ namespace DatabaseSync.UI
 		ItemStack,
 		ItemSO>
 	{
-		[Header("Broadcasting channels")] [SerializeField]
-		protected ItemEventChannelSO useItemEvent;
 
-		[SerializeField] protected ItemEventChannelSO equipItemEvent;
+		[SerializeField] protected CharacterSO character;
+
+		[Header("Broadcasting channels")]
+		[SerializeField] protected ItemEventChannelSO useItemEvent;
+		[SerializeField] protected EquipmentEventChannelSO equipItemEvent;
 
 		protected override void OnEnable()
 		{
@@ -56,7 +58,6 @@ namespace DatabaseSync.UI
 		protected virtual void UseItem(ItemStack itemToUse)
 		{
 			Debug.Log("USE ITEM " + itemToUse.Item.ItemName);
-
 			useItemEvent.OnItemEventRaised(itemToUse);
 
 			// Update inventory
@@ -69,8 +70,8 @@ namespace DatabaseSync.UI
 		/// <param name="itemToUse"></param>
 		protected virtual void EquipItem(ItemStack itemToUse)
 		{
-			Debug.Log("USE ITEM " + itemToUse.Item.ItemName);
-			equipItemEvent.OnItemEventRaised(itemToUse);
+			Debug.Log("EQUIP ITEM " + itemToUse.Item.ItemName);
+			equipItemEvent.OnEventRaised(character, itemToUse);
 		}
 
 		protected override void OnActionButtonRaised(ItemStack itemStack)

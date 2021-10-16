@@ -16,10 +16,8 @@ namespace DatabaseSync.UI
 		ItemRecipeStack,
 		ItemRecipeSO>
 	{
-		public RecipeCollectionSO SetInventory
-		{
-			set => m_RecipeInventory = value;
-		}
+		[SerializeField] protected RecipeCollectionSO recipeInventory;
+
 		[Header("Listening to channels")]
 		[SerializeField] protected VoidEventChannelSO onIncreaseAmountEvent;
 
@@ -27,7 +25,6 @@ namespace DatabaseSync.UI
 		[SerializeField] protected ItemEventChannelSO craftRecipeEvent;
 		[SerializeField] protected ItemEventChannelSO cookRecipeEvent;
 
-		private RecipeCollectionSO m_RecipeInventory;
 
 		protected override void OnEnable()
 		{
@@ -46,7 +43,7 @@ namespace DatabaseSync.UI
 
 		protected override List<ItemRecipeStack> FindAll()
 		{
-			return m_RecipeInventory.Items.FindAll(o => o.Item.ItemType.TabType == SelectedTab);
+			return recipeInventory.Items.FindAll(o => o.Item.ItemType.TabType == SelectedTab);
 		}
 
 		protected override void OnActionButtonRaised(ItemRecipeStack itemStack)
@@ -99,7 +96,7 @@ namespace DatabaseSync.UI
 
 		void ShowItemInformation(ItemRecipeStack item)
 		{
-			bool[] availabilityArray = m_RecipeInventory.IngredientsAvailability(currentInventory, item.Item.IngredientsList);
+			bool[] availabilityArray = recipeInventory.IngredientsAvailability(currentInventory, item.Item.IngredientsList);
 			inspectorFiller.FillItemInspector(item, availabilityArray);
 		}
 
@@ -120,7 +117,7 @@ namespace DatabaseSync.UI
 					bool isInteractable = true;
 					buttonFiller.gameObject.SetActive(true);
 					if (itemToInspect.Item.ItemType.ActionType == ItemInventoryActionType.Craft)
-						isInteractable = m_RecipeInventory.HasIngredients(currentInventory, itemToInspect.Item.IngredientsList);
+						isInteractable = recipeInventory.HasIngredients(currentInventory, itemToInspect.Item.IngredientsList);
 					else if (itemToInspect.Item.ItemType.ActionType == ItemInventoryActionType.DoNothing)
 					{
 						isInteractable = false;

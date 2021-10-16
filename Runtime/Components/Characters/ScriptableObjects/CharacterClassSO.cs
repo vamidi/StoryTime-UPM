@@ -43,10 +43,24 @@ namespace DatabaseSync.Components
 			return characterStats.Find((stat) => stat.alias == alias);
 		}
 
+		private void ClearModifiers()
+		{
+			foreach (var stat in characterStats)
+			{
+				if (stat.StatModifiers.Count == 0)
+					continue;
+
+				stat.Clear();
+			}
+		}
+
 		private void Initialize()
 		{
 			if (ID != UInt32.MaxValue)
 			{
+				// Clear out every stat modifier the player class has.
+				ClearModifiers();
+
 				collection = overrideTable ? collection : LocalizationEditorSettings.GetStringTableCollection("Class Names");
 				// Only get the first dialogue.
 				var entryId = (ID + 1).ToString();
