@@ -167,24 +167,6 @@ namespace DatabaseSync.Editor
 			}
 		}
 
-
-		[UnityEditor.CustomEditor(typeof(Components.SkillSO))]
-		public class SkillEditor : BaseTableEditor<Components.StorySO>
-		{
-			protected override void OnChanged()
-			{
-				var t = target as Components.SkillSO;
-				if (t != null && t.ID != UInt32.MaxValue)
-				{
-					var row = t.GetRow(t.Name, t.ID);
-
-					// set all the values from the selected row
-					if (row != null) Components.SkillSO.SkillTable.ConvertRow(row, t);
-					else t.Reset();
-				}
-			}
-		}
-
 		/*
 		public override void OnInspectorGUI()
 		{
@@ -269,6 +251,41 @@ namespace DatabaseSync.Editor
 			AssetDatabase.Refresh();
 		}
 		*/
+	}
+
+	[UnityEditor.CustomEditor(typeof(Components.SkillSO))]
+	public class SkillEditor : BaseTableEditor<Components.SkillSO>
+	{
+		protected override void OnChanged()
+		{
+			var t = target as Components.SkillSO;
+			if (t != null && t.ID != UInt32.MaxValue)
+			{
+				var row = t.GetRow(t.Name, t.ID);
+
+				// set all the values from the selected row
+				if (row != null) Components.SkillSO.SkillTable.ConvertRow(row, t);
+				else t.Reset();
+			}
+		}
+	}
+
+
+	[UnityEditor.CustomEditor(typeof(Components.CharacterClassSO))]
+	public class CharacterClassEditor : BaseTableEditor<Components.CharacterClassSO>
+	{
+		protected override void OnChanged()
+		{
+			var t = target as Components.CharacterClassSO;
+			if (t != null && t.ID != UInt32.MaxValue)
+			{
+				var row = t.GetRow(t.Name, t.ID);
+
+				// set all the values from the selected row
+				if (row != null) Components.CharacterClassSO.ClassTable.ConvertRow(row, t);
+				else t.Reset();
+			}
+		}
 	}
 
 	[UnityEditor.CustomEditor(typeof(Components.DialogueLineSO))]

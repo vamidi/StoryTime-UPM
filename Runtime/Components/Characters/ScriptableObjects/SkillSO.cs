@@ -12,12 +12,6 @@ namespace DatabaseSync.Components
 		Drain,
 	}
 
-	[Serializable]
-	public class Stats
-	{
-		public string alias = "";
-	}
-
 	[CreateAssetMenu(fileName = "Skill", menuName = "DatabaseSync/Game/Characters/Skill", order = 0)]
 	// ReSharper disable once InconsistentNaming
 	public partial class SkillSO : LocalizationBehaviour
@@ -28,6 +22,8 @@ namespace DatabaseSync.Components
 		[SerializeField] private LocalizedString skillName;
 		[SerializeField] private LocalizedString description;
 		[SerializeField, Tooltip("Required level for this skill")] protected int level = 1;
+
+		[SerializeField, Tooltip("Attribute we are going to use to subtract the magic cost")] protected string magicCurve;
 		[SerializeField] protected int magicCost = Int32.MaxValue;
 		[SerializeField, Tooltip("How many enemies/players can this skill hit")] protected int scope = Int32.MaxValue;
 
@@ -37,11 +33,29 @@ namespace DatabaseSync.Components
 		[SerializeField, Tooltip("How many times the skill should be repeated")] protected uint repeat = Int32.MaxValue;
 
 		[Header("Damage Settings")]
-		[SerializeField, Tooltip("Stats we are going to attack/heal on.")] protected Stats parameter = null;
+		[SerializeField, Tooltip("Attribute we are going to attack/heal on.")] protected string parameter = null;
 		[SerializeField, Tooltip("Type of damage this skill can do")] protected DamageType type = DamageType.Damage;
 		[SerializeField, Tooltip("Formula we are going to use to calculate our dmg/rec/drain")] protected string formula = "";
 		[SerializeField, Tooltip("How much off we can be from the actual dmg/rec/drain (use this for randomness)")] protected float variance = 0f;
 
 		SkillSO(): base("skills", "name") {}
+
+		protected override void OnTableIDChanged()
+		{
+			base.OnTableIDChanged();
+			Initialize();
+		}
+
+		public void OnEnable()
+		{
+#if UNITY_EDITOR
+			Initialize();
+#endif
+		}
+
+		private void Initialize()
+		{
+
+		}
 	}
 }

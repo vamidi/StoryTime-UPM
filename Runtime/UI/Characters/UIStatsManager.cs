@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Text.RegularExpressions;
 using DatabaseSync.Events;
 using TMPro;
 using UnityEngine;
@@ -24,17 +26,29 @@ namespace  DatabaseSync.UI
 
 		public TextMeshProUGUI characterLevel;
 
+		[Header("Player Settings")]
+		[SerializeField] protected ProgressBar xpBar;
+
 		[Header("Row Settings")]
 		[SerializeField] protected List<StatListFiller> instantiatedRows = new List<StatListFiller>();
 		// [SerializeField] protected StatListFiller statListFillerPrefab;
 		[SerializeField] protected StatListFiller contentParent;
 		// [SerializeField] protected GameObject contentParent;
 
+		[Header("Listening on channels")]
+		[SerializeField] protected VoidEventChannelSO onExpReceived;
+
 		[Header("Broadcasting channels")]
 		[SerializeField] protected StatEventChannelSO selectStatEvent;
 
 		private CharacterSO m_Character;
 		private int m_SelectedItemId = -1;
+
+		private void Start()
+		{
+			if (onExpReceived != null)
+				onExpReceived.OnEventRaised += Calculate;
+		}
 
 		protected virtual void HideItemInformation() { }
 
@@ -43,8 +57,12 @@ namespace  DatabaseSync.UI
 			if (m_Character)
 			{
 				characterLevel.text = m_Character.Level.ToString();
-				if(m_Character.CharacterClass)
+
+				if (m_Character.CharacterClass)
+				{
+					Calculate();
 					FillItems(m_Character.CharacterClass.Stats);
+				}
 			}
 		}
 
@@ -93,6 +111,17 @@ namespace  DatabaseSync.UI
 			// {
 				contentParent.UnselectItem(input);
 			// }
+		}
+
+		private void Calculate()
+		{
+			if (m_Character.CharacterClass)
+			{
+				//
+				xpBar.minimum = 0;
+				xpBar.current = m_Character.CurrentExp;
+				xpBar.maximum = m_Character.MaxExp;
+			}
 		}
 	}
 }

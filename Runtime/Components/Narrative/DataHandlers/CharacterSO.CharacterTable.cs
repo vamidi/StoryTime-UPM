@@ -39,12 +39,12 @@ namespace DatabaseSync.Components
 
 					if (field.Key.Equals("initialLevel"))
 					{
-						character.initialLevel = uint.Parse(field.Value.Data);
+						character.initialLevel = (int)field.Value.Data;
 					}
 
 					if (field.Key.Equals("maxLevel"))
 					{
-						character.maxLevel = uint.Parse(field.Value.Data);
+						character.maxLevel = (int)field.Value.Data;
 					}
 				}
 

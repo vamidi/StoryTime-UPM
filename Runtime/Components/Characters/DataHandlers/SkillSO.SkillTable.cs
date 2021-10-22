@@ -1,6 +1,7 @@
 
 using DatabaseSync;
 using DatabaseSync.Binary;
+using UnityEngine;
 
 namespace DatabaseSync.Components
 {
@@ -67,6 +68,26 @@ namespace DatabaseSync.Components
 					if (field.Key.Equals("repeat"))
 					{
 						skill.repeat = (uint)field.Value.Data;
+					}
+
+					if (field.Key.Equals("magicCurve"))
+					{
+						uint paramId = (uint)field.Value.Data;
+						var linkField = skill.GetField("attributes", "alias", paramId);
+						if (linkField != null)
+						{
+							skill.magicCurve = linkField.Data;
+						}
+					}
+
+					if (field.Key.Equals("dmgParameter"))
+					{
+						uint paramId = (uint)field.Value.Data;
+						var linkField = skill.GetField("attributes", "alias", paramId);
+						if (linkField != null)
+						{
+							skill.parameter = linkField.Data;
+						}
 					}
 
 					if (field.Key.Equals("dmgType"))

@@ -1,9 +1,11 @@
+using System;
 using System.Collections;
 
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
 using Cinemachine;
+using DatabaseSync.Events;
 using DG.Tweening;
 
 namespace DatabaseSync.Components
@@ -12,7 +14,7 @@ namespace DatabaseSync.Components
     [RequireComponent(typeof(Animator))]
     public class PlayerController : MonoBehaviour
     {
-        protected static PlayerController s_Instance;
+	    protected static PlayerController s_Instance;
         public static PlayerController Instance => s_Instance;
 
         public bool Respawning => m_Respawning;
@@ -113,7 +115,7 @@ namespace DatabaseSync.Components
 
         protected bool IsMoveInput => !Mathf.Approximately(m_Input.MoveInput.sqrMagnitude, 0f);
 
-    public void SetCanAttack(bool canAttack)
+        public void SetCanAttack(bool canAttack)
         {
             this.canAttack = canAttack;
         }

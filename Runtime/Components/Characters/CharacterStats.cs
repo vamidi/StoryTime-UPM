@@ -9,8 +9,26 @@ namespace DatabaseSync.Game
 	using Attributes;
 
 	[Serializable]
-	public class CharacterStats
+	public partial class CharacterStats
 	{
+		/// <summary>
+		/// ID of the row inside the table.
+		/// </summary>
+		public UInt32 ID
+		{
+			get => id;
+			set => id = value;
+		}
+
+		public UInt32 ParamID => paramId;
+		public LocalizedString StatName => statName;
+		public string Alias => alias;
+		public string Formula => paramFormula;
+
+		public float Flat => flat;
+
+		public float Rate => rate;
+
 		public ReadOnlyCollection<StatModifier> StatModifiers => statModifiers.AsReadOnly();
 
 		public float Value
@@ -32,14 +50,17 @@ namespace DatabaseSync.Game
 		public LocalizedSprite LocalizePreviewImage => localizePreviewImage;
 		public Sprite PreviewImage => previewImage;
 
-		public string alias = "";
-		public string paramFormula = "";
-		public uint index = 0;
-		public float flat = 0f;
-		public float rate = 0f;
+		/**
+		 * Database variables
+		 */
+		[SerializeField] private uint id = UInt32.MaxValue;
+		[SerializeField] private uint paramId = UInt32.MaxValue;
+		[SerializeField] protected LocalizedString statName;
+		[SerializeField] protected string alias = "";
+		[SerializeField] protected string paramFormula = "";
+		[SerializeField] protected float flat = 0f;
+		[SerializeField] protected float rate = 0f;
 
-		public LocalizedString statName;
-		public string statAlias;
 		[SerializeField] protected bool isLocalized;
 		[SerializeField, ConditionalField("overrideDescriptionTable")] protected LocalizedSprite localizePreviewImage;
 		[SerializeField] protected Sprite previewImage;
