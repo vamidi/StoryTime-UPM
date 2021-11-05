@@ -36,6 +36,11 @@
       "description": "All the essentials to get started with StoryTime.",
       "path": "Samples~/Essentials"
     },
+	{
+	  "displayName": "Events",
+	  "description": "Example events for interactions in StoryTime.",
+	  "path": "Samples~/Events"
+	},
     {
       "displayName": "Input",
       "description": "Example input handler for interactions in StoryTime.",
