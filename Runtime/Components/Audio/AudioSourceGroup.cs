@@ -1,15 +1,18 @@
 ﻿using UnityEngine;
 
-public class AudioSourceGroup : MonoBehaviour
+namespace StoryTime.Components
 {
-    [SerializeField] private AudioSource[] typingSources;
+	public class AudioSourceGroup : MonoBehaviour
+	{
+		[SerializeField] private AudioSource[] typingSources;
 
-    private int m_NextTypeSource;
+		private int m_NextTypeSource;
 
-    public void PlayFromNextSource(AudioClip clip) {
-        AudioSource nextSource = typingSources[m_NextTypeSource];
-        nextSource.clip = clip;
-        nextSource.Play();
-        m_NextTypeSource = (m_NextTypeSource + 1) % typingSources.Length;
-    }
+		public void PlayFromNextSource(AudioClip clip) {
+			AudioSource nextSource = typingSources[m_NextTypeSource];
+			nextSource.clip = clip;
+			nextSource.Play();
+			m_NextTypeSource = (m_NextTypeSource + 1) % typingSources.Length;
+		}
+	}
 }

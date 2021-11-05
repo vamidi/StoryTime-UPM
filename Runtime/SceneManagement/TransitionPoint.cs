@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace DatabaseSync.Components
+namespace StoryTime.Components
 {
     [RequireComponent(typeof(Collider))]
     public class TransitionPoint : MonoBehaviour

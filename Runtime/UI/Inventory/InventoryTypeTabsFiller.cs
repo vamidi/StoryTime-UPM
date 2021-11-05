@@ -2,9 +2,11 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-namespace DatabaseSync.UI
+namespace StoryTime.Components.UI
 {
-	using Events;
+	using Components.ScriptableObjects;
+	using Events.ScriptableObjects;
+
 	public class InventoryTypeTabsFiller : MonoBehaviour
 	{
 		[SerializeField] private List<InventoryTypeTabFiller> tabButtons;

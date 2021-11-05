@@ -3,7 +3,7 @@ using System;
 using UnityEngine;
 using UnityEditor;
 
-namespace DatabaseSync.Localization.UI
+namespace StoryTime.Editor.Localization.UI
 {
     static class TypeUtility
     {

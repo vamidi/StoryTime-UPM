@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEditor;
 #endif
 
-namespace DatabaseSync.Components
+namespace StoryTime.Components.ScriptableObjects
 {
 	public class SerializableScriptableObject : ScriptableObject
 	{

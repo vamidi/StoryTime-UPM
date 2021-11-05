@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Localization;
 
-namespace DatabaseSync
+namespace StoryTime.Components.ScriptableObjects
 {
 	public enum ItemInventoryType
 	{
@@ -21,7 +21,7 @@ namespace DatabaseSync
 		Equip
 	}
 
-	[CreateAssetMenu(fileName = "ItemType", menuName = "DatabaseSync/Item Management/Item Type", order = 51)]
+	[CreateAssetMenu(fileName = "ItemType", menuName = "StoryTime/Item Management/Item Type", order = 51)]
 	// ReSharper disable once InconsistentNaming
 	public class ItemTypeSO : ScriptableObject
 	{

@@ -1,13 +1,13 @@
 ﻿#if UNITY_EDITOR
 using UnityEditor.Localization;
 #endif
-using DatabaseSync.Database;
 using UnityEngine;
 using UnityEngine.Localization;
 
-namespace DatabaseSync.Game
+namespace StoryTime.Components
 {
 	using Binary;
+	using Database;
 	using Attributes;
 
 	public partial class CharacterStats

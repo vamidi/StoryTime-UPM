@@ -3,7 +3,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace DatabaseSync.Editor.UI
+namespace StoryTime.Editor.UI
 {
     static class Resources
     {

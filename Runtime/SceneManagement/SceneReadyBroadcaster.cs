@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 
-namespace DatabaseSync.Events
+namespace StoryTime.Components
 {
+	using Events.ScriptableObjects;
+
 	/// <summary>
 	/// This class manages the case we are in editor and we want to press play from any scene
 	/// It takes care of telling the SpawnSystem that the scene is ready since we pressed play from it

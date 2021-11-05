@@ -4,8 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace DatabaseSync
+namespace StoryTime.Components
 {
+	using ScriptableObjects;
+
 	/// <summary>
 	/// This script loads the persistent managers and gameplay Scenes, to allow to start the game from any gameplay Scene
 	/// It can also be used for menu scene by just adding the persistent managers scene on the inspector

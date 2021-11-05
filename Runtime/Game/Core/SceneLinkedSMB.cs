@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Animations;
 
-namespace DatabaseSync.Components
+namespace StoryTime.Components
 {
     public class SceneLinkedSMB<TMonoBehaviour> : SealedSMB
         where TMonoBehaviour : MonoBehaviour

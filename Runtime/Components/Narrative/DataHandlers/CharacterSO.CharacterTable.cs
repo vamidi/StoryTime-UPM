@@ -1,6 +1,8 @@
-namespace DatabaseSync.Components
+
+namespace StoryTime.Components.ScriptableObjects
 {
 	using Binary;
+	using Configurations.ScriptableObjects;
 
 	/// <summary>
 	/// Dialogue Holder
@@ -21,7 +23,7 @@ namespace DatabaseSync.Components
 					return character;
 				}
 
-				DatabaseConfig config = TableBinary.Fetch();
+				DatabaseConfigSO config = TableBinary.Fetch();
 				if (config != null)
 				{
 					character.ID = row.RowId;

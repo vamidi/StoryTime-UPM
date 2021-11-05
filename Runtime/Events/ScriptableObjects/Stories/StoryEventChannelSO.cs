@@ -1,18 +1,18 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace DatabaseSync.Events
+namespace StoryTime.Events.ScriptableObjects
 {
-	[CreateAssetMenu(menuName = "DatabaseSync/Events/Stories/Story Event Channel")]
+	[CreateAssetMenu(menuName = "StoryTime/Events/Stories/Story Event Channel")]
 	public class StoryEventChannelSO : EventChannelBaseSO
 	{
-		public UnityAction<Components.StorySO> OnEventRaised;
+		public UnityAction<Components.ScriptableObjects.StorySO> OnEventRaised;
 
 		/// <summary>
 		///
 		/// </summary>
 		/// <param name="story"></param>
-		public void RaiseEvent(Components.StorySO story)
+		public void RaiseEvent(Components.ScriptableObjects.StorySO story)
 		{
 			OnEventRaised?.Invoke(story);
 		}

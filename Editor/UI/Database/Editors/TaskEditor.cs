@@ -2,9 +2,11 @@
 using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 
-namespace DatabaseSync.Editor.UI
+using StoryTime.Components.ScriptableObjects;
+
+namespace StoryTime.Editor.UI
 {
-	public class TaskEditor : EditorTab<Components.TaskSO>
+	public class TaskEditor : EditorTab<TaskSO>
 	{
 		internal new class UxmlFactory : UxmlFactory<TaskEditor> {}
 
@@ -17,7 +19,7 @@ namespace DatabaseSync.Editor.UI
 			Initialize(listView);
 		}
 
-		protected override void DrawSelection(Box cardInfo, Components.TaskSO task)
+		protected override void DrawSelection(Box cardInfo, TaskSO task)
 		{
 			SerializedObject serializedObject = new SerializedObject(task);
 			SerializedProperty serializedProperty = serializedObject.GetIterator();

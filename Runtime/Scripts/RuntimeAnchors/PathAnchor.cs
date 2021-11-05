@@ -1,8 +1,11 @@
 ﻿using UnityEngine;
 
-namespace DatabaseSync
+namespace StoryTime.Scripts
 {
-	[CreateAssetMenu(fileName = "New PathAnchor", menuName = "DatabaseSync/Runtime Anchors/Path")]
+	using ScriptableObjects;
+	using Components.ScriptableObjects;
+
+	[CreateAssetMenu(fileName = "New PathAnchor", menuName = "StoryTime/Runtime Anchors/Path")]
 	public class PathAnchor : RuntimeAnchorBase
 	{
 		[HideInInspector]

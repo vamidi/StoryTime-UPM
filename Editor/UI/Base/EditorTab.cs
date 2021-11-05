@@ -8,12 +8,14 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace DatabaseSync.Editor.UI
+using StoryTime.Components.ScriptableObjects;
+
+namespace StoryTime.Editor.UI
 {
 	using Database;
 	using Extensions;
 
-	public class DrawListView<T> where T : Components.TableBehaviour
+	public class DrawListView<T> where T : TableBehaviour
 	{
 		public List<T> Items => _items;
 		public List<string> Names => _names;
@@ -99,7 +101,7 @@ namespace DatabaseSync.Editor.UI
 		protected UnityEditor.Editor _editor;
 	}
 
-	public abstract class EditorTab<T> : EditorTab where T : Components.TableBehaviour
+	public abstract class EditorTab<T> : EditorTab where T : TableBehaviour
 	{
 		protected readonly DrawListView<T> ItemListView;
 

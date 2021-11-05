@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace DatabaseSync.Components
+namespace StoryTime.Components
 {
     public class ScreenFader : MonoBehaviour
     {

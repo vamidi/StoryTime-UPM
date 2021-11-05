@@ -8,9 +8,10 @@ using UnityEngine.Events;
 
 using TMPro;
 
-namespace DatabaseSync.Components
+namespace StoryTime.Components
 {
 	using Binary;
+	using Configurations.ScriptableObjects;
 
 	[Serializable] public class CharRevealEvent : UnityEvent<char> { }
 
@@ -22,8 +23,8 @@ namespace DatabaseSync.Components
 			public TextAnimationType Type;
 		}
 
-		public Events.StringEventChannelSO onAction;
-		public Events.EmotionEventChannelSO onEmotionChange;
+		public Events.ScriptableObjects.StringEventChannelSO onAction;
+		public Events.ScriptableObjects.EmotionEventChannelSO onEmotionChange;
 		public CharRevealEvent onCharReveal;
 
 		public AudioSourceGroup audioSourceGroup;
@@ -55,7 +56,7 @@ namespace DatabaseSync.Components
 		private bool m_StopAnimating;
 		private bool _isRevealing;
 
-		private DialogueSettingConfig m_Config;
+		private DialogueSettingConfigSO m_Config;
 
 		private List<DialogueCommand> m_Commands = new List<DialogueCommand>();
 

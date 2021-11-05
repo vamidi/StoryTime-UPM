@@ -3,9 +3,10 @@ using System.IO;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace DatabaseSync.Database
+namespace StoryTime.Database
 {
     using Binary;
+    using Configurations.ScriptableObjects;
 
     /// <summary>
     /// TableDatabase stores table data from the json file and stores it into memory
@@ -224,7 +225,7 @@ namespace DatabaseSync.Database
             Data.Clear();
         }
 
-	    void Reload(DatabaseConfig config)
+	    void Reload(DatabaseConfigSO config)
         {
 	        string dataLocation = config.dataPath;
 	        if (!Directory.Exists(dataLocation))

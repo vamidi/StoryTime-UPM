@@ -1,13 +1,12 @@
 ﻿using UnityEngine;
 
-namespace DatabaseSync
+namespace StoryTime.Components
 {
-
 	public class LocationEntrance : MonoBehaviour
 	{
 		[Header("Asset References")]
-		[SerializeField] private PathSO entrancePath;
+		[SerializeField] private ScriptableObjects.PathSO entrancePath;
 
-		public PathSO EntrancePath => entrancePath;
+		public ScriptableObjects.PathSO EntrancePath => entrancePath;
 	}
 }

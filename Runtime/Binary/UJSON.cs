@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 
-namespace DatabaseSync.Binary
+namespace StoryTime.Binary
 {
     public struct JsonEntry {
        public JTokenType Type;		// Column type

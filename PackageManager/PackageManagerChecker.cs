@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEditor.PackageManager;
 using UnityEditor.PackageManager.Requests;
 
-namespace DatabaseSync.Packages
+namespace StoryTime.Packages
 {
 	public class PackageChecker
 	{

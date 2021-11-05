@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace DatabaseSync.Components
+namespace StoryTime.Components.ScriptableObjects
 {
-	[CreateAssetMenu(fileName = "storyLog", menuName = "DatabaseSync/Stories/Story Log", order = 51)]
+	[CreateAssetMenu(fileName = "storyLog", menuName = "StoryTime/Stories/Story Log", order = 51)]
 	// ReSharper disable once InconsistentNaming
 	public class StoryLogSO : ScriptableObject
 	{

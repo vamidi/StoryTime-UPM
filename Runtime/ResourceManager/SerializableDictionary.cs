@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace DatabaseSync.ResourceManagement.Util
+namespace StoryTime.ResourceManagement.Util
 {
 	[System.Serializable]
 	public class SerializableDictionary<TKey, TValue> : Dictionary<TKey, TValue>, ISerializationCallbackReceiver

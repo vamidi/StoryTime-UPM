@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using UnityEngine.UIElements;
 
-using UnityEngine.UIElements;
+using StoryTime.Components.ScriptableObjects;
 
-namespace DatabaseSync.Editor.UI
+namespace StoryTime.Editor.UI
 {
-	public class StoryEditor : EditorTab<Components.StorySO>
+	public class StoryEditor : EditorTab<StorySO>
 	{
 		internal new class UxmlFactory : UxmlFactory<StoryEditor> {}
 
@@ -17,7 +17,7 @@ namespace DatabaseSync.Editor.UI
 			Initialize(listView);
 		}
 
-		protected override void DrawSelection(Box cardInfo, Components.StorySO enumerable)
+		protected override void DrawSelection(Box cardInfo, StorySO enumerable)
 		{
 
 		}

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace DatabaseSync.Components
+namespace StoryTime.Components
 {
     public class Spit : GrenadierGrenade
     {

@@ -1,8 +1,7 @@
 using System;
 using System.Text.RegularExpressions;
-using UnityEngine;
 
-namespace DatabaseSync.Components
+namespace StoryTime.Components.ScriptableObjects
 {
 	/// <summary>
 	/// TagExpression is a class where you can create your own way to handle tags in the dialogue

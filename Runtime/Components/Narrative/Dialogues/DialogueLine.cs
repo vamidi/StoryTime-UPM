@@ -7,10 +7,11 @@ using UnityEngine.Localization;
 using UnityEditor.Localization;
 #endif
 
-namespace DatabaseSync.Components
+namespace StoryTime.Components
 {
 	using Binary;
 	using Attributes;
+	using ScriptableObjects;
 
 	[Serializable]
 	public class DialogueLine : IDialogueLine

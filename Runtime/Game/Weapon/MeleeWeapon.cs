@@ -1,11 +1,10 @@
 ﻿// Unity built-in shader source. Copyright (c) 2018 Unity Technologies. MIT license (see license.txt)
-
 using System;
-using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
 
-namespace DatabaseSync.Components
+namespace StoryTime.Components
 {
     public class MeleeWeapon : MonoBehaviour
     {

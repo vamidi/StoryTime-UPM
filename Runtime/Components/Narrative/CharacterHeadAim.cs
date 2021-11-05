@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
-namespace DatabaseSync.Components
+namespace StoryTime.Components
 {
 	public class CharacterHeadAim : MonoBehaviour
 	{

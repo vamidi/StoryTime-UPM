@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Localization.Components;
 
-namespace DatabaseSync.UI
+namespace StoryTime.Components.UI
 {
 	public class InventoryButtonFiller : MonoBehaviour
 	{
@@ -10,7 +10,7 @@ namespace DatabaseSync.UI
 
 		[SerializeField] private Button buttonAction;
 
-		public void FillInventoryButtons(ItemTypeSO itemType, bool isInteractable = true)
+		public void FillInventoryButtons(Components.ScriptableObjects.ItemTypeSO itemType, bool isInteractable = true)
 		{
 			buttonAction.interactable = isInteractable;
 			buttonActionText.StringReference = itemType.ActionName;

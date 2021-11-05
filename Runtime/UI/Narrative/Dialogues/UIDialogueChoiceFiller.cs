@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 using UnityEngine.Localization.Components;
 
-namespace DatabaseSync.UI
+namespace StoryTime.Components.UI
 {
-	using Components;
-	using Events;
+	using Components.ScriptableObjects;
+	using Events.ScriptableObjects;
 
 	public class UIDialogueChoiceFiller : MonoBehaviour
 	{

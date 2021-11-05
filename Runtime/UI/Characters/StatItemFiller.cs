@@ -7,10 +7,9 @@ using UnityEngine.Localization.Components;
 
 using TMPro;
 
-namespace DatabaseSync.UI
+namespace StoryTime.Components.UI
 {
-	using Game;
-	using Events;
+	using Events.ScriptableObjects;
 
 	public class StatItemFiller : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 	{

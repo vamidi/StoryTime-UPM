@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEditor;
 
-namespace DatabaseSync.ResourceManagement.Util
+namespace StoryTime.ResourceManagement.Util
 {
 	/// <summary>
 	/// Creates a singleton.

@@ -9,14 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e2e791cac4da4e178a3336e63d2d5922, type: 3}
+  m_Script: {fileID: 11500000, guid: bbbed81d2aadb9a43a14d5d7a70482b2, type: 3}
   m_Name: DialogueSettingConfig
-  m_EditorClassIdentifier: com.vamidicreations.storytime.runtime:DatabaseSync:DialogueSettingConfig
-  font: {fileID: 11400000, guid: af61af49f0b8bfa4f8e084fbc3563b82, type: 2}
-  punctuationClip: {fileID: 0}
+  m_EditorClassIdentifier: 
+  font: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  punctuationClip: {fileID: 8300000, guid: bac4123181195f64784e0ae513b98dc1, type: 3}
   voiceClip: {fileID: 8300000, guid: 0754b1e2dd5f0b943ad5bf6c49e5a99f, type: 3}
   charFontSize: 15
   dialogueFontSize: 15
   autoResize: 1
-  showDialogueAtOnce: 0
+  showDialogueAtOnce: 1
   animatedText: 1

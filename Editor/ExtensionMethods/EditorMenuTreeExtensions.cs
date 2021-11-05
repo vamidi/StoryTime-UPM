@@ -1,5 +1,5 @@
 ﻿
-namespace DatabaseSync.Editor.Extensions
+namespace StoryTime.Editor.Extensions
 {
 	public static class EditorMenuTreeExtensions
 	{

@@ -1,11 +1,11 @@
 using System;
 
-namespace DatabaseSync.Components
+namespace StoryTime.Components
 {
 	[Serializable]
-	public class ItemRecipeStack : ItemBaseStack<ItemRecipeSO>
+	public class ItemRecipeStack : ItemBaseStack<ScriptableObjects.ItemRecipeSO>
 	{
 		public ItemRecipeStack() { }
-		public ItemRecipeStack(ItemRecipeSO item, int amount) : base(item, amount) { }
+		public ItemRecipeStack(ScriptableObjects.ItemRecipeSO item, int amount) : base(item, amount) { }
 	}
 }

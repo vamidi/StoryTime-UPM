@@ -1,11 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-using DatabaseSync.Components;
 using UnityEngine.Events;
 
-namespace StoryTime.Game
+namespace StoryTime.Components
 {
+	using ScriptableObjects;
+
 	public class Chest : MonoBehaviour
 	{
 		public string openAnimationTrigger = "OpenChest";

@@ -1,13 +1,13 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace DatabaseSync.Events
+namespace StoryTime.Events.ScriptableObjects
 {
-	[CreateAssetMenu(menuName = "DatabaseSync/Events/Stories/NPC Channel")]
+	[CreateAssetMenu(menuName = "StoryTime/Events/Stories/NPC Channel")]
 	public class NpcChannelSO : ScriptableObject
 	{
-		public UnityAction<Components.NonPlayableActorSO> OnEventRaised;
-		public void RaiseEvent(Components.NonPlayableActorSO nonPlayableActorSo)
+		public UnityAction<Components.ScriptableObjects.NonPlayableActorSO> OnEventRaised;
+		public void RaiseEvent(Components.ScriptableObjects.NonPlayableActorSO nonPlayableActorSo)
 		{
 			OnEventRaised?.Invoke(nonPlayableActorSo);
 		}

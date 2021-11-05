@@ -1,6 +1,6 @@
 ﻿using UnityEngine.UIElements;
 
-namespace DatabaseSync.Editor.UI
+namespace StoryTime.Editor.UI
 {
 	using ResourceManagement.Util;
 

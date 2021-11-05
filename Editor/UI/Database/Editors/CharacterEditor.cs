@@ -2,12 +2,15 @@
 using System.Linq;
 using UnityEditor;
 using UnityEditor.UIElements;
+
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace DatabaseSync.Editor.UI
+using StoryTime.Components.ScriptableObjects;
+
+namespace StoryTime.Editor.UI
 {
-	public class CharacterEditor : EditorTab<Components.CharacterSO>
+	public class CharacterEditor : EditorTab<CharacterSO>
 	{
 		internal new class UxmlFactory : UxmlFactory<CharacterEditor> {}
 
@@ -39,7 +42,7 @@ namespace DatabaseSync.Editor.UI
 		}
 
 
-		protected override void DrawSelection(Box cardInfo, Components.CharacterSO character)
+		protected override void DrawSelection(Box cardInfo, CharacterSO character)
 		{
 			EditorGUI.BeginChangeCheck();
 
@@ -117,7 +120,7 @@ namespace DatabaseSync.Editor.UI
 			{
 				var row = t.GetRow(t.Name, t.ID);
 				// set all the values from the selected row
-				if (row != null) Components.CharacterSO.CharacterTable.ConvertRow(row, t);
+				if (row != null) CharacterSO.CharacterTable.ConvertRow(row, t);
 			}
 		}
 	}

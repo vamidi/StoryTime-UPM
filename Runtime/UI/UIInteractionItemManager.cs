@@ -1,7 +1,7 @@
-using DatabaseSync.Components;
 
-namespace DatabaseSync.UI
+namespace StoryTime.Components.UI
 {
+	using ScriptableObjects;
 	public class UIInteractionItemManager : BaseUIInteractionManager<InteractionItemSO, UIInteractionItemFiller>
 	{
 		public void SetItem(ItemStack itemStack, InteractionType interactionType)

@@ -1,9 +1,9 @@
-
 using UnityEngine;
 using UnityEngine.Localization.Components;
 
-namespace DatabaseSync.UI
+namespace StoryTime.Components.UI
 {
+	using ScriptableObjects;
 	public class UIInteractionItemFiller : BaseUIInteractionItemFiller<InteractionItemSO>
 	{
 		[SerializeField] protected LocalizeStringEvent interactionDescription;

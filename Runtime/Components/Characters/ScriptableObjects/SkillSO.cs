@@ -3,7 +3,7 @@
 using UnityEngine;
 using UnityEngine.Localization;
 
-namespace DatabaseSync.Components
+namespace StoryTime.Components.ScriptableObjects
 {
 	public enum DamageType
 	{
@@ -12,7 +12,7 @@ namespace DatabaseSync.Components
 		Drain,
 	}
 
-	[CreateAssetMenu(fileName = "Skill", menuName = "DatabaseSync/Game/Characters/Skill", order = 0)]
+	[CreateAssetMenu(fileName = "Skill", menuName = "StoryTime/Game/Characters/Skill", order = 0)]
 	// ReSharper disable once InconsistentNaming
 	public partial class SkillSO : LocalizationBehaviour
 	{

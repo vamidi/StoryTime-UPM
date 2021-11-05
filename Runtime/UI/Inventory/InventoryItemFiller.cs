@@ -2,10 +2,11 @@ using UnityEngine;
 
 using TMPro;
 
-namespace DatabaseSync.UI
+namespace StoryTime.Components.UI
 {
-	using Events;
 	using Components;
+	using Components.ScriptableObjects;
+	using Events.ScriptableObjects;
 
 	public class InventoryItemFiller : ItemBaseFiller<ItemStack, ItemSO>
 	{

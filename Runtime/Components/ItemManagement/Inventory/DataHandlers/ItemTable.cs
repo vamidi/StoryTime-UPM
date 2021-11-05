@@ -1,6 +1,7 @@
-namespace DatabaseSync.Components
+namespace StoryTime.Components.ScriptableObjects
 {
 	using Binary;
+	using Configurations.ScriptableObjects;
 
 	// ReSharper disable once InconsistentNaming
 	public partial class ItemSO
@@ -16,7 +17,7 @@ namespace DatabaseSync.Components
 					return item;
 				}
 
-				DatabaseConfig config = TableBinary.Fetch();
+				DatabaseConfigSO config = TableBinary.Fetch();
 				if (config != null)
 				{
 					item.ID = row.RowId;

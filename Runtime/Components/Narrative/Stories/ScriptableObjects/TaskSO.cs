@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using DatabaseSync.Events;
 
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEditor.Localization;
 
-namespace DatabaseSync.Components
+
+namespace StoryTime.Components.ScriptableObjects
 {
+	using Events.ScriptableObjects;
+
 	public enum TaskCompletionType
 	{
 		None, //
@@ -18,7 +20,7 @@ namespace DatabaseSync.Components
 		Defend // Defend an object or npc. 5
 	}
 
-	[CreateAssetMenu(fileName = "Task", menuName = "DatabaseSync/Stories/Task", order = 51)]
+	[CreateAssetMenu(fileName = "Task", menuName = "StoryTime/Stories/Task", order = 51)]
 	// ReSharper disable once InconsistentNaming
 	public partial class TaskSO : LocalizationBehaviour
 	{
@@ -144,7 +146,7 @@ namespace DatabaseSync.Components
 				if(collection)
 					description = new LocalizedString { TableReference = collection.TableCollectionNameReference, TableEntryReference = entryId };
 				else
-					Debug.LogWarning("Collection not found. Did you create any localization tables for Tasks");
+					UnityEngine.Debug.LogWarning("Collection not found. Did you create any localization tables for Tasks");
 			}
 		}
 	}

@@ -50,10 +50,10 @@ and click add.
   
   ![](Documentation/images/unity_package_install.gif)
 * Once everything is installed we have to create a config file to start communicating to your [StoryTime](https://github.com/vamidi/StoryTime) server.
-* You can create a config file by right-click anywhere in your asset folder (i.e `Assets > Settings`) and go to `Create > DatabaseSync > Configurations > Config File`. 
+* You can create a config file by right-click anywhere in your asset folder (i.e `Assets > Settings`) and go to `Create > StoryTime > Configurations > Config File`. 
 > **ATTENTION - If you name your config different than the name provided add it to the .gitignore or else you will push sensitive data.**
   You can just use the standard name provided or create your own.
-* Then go to `Window > DatabaseSync > Global Settings`.
+* Then go to `Window > StoryTime > Global Settings`.
 * Drag your config file into the first field and more fields will pop up.
 * Fill in the necessary fields in order to communicate. They are listed below.
 

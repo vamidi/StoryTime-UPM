@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DatabaseSync.Game.Components
+namespace StoryTime.Components.Debugging
 {
 	public class DebugCommandBase
 	{

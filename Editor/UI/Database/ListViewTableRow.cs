@@ -1,18 +1,19 @@
 using System;
 using UnityEngine.UIElements;
 
-using DatabaseSync.Binary;
-using DatabaseSync.Database;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace DatabaseSync.Editor.UI
+namespace StoryTime.Editor.UI
 {
+	using Binary;
+	using Database;
+
 	class ListViewTableRow : VisualElement
 	{
-		private const string EditorPrefConfigValueKey = "DatabaseSync-Window-Settings-Config";
+		private const string EditorPrefConfigValueKey = "StoryTime-Window-Settings-Config";
 
 		private readonly string m_TableName;
 
@@ -103,7 +104,7 @@ namespace DatabaseSync.Editor.UI
 			var monoScript = evt.newValue as MonoScript;
 			if (monoScript != null)
 			{
-				if (monoScript.GetClass().BaseType != typeof(BaseTable<Components.TableBehaviour>))
+				if (monoScript.GetClass().BaseType != typeof(BaseTable<StoryTime.Components.ScriptableObjects.TableBehaviour>))
 				{
 					field.SetValueWithoutNotify(evt.previousValue);
 					Debug.Log("Class does not inherit from BaseTable");

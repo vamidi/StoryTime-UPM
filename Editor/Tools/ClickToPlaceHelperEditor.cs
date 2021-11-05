@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace DatabaseSync.Editor
+namespace StoryTime.Editor
 {
 
 	[UnityEditor.CustomEditor(typeof(ClickToPlaceHelper))]

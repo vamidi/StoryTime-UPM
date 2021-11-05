@@ -2,8 +2,10 @@ using System.Collections.Generic;
 
 using UnityEngine.Localization;
 
-namespace DatabaseSync.Components
+namespace StoryTime.Components
 {
+	using ScriptableObjects;
+
 	public interface IDialogueLine
 	{
 		uint ID { get; }

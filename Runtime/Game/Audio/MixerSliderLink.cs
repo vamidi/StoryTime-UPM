@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using UnityEngine.Audio;
 
-namespace DatabaseSync.Components
+namespace StoryTime.Components
 {
     [RequireComponent(typeof(Slider))]
     public class MixerSliderLink : MonoBehaviour

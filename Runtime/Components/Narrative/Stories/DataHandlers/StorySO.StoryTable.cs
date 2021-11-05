@@ -9,10 +9,11 @@ using UnityEngine;
 using UnityEditor.Localization;
 #endif
 
-namespace DatabaseSync.Components
+namespace StoryTime.Components.ScriptableObjects
 {
 	using Database;
 	using Binary;
+	using Configurations.ScriptableObjects;
 
 	// ReSharper disable once InconsistentNaming
 	public partial class StorySO
@@ -28,7 +29,7 @@ namespace DatabaseSync.Components
 					return story;
 				}
 
-				DatabaseConfig config = TableBinary.Fetch();
+				DatabaseConfigSO config = TableBinary.Fetch();
 				if (config != null)
 				{
 					story.ID = row.RowId;

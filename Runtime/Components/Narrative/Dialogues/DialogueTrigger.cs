@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 
-namespace DatabaseSync.Components
+namespace StoryTime.Components
 {
+	using ScriptableObjects;
 	public class DialogueTrigger : MonoBehaviour
 	{
 		[SerializeField] private DialogueManager dialogueManager;

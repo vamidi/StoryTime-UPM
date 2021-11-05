@@ -1,13 +1,13 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
+
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
-using UnityEditor.Rendering;
 using UnityEditor.UIElements;
+
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace DatabaseSync
+namespace StoryTime.Editor
 {
 	public class DialogueGraph : EditorWindow
 	{

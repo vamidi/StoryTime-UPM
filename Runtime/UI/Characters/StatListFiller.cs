@@ -2,10 +2,9 @@
 using System.Collections.ObjectModel;
 using UnityEngine;
 
-namespace DatabaseSync.UI
+namespace StoryTime.Components.UI
 {
-	using Events;
-	using Game;
+	using Events.ScriptableObjects;
 
 	public class StatListFiller : MonoBehaviour
 	{

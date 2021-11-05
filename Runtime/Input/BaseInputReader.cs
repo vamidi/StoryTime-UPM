@@ -2,7 +2,7 @@
 using UnityEngine.InputSystem;
 using UnityEngine.Events;
 
-namespace DatabaseSync.Input
+namespace StoryTime.Input.ScriptableObjects
 {
 	public abstract class BaseInputReader : ScriptableObject
 	{

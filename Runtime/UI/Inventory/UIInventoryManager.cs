@@ -1,10 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace DatabaseSync.UI
+namespace StoryTime.Components.UI
 {
 	using Components;
-	using Events;
+	using Components.ScriptableObjects;
+	using Events.ScriptableObjects;
 
 	public class UIInventoryManager : ItemManager<
 		InventoryItemListFiller,

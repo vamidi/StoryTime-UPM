@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace DatabaseSync.Game
+namespace StoryTime.Components
 {
-	[ExecuteInEditMode()]
+	[ExecuteInEditMode]
 	public class ProgressBar : MonoBehaviour
 	{
 		public int minimum;

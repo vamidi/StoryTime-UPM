@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace DatabaseSync.Components
+namespace StoryTime.Components
 {
     /// <summary>
     /// This class is used to transition between scenes. This includes triggering all the things that need to happen on transition such as data persistence.
@@ -65,8 +65,8 @@ namespace DatabaseSync.Components
             if (initialSceneTransitionDestination != null)
             {
                 SetEnteringGameObjectLocation(initialSceneTransitionDestination);
-                DatabaseSync.Components.ScreenFader.SetAlpha(1f);
-                StartCoroutine(DatabaseSync.Components.ScreenFader.FadeSceneIn());
+                ScreenFader.SetAlpha(1f);
+                StartCoroutine(ScreenFader.FadeSceneIn());
                 initialSceneTransitionDestination.OnReachDestination.Invoke();
             }
             else

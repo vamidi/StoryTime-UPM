@@ -5,7 +5,7 @@ using UnityEditorInternal;
 
 using UnityEngine;
 
-namespace DatabaseSync.Localization.UI
+namespace StoryTime.Editor.Localization.UI
 {
     class ReorderableListExtended : ReorderableList
     {

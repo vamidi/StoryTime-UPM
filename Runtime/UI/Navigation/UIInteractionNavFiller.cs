@@ -1,8 +1,9 @@
 using UnityEngine;
 using UnityEngine.Localization.Components;
 
-namespace DatabaseSync.UI
+namespace StoryTime.Components.UI
 {
+	using ScriptableObjects;
 	using Extensions.Localization;
 
 	public class UIInteractionNavFiller : BaseUIInteractionItemFiller<InteractionNavSO>

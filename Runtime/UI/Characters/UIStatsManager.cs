@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Text.RegularExpressions;
-using DatabaseSync.Events;
 using TMPro;
 using UnityEngine;
 
-namespace  DatabaseSync.UI
+namespace  StoryTime.Components.UI
 {
 	using Components;
-	using Game;
+	using Components.ScriptableObjects;
+	using Events.ScriptableObjects;
 
 	public class UIStatsManager : MonoBehaviour
 	{

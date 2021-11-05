@@ -4,7 +4,7 @@
 using UnityEditor;
 #endif
 
-namespace DatabaseSync.Attributes
+namespace StoryTime.Attributes
 {
 	/// <summary>
 	/// Read Only attribute.

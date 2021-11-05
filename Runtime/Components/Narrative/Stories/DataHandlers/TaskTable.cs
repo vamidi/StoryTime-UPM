@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace DatabaseSync.Components
+namespace StoryTime.Components.ScriptableObjects
 {
 	using Binary;
 

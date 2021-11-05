@@ -2,9 +2,10 @@ using TMPro;
 
 using UnityEngine;
 
-namespace DatabaseSync.UI
+namespace StoryTime.Components.UI
 {
 	using Components;
+	using Components.ScriptableObjects;
 
 	public class RecipeItemInspectorFiller : InspectorItemBaseFiller<ItemRecipeStack, ItemRecipeSO>
 	{

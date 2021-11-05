@@ -3,7 +3,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace DatabaseSync.Components
+namespace StoryTime.Components
 {
 	public abstract class AbilityBase : MonoBehaviour
 	{

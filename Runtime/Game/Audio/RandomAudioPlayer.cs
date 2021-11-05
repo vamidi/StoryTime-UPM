@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace DatabaseSync.Components
+namespace StoryTime.Components
 {
     [RequireComponent(typeof(AudioSource))]
     public class RandomAudioPlayer : MonoBehaviour

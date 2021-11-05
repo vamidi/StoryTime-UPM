@@ -2,9 +2,10 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-namespace DatabaseSync.Components
+namespace StoryTime.Components
 {
-	using Events;
+	using ScriptableObjects;
+	using Events.ScriptableObjects;
 	public class RecipeManager : MonoBehaviour
 	{
 		[SerializeField] protected InventorySO currentInventory;

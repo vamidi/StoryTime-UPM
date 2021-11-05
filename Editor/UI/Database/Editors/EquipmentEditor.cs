@@ -2,9 +2,11 @@
 using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 
-namespace DatabaseSync.Editor.UI
+using StoryTime.Components.ScriptableObjects;
+
+namespace StoryTime.Editor.UI
 {
-	public class EquipmentEditor : EditorTab<Components.EquipmentSO>
+	public class EquipmentEditor : EditorTab<EquipmentSO>
 	{
 		internal new class UxmlFactory : UxmlFactory<EquipmentEditor> {}
 
@@ -17,7 +19,7 @@ namespace DatabaseSync.Editor.UI
 			Initialize(listView);
 		}
 
-		protected override void DrawSelection(Box cardInfo, Components.EquipmentSO equipment)
+		protected override void DrawSelection(Box cardInfo, EquipmentSO equipment)
 		{
 			SerializedProperty serializedProperty = serializedObject.GetIterator();
 			serializedProperty.Next(true);

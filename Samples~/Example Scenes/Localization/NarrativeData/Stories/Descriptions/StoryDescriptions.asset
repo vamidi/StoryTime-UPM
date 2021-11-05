@@ -11,7 +11,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5be51871efa6c3e4eae1703925c8f5ac, type: 3}
   m_Name: StoryDescriptions
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier:
   m_SharedTableData: {fileID: 11400000, guid: 69e23fdc1ef6b8247b783f65e888b41e, type: 2}
   m_Tables:
   - {fileID: 11400000, guid: e5201b129d972884fbc4780e6163684b, type: 2}
@@ -24,7 +24,7 @@ MonoBehaviour:
   references:
     version: 1
     00000000:
-      type: {class: JsonExtension, ns: DatabaseSync.Localization.Plugins.JSON, asm: com.unity.vamidicreations.storytime.editor}
+      type: {class: JsonExtension, ns: StoryTime.Localization.Plugins.JSON, asm: com.unity.vamidicreations.storytime.editor}
       data:
         m_Collection: {fileID: 11400000}
         fields:
@@ -39,7 +39,7 @@ MonoBehaviour:
         tableId: stories
         removeMissingPulledKeys: 1
     00000001:
-      type: {class: JsonField, ns: DatabaseSync.Localization.Plugins.JSON.Fields,
+      type: {class: JsonField, ns: StoryTime.Localization.Plugins.JSON.Fields,
         asm: com.unity.vamidicreations.storytime.editor}
       data:
         m_Column: description

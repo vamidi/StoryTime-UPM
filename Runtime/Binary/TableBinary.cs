@@ -2,15 +2,17 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using DatabaseSync.Database;
 using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
 using Newtonsoft.Json.Linq;
 
-namespace DatabaseSync.Binary
+namespace StoryTime.Binary
 {
+	using Database;
+	using Configurations.ScriptableObjects;
+
 	/// <summary>
 	/// @Reference
 	/// </summary>
@@ -69,12 +71,12 @@ namespace DatabaseSync.Binary
 		{
 			{ UInt32.MaxValue, "None" }
 		};
-		private readonly DatabaseConfig m_ConfigFile;
+		private readonly DatabaseConfigSO m_ConfigFile;
 
-		public static DatabaseConfig Fetch()
+		public static DatabaseConfigSO Fetch()
 		{
-			var path = EditorPrefs.GetString("DatabaseSync-Window-Settings-Config", "");
-			var configFile = AssetDatabase.LoadAssetAtPath<DatabaseConfig>(AssetDatabase.GUIDToAssetPath(path));
+			var path = EditorPrefs.GetString("StoryTime-Window-Settings-Config", "");
+			var configFile = AssetDatabase.LoadAssetAtPath<DatabaseConfigSO>(AssetDatabase.GUIDToAssetPath(path));
 			// TODO this will ruin the editor and stops the database sync setting window.
 			// if (configFile == null)
 				// throw new ArgumentNullException($"{nameof(configFile)} can not be null.", nameof(configFile));
@@ -82,10 +84,10 @@ namespace DatabaseSync.Binary
 			return configFile;
 		}
 
-		public static DialogueSettingConfig FetchDialogueSetting()
+		public static DialogueSettingConfigSO FetchDialogueSetting()
 		{
-			var path = EditorPrefs.GetString("DatabaseSync-Window-Dialogue-Settings-Config", "");
-			var configFile = AssetDatabase.LoadAssetAtPath<DialogueSettingConfig>(AssetDatabase.GUIDToAssetPath(path));
+			var path = EditorPrefs.GetString("StoryTime-Window-Dialogue-Settings-Config", "");
+			var configFile = AssetDatabase.LoadAssetAtPath<DialogueSettingConfigSO>(AssetDatabase.GUIDToAssetPath(path));
 
 			if (configFile == null)
 				throw new ArgumentNullException($"{nameof(configFile)} can not be null.", nameof(configFile));
@@ -155,7 +157,7 @@ namespace DatabaseSync.Binary
 				Data = new List<TableField>()
 			};
 
-			DatabaseConfig config = Fetch();
+			DatabaseConfigSO config = Fetch();
 			if (config == null)
 			{
 #if UNITY_EDITOR
@@ -181,7 +183,7 @@ namespace DatabaseSync.Binary
 
 		public static TableRow GetRow(string tableName, uint entityID)
 		{
-			DatabaseConfig config = Fetch();
+			DatabaseConfigSO config = Fetch();
 
 			TableRow result = new TableRow
 			{

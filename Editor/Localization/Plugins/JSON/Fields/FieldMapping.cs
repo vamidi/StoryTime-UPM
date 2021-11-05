@@ -1,13 +1,13 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
+using System.Collections.Generic;
 
 using UnityEditor.Localization;
 using UnityEditor.Localization.Plugins.Google.Columns;
 
 using UnityEngine.Localization;
 
-namespace DatabaseSync.Localization.Plugins.JSON.Fields
+namespace StoryTime.Editor.Localization.Plugins.JSON.Fields
 {
 	public static class FieldMapping
 	{

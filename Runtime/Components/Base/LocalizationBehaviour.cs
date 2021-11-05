@@ -1,10 +1,10 @@
 ﻿using System;
-using DatabaseSync.Attributes;
 using UnityEditor.Localization;
 using UnityEngine;
 
-namespace DatabaseSync.Components
+namespace StoryTime.Components.ScriptableObjects
 {
+	using Attributes;
 	public class LocalizationBehaviour : TableBehaviour
 	{
 		/** ------------------------------ DATABASE FIELD ------------------------------ */

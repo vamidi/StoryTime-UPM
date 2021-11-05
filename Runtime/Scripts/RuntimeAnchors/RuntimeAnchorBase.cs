@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace DatabaseSync
+namespace StoryTime.Scripts.ScriptableObjects
 {
 	public class RuntimeAnchorBase : ScriptableObject
 	{

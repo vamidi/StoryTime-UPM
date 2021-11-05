@@ -3,7 +3,7 @@
 using UnityEditor;
 #endif
 
-namespace DatabaseSync.Attributes
+namespace StoryTime.Attributes
 {
     public class EnforceTypeAttribute : PropertyAttribute
     {

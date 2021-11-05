@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace DatabaseSync.UI
+namespace StoryTime.Components.UI
 {
-	using Components;
+	using Components.ScriptableObjects;
 	public class UIDialogueChoicesManager : MonoBehaviour
 	{
 		public UIDialogueChoiceFiller[] listChoiceButtons;
@@ -30,7 +30,7 @@ namespace DatabaseSync.UI
 					}
 					else
 					{
-						Debug.LogError("There are more choices than buttons");
+						UnityEngine.Debug.LogError("There are more choices than buttons");
 					}
 				}
 			}

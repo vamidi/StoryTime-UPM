@@ -1,9 +1,9 @@
-﻿using DatabaseSync.Components;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace DatabaseSync.Game
+namespace StoryTime.Components
 {
-	using Events;
+	using ScriptableObjects;
+	using Events.ScriptableObjects;
 
 	public class StatManager : MonoBehaviour
 	{

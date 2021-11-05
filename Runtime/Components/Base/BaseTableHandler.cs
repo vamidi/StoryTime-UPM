@@ -1,7 +1,7 @@
 ﻿using System;
-using DatabaseSync.Binary;
+using StoryTime.Binary;
 
-public abstract class BaseTableHandler<T> : UnityEditor.MonoScript where T : DatabaseSync.Components.TableBehaviour
+public abstract class BaseTableHandler<T> : UnityEditor.MonoScript where T : StoryTime.Components.ScriptableObjects.TableBehaviour
 {
 	public static UnityEditor.MonoScript ConvertRow(TableRow row, T scriptableObject = null)
 	{

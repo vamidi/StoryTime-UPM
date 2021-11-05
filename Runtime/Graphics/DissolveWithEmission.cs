@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace DatabaseSync.Graphics
+namespace StoryTime.Components.Graphics
 {
     public class DissolveWithEmission : MonoBehaviour
     {

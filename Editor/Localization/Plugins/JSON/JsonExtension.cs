@@ -7,9 +7,10 @@ using UnityEditor.Localization.Plugins.Google.Columns;
 
 using UnityEngine;
 
-namespace DatabaseSync.Localization.Plugins.JSON
+namespace StoryTime.Editor.Localization.Plugins.JSON
 {
 	using Fields;
+	using Configurations.ScriptableObjects;
 
 	/// <summary>
     /// <see cref="StringTableCollection"/> that provides an editor interface to <see cref="GoogleSheets"/>.
@@ -31,7 +32,7 @@ namespace DatabaseSync.Localization.Plugins.JSON
 
 		[SerializeReference] private List<SheetColumn> fields = new List<SheetColumn>();
 
-		[SerializeField] private DatabaseConfig jsonServiceProvider;
+		[SerializeField] private DatabaseConfigSO jsonServiceProvider;
 
 		[SerializeField] private string tableName = String.Empty;
 

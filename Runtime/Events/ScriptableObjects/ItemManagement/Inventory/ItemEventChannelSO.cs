@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace DatabaseSync.Events
+namespace StoryTime.Events.ScriptableObjects
 {
-	[CreateAssetMenu(menuName = "DatabaseSync/Events/Item Management/Item Event Channel")]
+	[CreateAssetMenu(menuName = "StoryTime/Events/Item Management/Item Event Channel")]
 	public class ItemEventChannelSO : EventChannelBaseSO
 	{
 		[Header("Items")]

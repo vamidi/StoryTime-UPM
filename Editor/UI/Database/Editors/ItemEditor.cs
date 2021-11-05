@@ -4,9 +4,11 @@ using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace DatabaseSync.Editor.UI
+using StoryTime.Components.ScriptableObjects;
+
+namespace StoryTime.Editor.UI
 {
-	public class ItemEditor : EditorTab<Components.ItemSO>
+	public class ItemEditor : EditorTab<ItemSO>
 	{
 		internal new class UxmlFactory : UxmlFactory<ItemEditor> {}
 
@@ -19,7 +21,7 @@ namespace DatabaseSync.Editor.UI
 			Initialize(listView);
 		}
 
-		protected override void DrawSelection(Box cardInfo, Components.ItemSO item)
+		protected override void DrawSelection(Box cardInfo, ItemSO item)
 		{
 			if (item.PreviewImage == null)
 				return;

@@ -4,7 +4,7 @@ using System.Collections;
 
 using UnityEditor;
 
-namespace DatabaseSync.Localization
+namespace StoryTime.Editor.Localization
 {
     static class SerializedPropertyExtensionMethods
     {

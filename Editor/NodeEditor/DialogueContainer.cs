@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace DatabaseSync
+namespace StoryTime.Editor
 {
 	public class DialogueContainer : ScriptableObject
 	{

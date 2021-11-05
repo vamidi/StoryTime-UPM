@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace DatabaseSync.Components
+namespace StoryTime.Components
 {
     // This class allow to distribute arc around a target, used for "crowding" by ennemis, so they all
     // come at the player (or any target) from different direction.

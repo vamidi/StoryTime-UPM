@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using UnityEditor;
 #endif
 
-namespace DatabaseSync.Attributes
+namespace StoryTime.Attributes
 {
 	using Extensions;
 
@@ -279,7 +279,6 @@ namespace DatabaseSync.Attributes
 		}
 
 		#endregion
-
 
 		#region Find Relative Property
 

@@ -1,10 +1,10 @@
-using System;
 using UnityEngine;
 using UnityEngine.Localization;
 
-namespace DatabaseSync.UI
+namespace StoryTime.Components.UI
 {
-	using Events;
+	using ScriptableObjects;
+	using Events.ScriptableObjects;
 
 	public class UIInteractionNavManager : BaseUIInteractionManager<InteractionNavSO, UIInteractionNavFiller>
 	{

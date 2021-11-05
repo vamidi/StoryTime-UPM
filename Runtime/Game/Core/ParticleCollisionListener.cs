@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace DatabaseSync.Components
+namespace StoryTime.Components
 {
 	public class ParticleCollisionListener : MonoBehaviour
 	{

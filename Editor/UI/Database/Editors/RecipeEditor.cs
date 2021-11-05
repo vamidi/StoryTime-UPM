@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
-
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 
-namespace DatabaseSync.Editor.UI
+using StoryTime.Components.ScriptableObjects;
+
+namespace StoryTime.Editor.UI
 {
-	public class RecipeEditor : EditorTab<Components.ItemRecipeSO>
+	public class RecipeEditor : EditorTab<ItemRecipeSO>
 	{
 		internal new class UxmlFactory : UxmlFactory<RecipeEditor> {}
 
@@ -19,7 +19,7 @@ namespace DatabaseSync.Editor.UI
 			Initialize(listView);
 		}
 
-		protected override void DrawSelection(Box cardInfo, Components.ItemRecipeSO recipe)
+		protected override void DrawSelection(Box cardInfo, ItemRecipeSO recipe)
 		{
 			SerializedObject serializedObject = new SerializedObject(recipe);
 			SerializedProperty serializedProperty = serializedObject.GetIterator();

@@ -1,10 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Animations.Rigging;
+
 using DG.Tweening;
 
-namespace DatabaseSync.Components
+namespace StoryTime.Components
 {
 	public class ParticleAbility : AbilityBase
 	{

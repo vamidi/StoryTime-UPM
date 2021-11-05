@@ -1,8 +1,14 @@
+<a name="2020.1.6f3"></a>
+## [2020.1.6f3](https://github.com/vamidi/storytime/compare/v2020.1.0b1...v2020.1.6f3) (2021-05-11)
+
+### Breaking Changes
+- Namespaces changed from `DatabaseSync` to `StoryTime`.
+
 <a name="2020.1.6f1"></a>
 ## [2020.1.6f1](https://github.com/vamidi/storytime/compare/v2020.1.0b1...v2020.1.6f1) (2021-22-10)
 
 ### Breaking Changes
-- Minimal required `com.unity.localization` version is 1.0.9
+- Minimal required `com.unity.localization` version is 1.0.9.
 
 ### Features
 

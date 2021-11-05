@@ -1,9 +1,9 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace DatabaseSync.Events
+namespace StoryTime.Events.ScriptableObjects
 {
-	[CreateAssetMenu(menuName = "DatabaseSync/Events/Narrative/Dialogue Event Channel")]
+	[CreateAssetMenu(menuName = "StoryTime/Events/Narrative/Dialogue Event Channel")]
 	// ReSharper disable once InconsistentNaming
 	public class DialogueEventChannelSO : EventChannelBaseSO
 	{

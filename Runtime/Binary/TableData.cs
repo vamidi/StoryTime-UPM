@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace DatabaseSync.Binary
+namespace StoryTime.Binary
 {
     public class TableMetaData
     {

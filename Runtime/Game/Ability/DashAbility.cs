@@ -5,7 +5,7 @@ using UnityEngine.Rendering;
 using DG.Tweening;
 using Cinemachine;
 
-namespace DatabaseSync.Components
+namespace StoryTime.Components
 {
 	public class DashAbility : AbilityBase
 	{

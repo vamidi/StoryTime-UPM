@@ -1,8 +1,8 @@
 using UnityEngine;
 
-namespace DatabaseSync.Components
+namespace StoryTime.Components.ScriptableObjects
 {
-	[CreateAssetMenu(fileName = "newNpc", menuName = "DatabaseSync/Stories/NPC")]
+	[CreateAssetMenu(fileName = "newNpc", menuName = "StoryTime/Stories/NPC")]
 	public class NonPlayableActorSO : TableBehaviour
 	{
 		public string Npc => _npc;

@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace DatabaseSync.Events
+namespace StoryTime.Events.ScriptableObjects
 {
-	[CreateAssetMenu(menuName = "DatabaseSync/Events/UI/Dialogue Choice Channel")]
+	[CreateAssetMenu(menuName = "StoryTime/Events/UI/Dialogue Choice Channel")]
 	public class DialogueChoiceChannelSO : ScriptableObject
 	{
-		public UnityAction<Components.DialogueChoiceSO> OnChoiceEventRaised;
-		public UnityAction<List<Components.DialogueChoiceSO>> OnChoicesEventRaised;
+		public UnityAction<Components.ScriptableObjects.DialogueChoiceSO> OnChoiceEventRaised;
+		public UnityAction<List<Components.ScriptableObjects.DialogueChoiceSO>> OnChoicesEventRaised;
 
-		public void RaiseEvent(Components.DialogueChoiceSO choice) => OnChoiceEventRaised?.Invoke(choice);
+		public void RaiseEvent(Components.ScriptableObjects.DialogueChoiceSO choice) => OnChoiceEventRaised?.Invoke(choice);
 
-		public void RaiseEvent(List<Components.DialogueChoiceSO> choices) => OnChoicesEventRaised?.Invoke(choices);
+		public void RaiseEvent(List<Components.ScriptableObjects.DialogueChoiceSO> choices) => OnChoicesEventRaised?.Invoke(choices);
 	}
 }

@@ -4,8 +4,9 @@ using UnityEngine.Rendering;
 
 using Cinemachine;
 
-namespace DatabaseSync.Components
+namespace StoryTime.Components
 {
+	using Scripts;
 
 	/// <summary>
 	/// @brief - Spawn system that spawns the player in the world.

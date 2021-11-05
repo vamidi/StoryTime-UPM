@@ -3,7 +3,7 @@
 using UnityEditor.Localization;
 using UnityEngine;
 
-namespace DatabaseSync.Components
+namespace StoryTime.Components.ScriptableObjects
 {
 	using Attributes;
 
@@ -30,7 +30,7 @@ namespace DatabaseSync.Components
 		ContinueWithTask,
 	}
 
-	[CreateAssetMenu(fileName = "newSimpleStory", menuName = "DatabaseSync/Stories/Simple Story", order = 51)]
+	[CreateAssetMenu(fileName = "newSimpleStory", menuName = "StoryTime/Stories/Simple Story", order = 51)]
 	// ReSharper disable once InconsistentNaming
 	public class SimpleStorySO : LocalizationBehaviour
 	{

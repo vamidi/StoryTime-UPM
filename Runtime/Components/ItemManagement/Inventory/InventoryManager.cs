@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 using UnityEngine;
 
-namespace DatabaseSync
+namespace StoryTime.Components
 {
-	using Components;
-	using Events;
+	using ScriptableObjects;
+	using Events.ScriptableObjects;
 
 	public class InventoryManager : MonoBehaviour
 	{

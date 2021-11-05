@@ -3,7 +3,7 @@ using UnityEngine.Events;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-namespace DatabaseSync.UI
+namespace StoryTime.Components.UI
 {
 	[RequireComponent(typeof(Image))]
 	public class TabButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler

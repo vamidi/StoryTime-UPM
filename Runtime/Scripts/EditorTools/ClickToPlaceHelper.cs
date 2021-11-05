@@ -4,7 +4,7 @@ using UnityEditor;
 #endif
 
 [ExecuteInEditMode]
-[AddComponentMenu("DatabaseSync/Tools/Click to Place")]
+[AddComponentMenu("StoryTime/Tools/Click to Place")]
 public class ClickToPlaceHelper : MonoBehaviour
 {
 	[Tooltip("Vertical offset above the clicked point. Useful to avoid spawn points to be directly ON the geometry which might cause issues.")]

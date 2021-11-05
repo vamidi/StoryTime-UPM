@@ -1,8 +1,9 @@
 using UnityEngine;
 
-namespace DatabaseSync.Components
+namespace StoryTime.Components
 {
-	using Events;
+	using ScriptableObjects;
+	using Events.ScriptableObjects;
 
 	/// <summary>
 	/// The enemy tracker keeps track of the current enemy.

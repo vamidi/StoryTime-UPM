@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DatabaseSync.Binary
+namespace StoryTime.Binary
 {
     public class TableField
     {

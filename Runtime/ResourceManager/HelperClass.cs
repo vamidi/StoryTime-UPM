@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
@@ -8,9 +7,10 @@ using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace DatabaseSync.ResourceManagement.Util
+namespace StoryTime.ResourceManagement.Util
 {
 	using Binary;
+	using Configurations.ScriptableObjects;
 
 	public static class HelperClass
 	{
@@ -96,7 +96,7 @@ namespace DatabaseSync.ResourceManagement.Util
 		{
 			var files = new List<(string name, string fileName)>();
 
-			DatabaseConfig config = TableBinary.Fetch();
+			DatabaseConfigSO config = TableBinary.Fetch();
 			if (config != null)
 			{
 				var assetDirectory = config.dataPath;

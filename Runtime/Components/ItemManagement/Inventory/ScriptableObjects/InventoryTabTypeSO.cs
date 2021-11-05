@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Localization;
 
-namespace DatabaseSync
+namespace StoryTime.Components.ScriptableObjects
 {
 	public enum TabType
 	{
@@ -14,7 +14,7 @@ namespace DatabaseSync
 		Materials, // Gadgets that can be used to activate something
 		Stories, // Items that the player needs to use.
 	}
-	[CreateAssetMenu(fileName = "tabType", menuName = "DatabaseSync/Item Management/Tab Type", order = 51)]
+	[CreateAssetMenu(fileName = "tabType", menuName = "StoryTime/Item Management/Tab Type", order = 51)]
 	// ReSharper disable once InconsistentNaming
 	public class InventoryTabTypeSO : ScriptableObject
 	{

@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 using TMPro;
 
-namespace DatabaseSync.UI
+namespace StoryTime.Components.UI
 {
-	public class UIInteractionFiller : BaseUIInteractionItemFiller<InteractionSO>
+	public class UIInteractionFiller : BaseUIInteractionItemFiller<ScriptableObjects.InteractionSO>
 	{
-		public override void FillInteractionPanel(InteractionSO interactionItem)
+		public override void FillInteractionPanel(ScriptableObjects.InteractionSO interactionItem)
 		{
 			// StringReference normally fire the update event and also updates the interaction title.
 			interactionName.StringReference = interactionItem.InteractionName;

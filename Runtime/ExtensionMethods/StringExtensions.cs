@@ -1,7 +1,6 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 
-namespace DatabaseSync.Extensions
+namespace StoryTime.Extensions
 {
 	public static class StringExtensions
 	{

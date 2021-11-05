@@ -1,11 +1,12 @@
-using DatabaseSync.Components;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
-namespace DatabaseSync.UI
+namespace StoryTime.Components.UI
 {
+	using Components.ScriptableObjects;
+
 	[RequireComponent(typeof(Image))]
 	public class StoryCategoryTab : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 	{

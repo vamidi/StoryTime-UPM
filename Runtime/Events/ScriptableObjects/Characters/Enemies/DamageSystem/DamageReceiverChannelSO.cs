@@ -1,9 +1,9 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace DatabaseSync.Events
+namespace StoryTime.Events.ScriptableObjects
 {
-	[CreateAssetMenu(menuName = "DatabaseSync/Events/Characters/Enemy Damage Receiver", order = 51)]
+	[CreateAssetMenu(menuName = "StoryTime/Events/Characters/Enemy Damage Receiver", order = 51)]
 	public class DamageReceiverChannelSO : ScriptableObject
 	{
 		public UnityAction<Components.MessageType, Components.Damageable.DamageMessage> OnEventRaised;

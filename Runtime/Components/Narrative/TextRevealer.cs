@@ -1,15 +1,16 @@
 ﻿using System;
-using System.Collections;
 using System.Text;
+using System.Collections;
 using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.Events;
 
 using TMPro;
 
-namespace DatabaseSync.Components
+namespace StoryTime.Components
 {
 	using ResourceManagement.Util;
+	using Configurations.ScriptableObjects;
 
 	[Serializable] public class ActionEvent : UnityEvent<string> { }
 
@@ -17,7 +18,7 @@ namespace DatabaseSync.Components
 	public class TextRevealer : MonoBehaviour
 	{
 		[Header("Configuration")]
-		public DialogueSettingConfig dialogueSettings;
+		public DialogueSettingConfigSO dialogueSettings;
 		public ActionEvent onAction;
 
 		public int numCharactersFade = 3;
@@ -245,7 +246,7 @@ namespace DatabaseSync.Components
 				else if (actionTag.StartsWith("action"))
 				{
 					onAction.Invoke(actionTag);
-					Debug.Log(actionTag);
+					UnityEngine.Debug.Log(actionTag);
 				}
 			}
 			return null;

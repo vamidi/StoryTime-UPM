@@ -3,13 +3,14 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-namespace DatabaseSync.Components
+namespace StoryTime.Components
 {
-	using Events;
+	using ScriptableObjects;
+	using Events.ScriptableObjects;
 
 	// this script needs to be put on the character, and takes care of the current task that the player has to accomplish.
 	// the task contains a story and maybe an event.
-    [AddComponentMenu("DatabaseSync/RevisionController")]
+    [AddComponentMenu("StoryTime/RevisionController")]
 	public class RevisionController : MonoBehaviour
 	{
 		// TODO rename this to Character

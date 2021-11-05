@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace DatabaseSync.Components
+namespace StoryTime.Components
 {
     //use this class to simply scan & spot the player based on the parameters.
     //Used by enemies behaviours.

@@ -1,7 +1,6 @@
 ﻿using System;
-using UnityEngine;
 
-namespace DatabaseSync
+namespace StoryTime.Editor
 {
 	[Serializable]
 	public class ExposedProperty

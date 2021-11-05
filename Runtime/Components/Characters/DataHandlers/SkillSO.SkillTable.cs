@@ -1,10 +1,8 @@
-
-using DatabaseSync;
-using DatabaseSync.Binary;
-using UnityEngine;
-
-namespace DatabaseSync.Components
+namespace StoryTime.Components.ScriptableObjects
 {
+	using Binary;
+	using Configurations.ScriptableObjects;
+
 	public partial class SkillSO
 	{
 		public class SkillTable : BaseTable<SkillSO>
@@ -18,7 +16,7 @@ namespace DatabaseSync.Components
 					return skill;
 				}
 
-				DatabaseConfig config = TableBinary.Fetch();
+				DatabaseConfigSO config = TableBinary.Fetch();
 				if (config != null)
 				{
 					skill.ID = row.RowId;

@@ -4,9 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Localization;
 
-namespace DatabaseSync.UI
+namespace StoryTime.Components.UI
 {
-	using Components;
+	using Components.ScriptableObjects;
 
 	/// <summary>
 	/// A storyFiller is
@@ -28,8 +28,8 @@ namespace DatabaseSync.UI
 		public StoryType Category => m_Category;
 
 		[Header("Broadcasting channels")]
-		[SerializeField] private Events.VoidEventChannelSO closeStoryScreenEvent;
-		[SerializeField] private Events.StoryEventChannelSO onStorySelectEvent;
+		[SerializeField] private Events.ScriptableObjects.VoidEventChannelSO closeStoryScreenEvent;
+		[SerializeField] private Events.ScriptableObjects.StoryEventChannelSO onStorySelectEvent;
 
 		[SerializeField] private LocalizedString categoryTitle;
 

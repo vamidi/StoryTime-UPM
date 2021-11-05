@@ -6,11 +6,13 @@ using UnityEngine;
 
 using UnityToolbarExtender;
 
-namespace DatabaseSync.Editor
+namespace StoryTime.Editor
 {
 	using Binary;
 	using Database;
 	using ResourceManagement.Util;
+	using Configurations.ScriptableObjects;
+
 	static class ToolbarStyles
 	{
 		public static readonly GUIStyle CommandButtonStyle;
@@ -48,7 +50,7 @@ namespace DatabaseSync.Editor
 			set => EditorPrefs.SetInt(EditorPrefSelectedValueKey, value);
 		}
 
-		private const string EditorPrefSelectedValueKey = "DatabaseSync-Toolbar-Selected-Index";
+		private const string EditorPrefSelectedValueKey = "StoryTime-Toolbar-Selected-Index";
 
 		private static readonly string[] TableNames;
 
@@ -113,7 +115,7 @@ namespace DatabaseSync.Editor
 		private static SerializedObject s_DatabaseConfig;
 		public static readonly string FileName = "DatabaseConfig";
 
-		public static void Open(DatabaseConfig config)
+		public static void Open(DatabaseConfigSO config)
 		{
 			s_DatabaseConfig = new SerializedObject(config);
 		}
@@ -199,10 +201,10 @@ namespace DatabaseSync.Editor
 
 		private SerializedObject LoadConfig()
 		{
-			var config = Resources.Load<DatabaseConfig>(FileName);
+			var config = Resources.Load<DatabaseConfigSO>(FileName);
 			if (!config)
 			{
-				return new SerializedObject(CreateInstance<DatabaseConfig>());
+				return new SerializedObject(CreateInstance<DatabaseConfigSO>());
 			}
 
 			return new SerializedObject(config);

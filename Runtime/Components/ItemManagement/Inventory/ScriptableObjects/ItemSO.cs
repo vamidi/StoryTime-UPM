@@ -1,15 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using DatabaseSync.Attributes;
-using DatabaseSync.Game;
-using UnityEditor.Localization;
-using UnityEngine;
 
+#if UNITY_EDITOR
+using UnityEditor.Localization;
+#endif
+
+using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Settings;
 
-namespace DatabaseSync.Components
+namespace StoryTime.Components.ScriptableObjects
 {
+	using Attributes;
+
 	/// <summary>
     /// Called whenever a localized string is available.
     /// When the first <see cref="LocalizedAsset{TObject}.ChangeHandler"/> is added, a loading operation will automatically start and the localized string value will be sent to the event when completed.
@@ -52,7 +55,7 @@ namespace DatabaseSync.Components
     /// }
     /// </code>
     /// </example>
-	[CreateAssetMenu(fileName = "Item", menuName = "DatabaseSync/Item Management/Item", order = 51)]
+	[CreateAssetMenu(fileName = "Item", menuName = "StoryTime/Item Management/Item", order = 51)]
 	// ReSharper disable once InconsistentNaming
 	public partial class ItemSO : LocalizationBehaviour
 	{

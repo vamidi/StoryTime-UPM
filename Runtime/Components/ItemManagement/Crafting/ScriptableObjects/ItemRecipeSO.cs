@@ -12,11 +12,11 @@ using UnityEditor.Localization;
 using UnityEngine;
 using UnityEngine.Localization;
 
-namespace DatabaseSync.Components
+namespace StoryTime.Components.ScriptableObjects
 {
 	using Database;
 
-	[CreateAssetMenu(fileName = "itemRecipe", menuName = "DatabaseSync/Item Management/Item Recipe", order = 51)]
+	[CreateAssetMenu(fileName = "itemRecipe", menuName = "StoryTime/Item Management/Item Recipe", order = 51)]
 	// ReSharper disable once InconsistentNaming
 	public class ItemRecipeSO : ItemSO
 	{

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace DatabaseSync.Components
+namespace StoryTime.Components.ScriptableObjects
 {
 	using Binary;
 	public class EnemyTable : BaseTable<EnemySO>

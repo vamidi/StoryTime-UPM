@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
-namespace DatabaseSync.Events
+
+namespace StoryTime.Events.ScriptableObjects
 {
-	[CreateAssetMenu(menuName = "DatabaseSync/Events/String Event Channel")]
+	[CreateAssetMenu(menuName = "StoryTime/Events/String Event Channel")]
 	// ReSharper disable once InconsistentNaming
 	public class NumberEventChannelSO : EventChannelBaseSO
 	{

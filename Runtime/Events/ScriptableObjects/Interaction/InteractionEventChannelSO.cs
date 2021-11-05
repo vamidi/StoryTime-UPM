@@ -1,13 +1,13 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace DatabaseSync.Events
+namespace StoryTime.Events.ScriptableObjects
 {
-	[CreateAssetMenu(menuName = "DatabaseSync/Events/Interaction/Interaction Event Channel")]
+	[CreateAssetMenu(menuName = "StoryTime/Events/Interaction/Interaction Event Channel")]
 	public class InteractionEventChannelSO : EventChannelBaseSO
 	{
-		public UnityAction<GameObject, InteractionType> OnEventRaised;
+		public UnityAction<GameObject, Components.InteractionType> OnEventRaised;
 
-		public void RaiseEvent(GameObject other, InteractionType interactionType) => OnEventRaised?.Invoke(other, interactionType);
+		public void RaiseEvent(GameObject other, Components.InteractionType interactionType) => OnEventRaised?.Invoke(other, interactionType);
 	}
 }

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace DatabaseSync.Components
+namespace StoryTime.Components
 {
     public class ObjectPooler<T> where T : MonoBehaviour, IPooled<T>
     {

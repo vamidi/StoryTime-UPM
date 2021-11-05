@@ -6,9 +6,11 @@ using UnityEngine.EventSystems;
 
 using UnityEngine.Localization.Components;
 
-namespace DatabaseSync.UI
+namespace StoryTime.Components.UI
 {
-	using Events;
+	using Events.ScriptableObjects;
+	using Components.ScriptableObjects;
+
 	public class InventoryTypeTabFiller : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 	{
 		public InventoryTypeTabsFiller tabGroup;

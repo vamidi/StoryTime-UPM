@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace DatabaseSync.Components
+namespace StoryTime.Components
 {
-	using Events;
+	using ScriptableObjects;
+	using Events.ScriptableObjects;
 
 	/// <summary>
 	/// The Story manager is in control of the stories
@@ -116,7 +117,7 @@ namespace DatabaseSync.Components
 
 			if (onStorySelectEvent != null)
 			{
-				onStorySelectEvent.OnEventRaised += s => StartStory(s, UI.StoryState.Update);
+				onStorySelectEvent.OnEventRaised += s => StartStory(s, UI.ScriptableObjects.StoryState.Update);
 			}
 
 			StartGame();
@@ -158,7 +159,7 @@ namespace DatabaseSync.Components
 			}
 		}
 
-		void StartStory(StorySO currentStory, UI.StoryState state = UI.StoryState.New)
+		void StartStory(StorySO currentStory, UI.ScriptableObjects.StoryState state = UI.ScriptableObjects.StoryState.New)
 		{
 			if (m_CurrentStory == currentStory)
 				return;
@@ -272,7 +273,7 @@ namespace DatabaseSync.Components
 									// this is a new quest so grab the first quest.
 									Story = m_CurrentStory,
 									Index = m_CurrentTaskIndex,
-									State = UI.StoryState.Update
+									State = UI.ScriptableObjects.StoryState.Update
 								}, InteractionType.Navigate);
 
 								StartTask();
@@ -284,7 +285,7 @@ namespace DatabaseSync.Components
 									// this is a new quest so grab the first quest.
 									Story = m_CurrentStory,
 									Index = m_CurrentTaskIndex,
-									State = UI.StoryState.Complete
+									State = UI.ScriptableObjects.StoryState.Complete
 								}, InteractionType.Navigate);
 
 								EndStory();

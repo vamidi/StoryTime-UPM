@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-namespace DatabaseSync
+namespace StoryTime.Scripts
 {
-	[CreateAssetMenu(menuName = "DatabaseSync/Runtime Anchors/Transform")]
+	using ScriptableObjects;
+
+	[CreateAssetMenu(menuName = "StoryTime/Runtime Anchors/Transform")]
 	public class TransformAnchor : RuntimeAnchorBase
 	{
 		[HideInInspector]

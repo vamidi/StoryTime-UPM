@@ -2,9 +2,9 @@
 using UnityEngine.InputSystem;
 using UnityEngine.Events;
 
-namespace DatabaseSync.Input
+namespace Storytime.Input
 {
-	[CreateAssetMenu(fileName = "InputReader", menuName = "DatabaseSync/Game/Input Reader")]
+	[CreateAssetMenu(fileName = "InputReader", menuName = "StoryTime/Game/Input Reader")]
 	public class InputReader : BaseInputReader, GameInput.IGameplayActions, GameInput.IDialoguesActions,
 		GameInput.IMenusActions
 	{
@@ -22,13 +22,13 @@ namespace DatabaseSync.Input
 		public override event UnityAction disableMouseControlCameraEvent = delegate { };
 		public override event UnityAction startAbility1 = delegate { };
 		public override event UnityAction stopAbility1 = delegate { };
- 
+
 		// Shared between menus and dialogues
 		public override event UnityAction moveSelectionEvent = delegate { };
- 
+
 		// Dialogues
 		public override event UnityAction advanceDialogueEvent = delegate { };
- 
+
 		// Menus
 		public override event UnityAction menuMouseMoveEvent = delegate { };
 		public override event UnityAction menuConfirmEvent = delegate { };

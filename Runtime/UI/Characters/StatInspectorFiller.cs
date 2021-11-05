@@ -1,9 +1,6 @@
-﻿using DatabaseSync.Game;
-using TMPro;
+﻿using UnityEngine;
 
-using UnityEngine;
-
-namespace DatabaseSync.UI
+namespace StoryTime.Components.UI
 {
 	public class StatInspectorFiller: MonoBehaviour
 	{

@@ -1,8 +1,9 @@
 using UnityEngine;
 
-namespace DatabaseSync.UI
+namespace StoryTime.Components.UI
 {
-	using Components;
+	using Components.ScriptableObjects;
+
 	public abstract class InspectorItemBaseFiller<TStack, TItem>: MonoBehaviour
 		where TItem: ItemSO
 		where TStack: ItemBaseStack<TItem>

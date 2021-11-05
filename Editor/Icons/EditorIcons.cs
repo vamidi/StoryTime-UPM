@@ -1,8 +1,9 @@
 using System.IO;
+
 using UnityEditor;
 using UnityEngine;
 
-namespace DatabaseSync
+namespace StoryTime.Editor
 {
     public class EditorIcons
     {

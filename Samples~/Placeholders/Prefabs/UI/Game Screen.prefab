@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
   m_StringReference:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName:
     m_TableEntryReference:
       m_KeyId: 0
-      m_Key: 
+      m_Key:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
@@ -26,7 +26,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1063572125930110014}
-        m_TargetAssemblyTypeName: 
+        m_TargetAssemblyTypeName:
         m_MethodName: set_text
         m_Mode: 0
         m_Arguments:
@@ -34,7 +34,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument:
           m_BoolArgument: 0
         m_CallState: 2
   references:
@@ -49,14 +49,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
   m_StringReference:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName:
     m_TableEntryReference:
       m_KeyId: 0
-      m_Key: 
+      m_Key:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
@@ -65,7 +65,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 4137018342705631697}
-        m_TargetAssemblyTypeName: 
+        m_TargetAssemblyTypeName:
         m_MethodName: set_text
         m_Mode: 0
         m_Arguments:
@@ -73,7 +73,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument:
           m_BoolArgument: 0
         m_CallState: 2
   references:
@@ -88,14 +88,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
   m_StringReference:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName:
     m_TableEntryReference:
       m_KeyId: 0
-      m_Key: 
+      m_Key:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
@@ -104,7 +104,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 331506982569814171}
-        m_TargetAssemblyTypeName: 
+        m_TargetAssemblyTypeName:
         m_MethodName: set_text
         m_Mode: 0
         m_Arguments:
@@ -112,7 +112,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument:
           m_BoolArgument: 0
         m_CallState: 2
   references:
@@ -177,14 +177,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
   m_StringReference:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName:
     m_TableEntryReference:
       m_KeyId: 0
-      m_Key: 
+      m_Key:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
@@ -193,7 +193,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 328882181620160614}
-        m_TargetAssemblyTypeName: 
+        m_TargetAssemblyTypeName:
         m_MethodName: set_text
         m_Mode: 0
         m_Arguments:
@@ -201,7 +201,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument:
           m_BoolArgument: 0
         m_CallState: 2
   references:
@@ -216,14 +216,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
   m_StringReference:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName:
     m_TableEntryReference:
       m_KeyId: 0
-      m_Key: 
+      m_Key:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
@@ -232,7 +232,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 7775950244807296741}
-        m_TargetAssemblyTypeName: 
+        m_TargetAssemblyTypeName:
         m_MethodName: set_text
         m_Mode: 0
         m_Arguments:
@@ -240,7 +240,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument:
           m_BoolArgument: 0
         m_CallState: 2
   references:
@@ -302,8 +302,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 30649d3a9faa99c48a7b1166b86bf2a0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
   m_Padding:
     m_Left: 10
     m_Right: 10
@@ -328,8 +328,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7daead95c2284345b495281a7480cbe3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
   listInteractions:
   - {fileID: 11400000, guid: 1b70968c6e2ff7744aba9704cfa71bf8, type: 2}
   - {fileID: 11400000, guid: 8b57e773a3aa22e42a81ffa881cc1cda, type: 2}
@@ -349,7 +349,7 @@ PrefabInstance:
     - target: {fileID: 935232001470459098, guid: 85991ecc7c5e29c4d94e902eb82103ae,
         type: 3}
       propertyPath: listInteractions.Array.data[0]
-      value: 
+      value:
       objectReference: {fileID: 11400000, guid: 1bc2c726c4cf9bc4abff87b4b2c068dc,
         type: 2}
     - target: {fileID: 935232001470459098, guid: 85991ecc7c5e29c4d94e902eb82103ae,
@@ -823,7 +823,7 @@ PrefabInstance:
     - target: {fileID: 7095213697085134395, guid: d2bea1a4c52c89146bb3b56070222af9,
         type: 3}
       propertyPath: interactionName
-      value: 
+      value:
       objectReference: {fileID: 2166969406713654796}
     m_RemovedComponents:
     - {fileID: 1049324489200318479, guid: d2bea1a4c52c89146bb3b56070222af9, type: 3}
@@ -850,8 +850,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
 --- !u!1001 &2656605275679865762
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -988,8 +988,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8d5e5a880d2c47e6acb82ebb7a76baeb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
 --- !u!1 &5903865015584899370 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8444413815119477384, guid: db08b77f6847f4a8eb29ee9db04444e9,
@@ -1006,8 +1006,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
 --- !u!1001 &4288994564880084524
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1153,7 +1153,7 @@ PrefabInstance:
     - target: {fileID: 7745052901829238491, guid: b01383ebcda1049008a325f2ca7e6aca,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
+      value:
       objectReference: {fileID: 11400000, guid: f2e8ae5ed8b952847956af2033abbe2a,
         type: 2}
     - target: {fileID: 7745052901829238491, guid: b01383ebcda1049008a325f2ca7e6aca,
@@ -1186,8 +1186,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
 --- !u!1001 &6822594372048639223
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1333,7 +1333,7 @@ PrefabInstance:
     - target: {fileID: 7745052901829238491, guid: b01383ebcda1049008a325f2ca7e6aca,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
+      value:
       objectReference: {fileID: 11400000, guid: 43271c4511aa8d94881f3fb38cf7430f,
         type: 2}
     m_RemovedComponents:
@@ -1355,8 +1355,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
 --- !u!1 &759664439990581769 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6063084967698345726, guid: b01383ebcda1049008a325f2ca7e6aca,
@@ -1513,7 +1513,7 @@ PrefabInstance:
     - target: {fileID: 7745052901829238491, guid: b01383ebcda1049008a325f2ca7e6aca,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
+      value:
       objectReference: {fileID: 11400000, guid: d277d3410f2470e48b9bd4aa5e5cfaed,
         type: 2}
     - target: {fileID: 7745052901829238491, guid: b01383ebcda1049008a325f2ca7e6aca,
@@ -1524,18 +1524,18 @@ PrefabInstance:
     - target: {fileID: 7745052901829238491, guid: b01383ebcda1049008a325f2ca7e6aca,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: DatabaseSync.Events.CharacterEventChannelSO, com.vamidicreations.storytime.runtime
+      value: StoryTime.Events.CharacterEventChannelSO, com.vamidicreations.storytime.runtime
       objectReference: {fileID: 0}
     - target: {fileID: 7745052901829238491, guid: b01383ebcda1049008a325f2ca7e6aca,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
-      value: 
+      value:
       objectReference: {fileID: 11400000, guid: c47f865db1845c24185ac168b94ab2e5,
         type: 2}
     - target: {fileID: 7745052901829238491, guid: b01383ebcda1049008a325f2ca7e6aca,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: DatabaseSync.Components.CharacterSO, com.vamidicreations.storytime.runtime
+      value: StoryTime.Components.CharacterSO, com.vamidicreations.storytime.runtime
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 2003806275379410564, guid: b01383ebcda1049008a325f2ca7e6aca, type: 3}
@@ -1562,5 +1562,5 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:

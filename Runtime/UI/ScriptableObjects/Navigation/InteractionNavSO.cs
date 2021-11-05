@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Localization;
 
-namespace DatabaseSync.UI
+namespace StoryTime.Components.UI.ScriptableObjects
 {
 	public enum StoryState
 	{
@@ -10,7 +10,7 @@ namespace DatabaseSync.UI
 		Complete
 	}
 
-	[CreateAssetMenu(fileName = "InteractionNav", menuName = "DatabaseSync/UI/Interaction Navigation", order = 51)]
+	[CreateAssetMenu(fileName = "InteractionNav", menuName = "StoryTime/UI/Interaction Navigation", order = 51)]
 	// ReSharper disable once InconsistentNaming
 	public class InteractionNavSO : InteractionSO
 	{

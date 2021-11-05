@@ -3,10 +3,11 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.Localization.Components;
 
-namespace DatabaseSync.UI
+namespace StoryTime.Components.UI
 {
-	using Events;
 	using Components;
+	using Components.ScriptableObjects;
+	using Events.ScriptableObjects;
 
 	public abstract class ItemBaseFiller<TStack, TItem> : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 		where TItem : ItemSO

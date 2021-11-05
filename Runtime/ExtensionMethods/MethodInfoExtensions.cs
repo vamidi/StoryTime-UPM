@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
-namespace DatabaseSync.Extensions
+namespace StoryTime.Extensions
 {
 	public static class MethodInfoExtensions
 	{

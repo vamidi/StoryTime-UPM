@@ -8,14 +8,15 @@ using UnityEngine.UIElements;
 
 using TMPro;
 
-namespace DatabaseSync.Editor.UI
+namespace StoryTime.Editor.UI
 {
+	using Configurations.ScriptableObjects;
 	public class DatabaseSyncWindow : EditorWindow
     {
-        // const string EditorPrefTabValueKey = "DatabaseSync-Window-Settings-Tab";
-        const string EditorPrefConfigValueKey = "DatabaseSync-Window-Settings-Config";
-        const string EditorPrefDialogueConfigValueKey = "DatabaseSync-Window-Dialogue-Settings-Config";
-        const string WindowTitle = "DatabaseSync Settings";
+        // const string EditorPrefTabValueKey = "StoryTime-Window-Settings-Tab";
+        const string EditorPrefConfigValueKey = "StoryTime-Window-Settings-Config";
+        const string EditorPrefDialogueConfigValueKey = "StoryTime-Window-Dialogue-Settings-Config";
+        const string WindowTitle = "StoryTime Settings";
 
         // static readonly Vector2 MinSize = new Vector2(450, 600);
         // List<ToolbarToggle> m_TabToggles;
@@ -52,13 +53,13 @@ namespace DatabaseSync.Editor.UI
 	        private set => EditorPrefs.SetString(EditorPrefDialogueConfigValueKey, value);
         }
 
-        [MenuItem("Tools/DatabaseSync/Global Settings")]
+        [MenuItem("Tools/StoryTime/Global Settings")]
         public static void ShowWindow() => OpenWindow();
 
         public static void OpenWindow()
         {
 	        var window = GetWindow<DatabaseSyncWindow>(false, WindowTitle, true);
-	        window.titleContent = new GUIContent("DatabaseSync Settings", EditorIcons.LocalizationSettings.image);
+	        window.titleContent = new GUIContent("StoryTime Settings", EditorIcons.LocalizationSettings.image);
 	        window.Show();
         }
 
@@ -96,16 +97,16 @@ namespace DatabaseSync.Editor.UI
             Debug.Assert(m_TabPanels.Count == m_TabToggles.Count, "Expected the same number of tab toggle buttons and panels.");
             */
 
-	        var dialogueConfigFile = AssetDatabase.LoadAssetAtPath<DialogueSettingConfig>(AssetDatabase.GUIDToAssetPath(SelectedDialogueConfig));
+	        var dialogueConfigFile = AssetDatabase.LoadAssetAtPath<DialogueSettingConfigSO>(AssetDatabase.GUIDToAssetPath(SelectedDialogueConfig));
 
             // First get the config instance id if existing
             var field = root.Q<ObjectField>("config-field");
-            field.objectType = typeof(DatabaseConfig);
+            field.objectType = typeof(DatabaseConfigSO);
             field.RegisterValueChangedCallback(OnConfigFileChanged);
 
             if (SelectedConfig != String.Empty)
             {
-	            var configFile = AssetDatabase.LoadAssetAtPath<DatabaseConfig>(AssetDatabase.GUIDToAssetPath(SelectedConfig));
+	            var configFile = AssetDatabase.LoadAssetAtPath<DatabaseConfigSO>(AssetDatabase.GUIDToAssetPath(SelectedConfig));
 	            if (configFile)
 	            {
 		            field.value = configFile;
@@ -129,7 +130,7 @@ namespace DatabaseSync.Editor.UI
 
             // First get the dialogue config instance id if existing
             var dialogueConfigField = root.Q<ObjectField>("dialogue-config-field");
-            dialogueConfigField.objectType = typeof(DialogueSettingConfig);
+            dialogueConfigField.objectType = typeof(DialogueSettingConfigSO);
             dialogueConfigField.RegisterValueChangedCallback(OnDialogueFileChanged);
 
             var fontField = root.Q<ObjectField>("dialogue-font-field");
@@ -220,7 +221,7 @@ namespace DatabaseSync.Editor.UI
 
         void OnConfigFileChanged(ChangeEvent<UnityEngine.Object> evt)
         {
-	        var config = evt.newValue as DatabaseConfig;
+	        var config = evt.newValue as DatabaseConfigSO;
 	        if (config != null)
 	        {
 		        // then get the config file is selected
@@ -237,7 +238,7 @@ namespace DatabaseSync.Editor.UI
 
         void OnDialogueFileChanged(ChangeEvent<UnityEngine.Object> evt)
         {
-	        var config = evt.newValue as DialogueSettingConfig;
+	        var config = evt.newValue as DialogueSettingConfigSO;
 	        if (config != null)
 	        {
 		        // then get the config file is selected
@@ -252,7 +253,7 @@ namespace DatabaseSync.Editor.UI
 	        }
         }
 
-        void SaveConfig(DatabaseConfig configFile, DialogueSettingConfig dialogueSettingConfig = null)
+        void SaveConfig(DatabaseConfigSO configFile, DialogueSettingConfigSO dialogueSettingConfig = null)
         {
 	        Debug.Log("Saving Database Config file");
 	        EditorUtility.SetDirty(configFile);

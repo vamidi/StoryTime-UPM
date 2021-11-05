@@ -1,14 +1,14 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
 
-namespace DatabaseSync.Events
+namespace StoryTime.Events.ScriptableObjects
 {
 
 	/// <summary>
 	/// This class is used for Events that have no arguments (Example: Exit game event)
 	/// </summary>
 
-	[CreateAssetMenu(menuName = "DatabaseSync/Events/Void Event Channel")]
+	[CreateAssetMenu(menuName = "StoryTime/Events/Void Event Channel")]
 	public class VoidEventChannelSO : EventChannelBaseSO
 	{
 		public UnityAction OnEventRaised;

@@ -1,9 +1,9 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace DatabaseSync.Events
+namespace StoryTime.Events.ScriptableObjects
 {
-	[CreateAssetMenu(menuName = "DatabaseSync/Events/Narrative/Emotion Event Channel")]
+	[CreateAssetMenu(menuName = "StoryTime/Events/Narrative/Emotion Event Channel")]
 
 	public class EmotionEventChannelSO : EventChannelBaseSO
 	{

@@ -1,6 +1,6 @@
 ﻿using UnityEditor.Experimental.GraphView;
 
-namespace DatabaseSync
+namespace StoryTime
 {
 	public class DialogueNode : Node
 	{

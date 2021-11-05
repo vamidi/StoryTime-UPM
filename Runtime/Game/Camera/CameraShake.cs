@@ -2,7 +2,7 @@
 using UnityEngine;
 using Cinemachine;
 
-namespace DatabaseSync.Components
+namespace StoryTime.Components
 {
     public class CameraShake : MonoBehaviour
     {

@@ -2,12 +2,9 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using UnityEngine;
-using UnityEngine.Localization;
 
-namespace DatabaseSync.Components
+namespace StoryTime.Components.ScriptableObjects
 {
-	using Game;
-
 	public enum EquipmentCategory
 	{
 		Weapon,
@@ -43,7 +40,7 @@ namespace DatabaseSync.Components
 		public StatModType statType;
 	}
 
-	[CreateAssetMenu(fileName = "Equipment", menuName = "DatabaseSync/Item Management/Equipment", order = 50)]
+	[CreateAssetMenu(fileName = "Equipment", menuName = "StoryTime/Item Management/Equipment", order = 50)]
 	// ReSharper disable once InconsistentNaming
 	public class EquipmentSO : ItemSO
 	{

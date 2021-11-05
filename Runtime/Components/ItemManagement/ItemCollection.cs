@@ -2,8 +2,9 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-namespace DatabaseSync.Components
+namespace StoryTime.Components
 {
+	using ScriptableObjects;
 	public abstract class ItemCollection<TStack, TItem> : ScriptableObject
 		where TItem: ItemSO
 		where TStack: ItemBaseStack<TItem>

@@ -1,9 +1,7 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
-using UnityEngine;
 
-namespace DatabaseSync.Binary
+namespace StoryTime.Binary
 {
     public class TableRow
     {

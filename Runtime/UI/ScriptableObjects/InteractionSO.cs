@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.Localization;
 
-namespace DatabaseSync
+namespace StoryTime.Components.UI.ScriptableObjects
 {
-	[CreateAssetMenu(fileName = "Interaction", menuName = "DatabaseSync/UI/Interaction", order = 51)]
+	[CreateAssetMenu(fileName = "Interaction", menuName = "StoryTime/UI/Interaction", order = 51)]
 	// ReSharper disable once InconsistentNaming
 	public class InteractionSO : ScriptableObject
 	{

@@ -3,7 +3,7 @@
 using UnityEngine;
 using UnityEditor;
 
-namespace DatabaseSync
+namespace StoryTime.Components.ScriptableObjects
 {
 	// This is second part of implementation of GameSceneSO
 	// This part is responsible for the editor-related functionality

@@ -6,15 +6,16 @@ using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace DatabaseSync.Editor.UI
+using StoryTime.Extensions;
+using StoryTime.Components.ScriptableObjects;
+
+namespace StoryTime.Editor.UI
 {
 	using Extensions;
-	using Components;
-	using DatabaseSync.Extensions;
 
 	public class StoryTimeEditorWindow : EditorWindow
 	{
-		const string k_EditorPrefValueKey = "DatabaseSync-ManagerTablesWindow-Selected-Tab";
+		const string k_EditorPrefValueKey = "StoryTime-ManagerTablesWindow-Selected-Tab";
 
 		List<ToolbarToggle> m_TabToggles;
 		List<EditorTab> m_TabPanels;
@@ -38,7 +39,7 @@ namespace DatabaseSync.Editor.UI
 		private string itemsPath = "Assets/Samples/StoryTime/1.4.2-preview/Essentials/ScriptableObjects/Item Management/Items";
 		// private string recipePath = "Assets/Scripts/Industry/Recipe Data";
 
-		[MenuItem("Tools/DatabaseSync/StoryTime Manager")]
+		[MenuItem("Tools/StoryTime/StoryTime Manager")]
 		public static void OpenWindow()
 		{
 			GetWindow<StoryTimeEditorWindow>().Show();

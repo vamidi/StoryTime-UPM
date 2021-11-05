@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Collections.Generic;
 
-namespace DatabaseSync.Extensions
+namespace StoryTime.Extensions
 {
 	public static class CollectionExtension
 	{

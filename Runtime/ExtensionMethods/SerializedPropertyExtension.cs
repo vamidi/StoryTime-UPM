@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 using UnityEditor;
 
-namespace DatabaseSync.Extensions
+namespace StoryTime.Extensions
 {
 	public static class SerializedPropertyExtension
 	{

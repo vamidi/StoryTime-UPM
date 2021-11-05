@@ -1,10 +1,7 @@
 ﻿
-using UnityEngine;
-
-namespace DatabaseSync.Components
+namespace StoryTime.Components.ScriptableObjects
 {
 	using Binary;
-	using Game;
 
 	public partial class CharacterClassSO
 	{

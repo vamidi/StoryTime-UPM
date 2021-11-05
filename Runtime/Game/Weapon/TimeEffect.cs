@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-namespace DatabaseSync.Components
+namespace StoryTime.Components
 {
     public class TimeEffect : MonoBehaviour
     {

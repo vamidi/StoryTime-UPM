@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using UnityEngine;
 using UnityEngine.Localization;
 
-namespace DatabaseSync.Game
+namespace StoryTime.Components
 {
 	using Attributes;
 

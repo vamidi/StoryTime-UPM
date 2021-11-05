@@ -1,17 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+
+#if UNITY_EDITOR
 using UnityEditor.Localization;
+#endif
 
 using UnityEngine;
 using UnityEngine.Localization;
 
-namespace DatabaseSync.Components
+namespace StoryTime.Components.ScriptableObjects
 {
-	using Game;
 	using Attributes;
 
-	[CreateAssetMenu(fileName = "Character Class", menuName = "DatabaseSync/Stats/Character Class", order = 0)]
+	[CreateAssetMenu(fileName = "Character Class", menuName = "StoryTime/Game/Stats/Character Class", order = 0)]
 	// ReSharper disable once InconsistentNaming
 	public partial class CharacterClassSO : LocalizationBehaviour
 	{
@@ -20,7 +22,12 @@ namespace DatabaseSync.Components
 		public ReadOnlyCollection<CharacterStats> Stats => characterStats.AsReadOnly();
 
 		[SerializeField] private LocalizedString className;
-		[SerializeField, ReadOnly] protected string expCurve;
+		[
+			SerializeField,
+#if UNITY_EDITOR
+			ReadOnly
+#endif
+		] protected string expCurve;
 		[SerializeField] private List<CharacterStats> characterStats;
 		[SerializeField] private List<SkillSO> skills;
 

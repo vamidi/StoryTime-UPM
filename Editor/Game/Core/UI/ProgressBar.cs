@@ -1,7 +1,7 @@
 ﻿// using UnityEngine;
 using UnityEditor;
 
-namespace DatabaseSync.Game.UI
+namespace StoryTime.Game.UI
 {
 	// public class ProgressBar
 	// {

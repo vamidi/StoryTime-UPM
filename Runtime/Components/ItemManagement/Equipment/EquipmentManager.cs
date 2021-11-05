@@ -1,9 +1,10 @@
-﻿
-using DatabaseSync.Events;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace DatabaseSync.Components
+namespace StoryTime.Components
 {
+	using ScriptableObjects;
+	using Events.ScriptableObjects;
+
 	public class EquipmentManager : MonoBehaviour
 	{
 		// We have a character

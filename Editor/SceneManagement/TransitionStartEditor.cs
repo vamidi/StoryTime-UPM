@@ -1,13 +1,12 @@
-﻿// using System.Collections;
-// using System.Collections.Generic;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 
-namespace DatabaseSync.Editor
-{
-	using Components;
+using StoryTime.Components;
+using StoryTime.Components.ScriptableObjects;
 
-    [CustomEditor(typeof(TransitionPoint))]
+namespace StoryTime.Editor.Components
+{
+	[CustomEditor(typeof(TransitionPoint))]
     public class TransitionStartEditor : UnityEditor.Editor
     {
         SerializedProperty m_TransitioningGameObjectProp;

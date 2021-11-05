@@ -9,11 +9,12 @@ using UnityEngine.Networking;
 
 using Newtonsoft.Json.Linq;
 
-namespace DatabaseSync.Editor
+namespace StoryTime.Editor
 {
-	using Database;
-	using Binary;
 	using UI;
+	using Binary;
+	using Database;
+	using Configurations.ScriptableObjects;
 
 	[Serializable]
 	class DatabaseToken
@@ -130,7 +131,7 @@ namespace DatabaseSync.Editor
 			// Debug.Log(DATABASE_TOKEN.expire_time < DateTime.Now.Ticks);
 			if (DATABASE_TOKEN.expire_time < DateTime.Now.Ticks)
 			{
-				DatabaseConfig configFile = Fetch();
+				DatabaseConfigSO configFile = Fetch();
 
 				UnityWebRequest wr = UnityWebRequest.Get(configFile.DatabaseURL + "me");
 
@@ -158,7 +159,7 @@ namespace DatabaseSync.Editor
 		// First try to login
 		private static void Login(Action callback)
 		{
-			DatabaseConfig configFile = Fetch();
+			DatabaseConfigSO configFile = Fetch();
 
 			if (string.IsNullOrEmpty(configFile.Email) || string.IsNullOrEmpty(configFile.Password))
 			{
@@ -207,7 +208,7 @@ namespace DatabaseSync.Editor
 
 		private static void Refresh(Action callback)
 		{
-			DatabaseConfig configFile = Fetch();
+			DatabaseConfigSO configFile = Fetch();
 
 			if (string.IsNullOrEmpty(configFile.Email) || string.IsNullOrEmpty(configFile.Password))
 			{
@@ -272,7 +273,7 @@ namespace DatabaseSync.Editor
 			// check if we are logged in and then fetch data
 			CheckLogin(() =>
 			{
-				DatabaseConfig configFile = Fetch();
+				DatabaseConfigSO configFile = Fetch();
 				UnityWebRequest wr = UnityWebRequest.Get($"{configFile.DatabaseURL}firebase/projects/{configFile.ProjectID}/tables/{tableID}");
 
 				wr.timeout = 60;
@@ -336,7 +337,7 @@ namespace DatabaseSync.Editor
 				// auto& PropertyModule = FModuleManager::LoadModuleChecked< FPropertyEditorModule >("PropertyEditor");
 				// PropertyModule.NotifyCustomizationModuleChanged();
 #endif
-			DatabaseConfig config = Fetch();
+			DatabaseConfigSO config = Fetch();
 			if (config && !string.IsNullOrEmpty(config.dataPath))
 			{
 				// Update timestamp
@@ -352,9 +353,9 @@ namespace DatabaseSync.Editor
 			_canFetch = true;
 		}
 
-		public static DatabaseConfig Fetch()
+		public static DatabaseConfigSO Fetch()
 		{
-			var configFile = AssetDatabase.LoadAssetAtPath<DatabaseConfig>(AssetDatabase.GUIDToAssetPath(DatabaseSyncWindow.SelectedConfig));
+			var configFile = AssetDatabase.LoadAssetAtPath<DatabaseConfigSO>(AssetDatabase.GUIDToAssetPath(DatabaseSyncWindow.SelectedConfig));
 			if (configFile == null)
 				throw new ArgumentNullException($"{nameof(configFile)} must not be null.", nameof(configFile));
 

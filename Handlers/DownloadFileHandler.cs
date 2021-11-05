@@ -1,8 +1,9 @@
-﻿using UnityEngine;
-using System.IO;
+﻿using System.IO;
+
+using UnityEngine;
 using UnityEngine.Networking;
 
-namespace DatabaseSync.Handlers
+namespace StoryTime.Handlers
 {
 	public class DownloadFileHandler : DownloadHandlerScript
 	{
@@ -32,7 +33,7 @@ namespace DatabaseSync.Handlers
 		{
 			_contentLength = contentLength;
 		}
-		 
+
 		protected override bool ReceiveData (byte[] data, int dataLength)
 		{
 			if(data == null || data.Length == 0) return false;

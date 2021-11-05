@@ -1,12 +1,9 @@
 using System;
-using System.Collections.Generic;
-// using System.IO;
-using System.Linq;
 using System.Text;
-using DatabaseSync.Database;
-// using DatabaseSync.ResourceManagement.Util;
+using System.Linq;
+using System.Collections.Generic;
+
 using Newtonsoft.Json.Linq;
-// using System.Threading.Tasks;
 
 using UnityEditor;
 using UnityEditor.Localization;
@@ -14,15 +11,13 @@ using UnityEditor.Localization.Reporting;
 using UnityEditor.Localization.Plugins.Google.Columns;
 
 using UnityEngine;
-// using UnityEngine.Localization;
-// using UnityEngine.Localization.Tables;
+
 using static UnityEngine.Localization.Tables.SharedTableData;
 using Object = UnityEngine.Object;
 
-namespace DatabaseSync.Localization.Plugins.JSON
+namespace StoryTime.Editor.Localization.Plugins.JSON
 {
 	using Binary;
-	using Fields;
 
 	public class JsonTableSync
 	{
@@ -35,9 +30,9 @@ namespace DatabaseSync.Localization.Plugins.JSON
 		/// The sheets provider is responsible for providing the SheetsService and configuring the type of access.
 		/// <seealso cref="DatabaseConfig"/>.
 		/// </summary>
-		public ITableService SheetsService { get; private set; }
+		public Configurations.ScriptableObjects.ITableService SheetsService { get; private set; }
 
-		protected internal virtual bool UsingApiKey => (SheetsService as DatabaseConfig)?.Authentication == true;
+		protected internal virtual bool UsingApiKey => (SheetsService as Configurations.ScriptableObjects.DatabaseConfigSO)?.Authentication == true;
 
 		/// <summary>
 		/// The Id of the Google Sheet. This can be found by examining the url:
@@ -50,7 +45,7 @@ namespace DatabaseSync.Localization.Plugins.JSON
 		/// Creates a new instance of a GoogleSheets connection.
 		/// </summary>
 		/// <param name="provider">The Google Sheets service provider. See <see cref="DatabaseConfig"/> for a default implementation.</param>
-		public JsonTableSync(ITableService provider)
+		public JsonTableSync(Configurations.ScriptableObjects.ITableService provider)
 		{
 			SheetsService = provider ?? throw new ArgumentNullException(nameof(provider));
 		}
@@ -113,7 +108,7 @@ namespace DatabaseSync.Localization.Plugins.JSON
 
 				reporter?.ReportProgress("Sending request", 0.2f);
 
-				var table = TableDatabase.Get.GetTable(TableId);
+				var table = Database.TableDatabase.Get.GetTable(TableId);
 
 				reporter?.ReportProgress("Validating response", 0.5f);
 

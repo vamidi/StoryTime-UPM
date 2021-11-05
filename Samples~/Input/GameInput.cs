@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Utilities;
 
-namespace DatabaseSync.Input
+namespace StoryTime.Input
 {
     public class @GameInput : IInputActionCollection, IDisposable
     {

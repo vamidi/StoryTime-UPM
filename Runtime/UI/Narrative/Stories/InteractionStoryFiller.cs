@@ -4,9 +4,9 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.Localization.Components;
 
-namespace DatabaseSync.UI
+namespace StoryTime.Components.UI
 {
-	using Components;
+	using Components.ScriptableObjects;
 	public class InteractionStoryFiller : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 	{
 		public StorySO Story => m_Story;

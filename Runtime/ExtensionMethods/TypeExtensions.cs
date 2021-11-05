@@ -4,7 +4,7 @@ using System.Text;
 using System.Reflection;
 using System.Collections.Generic;
 
-namespace DatabaseSync.Extensions
+namespace StoryTime.Extensions
 {
 	public static class TypeExtensions
 	{

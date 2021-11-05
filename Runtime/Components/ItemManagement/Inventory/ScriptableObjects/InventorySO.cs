@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-namespace DatabaseSync.Components
+namespace StoryTime.Components.ScriptableObjects
 {
 	// Created with collaboration from:
 	// https://forum.unity.com/threads/inventory-system.980646/
-	[CreateAssetMenu(fileName = "inventory", menuName = "DatabaseSync/Item Management/Inventory", order = 51)]
+	[CreateAssetMenu(fileName = "inventory", menuName = "StoryTime/Item Management/Inventory", order = 51)]
 	// ReSharper disable once InconsistentNaming
 	public class InventorySO : ItemCollection<ItemStack, ItemSO>
 	{

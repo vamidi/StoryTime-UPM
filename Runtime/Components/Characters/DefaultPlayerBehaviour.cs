@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace DatabaseSync.Components.Characters
+namespace StoryTime.Components
 {
     public class DefaultPlayerBehaviour : MonoBehaviour
     {

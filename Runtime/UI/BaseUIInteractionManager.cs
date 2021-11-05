@@ -5,8 +5,9 @@ using UnityEngine.Localization.Components;
 
 using TMPro;
 
-namespace DatabaseSync.UI
+namespace StoryTime.Components.UI
 {
+	using ScriptableObjects;
 	public abstract class BaseUIInteractionManager<T, TB> : MonoBehaviour where T : InteractionSO where TB : BaseUIInteractionItemFiller<T>
 	{
 		[SerializeField] protected List<T> listInteractions;

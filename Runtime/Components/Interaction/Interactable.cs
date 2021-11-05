@@ -1,8 +1,9 @@
-using DatabaseSync.Components;
 using UnityEngine;
 
-namespace DatabaseSync
+namespace StoryTime.Components
 {
+	using ScriptableObjects;
+
 	public class Interactable : MonoBehaviour
 	{
 		public uint GetID => nonPlayableCharacter ? nonPlayableCharacter.ID : uint.MaxValue;

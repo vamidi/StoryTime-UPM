@@ -10,19 +10,17 @@ using UnityEngine.Localization;
 using UnityEditor.Localization;
 #endif
 
-namespace DatabaseSync.Components
+namespace StoryTime.Components.ScriptableObjects
 {
 	using Binary;
 	using Database;
 	using Attributes;
 
-
-
 	/// <summary>
 	/// A Dialogue is a list of consecutive DialogueLines. They play in sequence using the input of the player to skip forward.
 	/// In future versions it might contain support for branching conversations.
 	/// </summary>
-	[CreateAssetMenu(fileName = "newStory", menuName = "DatabaseSync/Stories/Story", order = 51)]
+	[CreateAssetMenu(fileName = "newStory", menuName = "StoryTime/Stories/Story", order = 51)]
 	// ReSharper disable once InconsistentNaming
 	public partial class StorySO : SimpleStorySO
 	{

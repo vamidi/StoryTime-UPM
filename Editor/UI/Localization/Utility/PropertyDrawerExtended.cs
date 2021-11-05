@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-namespace DatabaseSync.Localization.UI
+namespace StoryTime.Editor.Localization.UI
 {
     /// <summary>
     /// Supports drawing properties for lists.

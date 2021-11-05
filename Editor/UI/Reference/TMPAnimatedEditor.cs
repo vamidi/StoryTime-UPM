@@ -3,11 +3,9 @@ using UnityEditor;
 
 using TMPro.EditorUtilities;
 
-namespace DatabaseSync.Editor.UI
+namespace StoryTime.Editor.UI
 {
-	using Components;
-
-	[CustomEditor(typeof(TMPVertexAnimator), true)]
+	[CustomEditor(typeof(StoryTime.Components.TMPVertexAnimator), true)]
 	[CanEditMultipleObjects]
 	public class TMPAnimatedEditor : TMP_BaseEditorPanel
 	{

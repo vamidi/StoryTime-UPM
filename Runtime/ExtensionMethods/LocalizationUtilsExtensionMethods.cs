@@ -7,7 +7,7 @@ using UnityEditor;
 using UnityEditor.Localization;
 #endif
 
-namespace DatabaseSync.Extensions.Localization
+namespace StoryTime.Extensions.Localization
 {
 	public static class LocalizationUtilsExtensionMethods
 	{

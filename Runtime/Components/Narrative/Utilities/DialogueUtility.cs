@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 
 using UnityEngine;
 
-namespace DatabaseSync.Components
+namespace StoryTime.Components
 {
 	public enum DialogueCommandType
 	{

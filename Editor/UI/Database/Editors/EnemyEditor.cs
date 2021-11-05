@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
-
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 
-namespace DatabaseSync.Editor.UI
+using StoryTime.Components.ScriptableObjects;
+
+namespace StoryTime.Editor.UI
 {
-	public class EnemyEditor : EditorTab<Components.EnemySO>
+	public class EnemyEditor : EditorTab<EnemySO>
 	{
 		internal new class UxmlFactory : UxmlFactory<EnemyEditor> {}
 
@@ -19,7 +19,7 @@ namespace DatabaseSync.Editor.UI
 			Initialize(listView);
 		}
 
-		protected override void DrawSelection(Box cardInfo, Components.EnemySO enemy)
+		protected override void DrawSelection(Box cardInfo, EnemySO enemy)
 		{
 			SerializedProperty serializedProperty = serializedObject.GetIterator();
 			serializedProperty.Next(true);

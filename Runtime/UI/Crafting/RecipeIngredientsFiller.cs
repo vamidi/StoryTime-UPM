@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-namespace DatabaseSync.UI
+namespace StoryTime.Components.UI
 {
 	using Components;
 	public class RecipeIngredientsFiller : MonoBehaviour

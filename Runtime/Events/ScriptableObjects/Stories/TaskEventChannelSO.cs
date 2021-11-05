@@ -1,25 +1,25 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace DatabaseSync.Events
+namespace StoryTime.Events.ScriptableObjects
 {
 	public enum TaskEventType
 	{
 		CurrentCharacterRevision
 	}
 
-	[CreateAssetMenu(menuName = "DatabaseSync/Events/Stories/Task Event Channel")]
+	[CreateAssetMenu(menuName = "StoryTime/Events/Stories/Task Event Channel")]
 	// ReSharper disable once InconsistentNaming
 	public class TaskEventChannelSO : EventChannelBaseSO
 	{
-		public UnityAction<Components.TaskSO, Components.TaskEventSO> OnEventRaised;
+		public UnityAction<Components.ScriptableObjects.TaskSO, Components.ScriptableObjects.TaskEventSO> OnEventRaised;
 
 		/// <summary>
 		///
 		/// </summary>
 		/// <param name="task"></param>
 		/// <param name="value"></param>
-		public void RaiseEvent(Components.TaskSO task, Components.TaskEventSO value)
+		public void RaiseEvent(Components.ScriptableObjects.TaskSO task, Components.ScriptableObjects.TaskEventSO value)
 		{
 			OnEventRaised?.Invoke(task, value);
 		}

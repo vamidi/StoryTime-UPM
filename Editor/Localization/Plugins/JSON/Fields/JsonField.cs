@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
-using UnityEditor.Localization;
-using UnityEditor.Localization.Plugins.Google.Columns;
 using UnityEngine;
 using UnityEngine.Localization.Tables;
 
-namespace DatabaseSync.Localization.Plugins.JSON.Fields
+using UnityEditor.Localization;
+using UnityEditor.Localization.Plugins.Google.Columns;
+
+namespace StoryTime.Editor.Localization.Plugins.JSON.Fields
 {
 	[Serializable]
 	public class JsonField : SheetColumn, IPullKeyColumn

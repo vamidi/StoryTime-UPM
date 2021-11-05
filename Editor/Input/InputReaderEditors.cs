@@ -1,11 +1,9 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-namespace DatabaseSync.Editor.Input
+namespace StoryTime.Editor.Input
 {
-	using DatabaseSync.Input;
-
-	[CustomEditor(typeof(BaseInputReader))]
+	[CustomEditor(typeof(StoryTime.Input.ScriptableObjects.BaseInputReader))]
 	public class InputReaderEditor : UnityEditor.Editor
 	{
 		public override void OnInspectorGUI()
@@ -15,7 +13,7 @@ namespace DatabaseSync.Editor.Input
 			if (!Application.isPlaying)
 				return;
 
-			ScriptableObjectHelper.GenerateButtonsForEvents<BaseInputReader>(target);
+			ScriptableObjectHelper.GenerateButtonsForEvents<StoryTime.Input.ScriptableObjects.BaseInputReader>(target);
 		}
 	}
 }

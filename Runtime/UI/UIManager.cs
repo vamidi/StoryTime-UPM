@@ -3,14 +3,15 @@ using UnityEngine;
 
 using DG.Tweening;
 
-namespace DatabaseSync.UI
+namespace StoryTime.Components.UI
 {
 	using Components;
-	using Events;
+	using Components.ScriptableObjects;
+	using Events.ScriptableObjects;
 
 	public class UIManager : MonoBehaviour
 	{
-		[SerializeField] private Input.BaseInputReader inputReader;
+		[SerializeField] private Input.ScriptableObjects.BaseInputReader inputReader;
 
 		[Header("Listening on channels")]
 

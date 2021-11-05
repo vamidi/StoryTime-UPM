@@ -1,14 +1,10 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-
-using StoryTime.Game;
-
-namespace DatabaseSync
+namespace StoryTime.Components
 {
-	using Components;
-	using Input;
-	using Events;
+	using Input.ScriptableObjects;
+	using Events.ScriptableObjects;
 
 	public enum InteractionType
 	{

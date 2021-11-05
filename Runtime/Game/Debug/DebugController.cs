@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace DatabaseSync.Game.Components
+namespace StoryTime.Components.Debugging
 {
-	using Input;
+	using Input.ScriptableObjects;
+
 	public class DebugController : MonoBehaviour
 	{
 		public static DebugCommand HELP;

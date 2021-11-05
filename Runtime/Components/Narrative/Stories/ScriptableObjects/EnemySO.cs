@@ -1,9 +1,9 @@
 using System;
 using UnityEngine;
 
-namespace DatabaseSync.Components
+namespace StoryTime.Components.ScriptableObjects
 {
-	[CreateAssetMenu(fileName = "newEnemy", menuName = "DatabaseSync/Stories/Enemy")]
+	[CreateAssetMenu(fileName = "newEnemy", menuName = "StoryTime/Stories/Enemy")]
 	public class EnemySO : TableBehaviour
 	{
 		public string EnemyName { get => enemyName; set => enemyName = value; }

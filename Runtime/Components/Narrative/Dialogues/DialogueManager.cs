@@ -5,10 +5,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 
-namespace DatabaseSync.Components
+namespace StoryTime.Components
 {
-	using Input;
-	using Events;
+	using ScriptableObjects;
+	using Input.ScriptableObjects;
+	using Events.ScriptableObjects;
 
 	/// <summary>
 	/// The Dialogue manager keeps track of the dialogue in the game.

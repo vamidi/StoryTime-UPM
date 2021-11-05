@@ -1,13 +1,13 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace DatabaseSync.Events
+namespace StoryTime.Events.ScriptableObjects
 {
-	[CreateAssetMenu(menuName = "DatabaseSync/Events/Stories/Enemy Channel")]
+	[CreateAssetMenu(menuName = "StoryTime/Events/Stories/Enemy Channel")]
 	public class EnemyChannelSO : ScriptableObject
 	{
-		public UnityAction<Components.EnemySO> OnEventRaised;
-		public void RaiseEvent(Components.EnemySO enemySo)
+		public UnityAction<Components.ScriptableObjects.EnemySO> OnEventRaised;
+		public void RaiseEvent(Components.ScriptableObjects.EnemySO enemySo)
 		{
 			OnEventRaised?.Invoke(enemySo);
 		}

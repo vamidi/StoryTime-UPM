@@ -2,9 +2,11 @@ using UnityEngine;
 
 using TMPro;
 
-namespace DatabaseSync.UI
+namespace StoryTime.Components.UI
 {
 	using Components;
+	using Components.ScriptableObjects;
+
 	public class IngredientFiller : ItemBaseFiller<ItemStack, ItemSO> // We only need the images in our case.
 	{
 		[SerializeField] protected TextMeshProUGUI itemCount;

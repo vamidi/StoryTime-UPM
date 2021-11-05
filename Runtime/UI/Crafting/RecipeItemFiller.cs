@@ -1,10 +1,12 @@
 using UnityEngine;
 using UnityEngine.Localization.Components;
 
-namespace DatabaseSync.UI
+namespace StoryTime.Components.UI
 {
-	using Events;
 	using Components;
+	using Components.ScriptableObjects;
+	using Events.ScriptableObjects;
+
 	public class RecipeItemFiller : ItemBaseFiller<ItemRecipeStack, ItemRecipeSO>
 	{
 		[SerializeField] protected LocalizeStringEvent itemDescription;

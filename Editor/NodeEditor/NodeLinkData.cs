@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DatabaseSync
+namespace StoryTime.Editor
 {
 	[Serializable]
 	public class NodeLinkData

@@ -3,9 +3,12 @@ using System.Linq;
 
 using UnityEngine;
 
-namespace DatabaseSync
+namespace StoryTime.Components
 {
-	using Events;
+	using Scripts;
+	using ScriptableObjects;
+	using Events.ScriptableObjects;
+
 	/// <summary>
 	/// BaseSpawnSystem listens to the scene ready channel to see if the scene is loaded
 	/// when the scene is loaded it calls the function to let the

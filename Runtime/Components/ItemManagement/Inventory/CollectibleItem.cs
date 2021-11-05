@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace DatabaseSync.Components
+namespace StoryTime.Components
 {
 	public class CollectibleItem : MonoBehaviour
 	{
@@ -11,7 +11,7 @@ namespace DatabaseSync.Components
 			return currentItem;
 		}
 
-		public void SetItem(ItemSO item, int amount)
+		public void SetItem(ScriptableObjects.ItemSO item, int amount)
 		{
 			currentItem = new ItemStack(item, amount);
 		}

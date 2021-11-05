@@ -4,10 +4,10 @@ using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Components;
 
-namespace DatabaseSync.UI
+namespace StoryTime.Components.UI
 {
-	using Events;
-	using Components;
+	using Events.ScriptableObjects;
+	using Components.ScriptableObjects;
 
 	public class UIStoryManager : MonoBehaviour
 	{

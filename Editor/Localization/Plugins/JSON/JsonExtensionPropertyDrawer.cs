@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using DatabaseSync.ResourceManagement.Util;
 using UnityEngine;
 
 using UnityEditor;
@@ -9,10 +8,14 @@ using UnityEditor.Localization;
 using UnityEditor.Localization.Reporting;
 using UnityEditor.Localization.Plugins.Google.Columns;
 
-namespace DatabaseSync.Localization.Plugins.JSON
+using StoryTime.Localization;
+
+namespace StoryTime.Editor.Localization.Plugins.JSON
 {
 	using UI;
 	using Fields;
+	using ResourceManagement.Util;
+	using Configurations.ScriptableObjects;
 
 	class JsonExtensionPropertyDrawerData
 	{
@@ -30,7 +33,7 @@ namespace DatabaseSync.Localization.Plugins.JSON
 
 		public Task PushTask;
 
-		public DatabaseConfig Provider => m_JsonServiceProvider.objectReferenceValue as DatabaseConfig;
+		public DatabaseConfigSO Provider => m_JsonServiceProvider.objectReferenceValue as DatabaseConfigSO;
 
 		// public string m_NewJsonName;
 	}
