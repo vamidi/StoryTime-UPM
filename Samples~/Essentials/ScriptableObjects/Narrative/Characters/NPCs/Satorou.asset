@@ -15,13 +15,35 @@ MonoBehaviour:
   guid: 2519bba1230af58458cbc5af932a827d
   id: 0
   tableName: characters
-  linkedColumn: 
   dropdownColumn: name
   linkID: 4294967295
-  actorName:
+  linkedColumn: 
+  linkedTable: 
+  overrideTable: 0
+  collection: {fileID: 11400000, guid: 1bfe3c68d06e45441ad3e3e4dfd9b659, type: 2}
+  characterName:
     m_TableReference:
       m_TableCollectionName: GUID:4e531e60398601f459790a3ae2655bd9
     m_TableEntryReference:
       m_KeyId: 0
       m_Key: 1
     m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  characterDescription:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  characterClass: {fileID: 11400000, guid: b9050dfbce426dc4d8f53e0ec56d4b95, type: 2}
+  initialLevel: 1
+  currentLevel: 1
+  maxLevel: 99
+  equipments:
+  - {fileID: 11400000, guid: 1df4812ae14238a4b93743febe149146, type: 2}
+  references:
+    version: 1

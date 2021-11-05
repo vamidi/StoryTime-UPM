@@ -19,50 +19,80 @@ MonoBehaviour:
     m_Items: []
   m_TableData:
   - m_Id: 1
-    m_Localized: 
+    m_Localized: Restores 9% of Max HP to the selected character.
     m_Metadata:
       m_Items:
       - id: 0
   - m_Id: 2
-    m_Localized: 
+    m_Localized: Restores 12% of Max HP to the selected character.
     m_Metadata:
       m_Items:
       - id: 1
   - m_Id: 3
-    m_Localized: 
+    m_Localized: Restores 20% of Max HP to the selected character.
     m_Metadata:
       m_Items:
       - id: 2
   - m_Id: 4
-    m_Localized: 
+    m_Localized: This is an editable item
     m_Metadata:
       m_Items:
       - id: 3
   - m_Id: 5
-    m_Localized: 
+    m_Localized: This is an editable item
     m_Metadata:
       m_Items:
       - id: 4
   - m_Id: 6
-    m_Localized: Restores 30 HP
+    m_Localized: A block of messy masonry made of intricately interlocked rocks.
     m_Metadata:
       m_Items:
       - id: 5
   - m_Id: 7
-    m_Localized: Material item
+    m_Localized: A sword for combat that is made of wood.
     m_Metadata:
       m_Items:
       - id: 6
   - m_Id: 8
-    m_Localized: Wood that was chopped from a tree.
+    m_Localized: A sword made out of apples and wood.
     m_Metadata:
       m_Items:
       - id: 7
   - m_Id: 9
-    m_Localized: Wall made of wood
+    m_Localized: Log made out of wood.
     m_Metadata:
       m_Items:
       - id: 8
+  - m_Id: 10
+    m_Localized: A sword embraced with lightning from Thor.
+    m_Metadata:
+      m_Items:
+      - id: 9
+  - m_Id: 11
+    m_Localized: 'A log that can only be found on a specific location '
+    m_Metadata:
+      m_Items:
+      - id: 10
+  - m_Id: 12
+    m_Localized: Key to open doors.
+    m_Metadata:
+      m_Items:
+      - id: 11
+  - m_Id: 13
+    m_Localized: Wood
+    m_Metadata:
+      m_Items:
+      - id: 12
+  - m_Id: 14
+    m_Localized: Used to make items from iron
+    m_Metadata:
+      m_Items:
+      - id: 13
+  - m_Id: 15
+    m_Localized: Useful to make items from iron.
+    m_Metadata:
+      m_Items:
+      - id: 14
   references:
     version: 1
     00000000:
@@ -101,3 +131,27 @@ MonoBehaviour:
       type: {class: Comment, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
       data:
         m_CommentText: 9
+    00000009:
+      type: {class: Comment, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_CommentText: 10
+    0000000A:
+      type: {class: Comment, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_CommentText: 11
+    0000000B:
+      type: {class: Comment, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_CommentText: 12
+    0000000C:
+      type: {class: Comment, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_CommentText: 13
+    0000000D:
+      type: {class: Comment, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_CommentText: 14
+    0000000E:
+      type: {class: Comment, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_CommentText: 15

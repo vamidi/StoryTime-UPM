@@ -44,25 +44,55 @@ MonoBehaviour:
       m_Items:
       - id: 4
   - m_Id: 6
-    m_Localized: Medicinal Herb
+    m_Localized: Stone Wall
     m_Metadata:
       m_Items:
       - id: 5
   - m_Id: 7
-    m_Localized: Medicinal Leaf
+    m_Localized: Wooden sword
     m_Metadata:
       m_Items:
       - id: 6
   - m_Id: 8
-    m_Localized: Wood
+    m_Localized: Apple Sword
     m_Metadata:
       m_Items:
       - id: 7
   - m_Id: 9
-    m_Localized: Wooden Wall
+    m_Localized: Wooden Log
     m_Metadata:
       m_Items:
       - id: 8
+  - m_Id: 10
+    m_Localized: Electro sword
+    m_Metadata:
+      m_Items:
+      - id: 9
+  - m_Id: 11
+    m_Localized: Super Log
+    m_Metadata:
+      m_Items:
+      - id: 10
+  - m_Id: 12
+    m_Localized: Key
+    m_Metadata:
+      m_Items:
+      - id: 11
+  - m_Id: 13
+    m_Localized: Wood
+    m_Metadata:
+      m_Items:
+      - id: 12
+  - m_Id: 14
+    m_Localized: Iron ingot
+    m_Metadata:
+      m_Items:
+      - id: 13
+  - m_Id: 15
+    m_Localized: Iron ingot
+    m_Metadata:
+      m_Items:
+      - id: 14
   references:
     version: 1
     00000000:
@@ -101,3 +131,27 @@ MonoBehaviour:
       type: {class: Comment, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
       data:
         m_CommentText: 9
+    00000009:
+      type: {class: Comment, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_CommentText: 10
+    0000000A:
+      type: {class: Comment, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_CommentText: 11
+    0000000B:
+      type: {class: Comment, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_CommentText: 12
+    0000000C:
+      type: {class: Comment, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_CommentText: 13
+    0000000D:
+      type: {class: Comment, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_CommentText: 14
+    0000000E:
+      type: {class: Comment, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_CommentText: 15

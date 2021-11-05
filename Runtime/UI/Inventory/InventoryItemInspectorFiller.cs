@@ -14,7 +14,6 @@ namespace DatabaseSync.UI
 		public override void FillItemInspector(ItemStack itemToInspect, ItemInventoryActionType inventoryActionType, bool[] availabilityArray = null)
 		{
 			inspectorDescriptionFiller.FillDescription(itemToInspect);
-
 		}
 	}
 }

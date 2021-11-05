@@ -115,9 +115,8 @@ namespace DatabaseSync.Components
 
 				Argument nextLevelArg = new Argument("level", currentLevel + 1 );
 				eh = new Expression(characterClass.ExpCurve, nextLevelArg);
-				Debug.Log(eh.calculate());
 				var difference = currentLevel != 1 ? eh.calculate() - maxExp: currentExp;
-				Debug.Log(difference);
+				// Debug.Log(difference);
 			}
 		}
 

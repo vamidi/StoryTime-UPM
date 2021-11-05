@@ -91,7 +91,8 @@ namespace DatabaseSync.UI
 
 		protected override List<ItemStack> FindAll()
 		{
-			return currentInventory.Items.FindAll(o => o.Item.ItemType.TabType == SelectedTab);
+			return currentInventory.Items;
+			// return currentInventory.Items.FindAll(o => o.Item.ItemType.TabType == SelectedTab);
 		}
 
 		protected override void ChangeTabEventRaised(InventoryTabTypeSO tabType)
@@ -102,7 +103,8 @@ namespace DatabaseSync.UI
 
 		protected override void HideItemInformation()
 		{
-			buttonFiller.gameObject.SetActive(false);
+			if(buttonFiller)
+				buttonFiller.gameObject.SetActive(false);
 			inspectorFiller.HideItemInspector();
 		}
 
@@ -128,15 +130,20 @@ namespace DatabaseSync.UI
 
 					// check if interactable
 					bool isInteractable = true;
-					buttonFiller.gameObject.SetActive(true);
+
+					if(buttonFiller)
+						buttonFiller.gameObject.SetActive(true);
+
 					if (itemToInspect.Item.ItemType.ActionType == ItemInventoryActionType.DoNothing)
 					{
 						isInteractable = false;
-						buttonFiller.gameObject.SetActive(false);
+						if(buttonFiller)
+							buttonFiller.gameObject.SetActive(false);
 					}
 
 					// Set button
-					buttonFiller.FillInventoryButtons(itemToInspect.Item.ItemType, isInteractable);
+					if(buttonFiller)
+						buttonFiller.FillInventoryButtons(itemToInspect.Item.ItemType, isInteractable);
 					break;
 				}
 			}

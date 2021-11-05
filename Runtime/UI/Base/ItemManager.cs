@@ -55,11 +55,34 @@ namespace DatabaseSync.UI
 		[SerializeField] protected TabEventChannelSO changeTabEvent;
 
 		[SerializeField] protected ItemEventChannelSO selectItemEvent;
+		[SerializeField] protected VoidEventChannelSO closeInventoryScreenEvent;
 		[SerializeField] protected VoidEventChannelSO onInteractionEndedEvent;
 		[SerializeField] private VoidEventChannelSO actionButtonClicked;
 
 		private InventoryTabTypeSO m_SelectedTab;
 		private int m_SelectedItemId = -1;
+
+		protected virtual void OnEnable()
+		{
+			// Check if the event exists to avoid errors
+			if (actionButtonClicked != null)
+			{
+				actionButtonClicked.OnEventRaised += ActionButtonEventRaised;
+			}
+
+			if (closeInventoryScreenEvent != null)
+				closeInventoryScreenEvent.OnEventRaised += HideItemInformation;
+
+			if (tabTypesList.Count > 0) ChangeTabEventRaised(tabTypesList[0]);
+		}
+
+		protected virtual void OnDisable()
+		{
+			if (actionButtonClicked != null)
+			{
+				actionButtonClicked.OnEventRaised -= ActionButtonEventRaised;
+			}
+		}
 
 		public void FillInventory(TabType selectedTabType = TabType.None)
 		{
@@ -79,16 +102,16 @@ namespace DatabaseSync.UI
 			}
 
 
-			if (m_SelectedTab != null)
+			// if (m_SelectedTab != null)
 			{
 				FillTypeTabs(tabTypesList, m_SelectedTab);
 				List<TStack> listItemsToShow = FindAll();
 				FillItems(listItemsToShow);
 			}
-			else
-			{
-				Debug.Log("There's no item tab type ");
-			}
+			// else
+			// {
+			// Debug.Log("There's no item tab type ");
+			// }
 		}
 
 		protected abstract List<TStack> FindAll();
@@ -99,25 +122,6 @@ namespace DatabaseSync.UI
 		{
 			//
 			currentTabCategory.StringReference = tabType.TabName;
-		}
-
-		protected virtual void OnEnable()
-		{
-			// Check if the event exists to avoid errors
-			if (actionButtonClicked != null)
-			{
-				actionButtonClicked.OnEventRaised += ActionButtonEventRaised;
-			}
-
-			if (tabTypesList.Count > 0) ChangeTabEventRaised(tabTypesList[0]);
-		}
-
-		protected virtual void OnDisable()
-		{
-			if (actionButtonClicked != null)
-			{
-				actionButtonClicked.OnEventRaised -= ActionButtonEventRaised;
-			}
 		}
 
 		protected virtual void HideItemInformation() { }
@@ -144,7 +148,8 @@ namespace DatabaseSync.UI
 
 		private void FillTypeTabs(List<InventoryTabTypeSO> typesList, InventoryTabTypeSO selectedType)
 		{
-			tabsFiller.FillTabs(typesList, selectedType, changeTabEvent);
+			if(tabsFiller)
+				tabsFiller.FillTabs(typesList, selectedType, changeTabEvent);
 		}
 
 		private void FillItems(List<TStack> listItemsToShow)

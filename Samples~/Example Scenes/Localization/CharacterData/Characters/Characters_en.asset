@@ -33,6 +33,36 @@ MonoBehaviour:
     m_Metadata:
       m_Items:
       - id: 2
+  - m_Id: 4
+    m_Localized: Sojiro
+    m_Metadata:
+      m_Items:
+      - id: 3
+  - m_Id: 5
+    m_Localized: Guy
+    m_Metadata:
+      m_Items:
+      - id: 4
+  - m_Id: 6
+    m_Localized: Edith
+    m_Metadata:
+      m_Items:
+      - id: 5
+  - m_Id: 7
+    m_Localized: demo
+    m_Metadata:
+      m_Items:
+      - id: 6
+  - m_Id: 8
+    m_Localized: demo
+    m_Metadata:
+      m_Items:
+      - id: 7
+  - m_Id: 9
+    m_Localized: demotest
+    m_Metadata:
+      m_Items:
+      - id: 8
   references:
     version: 1
     00000000:
@@ -47,3 +77,27 @@ MonoBehaviour:
       type: {class: Comment, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
       data:
         m_CommentText: 3
+    00000003:
+      type: {class: Comment, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_CommentText: 4
+    00000004:
+      type: {class: Comment, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_CommentText: 5
+    00000005:
+      type: {class: Comment, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_CommentText: 6
+    00000006:
+      type: {class: Comment, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_CommentText: 7
+    00000007:
+      type: {class: Comment, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_CommentText: 8
+    00000008:
+      type: {class: Comment, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_CommentText: 9
