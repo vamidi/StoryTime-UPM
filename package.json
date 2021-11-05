@@ -1,6 +1,6 @@
 {
   "name": "com.vamidicreations.storytime",
-  "version": "1.6.2-preview",
+  "version": "1.6.3-preview",
   "displayName": "StoryTime",
   "description": "-- DISCLAIMER --\nYou will need the StoryTime DB application in order to communicate the game data back and forth.\n\nStoryTime is package that provides components to make RPG games.",
   "unity": "2020.3",
