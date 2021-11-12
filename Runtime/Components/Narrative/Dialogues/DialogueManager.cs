@@ -53,7 +53,7 @@ namespace StoryTime.Components
 
 		private SimpleStorySO m_CurrentStory;
 		private CharacterSO m_CurrentActor;
-		private IDialogueLine m_CurrentDialogue;
+		private DialogueLine m_CurrentDialogue;
 
 		private bool _isInputEnabled;
 		private bool _canContinue;
@@ -109,8 +109,10 @@ namespace StoryTime.Components
 		/// <param name="storyDataSo"></param>
 		public void Interact(SimpleStorySO storyDataSo)
 		{
+			m_CurrentActor = storyDataSo.Character;
+
 			BeginDialogueStory(storyDataSo);
-			DisplayDialogueLine(storyDataSo.StartDialogue, storyDataSo.Character);
+			DisplayDialogueLine(storyDataSo.StartDialogue);
 			ToggleCameras(true);
 		}
 
@@ -119,8 +121,7 @@ namespace StoryTime.Components
 		/// This function is also called by <c>DialogueBehaviour</c> from clips on Timeline during cutscenes.
 		/// </summary>
 		/// <param name="dialogueLine"></param>
-		/// <param name="character"></param>
-		public void DisplayDialogueLine(IDialogueLine dialogueLine, CharacterSO character)
+		public void DisplayDialogueLine(DialogueLine dialogueLine)
 		{
 			_canContinue = false;
 
@@ -130,7 +131,7 @@ namespace StoryTime.Components
 				// InitEvents();
 				// CallEvents(true);
 
-				openUIDialogueEvent.RaiseEvent(dialogueLine, character);
+				openUIDialogueEvent.RaiseEvent(dialogueLine);
 			}
 			ToggleContinueBtn(false);
 
@@ -140,7 +141,6 @@ namespace StoryTime.Components
 				dialogueEvent.RaiseEvent(dialogueLine.DialogueEvent.EventName, dialogueLine.DialogueEvent.Value);
 			}
 
-			m_CurrentActor = character;
 
 			SetActiveDialogue(dialogueLine);
 		}
@@ -149,12 +149,12 @@ namespace StoryTime.Components
 		///
 		/// </summary>
 		/// <param name="nextDialogueLineSo"></param>
-		public void ShowNextDialogue(IDialogueLine nextDialogueLineSo)
+		public void ShowNextDialogue(DialogueLine nextDialogueLineSo)
 		{
 			// TODO make this work with increment only instead of setting the next dialogue.
 			// increment to the next dialogue sequence
 			DialogueChoiceEndAndCloseUI(true);
-			DisplayDialogueLine(nextDialogueLineSo, m_CurrentActor);
+			DisplayDialogueLine(nextDialogueLineSo);
 		}
 
 		public void ToggleCameras(bool enable)
@@ -178,7 +178,7 @@ namespace StoryTime.Components
 			StopAllCoroutines();
 		}
 
-		private void SetActiveDialogue(IDialogueLine dialogue)
+		private void SetActiveDialogue(DialogueLine dialogue)
 		{
 			m_CurrentDialogue = dialogue;
 		}
@@ -218,7 +218,7 @@ namespace StoryTime.Components
 				m_CurrentDialogue = m_CurrentDialogue.NextDialogue;
 				// TODO grab the actor from the node editor.
 
-				DisplayDialogueLine(m_CurrentDialogue, m_CurrentActor);
+				DisplayDialogueLine(m_CurrentDialogue);
 				return;
 			}
 
@@ -232,7 +232,7 @@ namespace StoryTime.Components
 				continueBtn.gameObject.SetActive(toggle);
 		}
 
-		private void DisplayChoices(List<DialogueChoiceSO> choices)
+		private void DisplayChoices(List<DialogueChoice> choices)
 		{
 			inputReader.advanceDialogueEvent -= OnAdvance;
 			if (makeDialogueChoiceEvent != null)
@@ -246,7 +246,7 @@ namespace StoryTime.Components
 			}
 		}
 
-		private void MakeDialogueChoice(DialogueChoiceSO choice)
+		private void MakeDialogueChoice(DialogueChoice choice)
 		{
 			if (makeDialogueChoiceEvent != null)
 			{

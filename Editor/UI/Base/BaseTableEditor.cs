@@ -290,22 +290,6 @@ namespace StoryTime.Editor
 		}
 	}
 
-	[UnityEditor.CustomEditor(typeof(DialogueLineSO))]
-	public class DialogueEditor : BaseTableEditor<DialogueLineSO>
-	{
-		protected override void OnChanged()
-		{
-			var t = target as DialogueLineSO;
-			if (t != null && t.ID != UInt32.MaxValue)
-			{
-				var row = t.GetRow(t.Name, t.ID);
-
-				// set all the values from the selected row
-				if (row != null) DialogueLineSO.ConvertRow(row, t);
-			}
-		}
-	}
-
 	[UnityEditor.CustomEditor(typeof(TaskSO))]
 	public class TaskEditor : BaseTableEditor<TaskSO>
 	{

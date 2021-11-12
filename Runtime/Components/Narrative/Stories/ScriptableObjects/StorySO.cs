@@ -12,9 +12,7 @@ using UnityEditor.Localization;
 
 namespace StoryTime.Components.ScriptableObjects
 {
-	using Binary;
 	using Database;
-	using Attributes;
 
 	/// <summary>
 	/// A Dialogue is a list of consecutive DialogueLines. They play in sequence using the input of the player to skip forward.
@@ -26,6 +24,7 @@ namespace StoryTime.Components.ScriptableObjects
 	{
 		public LocalizedString Title => title;
 		public LocalizedString Description => description;
+
 		public StoryType TypeId => typeId;
 		public List<TaskSO> Tasks => tasks;
 
@@ -62,27 +61,18 @@ namespace StoryTime.Components.ScriptableObjects
 		{
 			if (ID != UInt32.MaxValue && childId != UInt32.MaxValue)
 			{
+				dialogueLines.Clear();
 				// Only get the first dialogue.
-				startDialogue = DialogueLine.ConvertRow(TableDatabase.Get.GetRow("dialogues", childId),
-					overrideTable ? collection : LocalizationEditorSettings.GetStringTableCollection("Dialogues"));
+				dialogueLines.Add(
+					DialogueLine.DialogueTable.ConvertRow(TableDatabase.Get.GetRow("dialogues", childId),
+						overrideTable ? collection : LocalizationEditorSettings.GetStringTableCollection("Dialogues"),
+						overrideCharacterTable ? characterCollection : LocalizationEditorSettings.GetStringTableCollection("Character Names"))
+				);
 
 				var field = TableDatabase.Get.GetField(Name, "data", ID);
 				if (field != null)
 				{
 					StoryTable.ParseNodeData(this, (JObject) field.Data);
-				}
-			}
-
-			if (characterID != UInt32.MaxValue)
-			{
-				TableDatabase database = TableDatabase.Get;
-				Tuple<uint, TableRow> link = database.FindLink("characters", "name", characterID);
-				if (link != null)
-				{
-					var field = database.GetField(link.Item2, "name");
-					if (field != null) characterName = (string) field.Data;
-
-					Debug.Log(characterName);
 				}
 			}
 		}

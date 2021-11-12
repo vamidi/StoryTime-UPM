@@ -231,7 +231,7 @@ namespace StoryTime.Components
 			}
 		}
 
-		void EndDialogue(IDialogueLine dialogue, CharacterSO actorSo)
+		void EndDialogue(DialogueLine dialogue)
 		{
 			// depending on the dialogue that ended, do something
 			switch (dialogue.DialogueType)

@@ -117,11 +117,11 @@ namespace StoryTime.Components.UI
 			CloseStoryScreen();
 		}
 
-		public void OpenUIDialogue(IDialogueLine dialogueLine, CharacterSO character)
+		public void OpenUIDialogue(DialogueLine dialogueLine)
 		{
 			if (dialogueController)
 			{
-				dialogueController.SetDialogue(dialogueLine, character);
+				dialogueController.SetDialogue(dialogueLine);
 				dialogueController.gameObject.SetActive(true);
 			}
 		}

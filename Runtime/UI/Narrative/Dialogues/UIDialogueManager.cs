@@ -29,15 +29,15 @@ namespace StoryTime.Components.UI
 			HideChoices();
 		}
 
-		public void SetDialogue(IDialogueLine dialogueLine, CharacterSO character)
+		public void SetDialogue(DialogueLine dialogueLine)
 		{
 			// TODO see class LocalizeStringEvent for the reference variables
 			sentence.StringReference = dialogueLine.Sentence;
 			// User can optionally show the name of the character.
-			if(character) actorName.StringReference = character.CharacterName;
+			if(!dialogueLine.CharacterName.IsEmpty) actorName.StringReference = dialogueLine.CharacterName;
 		}
 
-		void ShowChoices(List<DialogueChoiceSO> choices)
+		void ShowChoices(List<DialogueChoice> choices)
 		{
 			choicesManager.gameObject.SetActive(true);
 			choicesManager.FillChoices(choices);

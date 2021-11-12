@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
 
-using UnityEditor.Localization;
 using UnityEngine;
 
 namespace StoryTime.Components.ScriptableObjects
@@ -34,11 +34,9 @@ namespace StoryTime.Components.ScriptableObjects
 	// ReSharper disable once InconsistentNaming
 	public class SimpleStorySO : LocalizationBehaviour
 	{
-		public string CharacterName => characterName;
 		public CharacterSO Character => character;
 
-		// rename Dialogue line to story lines
-		public DialogueLine StartDialogue => startDialogue;
+		public DialogueLine StartDialogue => dialogueLines[0];
 
 		public bool IsDone => m_IsDone;
 
@@ -47,27 +45,12 @@ namespace StoryTime.Components.ScriptableObjects
 		public uint ParentId => parentId;
 		public uint ChildId => childId;
 
-		[SerializeField, Tooltip("Override where we should get the dialogue options data from.")]
-		protected bool overrideDialogueOptionsTable;
-
-		[SerializeField, ConditionalField("overrideDialogueOptionsTable"), Tooltip("Table collection we are going to use for the sentence")]
-		protected StringTableCollection dialogueOptionsCollection;
-
 		[SerializeField] protected CharacterSO character;
 
-		[SerializeField, HideInInspector]
-		protected string characterName = String.Empty;
-
 		// Is being calculated in the story editor.
-		[SerializeField] protected DialogueLine startDialogue;
+		[SerializeField] protected List<DialogueLine> dialogueLines;
 
 		/** ------------------------------ DATABASE FIELD ------------------------------ */
-
-		/// <summary>
-		///
-		/// </summary>
-		[SerializeField, HideInInspector]
-		protected uint characterID = UInt32.MaxValue;
 
 		[SerializeField, HideInInspector] // Tooltip("The character id where this story belongs to.")]
 		protected uint parentId = UInt32.MaxValue;

@@ -17,7 +17,9 @@ namespace StoryTime.Components.ScriptableObjects
 		    get => id;
 		    set {
 			    id = value;
+#if UNITY_EDITOR
 			    OnTableIDChanged();
+#endif
 		    }
 	    }
 

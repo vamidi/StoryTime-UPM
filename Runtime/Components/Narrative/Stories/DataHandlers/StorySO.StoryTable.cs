@@ -2,7 +2,6 @@ using System;
 using System.Linq;
 
 using Newtonsoft.Json.Linq;
-
 using UnityEngine;
 
 #if UNITY_EDITOR
@@ -13,11 +12,25 @@ namespace StoryTime.Components.ScriptableObjects
 {
 	using Database;
 	using Binary;
+	using Attributes;
 	using Configurations.ScriptableObjects;
 
 	// ReSharper disable once InconsistentNaming
 	public partial class StorySO
 	{
+
+		[SerializeField, Tooltip("Override where we should get the dialogue options data from.")]
+		protected bool overrideDialogueOptionsTable;
+
+		[SerializeField, ConditionalField("overrideDialogueOptionsTable"), Tooltip("Table collection we are going to use for the sentence")]
+		protected StringTableCollection dialogueOptionsCollection;
+
+		[SerializeField, Tooltip("Override where we should get the data from.")]
+		protected bool overrideCharacterTable;
+
+		[SerializeField, ConditionalField("overrideTable"), Tooltip("Table collection we are going to use")]
+		protected StringTableCollection characterCollection;
+
 		public class StoryTable : BaseTable<StorySO>
 		{
 			public new static StorySO ConvertRow(TableRow row, StorySO scriptableObject = null)
@@ -83,6 +96,9 @@ namespace StoryTime.Components.ScriptableObjects
 
 				JObject nodes = jObject["nodes"].ToObject<JObject>();
 
+				if (nodes == null)
+					return;
+
 				// Retrieve the first node. because that is the start node.
 				// if not debug show error.
 				var nodeToken = nodes.First.Value<JProperty>();
@@ -108,7 +124,7 @@ namespace StoryTime.Components.ScriptableObjects
 				}
 
 				// start with the start dialogue
-				DialogueLine currentDialogue = story.startDialogue;
+				DialogueLine currentDialogue = story.dialogueLines[0];
 
 				// Debug.Log("Current" + currentDialogue);
 
@@ -139,7 +155,7 @@ namespace StoryTime.Components.ScriptableObjects
 			/// <param name="story"></param>
 			/// <param name="node"></param>
 			/// <param name="nodes"></param>
-			private static void ParseNextNodeData(StorySO story, IDialogueLine currentDialogue, JObject node, JObject nodes)
+			private static void ParseNextNodeData(StorySO story, DialogueLine currentDialogue, JObject node, JObject nodes)
 			{
 				if (node["data"] == null)
 					return;
@@ -232,10 +248,19 @@ namespace StoryTime.Components.ScriptableObjects
 							if (!containsOption)
 							{
 								// validate the data
-								currentDialogue.NextDialogue = nextId != UInt32.MaxValue ?
-									DialogueLine.ConvertRow(TableDatabase.Get.GetRow("dialogues", nextId),
-										story.overrideTable ? story.collection : LocalizationEditorSettings.GetStringTableCollection("Dialogues"))
-									: null;
+								if (nextId != UInt32.MaxValue)
+								{
+									story.dialogueLines.Add(
+										DialogueLine.DialogueTable.ConvertRow(TableDatabase.Get.GetRow("dialogues", nextId),
+#if UNITY_EDITOR
+											story.overrideTable ? story.collection : LocalizationEditorSettings.GetStringTableCollection("Dialogues"),
+											story.overrideCharacterTable ? story.characterCollection : LocalizationEditorSettings.GetStringTableCollection("Character Names")
+#endif
+										)
+									);
+
+									currentDialogue.NextDialogue = story.dialogueLines.Last();
+								}
 
 								// Debug.Log(" Next: " + currentDialogue.NextDialogue);
 
@@ -248,15 +273,25 @@ namespace StoryTime.Components.ScriptableObjects
 								var optionId = data["options"][outputToken.Key]["value"].ToObject<uint>();
 
 								// Grab the choice
-								DialogueChoiceSO choice = DialogueChoiceSO.ConvertRow(TableDatabase.Get.GetRow("dialogueOptions", optionId),
+								DialogueChoice choice = DialogueChoice.ChoiceTable.ConvertRow(TableDatabase.Get.GetRow("dialogueOptions", optionId),
 									story.overrideDialogueOptionsTable ? story.dialogueOptionsCollection : LocalizationEditorSettings.GetStringTableCollection("DialogueOptions")
 								);
 
 								// find the next dialogue of this choice.
-								choice.NextDialogue = nextId != UInt32.MaxValue ?
-									DialogueLine.ConvertRow(TableDatabase.Get.GetRow("dialogues", nextId),
-										story.overrideTable ? story.collection : LocalizationEditorSettings.GetStringTableCollection("Dialogues"))
-									: null;
+
+								if (nextId != UInt32.MaxValue)
+								{
+									story.dialogueLines.Add(
+										DialogueLine.DialogueTable.ConvertRow(TableDatabase.Get.GetRow("dialogues", nextId),
+#if UNITY_EDITOR
+											story.overrideTable ? story.collection : LocalizationEditorSettings.GetStringTableCollection("Dialogues"),
+										story.overrideCharacterTable ? story.characterCollection : LocalizationEditorSettings.GetStringTableCollection("Character Names")
+#endif
+										)
+									);
+
+									choice.NextDialogue = story.dialogueLines.Last();
+								}
 
 								// Debug.Log(" Choice: " + choice);
 

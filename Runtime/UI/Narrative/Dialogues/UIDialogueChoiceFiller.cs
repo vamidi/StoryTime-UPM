@@ -3,7 +3,6 @@ using UnityEngine.Localization.Components;
 
 namespace StoryTime.Components.UI
 {
-	using Components.ScriptableObjects;
 	using Events.ScriptableObjects;
 
 	public class UIDialogueChoiceFiller : MonoBehaviour
@@ -11,9 +10,9 @@ namespace StoryTime.Components.UI
 		[SerializeField] private LocalizeStringEvent choiceText;
 		[SerializeField] private DialogueChoiceChannelSO makeAChoiceEvent;
 
-		DialogueChoiceSO m_CurrentChoice;
+		DialogueChoice m_CurrentChoice;
 
-		public void FillChoice(DialogueChoiceSO choiceToFill)
+		public void FillChoice(DialogueChoice choiceToFill)
 		{
 			m_CurrentChoice = choiceToFill;
 			choiceText.StringReference = choiceToFill.Sentence;

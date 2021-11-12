@@ -8,7 +8,7 @@ namespace StoryTime.Components.UI
 	{
 		public UIDialogueChoiceFiller[] listChoiceButtons;
 
-		public void FillChoices(List<DialogueChoiceSO> choices)
+		public void FillChoices(List<DialogueChoice> choices)
 		{
 			if (choices != null)
 			{
