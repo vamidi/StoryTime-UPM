@@ -127,7 +127,7 @@ namespace StoryTime.Components.ScriptableObjects
 			if (ID != UInt32.MaxValue)
 			{
 				var entryId = (ID + 1).ToString();
-				collection = overrideTable ? collection : LocalizationEditorSettings.GetStringTableCollection("Characters");
+				collection = overrideTable ? collection : LocalizationEditorSettings.GetStringTableCollection("Character Names");
 				if(collection)
 					characterName = new LocalizedString { TableReference = collection.TableCollectionNameReference, TableEntryReference = entryId };
 				else

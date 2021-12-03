@@ -2,10 +2,10 @@
 using UnityEngine.InputSystem;
 using UnityEngine.Events;
 
-namespace Storytime.Input
+namespace StoryTime.Input
 {
 	[CreateAssetMenu(fileName = "InputReader", menuName = "StoryTime/Game/Input Reader")]
-	public class InputReader : BaseInputReader, GameInput.IGameplayActions, GameInput.IDialoguesActions,
+	public class InputReader : ScriptableObjects.BaseInputReader, GameInput.IGameplayActions, GameInput.IDialoguesActions,
 		GameInput.IMenusActions
 	{
 		// Gameplay

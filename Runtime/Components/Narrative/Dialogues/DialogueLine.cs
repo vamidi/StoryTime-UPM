@@ -42,7 +42,7 @@ namespace StoryTime.Components
 			set => m_NextDialogue = value;
 		}
 
-		public List<DialogueChoice> Choices => choices;
+		public List<DialogueChoice> Choices => m_Choices;
 
 		[SerializeField, HideInInspector] private UInt32 id = UInt32.MaxValue;
 
@@ -66,6 +66,6 @@ namespace StoryTime.Components
 		[SerializeField, Tooltip("Event that will be fired once filled in.")]
 		private DialogueEventSO dialogueEvent = new DialogueEventSO("", null);
 
-		[SerializeField] private List<DialogueChoice> choices = new List<DialogueChoice>();
+		private List<DialogueChoice> m_Choices = new List<DialogueChoice>();
 	}
 }

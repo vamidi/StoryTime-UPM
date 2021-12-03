@@ -3,6 +3,7 @@ using System.Linq;
 
 using Newtonsoft.Json.Linq;
 using UnityEngine;
+using UnityEngine.Localization;
 
 #if UNITY_EDITOR
 using UnityEditor.Localization;
@@ -18,7 +19,6 @@ namespace StoryTime.Components.ScriptableObjects
 	// ReSharper disable once InconsistentNaming
 	public partial class StorySO
 	{
-
 		[SerializeField, Tooltip("Override where we should get the dialogue options data from.")]
 		protected bool overrideDialogueOptionsTable;
 
@@ -42,17 +42,7 @@ namespace StoryTime.Components.ScriptableObjects
 					return story;
 				}
 
-				DatabaseConfigSO config = TableBinary.Fetch();
-				if (config != null)
-				{
-					story.ID = row.RowId;
-					var entryId = (story.ID + 1).ToString();
-					if (!story.title.IsEmpty)
-						story.title.TableEntryReference = entryId;
-
-					if(!story.Description.IsEmpty)
-						story.Description.TableEntryReference = entryId;
-				}
+				story.ID = row.RowId;
 
 				foreach (var field in row.Fields)
 				{

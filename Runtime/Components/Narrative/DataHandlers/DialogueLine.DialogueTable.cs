@@ -42,19 +42,6 @@ namespace StoryTime.Components
 				else
 					Debug.LogWarning("Collection not found. Did you create any localization tables");
 
-
-				/*
-				TableDatabase database = TableDatabase.Get;
-				Tuple<uint, TableRow> link = database.FindLink("characters", "name", characterID);
-				if (link != null)
-				{
-					var field = database.GetField(link.Item2, "name");
-					if (field != null) characterName = (string) field.Data;
-
-					Debug.Log(characterName);
-				}
-				*/
-
 				foreach (var field in row.Fields)
 				{
 					if (field.Key.Equals("nextId"))
@@ -66,6 +53,25 @@ namespace StoryTime.Components
 					if (field.Key.Equals("options"))
 					{
 						// dialogue.sentence = (string) field.Value.Data;
+					}
+
+					if (field.Key.Equals("characterId"))
+					{
+						uint data = (uint)field.Value.Data;
+						uint characterID = data == UInt32.MaxValue - 1 ? UInt32.MaxValue : data;
+
+						if (characterID != UInt32.MaxValue)
+						{
+							characterID++;
+							if (characterCollection)
+								dialogue.characterName = new LocalizedString
+								{
+									TableReference = characterCollection.TableCollectionNameReference,
+									TableEntryReference = characterID
+								};
+							else
+								Debug.LogWarning("Collection not found. Did you create any localization tables");
+						}
 					}
 
 					// if (field.Key.Equals("parentId"))

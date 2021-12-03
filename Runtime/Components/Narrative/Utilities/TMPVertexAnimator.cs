@@ -94,7 +94,6 @@ namespace StoryTime.Components
 				EvaluateTag(command);
 			}
 
-			text = m_ProcessedMessage;
 			_nRevealedCharacters = m_ProcessedMessage.Length;
 
 			TextAnimInfo[] textAnimInfo = SeparateOutTextAnimInfo(m_Commands);
@@ -125,45 +124,8 @@ namespace StoryTime.Components
 			allRevealed.Invoke();
 		}
 
-		private void ShowNextParagraphWithoutAnimation()
-		{
-			if (IsAllRevealed()) return;
-
-			// StopAllCoroutines();
-
-			m_StopAnimating = true;
-
-			// StartCoroutine(RevealNextParagraph());
-		}
-
-		private void RevealNextParagraphAsync()
-		{
-			m_Commands = DialogueUtility.ProcessInputString(m_OriginalString, out m_ProcessedMessage);
-
-			if (m_Config != null)
-			{
-				if (!m_Config.AnimatedText) // show character for character without animation
-				{
-					ShowNextParagraphWithoutAnimation();
-					return;
-				}
-
-				if (m_Config.ShowDialogueAtOnce) // Show all dialogue at once
-				{
-					ShowEverythingWithoutAnimation();
-					return;
-				}
-			}
-
-			// StartCoroutine(RevealNextParagraph());
-			if(m_RevealRoutine != null) StopCoroutine(m_RevealRoutine);
-			m_RevealRoutine = StartCoroutine(RevealNextParagraph(m_Commands));
-		}
-
 		public IEnumerator RevealNextParagraph(List<DialogueCommand> commands)
 		{
-			_isRevealing = true;
-
 			// float secondsPerCharacter = 1f / 10f;
 			float secondsPerCharacter = charsPerSecond;
 			float timeOfLastCharacter = 0;
@@ -177,17 +139,6 @@ namespace StoryTime.Components
 						meshInfo.vertices[j] = Vector3.zero;
 					}
 				}
-			}
-
-			text = m_ProcessedMessage;
-			ForceMeshUpdate();
-
-			m_CachedMeshInfo = textInfo.CopyMeshInfoVertexData();
-			m_OriginalColors = new Color32[textInfo.meshInfo.Length][];
-			for (int i = 0; i < m_OriginalColors.Length; i++) {
-				Color32[] theColors = textInfo.meshInfo[i].colors32;
-				m_OriginalColors[i] = new Color32[theColors.Length];
-				Array.Copy(theColors, m_OriginalColors[i], theColors.Length);
 			}
 
 			// The amount of characters in the processed message.
@@ -258,6 +209,43 @@ namespace StoryTime.Components
 	        }
 		}
 
+		private void ShowNextParagraphWithoutAnimation()
+		{
+			if (IsAllRevealed()) return;
+
+			// StopAllCoroutines();
+
+			m_StopAnimating = true;
+
+			// StartCoroutine(RevealNextParagraph());
+		}
+
+		private void RevealNextParagraphAsync()
+		{
+			m_Commands = DialogueUtility.ProcessInputString(m_OriginalString, out m_ProcessedMessage);
+
+			InitText();
+
+			if (m_Config != null)
+			{
+				if (!m_Config.AnimatedText) // show character for character without animation
+				{
+					ShowNextParagraphWithoutAnimation();
+					return;
+				}
+
+				if (m_Config.ShowDialogueAtOnce) // Show all dialogue at once
+				{
+					ShowEverythingWithoutAnimation();
+					return;
+				}
+			}
+
+			// StartCoroutine(RevealNextParagraph());
+			if(m_RevealRoutine != null) StopCoroutine(m_RevealRoutine);
+			m_RevealRoutine = StartCoroutine(RevealNextParagraph(m_Commands));
+		}
+
 		protected override void Awake()
 		{
 			base.Awake();
@@ -289,6 +277,27 @@ namespace StoryTime.Components
 
 		private static bool ShouldShowNextCharacter(float secondsPerCharacter, float timeOfLastCharacter) {
 			return (Time.unscaledTime - timeOfLastCharacter) > secondsPerCharacter;
+		}
+
+		private void InitText()
+		{
+			_isRevealing = true;
+			
+			text = m_ProcessedMessage;
+			ForceMeshUpdate();
+			CalculateCharacters();
+		}
+
+		private void CalculateCharacters()
+		{
+			m_CachedMeshInfo = textInfo.CopyMeshInfoVertexData();
+			m_OriginalColors = new Color32[textInfo.meshInfo.Length][];
+
+			for (int i = 0; i < m_OriginalColors.Length; i++) {
+				Color32[] theColors = textInfo.meshInfo[i].colors32;
+				m_OriginalColors[i] = new Color32[theColors.Length];
+				Array.Copy(theColors, m_OriginalColors[i], theColors.Length);
+			}
 		}
 
 		private void ShowCharacterColor(Color32 theColor, int vertexIndex, ref Color32[] destinationColors)

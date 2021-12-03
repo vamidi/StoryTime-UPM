@@ -34,7 +34,7 @@ namespace StoryTime.Components.UI
 		[Header("Interaction Events")]
 		[SerializeField] private VoidEventChannelSO onInteractionEndedEvent;
 
-		[SerializeField] private InteractionUIEventChannelSO setInteractionEvent;
+		[SerializeField] private InteractionUIEventChannelSO toggleInteractionEvent;
 
 		[Header("Navigation Events")]
 		[SerializeField] private InteractionStoryUIEventChannel showNavigationInteractionEvent;
@@ -93,8 +93,8 @@ namespace StoryTime.Components.UI
 			if (closeStoryScreenEvent != null)
 				closeStoryScreenEvent.OnEventRaised += CloseStoryScreen;
 
-			if (setInteractionEvent != null)
-				setInteractionEvent.OnEventRaised += SetInteractionPanel;
+			if (toggleInteractionEvent != null)
+				toggleInteractionEvent.OnEventRaised += SetInteractionPanel;
 
 			if (showNavigationInteractionEvent != null)
 				showNavigationInteractionEvent.OnEventRaised += ShowNavigationPanel;

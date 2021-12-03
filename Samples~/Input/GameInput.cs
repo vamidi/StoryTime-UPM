@@ -1,4 +1,4 @@
-// GENERATED AUTOMATICALLY FROM 'Assets/Samples/StoryTime/1.6.1-preview/Input/GameInput.inputactions'
+// GENERATED AUTOMATICALLY FROM 'Assets/Samples/StoryTime/1.6.3-preview/Input/GameInput.inputactions'
 
 using System;
 using System.Collections;

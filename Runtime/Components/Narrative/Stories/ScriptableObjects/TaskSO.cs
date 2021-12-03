@@ -146,7 +146,7 @@ namespace StoryTime.Components.ScriptableObjects
 				if(collection)
 					description = new LocalizedString { TableReference = collection.TableCollectionNameReference, TableEntryReference = entryId };
 				else
-					UnityEngine.Debug.LogWarning("Collection not found. Did you create any localization tables for Tasks");
+					Debug.LogWarning("Collection not found. Did you create any localization tables for Tasks");
 			}
 		}
 	}

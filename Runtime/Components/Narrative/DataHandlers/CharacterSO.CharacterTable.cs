@@ -36,7 +36,7 @@ namespace StoryTime.Components.ScriptableObjects
 				{
 					if (field.Key.Equals("id"))
 					{
-						character.ID = uint.Parse(field.Value.Data);
+						character.ID = (uint)field.Value.Data;
 					}
 
 					if (field.Key.Equals("initialLevel"))

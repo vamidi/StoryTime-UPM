@@ -4805,6 +4805,60 @@ PrefabInstance:
       propertyPath: targetGroup
       value: 
       objectReference: {fileID: 760620837}
+    - target: {fileID: 7847411383363821247, guid: 7fd9a8bc4dce725498ed9d2cb800ea8e,
+        type: 3}
+      propertyPath: dialogueEvent
+      value: 
+      objectReference: {fileID: 11400000, guid: 0cf8ed5b07386b54d876842c88e40a0e,
+        type: 2}
+    - target: {fileID: 7847411383363821247, guid: 7fd9a8bc4dce725498ed9d2cb800ea8e,
+        type: 3}
+      propertyPath: startStoryEvent
+      value: 
+      objectReference: {fileID: 11400000, guid: 1dafebf8ffa94d14cb84dfa1290f7581,
+        type: 2}
+    - target: {fileID: 7847411383363821247, guid: 7fd9a8bc4dce725498ed9d2cb800ea8e,
+        type: 3}
+      propertyPath: continueWithTask
+      value: 
+      objectReference: {fileID: 11400000, guid: 776fce244873b5f499a5a86e99f8f2b0,
+        type: 2}
+    - target: {fileID: 7847411383363821247, guid: 7fd9a8bc4dce725498ed9d2cb800ea8e,
+        type: 3}
+      propertyPath: closeChoiceUIEvent
+      value: 
+      objectReference: {fileID: 11400000, guid: cc667a3eb43ab1d498a3f6217e8885c5,
+        type: 2}
+    - target: {fileID: 7847411383363821247, guid: 7fd9a8bc4dce725498ed9d2cb800ea8e,
+        type: 3}
+      propertyPath: showChoicesUIEvent
+      value: 
+      objectReference: {fileID: 11400000, guid: ac2f2063026405543b1396308624f775,
+        type: 2}
+    - target: {fileID: 7847411383363821247, guid: 7fd9a8bc4dce725498ed9d2cb800ea8e,
+        type: 3}
+      propertyPath: openUIDialogueEvent
+      value: 
+      objectReference: {fileID: 11400000, guid: 10e76ab2424f6b741a8269b1576b5108,
+        type: 2}
+    - target: {fileID: 7847411383363821247, guid: 7fd9a8bc4dce725498ed9d2cb800ea8e,
+        type: 3}
+      propertyPath: closeDialogueUIEvent
+      value: 
+      objectReference: {fileID: 11400000, guid: cbd4abfb8d701dc479f2506c899ce498,
+        type: 2}
+    - target: {fileID: 7847411383363821247, guid: 7fd9a8bc4dce725498ed9d2cb800ea8e,
+        type: 3}
+      propertyPath: startTransformDialogue
+      value: 
+      objectReference: {fileID: 11400000, guid: 20882f855bf38c8498571e8ea0479453,
+        type: 2}
+    - target: {fileID: 7847411383363821247, guid: 7fd9a8bc4dce725498ed9d2cb800ea8e,
+        type: 3}
+      propertyPath: makeDialogueChoiceEvent
+      value: 
+      objectReference: {fileID: 11400000, guid: 7fb2fbdd616312641b0c9e9357294c44,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7fd9a8bc4dce725498ed9d2cb800ea8e, type: 3}
 --- !u!1001 &2724937296789663346
@@ -5519,9 +5573,21 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6807529571184023732, guid: 8be4dac5825c49a4ab89a71f6b892e97,
         type: 3}
+      propertyPath: storyLog
+      value: 
+      objectReference: {fileID: 11400000, guid: 0282cdcb1ee31b0409eff77bc44c5c18,
+        type: 2}
+    - target: {fileID: 6807529571184023732, guid: 8be4dac5825c49a4ab89a71f6b892e97,
+        type: 3}
       propertyPath: inventory
       value: 
       objectReference: {fileID: 11400000, guid: 0d7e522aafa92444d9708b2d70f91e08,
+        type: 2}
+    - target: {fileID: 6807529571184023732, guid: 8be4dac5825c49a4ab89a71f6b892e97,
+        type: 3}
+      propertyPath: endTaskEvent
+      value: 
+      objectReference: {fileID: 11400000, guid: fc6cf465fb4d2914fbdef228852aaea0,
         type: 2}
     - target: {fileID: 6807529571184023732, guid: 8be4dac5825c49a4ab89a71f6b892e97,
         type: 3}
@@ -5531,9 +5597,27 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 6807529571184023732, guid: 8be4dac5825c49a4ab89a71f6b892e97,
         type: 3}
+      propertyPath: giveItemEvent
+      value: 
+      objectReference: {fileID: 11400000, guid: e1a8483ff1407cc4bb90ca355369aadb,
+        type: 2}
+    - target: {fileID: 6807529571184023732, guid: 8be4dac5825c49a4ab89a71f6b892e97,
+        type: 3}
+      propertyPath: startTaskEvent
+      value: 
+      objectReference: {fileID: 11400000, guid: 925add8049ad3004392b9f7fe5ccef94,
+        type: 2}
+    - target: {fileID: 6807529571184023732, guid: 8be4dac5825c49a4ab89a71f6b892e97,
+        type: 3}
       propertyPath: storyInventory
       value: 
       objectReference: {fileID: 11400000, guid: 0282cdcb1ee31b0409eff77bc44c5c18,
+        type: 2}
+    - target: {fileID: 6807529571184023732, guid: 8be4dac5825c49a4ab89a71f6b892e97,
+        type: 3}
+      propertyPath: rewardItemEvent
+      value: 
+      objectReference: {fileID: 11400000, guid: e8c8510173384c947a4d8f681f2e7fdd,
         type: 2}
     - target: {fileID: 6807529571184023732, guid: 8be4dac5825c49a4ab89a71f6b892e97,
         type: 3}
@@ -5548,15 +5632,45 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6807529571184023732, guid: 8be4dac5825c49a4ab89a71f6b892e97,
         type: 3}
+      propertyPath: checkDialogueEvent
+      value: 
+      objectReference: {fileID: 11400000, guid: 0cf8ed5b07386b54d876842c88e40a0e,
+        type: 2}
+    - target: {fileID: 6807529571184023732, guid: 8be4dac5825c49a4ab89a71f6b892e97,
+        type: 3}
       propertyPath: onStorySelectEvent
       value: 
       objectReference: {fileID: 11400000, guid: 68e95a636eae76e4eaf15788f3b1f64a,
         type: 2}
     - target: {fileID: 6807529571184023732, guid: 8be4dac5825c49a4ab89a71f6b892e97,
         type: 3}
+      propertyPath: completeDialogueEvent
+      value: 
+      objectReference: {fileID: 11400000, guid: 45c43269234872e45a12feccfc7e9c80,
+        type: 2}
+    - target: {fileID: 6807529571184023732, guid: 8be4dac5825c49a4ab89a71f6b892e97,
+        type: 3}
+      propertyPath: checkTaskValidityEvent
+      value: 
+      objectReference: {fileID: 11400000, guid: e705c94ceac130640ab7e80c923d88f6,
+        type: 2}
+    - target: {fileID: 6807529571184023732, guid: 8be4dac5825c49a4ab89a71f6b892e97,
+        type: 3}
+      propertyPath: incompleteDialogueEvent
+      value: 
+      objectReference: {fileID: 11400000, guid: 3d3ce7e06b2b8b94a8da07e9cde0aabc,
+        type: 2}
+    - target: {fileID: 6807529571184023732, guid: 8be4dac5825c49a4ab89a71f6b892e97,
+        type: 3}
       propertyPath: navigationInteractionUI
       value: 
       objectReference: {fileID: 11400000, guid: 978f6713c93cacd48a06d18b2affc276,
+        type: 2}
+    - target: {fileID: 6807529571184023732, guid: 8be4dac5825c49a4ab89a71f6b892e97,
+        type: 3}
+      propertyPath: checkEnemyDestroyedEvent
+      value: 
+      objectReference: {fileID: 11400000, guid: 86128d3d324d57944a15f2e13ef16f3a,
         type: 2}
     - target: {fileID: 6807529571184023733, guid: 8be4dac5825c49a4ab89a71f6b892e97,
         type: 3}
@@ -5766,6 +5880,12 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 6868936267392258188, guid: c138c5918fea45542b4a4b0078e3f180,
         type: 3}
+      propertyPath: toggleInteractionEvent
+      value: 
+      objectReference: {fileID: 11400000, guid: b3683bce5a2ef5e4cb75259ff24fc412,
+        type: 2}
+    - target: {fileID: 6868936267392258188, guid: c138c5918fea45542b4a4b0078e3f180,
+        type: 3}
       propertyPath: openInventoryScreenEvent
       value: 
       objectReference: {fileID: 11400000, guid: 43271c4511aa8d94881f3fb38cf7430f,
@@ -5821,7 +5941,31 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 7617192194051147994, guid: b87bf2a111e7e3940b78864c845ed841,
         type: 3}
+      propertyPath: giveItemEvent
+      value: 
+      objectReference: {fileID: 11400000, guid: e1a8483ff1407cc4bb90ca355369aadb,
+        type: 2}
+    - target: {fileID: 7617192194051147994, guid: b87bf2a111e7e3940b78864c845ed841,
+        type: 3}
       propertyPath: removeItemEvent
+      value: 
+      objectReference: {fileID: 11400000, guid: 8790784a2481e61459bf65226ed251f0,
+        type: 2}
+    - target: {fileID: 7617192194051147994, guid: b87bf2a111e7e3940b78864c845ed841,
+        type: 3}
+      propertyPath: rewardItemEvent
+      value: 
+      objectReference: {fileID: 11400000, guid: e8c8510173384c947a4d8f681f2e7fdd,
+        type: 2}
+    - target: {fileID: 7617192194051147994, guid: b87bf2a111e7e3940b78864c845ed841,
+        type: 3}
+      propertyPath: currentInventory
+      value: 
+      objectReference: {fileID: 11400000, guid: 0d7e522aafa92444d9708b2d70f91e08,
+        type: 2}
+    - target: {fileID: 7617192194051147994, guid: b87bf2a111e7e3940b78864c845ed841,
+        type: 3}
+      propertyPath: removeItemsEvent
       value: 
       objectReference: {fileID: 11400000, guid: 8790784a2481e61459bf65226ed251f0,
         type: 2}
