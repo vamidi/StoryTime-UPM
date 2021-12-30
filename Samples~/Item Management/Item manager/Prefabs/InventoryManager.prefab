@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7670797923835683532}
-  - component: {fileID: 7617192194051147994}
+  - component: {fileID: 5748132559081031106}
   m_Layer: 0
   m_Name: InventoryManager
   m_TagString: Untagged
@@ -31,7 +31,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7617192194051147994
+--- !u!114 &5748132559081031106
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -40,15 +40,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 6944408632662855371}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7f90f8acbe4568ac27cec68f66b6c8, type: 3}
+  m_Script: {fileID: 11500000, guid: 17c22cd3d96833045b161b4420130199, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentInventory: {fileID: 11400000, guid: 0d7e522aafa92444d9708b2d70f91e08, type: 2}
-  cookRecipeEvent: {fileID: 0}
-  useItemEvent: {fileID: 0}
   equipItemEvent: {fileID: 0}
-  rewardItemEvent: {fileID: 11400000, guid: e8c8510173384c947a4d8f681f2e7fdd, type: 2}
-  giveItemEvent: {fileID: 11400000, guid: e1a8483ff1407cc4bb90ca355369aadb, type: 2}
-  addItemEvent: {fileID: 11400000, guid: fbe732b7105cd6c4391502b5461a34c9, type: 2}
+  currentInventory: {fileID: 11400000, guid: eb200dae62056c6438e03aded6f8081b, type: 2}
+  useItemEvent: {fileID: 0}
+  rewardItemEvent: {fileID: 0}
+  giveItemEvent: {fileID: 0}
+  addItemEvent: {fileID: 0}
   addItemsEvent: {fileID: 0}
   removeItemEvent: {fileID: 0}
+  removeItemsEvent: {fileID: 0}
+  inventoryPanel: {fileID: 0}

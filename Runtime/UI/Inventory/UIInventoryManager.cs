@@ -92,6 +92,7 @@ namespace StoryTime.Components.UI
 
 		protected override List<ItemStack> FindAll()
 		{
+			Debug.Log(currentInventory.Items.Count);
 			return currentInventory.Items;
 			// return currentInventory.Items.FindAll(o => o.Item.ItemType.TabType == SelectedTab);
 		}

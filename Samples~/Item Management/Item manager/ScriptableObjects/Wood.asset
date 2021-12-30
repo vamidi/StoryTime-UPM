@@ -10,33 +10,43 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e06a1543d880c9f448ae8a0156d534ee, type: 3}
-  m_Name: Small Potion
+  m_Name: Wood
   m_EditorClassIdentifier: 
-  guid: 20e51ed1a965ad1418f35d6bcaba0d98
-  id: 4
+  guid: 7fb598a2000b0404fb1b2329cd2549a3
+  id: 7
   tableName: items
-  linkedColumn: 
   dropdownColumn: name
   linkID: 4294967295
+  linkedColumn: 
+  linkedTable: 
+  overrideTable: 0
+  collection: {fileID: 11400000, guid: 23f31069e95833f44b83e02b2c0cccbe, type: 2}
+  overrideDescriptionTable: 0
+  itemDescriptionCollection: {fileID: 0}
   itemName:
     m_TableReference:
-      m_TableCollectionName: GUID:534666bf16d51db429bfbfbbd7b9a6e5
+      m_TableCollectionName: GUID:c819b12d184b13448b38de4f8f4f10be
     m_TableEntryReference:
       m_KeyId: 0
-      m_Key: 5
+      m_Key: 8
     m_FallbackState: 0
-  previewImage: {fileID: 0}
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   description:
     m_TableReference:
-      m_TableCollectionName: GUID:9d58f987702dcc34ca3102c4bc48a52f
+      m_TableCollectionName: GUID:429b27293c2c5264badacb7519c5a9ce
     m_TableEntryReference:
       m_KeyId: 0
-      m_Key: 5
+      m_Key: 8
     m_FallbackState: 0
-  itemType: {fileID: 0}
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  previewImage: {fileID: 0}
+  itemType: {fileID: 11400000, guid: e99ecf24855d8b74dbd6bef21d5d4660, type: 2}
   prefab: {fileID: 0}
   sellable: 0
-  sellValue: 10
+  sellValue: 5
+  statModifiers: []
   localizePreviewImage:
     m_TableReference:
       m_TableCollectionName: 
@@ -44,4 +54,7 @@ MonoBehaviour:
       m_KeyId: 0
       m_Key: 
     m_FallbackState: 0
+    m_WaitForCompletion: 0
   isLocalized: 0
+  references:
+    version: 1

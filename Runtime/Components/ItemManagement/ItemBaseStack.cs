@@ -25,6 +25,13 @@ namespace StoryTime.Components
 			amount = 0;
 		}
 
+		public ItemBaseStack(ItemBaseStack<T> item)
+		{
+			this.item = item.item;
+			amount = item.amount;
+			maxAmount = item.maxAmount;
+		}
+
 		public ItemBaseStack(T item, int amount, int maxAmount = 99)
 		{
 			this.item = item;

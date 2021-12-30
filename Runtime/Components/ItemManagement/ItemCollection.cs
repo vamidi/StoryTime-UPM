@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 using UnityEngine;
@@ -7,16 +8,30 @@ namespace StoryTime.Components
 	using ScriptableObjects;
 	public abstract class ItemCollection<TStack, TItem> : ScriptableObject
 		where TItem: ItemSO
-		where TStack: ItemBaseStack<TItem>
+		where TStack: ItemBaseStack<TItem>, new()
 	{
 		public List<TStack> Items => items;
 
 		[Tooltip("The collection of items and their quantities.")]
 		[SerializeField] protected List<TStack> items = new List<TStack>();
+		[SerializeField] private List<TStack> defaultItems = new List<TStack>();
 
-		public virtual void OnEnable()
+		private void OnEnable()
 		{
+			Init();
+		}
+
+		public virtual void Init()
+		{
+			if (items == null)
+			{
+				items = new List<TStack>();
+			}
 			items.Clear();
+			foreach (TStack stack in defaultItems)
+			{
+				items.Add( (TStack)Activator.CreateInstance(typeof(TStack), stack));
+			}
 		}
 
 		public virtual bool AvailabilityCheck(TStack item)

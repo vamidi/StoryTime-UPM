@@ -15,9 +15,9 @@ namespace StoryTime.Components.ScriptableObjects
 
 		private int amountItems = 0;
 
-		public override void OnEnable()
+		public override void Init()
 		{
-			base.OnEnable();
+			base.Init();
 			amountItems = 0;
 		}
 
