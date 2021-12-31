@@ -1,114 +1,124 @@
 {
-  "name": "com.vamidicreations.storytime",
-  "version": "1.6.5-preview",
-  "displayName": "StoryTime",
-  "description": "-- DISCLAIMER --\nYou will need the StoryTime DB application in order to communicate the game data back and forth.\n\nStoryTime is package that provides components to make RPG games.",
-  "documentationUrl": "https://docs.vamidicreations.nl/",
-  "changelogUrl": "https://example.com/changelog.html",
-  "licensesUrl": "https://example.com/licensing.html",
-  "unity": "2020.3",
-  "unityRelease": "25f1",
-  "dependencies": {
-    "com.unity.nuget.newtonsoft-json": "1.1.2",
-    "com.unity.textmeshpro": "2.1.1",
-    "com.unity.inputsystem": "1.0.1",
-    "com.unity.cinemachine": "2.7.1",
-    "com.unity.animation.rigging": "1.0.3",
-    "com.unity.visualeffectgraph": "7.5.3",
-    "com.unity.addressables": "1.18.2",
-    "com.unity.localization": "1.0.3",
-    "com.unity.probuilder": "4.4.0"
-  },
-  "keywords": [
-    "StoryTime",
-    "RPG",
-    "Dialogues",
-    "Stories",
-    "Crafting",
-    "Inventory",
-    "Localization"
-  ],
-  "author": {
-    "name": "Valencio Hoffman",
-    "email": "valencio.hoffman@gmail.com",
-    "url": "https://storytime.vamidicreations.nl/"
-  },
-  "samples": [
-    {
-      "displayName": "Item Manager",
-      "description": "Item manager with a simple UI windows and interactions.",
-      "path": "Samples~/Item Management/Item manager"
-    },
-    {
-      "displayName": "Player Inventory",
-      "description": "Ability to interact with items in the world.",
-      "path": "Samples~/Item Management/Player inventory"
-    },
-    {
-      "displayName": "Equipment",
-      "description": "Manager for the player's equipment.",
-      "path": "Samples~/Item Management/Equipment"
-    },
-    {
-      "displayName": "Crafting",
-      "description": "Ability to craft various items.",
-      "path": "Samples~/Item Management/Crafting"
-    },
-    {
-      "displayName": "Shops",
-      "description": "Buy Items from different shops",
-      "path": "Samples~/Item Management/Shops"
-    },
-    {
-      "displayName": "Item stats",
-      "description": "Items that boosts the certain stats of the player",
-      "path": "Samples~/Stats/Item stats"
-    },
-    {
-      "displayName": "Skills",
-      "description": "Increase level and unlock different skills.",
-      "path": "Samples~/Stats/Skills"
-    },
-    {
-      "displayName": "Player interactions",
-      "description": "simple player controller with interactions",
-      "path": "Samples~/Misc/Player interactions"
-    },
-    {
-      "displayName": "Save files",
-      "description": "Ability to save the game and load it.",
-      "path": "Samples~/Misc/Save files"
-    },
-    {
-      "displayName": "Essentials",
-      "description": "All the essentials to get started with StoryTime.",
-      "path": "Samples~/Essentials"
-    },
-    {
-      "displayName": "Events",
-      "description": "Example events for interactions in StoryTime.",
-      "path": "Samples~/Events"
-    },
-    {
-      "displayName": "Input",
-      "description": "Example input handler for interactions in StoryTime.",
-      "path": "Samples~/Input"
-    },
-    {
-      "displayName": "Persistence Managers",
-      "description": "Managers bundled in one scene.",
-      "path": "Samples~/Persistence Managers"
-    },
-    {
-      "displayName": "Placeholders",
-      "description": "Basic prefabs that can be used to create your games.",
-      "path": "Samples~/Placeholders"
-    },
-    {
-      "displayName": "Example Scenes",
-      "description": "Showcase within different scenes.",
-      "path": "Samples~/Example Scenes"
-    }
-  ],
-  "type": "tool"
+	"name": "com.vamidicreations.storytime",
+	"version": "1.6.5-preview",
+	"displayName": "StoryTime",
+	"description": "-- DISCLAIMER --\nYou will need the StoryTime DB application in order to communicate the game data back and forth.\n\nStoryTime is package that provides components to make RPG games.",
+	"documentationUrl": "https://docs.vamidicreations.nl/",
+	"changelogUrl": "https://example.com/changelog.html",
+	"licensesUrl": "https://example.com/licensing.html",
+	"unity": "2020.3",
+	"unityRelease": "25f1",
+	"dependencies": {
+		"com.unity.nuget.newtonsoft-json": "1.1.2",
+		"com.unity.textmeshpro": "2.1.1",
+		"com.unity.inputsystem": "1.0.1",
+		"com.unity.cinemachine": "2.7.1",
+		"com.unity.animation.rigging": "1.0.3",
+		"com.unity.visualeffectgraph": "7.5.3",
+		"com.unity.addressables": "1.18.2",
+		"com.unity.localization": "1.0.3",
+		"com.unity.probuilder": "4.4.0"
+	},
+	"keywords": [
+		"StoryTime",
+		"RPG",
+		"Dialogues",
+		"Stories",
+		"Crafting",
+		"Inventory",
+		"Localization"
+	],
+	"author": {
+		"name": "Valencio Hoffman",
+		"email": "valencio.hoffman@gmail.com",
+		"url": "https://storytime.vamidicreations.nl/"
+	},
+	"samples": [
+		{
+			"displayName": "Item Manager",
+			"description": "Item manager with a simple UI windows and interactions.",
+			"path": "Samples~/Item Management/Item manager"
+		},
+		{
+			"displayName": "Player Inventory",
+			"description": "Ability to interact with items in the world.",
+			"path": "Samples~/Item Management/Player inventory"
+		},
+		{
+			"displayName": "Equipment",
+			"description": "Manager for the player's equipment.",
+			"path": "Samples~/Item Management/Equipment"
+		},
+		{
+			"displayName": "Crafting",
+			"description": "Ability to craft various items.",
+			"path": "Samples~/Item Management/Crafting"
+		},
+		{
+			"displayName": "Shops",
+			"description": "Buy Items from different shops",
+			"path": "Samples~/Item Management/Shops"
+		},
+		{
+			"displayName": "Item stats",
+			"description": "Items that boosts the certain stats of the player",
+			"path": "Samples~/Stats/Item stats"
+		},
+		{
+			"displayName": "Skills",
+			"description": "Increase level and unlock different skills.",
+			"path": "Samples~/Stats/Skills"
+		},
+		{
+			"displayName": "Player interactions",
+			"description": "simple player controller with interactions",
+			"path": "Samples~/Misc/Player interactions"
+		},
+		{
+			"displayName": "World Map",
+			"description": "Mini map with world map interactions",
+			"path": "Samples~/Misc/World map"
+		},
+		{
+			"displayName": "Day & Night cycle",
+			"description": "Day and night cycle.",
+			"path": "Samples~/Misc/DayNight cycle"
+		},
+		{
+			"displayName": "Save files",
+			"description": "Ability to save the game and load it.",
+			"path": "Samples~/Misc/Save files"
+		},
+		{
+			"displayName": "Essentials",
+			"description": "All the essentials to get started with StoryTime.",
+			"path": "Samples~/Essentials"
+		},
+		{
+			"displayName": "Events",
+			"description": "Example events for interactions in StoryTime.",
+			"path": "Samples~/Events"
+		},
+		{
+			"displayName": "Input",
+			"description": "Example input handler for interactions in StoryTime.",
+			"path": "Samples~/Input"
+		},
+		{
+			"displayName": "Persistence Managers",
+			"description": "Managers bundled in one scene.",
+			"path": "Samples~/Persistence Managers"
+		},
+		{
+			"displayName": "Placeholders",
+			"description": "Basic prefabs that can be used to create your games.",
+			"path": "Samples~/Placeholders"
+		},
+		{
+			"displayName": "Example Scenes",
+			"description": "Showcase within different scenes.",
+			"path": "Samples~/Example Scenes"
+		}
+	],
+	"type": "tool"
 }
