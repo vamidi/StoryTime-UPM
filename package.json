@@ -85,10 +85,21 @@
 			"path": "Samples~/Misc/DayNight cycle"
 		},
 		{
+			"displayName": "World Map",
+			"description": "Mini map with world map interactions",
+			"path": "Samples~/Misc/World map"
+		},
+		{
+			"displayName": "Day & Night cycle",
+			"description": "Day and night cycle.",
+			"path": "Samples~/Misc/DayNight cycle"
+		},
+		{
 			"displayName": "Save files",
 			"description": "Ability to save the game and load it.",
 			"path": "Samples~/Misc/Save files"
 		},
+
 		{
 			"displayName": "Essentials",
 			"description": "All the essentials to get started with StoryTime.",
