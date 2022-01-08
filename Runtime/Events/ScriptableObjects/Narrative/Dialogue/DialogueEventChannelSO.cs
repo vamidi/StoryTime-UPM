@@ -8,8 +8,8 @@ namespace StoryTime.Events.ScriptableObjects
 	public class DialogueEventChannelSO : EventChannelBaseSO
 	{
 		// TODO maybe make a string to see where the event is coming from.
-		public UnityAction<string, Object> OnEventRaised;
+		public UnityAction<string, System.Object> OnEventRaised;
 
-		public void RaiseEvent(string choiceType, Object value) => OnEventRaised?.Invoke(choiceType, value);
+		public void RaiseEvent(string choiceType, System.Object value) => OnEventRaised?.Invoke(choiceType, value);
 	}
 }

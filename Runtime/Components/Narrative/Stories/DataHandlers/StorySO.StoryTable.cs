@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using Newtonsoft.Json.Linq;
@@ -14,7 +15,6 @@ namespace StoryTime.Components.ScriptableObjects
 	using Database;
 	using Binary;
 	using Attributes;
-	using Configurations.ScriptableObjects;
 
 	// ReSharper disable once InconsistentNaming
 	public partial class StorySO
@@ -121,6 +121,58 @@ namespace StoryTime.Components.ScriptableObjects
 				ParseNextNodeData(story, currentDialogue, node, nodes);
 			}
 
+			// Override this function to make your custom converter
+			protected static DialogueEventSO convertEvent(TableRow row, KeyValuePair<string, JToken> @event)
+			{
+				var eventName = "";
+				// validate the data
+				if (row.Fields.Count > 0)
+				{
+					var field = row.Find("name");
+					if (field != null)
+					{
+						eventName = (string) field.Data;
+					}
+				}
+
+				var valueToken = @event.Value["value"];
+
+				if (valueToken == null)
+				{
+					Debug.Log("Value is null. Creating empty event");
+					return new DialogueEventSO(eventName);
+				}
+
+				JToken token = valueToken["value"];
+				if (token == null)
+				{
+					Debug.Log("Token is null. Creating empty event");
+					return new DialogueEventSO(eventName);
+				}
+
+				dynamic value = null;
+				switch (token.Type)
+				{
+					case JTokenType.Boolean:
+						value = token.ToObject<bool>();
+						Debug.Log("Creating bool value");
+						break;
+					case JTokenType.Integer:
+						value = token.ToObject<double>();
+						Debug.Log("Creating numeric value");
+						break;
+					case JTokenType.String:
+						value = token.ToObject<string>();
+						Debug.Log("Creating string value");
+						break;
+					case JTokenType.Object:
+						Debug.LogError("You are trying to convert an object to a dynamic value");
+						break;
+				}
+
+				return new DialogueEventSO(eventName, value);
+			}
+
 			/// <summary>
 			/// Grab the next dialogue
 			/// nextDialogue = ConvertRow(TableDatabase.Get.GetRow("dialogues", nextDialogueID));
@@ -186,27 +238,16 @@ namespace StoryTime.Components.ScriptableObjects
 								{
 									// fetch the event name
 									var eventId = otherData["eventId"]?.ToObject<uint>() ?? UInt32.MaxValue;
-									var eventName = "";
 									if (eventId != UInt32.MaxValue)
 									{
 										var row = TableDatabase.Get.GetRow("events", eventId);
 
-										// validate the data
-										if (row.Fields.Count > 0)
-										{
-											var field = row.Find("name");
-											if (field != null)
-											{
-												eventName = (string) field.Data;
-											}
-										}
 										// fetch the parameters
 										//  TODO mark event value as dynamic to support multiple parameters
 										JObject events = otherData["events"]?.ToObject<JObject>() ?? emptyObj;
 										foreach (var @event in events)
 										{
-											// int value = @event.Value["value"]["value"].ToObject<int>();
-											currentDialogue.DialogueEvent = new DialogueEventSO(eventName, story);
+											currentDialogue.DialogueEvent = convertEvent(row, @event);
 										}
 									}
 								}

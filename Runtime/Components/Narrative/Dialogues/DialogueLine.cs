@@ -64,7 +64,7 @@ namespace StoryTime.Components
 		private LocalizedString sentence;
 
 		[SerializeField, Tooltip("Event that will be fired once filled in.")]
-		private DialogueEventSO dialogueEvent = new DialogueEventSO("", null);
+		private DialogueEventSO dialogueEvent = new DialogueEventSO("");
 
 		private List<DialogueChoice> m_Choices = new List<DialogueChoice>();
 	}

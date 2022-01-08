@@ -101,7 +101,6 @@ namespace StoryTime.Editor
 			if (tblComp != null)
 			{
 				_choiceIndex = Array.FindIndex(m_PopulatedList.Keys.ToArray(), idx => idx == tblComp.ID);
-
 				var binary = TableDatabase.Get.GetBinary(tblComp.Name);
 				string linkColumn = tblComp.LinkedColumn;
 				uint linkId = tblComp.LinkedID;

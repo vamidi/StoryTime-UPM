@@ -2,6 +2,7 @@
 namespace StoryTime.Components.ScriptableObjects
 {
 	using Binary;
+	using Database;
 	using Configurations.ScriptableObjects;
 
 	/// <summary>
@@ -23,7 +24,7 @@ namespace StoryTime.Components.ScriptableObjects
 					return character;
 				}
 
-				DatabaseConfigSO config = TableBinary.Fetch();
+				DatabaseConfigSO config = TableDatabase.Fetch();
 				if (config != null)
 				{
 					character.ID = row.RowId;

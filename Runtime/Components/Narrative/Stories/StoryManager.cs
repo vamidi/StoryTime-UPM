@@ -16,8 +16,11 @@ namespace StoryTime.Components
 		[SerializeField, Tooltip("These are the quests that are part of the main storyline")]
 		private StoryLineSO currentStoryLine;
 
-		[SerializeField, Tooltip("List of quests that are not part of the main story.")]
-		private List<StorySO> stories;
+		// Add your stories if you want this manager to find it.
+		[SerializeField, Tooltip("List of stories in the game.")] private List<StorySO> stories;
+
+		[SerializeField, Tooltip("List of stories/quests that are not part of the main story.")]
+		private List<StorySO> subStories;
 
 		// Reference to the players inventory.
 		[SerializeField] private InventorySO inventory;
@@ -123,15 +126,15 @@ namespace StoryTime.Components
 			StartGame();
 		}
 
-		void CheckIncomingDialogueEvent(string eventName, Object story)
+		void CheckIncomingDialogueEvent(string eventName, System.Object storyID)
 		{
 			if (eventName == "AcceptQuest")
 			{
-				var qStory = story as StorySO;
-				stories.Add(qStory);
-
+				var qStory = stories.Find(story => (int)storyID == story.ID);
 				if (qStory != null)
 				{
+					subStories.Add(qStory);
+
 					// TODO make it possible to start the quest from the quest manage window
 					StartStory(qStory);
 				}
@@ -249,50 +252,45 @@ namespace StoryTime.Components
 		{
 			m_CurrentTask = null;
 
-			if (stories != null)
+			// if we have no sub stories at all.
+			if (subStories == null) return;
+			if (subStories.Count == 0) return;
+			// If we have no tasks at all.
+			if (subStories[m_CurrentQuestIndex].Tasks == null) return;
+			if (subStories[m_CurrentQuestIndex].Tasks.Count == 0) return;
+
+			TaskSO task = subStories[m_CurrentQuestIndex].Tasks[m_CurrentTaskIndex];
+
+			if (endTaskEvent != null) endTaskEvent.RaiseEvent(task, null);
+
+			// finish the task
+			task.FinishTask();
+
+			if (subStories[m_CurrentQuestIndex].Tasks.Count > m_CurrentTaskIndex + 1)
 			{
-				if (stories.Count > m_CurrentQuestIndex)
+				m_CurrentTaskIndex++;
+
+				navigationInteractionUI.RaiseEvent(true, new StoryInfo
 				{
-					if (stories[m_CurrentQuestIndex].Tasks != null)
-					{
-						if (stories[m_CurrentQuestIndex].Tasks.Count > m_CurrentTaskIndex)
-						{
-							TaskSO task = stories[m_CurrentQuestIndex].Tasks[m_CurrentTaskIndex];
+					// this is a new quest so grab the first quest.
+					Story = m_CurrentStory,
+					Index = m_CurrentTaskIndex,
+					State = UI.ScriptableObjects.StoryState.Update
+				}, InteractionType.Navigate);
 
-							if (endTaskEvent != null) endTaskEvent.RaiseEvent(task, null);
+				StartTask();
+			}
+			else
+			{
+				navigationInteractionUI.RaiseEvent(true, new StoryInfo
+				{
+					// this is a new quest so grab the first quest.
+					Story = m_CurrentStory,
+					Index = m_CurrentTaskIndex,
+					State = UI.ScriptableObjects.StoryState.Complete
+				}, InteractionType.Navigate);
 
-							// finish the task
-							task.FinishTask();
-
-							if (stories[m_CurrentQuestIndex].Tasks.Count > m_CurrentTaskIndex + 1)
-							{
-								m_CurrentTaskIndex++;
-
-								navigationInteractionUI.RaiseEvent(true, new StoryInfo
-								{
-									// this is a new quest so grab the first quest.
-									Story = m_CurrentStory,
-									Index = m_CurrentTaskIndex,
-									State = UI.ScriptableObjects.StoryState.Update
-								}, InteractionType.Navigate);
-
-								StartTask();
-							}
-							else
-							{
-								navigationInteractionUI.RaiseEvent(true, new StoryInfo
-								{
-									// this is a new quest so grab the first quest.
-									Story = m_CurrentStory,
-									Index = m_CurrentTaskIndex,
-									State = UI.ScriptableObjects.StoryState.Complete
-								}, InteractionType.Navigate);
-
-								EndStory();
-							}
-						}
-					}
-				}
+				EndStory();
 			}
 		}
 
@@ -303,24 +301,21 @@ namespace StoryTime.Components
 		/// </summary>
 		protected virtual void EndStory()
 		{
-			if (m_CurrentStory != null)
-			{
-				// check if we dont have anything to do anymore in the quest.
-				if (m_CurrentTaskIndex > m_CurrentStory.Tasks.Count)
-				{
-					foreach (var task in m_CurrentStory.Tasks)
-					{
-						// If we dont need to collect this item then it is probably
-						// an item to give to the player
-						if(task.Type != TaskCompletionType.Collect)
-							// Reward
-							rewardItemEvent.RaiseEvent(task.Items);
-					}
+			if (m_CurrentStory == null) return;
+			// check if we dont have anything to do anymore in the quest.
+			if (m_CurrentTaskIndex < m_CurrentStory.Tasks.Count) return;
 
-					// complete that quest.
-					m_CurrentStory.FinishStory();
-				}
+			foreach (var task in m_CurrentStory.Tasks)
+			{
+				// If we dont need to collect this item then it is probably
+				// an item to give to the player
+				if(task.Type != TaskCompletionType.Collect)
+					// Reward
+					rewardItemEvent.RaiseEvent(task.Items);
 			}
+
+			// complete that quest.
+			m_CurrentStory.FinishStory();
 		}
 
 		/// <summary>

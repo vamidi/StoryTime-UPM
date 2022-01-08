@@ -1,13 +1,21 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+
+using Newtonsoft.Json.Linq;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 using UnityEngine;
 
 namespace StoryTime.Database
 {
     using Binary;
+    using ResourceManagement.Util;
     using Configurations.ScriptableObjects;
-
     /// <summary>
     /// TableDatabase stores table data from the json file and stores it into memory
     /// From memory everyone get fetch this instance and grab data
@@ -15,19 +23,14 @@ namespace StoryTime.Database
     public sealed class TableDatabase
     {
         // private UInt64 DatabaseVersion = 0;
+        public ReadOnlyCollection<TableSO> Tables => Data.Values.ToList().AsReadOnly();
 
         /// <summary>
         /// All the data (sorted per table) the application needs for reading
         /// This data has the table data from the json files.
         /// ReSharper disable once InconsistentNaming
         /// </summary>
-        private readonly Dictionary<string, Table> Data = new Dictionary<string, Table>();
-
-        /// <summary>
-        /// ReSharper disable once InconsistentNaming
-        /// This variable has the actual data of the table
-        /// </summary>
-        private readonly Dictionary<string, TableBinary> _Binaries = new Dictionary<string, TableBinary>();
+        private readonly Dictionary<string, TableSO> Data = new Dictionary<string, TableSO>();
 
         // Explicit static constructor to tell C# compiler
         // not to mark type as before field init
@@ -35,16 +38,9 @@ namespace StoryTime.Database
 
         private TableDatabase()
         {
-	        // locate the data folder
-	        var config = TableBinary.Fetch();
-
-	        if (config == null)
-		        return;
-
-	        Reload(config);
-
-            // Get database version
-            // UpdateTime();
+#if !UNITY_EDITOR
+	        Refresh();
+#endif
         }
 
         // Get the timestamp of the last synced database version
@@ -52,22 +48,44 @@ namespace StoryTime.Database
 
         public static TableDatabase Get { get; } = new TableDatabase();
 
-        public TableBinary GetBinary(string tableName)
+        /// <summary>
+        ///
+        /// </summary>
+        /// <returns></returns>
+        public static DatabaseConfigSO Fetch()
         {
-            if (!_Binaries.ContainsKey(tableName))
-            {
-                TableBinary bin = new TableBinary(tableName);
-                _Binaries.Add(tableName, bin);
-            }
+#if UNITY_EDITOR
+	        var configFile = HelperClass.GetAsset<DatabaseConfigSO>( EditorPrefs.GetString("StoryTime-Window-Settings-Config", ""));
+#else
+			var configFile = null;
+#endif
+	        // TODO this will ruin the editor and stops the database sync setting window.
+	        // if (configFile == null)
+	        // throw new ArgumentNullException($"{nameof(configFile)} can not be null.", nameof(configFile));
+	        return configFile;
+        }
 
-            return _Binaries[tableName];
+        /// <summary>
+        ///
+        /// </summary>
+        /// <returns></returns>
+        public static DialogueSettingConfigSO FetchDialogueSetting()
+        {
+#if UNITY_EDITOR
+	        var path = EditorPrefs.GetString("StoryTime-Window-Dialogue-Settings-Config", "");
+	        var configFile =
+		        HelperClass.GetAsset<DialogueSettingConfigSO>(AssetDatabase.GUIDToAssetPath(path));
+#else
+			var configFile = "";
+#endif
+	        return configFile;
         }
 
         public List<Tuple<UInt32, TableRow>> FindLinks(string tableName, string columnName, UInt32 id)
         {
             List<Tuple<UInt32, TableRow>> result = new List<Tuple<uint, TableRow>>();
 
-            Table table = GetTable(tableName);
+            TableSO table = GetTable(tableName);
 
             foreach(KeyValuePair<UInt32, TableRow> row in table.Rows)
             {
@@ -124,86 +142,71 @@ namespace StoryTime.Database
         }
 
         /// <summary>
-        ///
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="columnName"></param>
-        /// <returns></returns>
-        public TableField GetField(TableRow row, string columnName)
-        {
-	        foreach (KeyValuePair<TableRowInfo, TableField> field in row.Fields)
-	        {
-		        if (field.Key.Equals(columnName))
-		        {
-			        return field.Value;
-		        }
-	        }
-
-	        return null;
-        }
-
-        /*Dictionary<uint, TableRow> GetRows(string tableName)
-        {
-            return GetTable(tableName).Rows;
-        }*/
-
-        /// <summary>
-        ///
+        /// Return the row
         /// </summary>
         /// <param name="tableName"></param>
         /// <param name="entityID"></param>
         /// <returns></returns>
         public TableRow GetRow(string tableName, uint entityID)
         {
-            Table table = GetTable(tableName);
+	        TableSO table = GetTable(tableName);
             if (!table.Rows.ContainsKey(entityID))
             {
-                TableRow r = TableBinary.GetRow(tableName, entityID);
-                table.Rows.Add(entityID, r);
-                return table.Rows[entityID];
+	            Debug.LogWarning($"{table.Metadata.title}: Couldn't find row {entityID} in table!");
+	            TableRow r = new TableRow { RowId = entityID };
+	            table.Rows.Add(entityID, r);
             }
 
             return table.Rows[entityID];
         }
 
-        public Table GetTableById(string tableID)
+        public TableSO GetTableById(string tableID)
         {
-	        List<Table> tables = GetTables();
-	        foreach (var table in tables)
+	        foreach (var table in Tables)
 	        {
-		        if (table.id == tableID)
+		        if (table.ID == tableID)
 			        return table;
 	        }
 
 	        return null;
         }
 
-        public Table GetTable(string tableName)
+        internal void AddTable(JToken jsonToken, TableMetaData metaData)
         {
-	        if (!Data.ContainsKey(tableName))
-            {
-                Data.Add(tableName, TableBinary.GetTable(tableName));
-                return Data[tableName];
-            }
-
-            return Data[tableName];
+	        TableSO table;
+	        if (!Data.ContainsKey(metaData.title))
+	        {
+		        // load it from the addressable
+		        // if null again
+		        table = ScriptableObject.CreateInstance<TableSO>();
+		        Data[metaData.title] = table;
+	        }
+	        else table = Data[metaData.title];
+	        table.Import(jsonToken);
         }
 
-        public List<Table> GetTables()
+        /// <summary>
+        /// Return a table from the dictionary based on the name.
+        /// </summary>
+        /// <param name="tableName"></param>
+        /// <returns></returns>
+        public TableSO GetTable(string tableName)
         {
-	        List<Table> tables = new List<Table>();
-	        foreach (var kBinary in _Binaries)
-	        {
-		        Debug.Log(kBinary.Key);
-		        tables.Add(GetTable(kBinary.Key));
-	        }
+	        if (!Data.ContainsKey(tableName))
+		        return null;
 
-	        return tables;
+	        return Data[tableName];
+        }
+
+        public TableSO.TableBinary GetBinary(string tableName)
+        {
+	        TableSO table = GetTable(tableName);
+	        return table ? table.Binary : null;
         }
 
         public Tuple<uint, TableRow> FindLink(string tableName, string columnName, uint id)
         {
-            /* const */ Table table = GetTable(tableName);
+            /* const */ TableSO table = GetTable(tableName);
 
             foreach (KeyValuePair<uint, TableRow> row in table.Rows)
             {
@@ -219,38 +222,51 @@ namespace StoryTime.Database
 
             return new Tuple<uint, TableRow>(UInt32.MaxValue, null);
         }
-
         void RemoveCache()
         {
             Data.Clear();
         }
 
-	    void Reload(DatabaseConfigSO config)
-        {
-	        string dataLocation = config.dataPath;
-	        if (!Directory.Exists(dataLocation))
-	        {
-		        Directory.CreateDirectory(dataLocation);
-	        }
-	        // Get existing database files
-	        var filePaths = Directory.GetFiles(dataLocation,"*.json");
-
-	        foreach (var filePath in filePaths)
-	        {
-		        string name = Path.GetFileNameWithoutExtension(filePath);
-		        _Binaries.Add(name, new TableBinary(name));
-	        }
-        }
-
+        /// <summary>
+        /// Fetch existing data
+        /// </summary>
         public void Refresh()
         {
-            foreach (var binary in _Binaries)
-            {
-                binary.Value.Refresh();
-            }
+	        // Clear out the data
+	        RemoveCache();
+	        // UpdateTime();
 
-            RemoveCache();
-            // UpdateTime();
+#if UNITY_EDITOR
+	        // Get existing database files
+	        DatabaseConfigSO config = Fetch();
+	        var assetDirectory = config.dataPath;
+	        var filePaths = Directory.GetFiles(assetDirectory, "*.asset");
+
+	        Debug.Log(filePaths.Length);
+	        foreach (var filePath in filePaths)
+	        {
+		        if (File.Exists(filePath))
+		        {
+			        TableSO table = HelperClass.GetAsset<TableSO>(filePath, true);
+			        if (table != null)
+			        {
+				        // Retrieve data from existing file, if it exists
+				        table.Refresh();
+				        Data.Add(table.Metadata.title, table);
+			        }
+		        }
+#else
+				// Fetch existing data from the addressable list.
+		        string fileName = Path.GetFileNameWithoutExtension(filePath);
+		        HelperClass.GetFileFromAddressable<TableSO>(fileName).Completed += handle => {
+			        if (handle.Result == null) return;
+
+			        // Retrieve data from existing file, if it exists
+			        handle.Result.Refresh();
+			        Data.Add(handle.Metadata.title, handle);
+		        };
+#endif
+	        }
         }
     }
 }

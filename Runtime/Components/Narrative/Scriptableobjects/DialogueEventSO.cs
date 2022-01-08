@@ -12,22 +12,25 @@ namespace StoryTime.Components.ScriptableObjects
 	{
 		public string EventName => eventName;
 
-		public UnityEngine.Object Value => value;
+		public dynamic Value => value;
 
 		[Tooltip("Dialogue Option Event name")]
 		[SerializeField] private string eventName;
 
-		[Tooltip("Dialogue Option Event value you want to pass")]
-		[SerializeField] private UnityEngine.Object value;
+		// Dialogue Option Event value you want to pass
+		// Extend class for more values.
+		protected dynamic value;
 
-		public DialogueEventSO(string eventName, UnityEngine.Object value)
+		// Extend constructor to have more values
+		public DialogueEventSO(string eventName, dynamic value = null)
 		{
 			this.eventName = eventName;
 			this.value = value;
 		}
 		public override string ToString()
 		{
-			return $"Event {eventName} and value {value}";
+			string displayedValue = Convert.ToString(value);
+			return $"Event {eventName} and value {displayedValue}";
 		}
 	}
 }

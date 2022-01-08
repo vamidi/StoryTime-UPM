@@ -10,7 +10,6 @@ namespace StoryTime.Editor
 {
 	using Binary;
 	using Database;
-	using ResourceManagement.Util;
 	using Configurations.ScriptableObjects;
 
 	static class ToolbarStyles
@@ -56,14 +55,18 @@ namespace StoryTime.Editor
 
 		private static string iconLocation = "Packages/com.vamidicreations.storytime/Editor/Images/";
 
+		private static DatabaseSyncModule Module;
+
 		static DatabaseSyncButton()
 		{
+			Module = DatabaseSyncModule.Get;
+
 			ToolbarExtender.LeftToolbarGUI.Add(OnToolbarGUI);
 
 			SyncIcon = (Texture) EditorGUIUtility.Load($"{iconLocation}sync.png");
 			SyncIconPro = (Texture) EditorGUIUtility.Load($"{iconLocation}sync-white.png");
 
-			var tables = HelperClass.GetDataFiles();
+			var tables = StoryTime.ResourceManagement.Util.HelperClass.GetDataFiles();
 			// add sync all tables func
 			TableNames = new string[tables.Count + 1];
 			TableNames[0] = "All tables";
@@ -91,12 +94,12 @@ namespace StoryTime.Editor
 			{
 				if (ChoiceIndex == 0)
 				{
-					DatabaseSyncModule.Get.RequestTableUpdate();
+					Module.RequestTableUpdate();
 				}
 				else
 				{
-					Table table = TableDatabase.Get.GetTable(TableNames[ChoiceIndex]);
-					if(table.id != String.Empty) DatabaseSyncModule.Get.RequestTableUpdate(table.id);
+					TableSO table = TableDatabase.Get.GetTable(TableNames[ChoiceIndex]);
+					if(table.ID != String.Empty) Module.RequestTableUpdate(table.ID);
 				}
 			}
 

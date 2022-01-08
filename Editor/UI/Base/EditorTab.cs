@@ -226,7 +226,6 @@ namespace StoryTime.Editor.UI
 			if (target != null)
 			{
 				_choiceIndex = Array.FindIndex(m_PopulatedList.Keys.ToArray(), idx => idx == target.ID);
-
 				var binary = TableDatabase.Get.GetBinary(target.Name);
 				string linkColumn = target.LinkedColumn;
 				uint linkId = target.LinkedID;
@@ -255,7 +254,7 @@ namespace StoryTime.Editor.UI
 			if (string.IsNullOrEmpty(path))
 				return;
 
-			path = path.Substring(path.ToLower().IndexOf("assets/"));
+			path = path.Substring(path.ToLower().IndexOf("assets/", StringComparison.Ordinal));
 			T newItem = ScriptableObject.CreateInstance<T>();
 			AssetDatabase.CreateAsset(newItem, path);
 			AssetDatabase.Refresh();

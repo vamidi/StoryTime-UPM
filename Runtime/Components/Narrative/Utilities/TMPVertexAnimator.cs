@@ -10,7 +10,7 @@ using TMPro;
 
 namespace StoryTime.Components
 {
-	using Binary;
+	using Database;
 	using Configurations.ScriptableObjects;
 
 	[Serializable] public class CharRevealEvent : UnityEvent<char> { }
@@ -250,7 +250,7 @@ namespace StoryTime.Components
 		{
 			base.Awake();
 
-			m_Config = TableBinary.FetchDialogueSetting();
+			m_Config = TableDatabase.FetchDialogueSetting();
 
 			if (m_Config != null && useConfig)
 			{
@@ -282,7 +282,7 @@ namespace StoryTime.Components
 		private void InitText()
 		{
 			_isRevealing = true;
-			
+
 			text = m_ProcessedMessage;
 			ForceMeshUpdate();
 			CalculateCharacters();

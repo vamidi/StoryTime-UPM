@@ -14,7 +14,6 @@ namespace StoryTime.Editor.Localization.Plugins.JSON
 {
 	using UI;
 	using Fields;
-	using ResourceManagement.Util;
 	using Configurations.ScriptableObjects;
 
 	class JsonExtensionPropertyDrawerData
@@ -201,7 +200,7 @@ namespace StoryTime.Editor.Localization.Plugins.JSON
 				try
 				{
 					var google = GetTableContent(data);
-					var files = HelperClass.GetDataFiles();
+					var files = StoryTime.ResourceManagement.Util.HelperClass.GetDataFiles();
 
 					var menu = new GenericMenu();
 					foreach (var s in files)

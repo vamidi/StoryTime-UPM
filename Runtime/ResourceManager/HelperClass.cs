@@ -3,13 +3,19 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
+#if UNITY_EDITOR
 using UnityEditor;
+using UnityEditor.AddressableAssets.Settings;
+#endif
+
 using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 using Object = UnityEngine.Object;
 
 namespace StoryTime.ResourceManagement.Util
 {
-	using Binary;
+	using Database;
 	using Configurations.ScriptableObjects;
 
 	public static class HelperClass
@@ -66,14 +72,35 @@ namespace StoryTime.ResourceManagement.Util
 			return new string(a);
 		}
 
-		public static T GetAsset<T>(string guid) where T : Object
+		public static void CreateAsset<T>(T item, string destination) where T: ScriptableObject
 		{
+#if UNITY_EDITOR
+			var relativePath = MakePathRelative(destination);
+			AssetDatabase.CreateAsset(item, relativePath);
+			AssetDatabase.Refresh();
+			AssetDatabase.SaveAssets();
+#endif
+		}
+
+		public static T GetAsset<T>(string destination, bool convert = false) where T : Object
+		{
+			var guid = destination;
+#if UNITY_EDITOR
+			if (convert)
+			{
+				var relativePath = MakePathRelative(destination);
+				guid = relativePath;
+			}
 			return AssetDatabase.LoadAssetAtPath<T>(AssetDatabase.GUIDToAssetPath(guid));
+#else
+			return null;
+#endif
 		}
 
 		public static List<T> FindAssetsByType<T>() where T : Object
 		{
 			List<T> assets = new List<T>();
+#if UNITY_EDITOR
 			string[] guids = AssetDatabase.FindAssets(string.Format("t:{0}", typeof(T)));
 			for (int i = 0; i < guids.Length; i++)
 			{
@@ -84,19 +111,34 @@ namespace StoryTime.ResourceManagement.Util
 					assets.Add(asset);
 				}
 			}
-
+#endif
 			return assets;
 		}
 
+		public static void AddFileToAddressable(string groupName, string destination)
+		{
+#if UNITY_EDITOR
+			var relativePath = MakePathRelative(destination);
+			var settings = GetAddressableSettings();
+			var guid = AssetDatabase.AssetPathToGUID(relativePath);
+			AddAssetToGroup(guid, settings.FindGroup(groupName));
+#endif
+		}
+
+		public static AsyncOperationHandle<T> GetFileFromAddressable<T>(string address)
+		{
+			return Addressables.LoadAssetAsync<T>(address);
+		}
+
 		/// <summary>
-		/// Returns a list of all the json files in the directory with the id <see cref="TableId"/>.
+		/// Returns a list of all the json files in the directory with the id <see cref="TableID"/>.
 		/// </summary>
 		/// <returns>The sheets names and id's.</returns>
-		public static List<(string name, string fileName)> GetDataFiles()
+		public static List<(string name, string fileName)> GetDataFiles(string pattern = "*.json")
 		{
 			var files = new List<(string name, string fileName)>();
 
-			DatabaseConfigSO config = TableBinary.Fetch();
+			DatabaseConfigSO config = TableDatabase.Fetch();
 			if (config != null)
 			{
 				var assetDirectory = config.dataPath;
@@ -109,7 +151,7 @@ namespace StoryTime.ResourceManagement.Util
 				try
 				{
 					// Get existing database files
-					var filePaths = Directory.GetFiles(assetDirectory, "*.json");
+					var filePaths = Directory.GetFiles(assetDirectory, pattern);
 
 					foreach (var filePath in filePaths)
 					{
@@ -123,5 +165,23 @@ namespace StoryTime.ResourceManagement.Util
 
 			return files;
 		}
+
+		private static AddressableAssetSettings GetAddressableSettings()
+		{
+#if UNITY_EDITOR
+			return UnityEditor.AddressableAssets.AddressableAssetSettingsDefaultObject.Settings;
+#else
+			return null;
+#endif
+		}
+
+#if UNITY_EDITOR
+		private static void AddAssetToGroup(string guid, AddressableAssetGroup group)
+		{
+			var settings = UnityEditor.AddressableAssets.AddressableAssetSettingsDefaultObject.Settings;
+			// var group = settings.FindGroup("Group Name");
+			settings.CreateOrMoveEntry(guid, group);
+		}
+#endif
 	}
 }

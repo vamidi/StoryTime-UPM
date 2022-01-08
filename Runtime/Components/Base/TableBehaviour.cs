@@ -45,9 +45,9 @@ namespace StoryTime.Components.ScriptableObjects
 		    Init(name, dropdownColumn, linkedColumn, linkedId, linkedTable);
 	    }
 
-	    public void Init(string name, string dropdownColumn, string linkedColumn, UInt32 linkedId, string linkedTable)
+	    public void Init(string tblName, string dropdownColumn, string linkedColumn, UInt32 linkedId, string linkedTable)
 	    {
-		    Name = name;
+		    Name = tblName;
 		    DropdownColumn = dropdownColumn;
 
 		    LinkedColumn = linkedColumn;
@@ -57,36 +57,73 @@ namespace StoryTime.Components.ScriptableObjects
 
 	    public virtual void Reset() { }
 
-	    public TableField GetField(string tableName, string columnName, uint id)
+	    /// <summary>
+	    ///
+	    /// </summary>
+	    /// <param name="tblName"></param>
+	    /// <param name="columnId"></param>
+	    /// <param name="id"></param>
+	    /// <returns></returns>
+	    public TableField GetField(string tblName, uint columnId, uint id)
 	    {
-		    return TableDatabase.Get.GetField(tableName, columnName, id);
+		    return TableDatabase.Get.GetField(tblName, columnId, id);
 	    }
 
-	    public TableRow GetRow(string tableName, uint id)
+	    /// <summary>
+	    ///
+	    /// </summary>
+	    /// <param name="tblName"></param>
+	    /// <param name="columnName"></param>
+	    /// <param name="id"></param>
+	    /// <returns></returns>
+	    public TableField GetField(string tblName, string columnName, uint id)
 	    {
-		    return TableDatabase.Get.GetRow(tableName, id);
+		    return TableDatabase.Get.GetField(tblName, columnName, id);
 	    }
 
-	    public Table GetTable(string tableName)
+	    /// <summary>
+	    ///
+	    /// </summary>
+	    /// <param name="tblName"></param>
+	    /// <param name="id"></param>
+	    /// <returns></returns>
+	    public TableRow GetRow(string tblName, uint id)
 	    {
-		    return TableDatabase.Get.GetTable(tableName);
+		    return TableDatabase.Get.GetRow(tblName, id);
 	    }
 
-	    public Tuple<uint, TableRow> FindLink(string tableName, string columnName, uint id)
+	    /// <summary>
+	    ///
+	    /// </summary>
+	    /// <param name="tblName"></param>
+	    /// <returns></returns>
+	    public TableSO GetTable(string tblName)
 	    {
-		    return TableDatabase.Get.FindLink(tableName, columnName, id);
+		    return TableDatabase.Get.GetTable(tblName);
+	    }
+
+	    /// <summary>
+	    ///
+	    /// </summary>
+	    /// <param name="tblName"></param>
+	    /// <param name="columnName"></param>
+	    /// <param name="id"></param>
+	    /// <returns></returns>
+	    public Tuple<uint, TableRow> FindLink(string tblName, string columnName, uint id)
+	    {
+		    return TableDatabase.Get.FindLink(tblName, columnName, id);
 	    }
 
 	    /// <summary>
 	    /// Find rows that are associated with the id given.
 	    /// </summary>
-	    /// <param name="tableName"></param>
+	    /// <param name="tblName"></param>
 	    /// <param name="columnName"></param>
 	    /// <param name="id"></param>
 	    /// <returns></returns>
-	    public List<Tuple<uint, TableRow>> FindLinks(string tableName, string columnName, UInt32 id)
+	    public List<Tuple<uint, TableRow>> FindLinks(string tblName, string columnName, UInt32 id)
 	    {
-		    return TableDatabase.Get.FindLinks(tableName, columnName, id);
+		    return TableDatabase.Get.FindLinks(tblName, columnName, id);
 	    }
 	    protected virtual void OnTableIDChanged()
 	    {

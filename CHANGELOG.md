@@ -1,3 +1,16 @@
+<a name="2020.1.7f1"></a>
+## [2020.1.6f3](https://github.com/vamidi/storytime/compare/v2020.1.0b1...v2020.1.6f3) (2021-05-11)
+
+### Breaking changes
+- DatabaseSyncModule now only fetches the data from the database. Whereas the TableData now process the data.
+- TableSO added to generate overview of the json data.
+
+### Features
+- First version of the Day and night cycle added.
+- Addressables added.
+- 
+
+
 <a name="2020.1.6f3"></a>
 ## [2020.1.6f3](https://github.com/vamidi/storytime/compare/v2020.1.0b1...v2020.1.6f3) (2021-05-11)
 

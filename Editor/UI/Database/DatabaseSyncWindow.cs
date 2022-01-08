@@ -1,5 +1,5 @@
 using System;
-
+using StoryTime.ResourceManagement.Util;
 using UnityEditor;
 using UnityEditor.UIElements;
 
@@ -97,7 +97,7 @@ namespace StoryTime.Editor.UI
             Debug.Assert(m_TabPanels.Count == m_TabToggles.Count, "Expected the same number of tab toggle buttons and panels.");
             */
 
-	        var dialogueConfigFile = AssetDatabase.LoadAssetAtPath<DialogueSettingConfigSO>(AssetDatabase.GUIDToAssetPath(SelectedDialogueConfig));
+	        var dialogueConfigFile = HelperClass.GetAsset<DialogueSettingConfigSO>(SelectedDialogueConfig);
 
             // First get the config instance id if existing
             var field = root.Q<ObjectField>("config-field");
@@ -106,7 +106,7 @@ namespace StoryTime.Editor.UI
 
             if (SelectedConfig != String.Empty)
             {
-	            var configFile = AssetDatabase.LoadAssetAtPath<DatabaseConfigSO>(AssetDatabase.GUIDToAssetPath(SelectedConfig));
+	            var configFile = HelperClass.GetAsset<DatabaseConfigSO>(SelectedConfig);
 	            if (configFile)
 	            {
 		            field.value = configFile;

@@ -88,8 +88,8 @@ namespace StoryTime.Editor.UI
 			{
 				btn.clickable = new Clickable(() =>
 				{
-					Table table = TableDatabase.Get.GetTable(m_TableName);
-					if(table.id != String.Empty) RefreshTable(table.id);
+					TableSO table = TableDatabase.Get.GetTable(m_TableName);
+					if(table.ID != String.Empty) RefreshTable(table.ID);
 				});
 			}
 		}

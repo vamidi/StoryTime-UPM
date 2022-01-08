@@ -1,6 +1,8 @@
+
 namespace StoryTime.Components.ScriptableObjects
 {
 	using Binary;
+	using Database;
 	using Configurations.ScriptableObjects;
 
 	public partial class SkillSO
@@ -16,7 +18,7 @@ namespace StoryTime.Components.ScriptableObjects
 					return skill;
 				}
 
-				DatabaseConfigSO config = TableBinary.Fetch();
+				DatabaseConfigSO config = TableDatabase.Fetch();
 				if (config != null)
 				{
 					skill.ID = row.RowId;

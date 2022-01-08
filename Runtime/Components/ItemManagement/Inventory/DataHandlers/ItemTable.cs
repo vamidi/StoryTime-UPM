@@ -1,6 +1,8 @@
+
 namespace StoryTime.Components.ScriptableObjects
 {
 	using Binary;
+	using Database;
 	using Configurations.ScriptableObjects;
 
 	// ReSharper disable once InconsistentNaming
@@ -17,7 +19,7 @@ namespace StoryTime.Components.ScriptableObjects
 					return item;
 				}
 
-				DatabaseConfigSO config = TableBinary.Fetch();
+				DatabaseConfigSO config = TableDatabase.Fetch();
 				if (config != null)
 				{
 					item.ID = row.RowId;

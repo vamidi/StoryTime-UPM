@@ -8,12 +8,14 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 using Newtonsoft.Json.Linq;
+using UnityEngine.AddressableAssets;
 
 namespace StoryTime.Editor
 {
 	using UI;
 	using Binary;
 	using Database;
+	using ResourceManagement.Util;
 	using Configurations.ScriptableObjects;
 
 	[Serializable]
@@ -44,8 +46,15 @@ namespace StoryTime.Editor
 		public long expire_time;
 	}
 
+	/// <summary>
+	/// The DatabaseSync Module is in charge of making the connection to
+	/// the database. Once that data is sync it will create or find the existing
+	/// table scriptable object and update the data.
+	/// </summary>
 	public class DatabaseSyncModule
 	{
+		private static readonly string s_GroupName = "JSON_data";
+
 		private static readonly string s_DataPath = "Packages/com.vamidicreations.storytime";
 
 		private static readonly string FirebaseAppFile;
@@ -72,6 +81,9 @@ namespace StoryTime.Editor
 		{
 			Debug.Log("Starting module");
 
+			// Load existing data
+			Addressables.InitializeAsync().Completed += (result) => TableDatabase.Get.Refresh();
+
 			// TODO this file should already exist to override it in order projects.
 			FirebaseAppFile = $"{s_DataPath}/firebase-storytime-app.json";
 
@@ -95,6 +107,8 @@ namespace StoryTime.Editor
 		/// </summary>
 		private static void RetrieveAppFile()
 		{
+			// GetFileFromAddressable()
+
 			if (!File.Exists(FirebaseAppFile))
 			{
 				Debug.Log("Creating Firebase-storytime-app.json");
@@ -273,14 +287,13 @@ namespace StoryTime.Editor
 			// check if we are logged in and then fetch data
 			CheckLogin(() =>
 			{
+				// TODO add regular expression for the product id in order to prevent errors.
 				DatabaseConfigSO configFile = Fetch();
 				UnityWebRequest wr = UnityWebRequest.Get($"{configFile.DatabaseURL}firebase/projects/{configFile.ProjectID}/tables/{tableID}");
-
 				wr.timeout = 60;
 				wr.SetRequestHeader("User-Agent", "X-Unity3D-Agent");
 				wr.SetRequestHeader("Content-Type", "application/json; charset=utf-8");
 				wr.SetRequestHeader("Authorization", "Bearer " + DATABASE_TOKEN.id_token);
-
 				wr.SendWebRequest().completed += operation => OnResponseReceived(wr, tableID);
 			});
 		}
@@ -289,7 +302,6 @@ namespace StoryTime.Editor
 		{
 			// FetchNotification->SetCompletionState(bWasSuccessful? SNotificationItem::CS_Success : SNotificationItem::CS_Fail);
 			// FetchNotification->ExpireAndFadeout();
-
 			if (request.result == UnityWebRequest.Result.ConnectionError || request.responseCode == 401 || request.responseCode == 500)
 			{
 				Debug.LogError("Error: " + request.error);
@@ -305,16 +317,16 @@ namespace StoryTime.Editor
 			bool hasTable = tableID != "";
 
 			// Create a pointer to hold the json serialized data
-
 			if (hasTable)
 			{
 				var jsonToken = JToken.Parse(str);
 
-				Table tableData = jsonToken.ToObject<Table>() ?? throw new ArgumentException($"Can't make Table from JSON file");
+				if (jsonToken["id"] == null || jsonToken["projectID"] == null || jsonToken["metadata"] == null)
+					throw new ArgumentException("Can't make Table from JSON file");
 
-				// Get table name and store it as individual data
-				TableBinary bin = TableDatabase.Get.GetBinary(tableData.metadata.title);
-				bin.Import(jsonToken);
+				// Get the TableSO from the TableDatabase.
+				TableMetaData tableMetadata = jsonToken["metadata"].ToObject<TableMetaData>();
+				TableDatabase.Get.AddTable(jsonToken, tableMetadata);
 			}
 			else
 			{
@@ -322,13 +334,12 @@ namespace StoryTime.Editor
 				// now we can get the values from json of any attribute.
 				foreach (var item in jsonArray.Children())
 				{
-					Table tableData = item.ToObject<Table>();
-					if(tableData == null || tableData.metadata == null || tableData.metadata.title == "" )
+					if (item["id"] == null || item["projectID"] == null || item["metadata"] == null)
 						throw new ArgumentException("Can't make Table from JSON file");
 
-					// Get table name and store it as individual data
-					TableBinary bin = TableDatabase.Get.GetBinary(tableData.metadata.title);
-					bin.Import(item);
+					TableMetaData tableMetadata = item["metadata"].ToObject<TableMetaData>();
+					// Export to addressable is handle in the Table itself --> SOLID PATTERN
+					TableDatabase.Get.AddTable(item, tableMetadata);
 				}
 			}
 
@@ -345,6 +356,8 @@ namespace StoryTime.Editor
 
 				string destination = $"{config.dataPath}/uptime.txt";
 				File.WriteAllText(destination, _lastTimeStamp.ToString());
+				// Add the uptime file to the addressable group
+				HelperClass.AddFileToAddressable(s_GroupName, destination);
 			}
 
 			Debug.Log("Invoking fetch");
@@ -353,7 +366,7 @@ namespace StoryTime.Editor
 			_canFetch = true;
 		}
 
-		public static DatabaseConfigSO Fetch()
+		protected static DatabaseConfigSO Fetch()
 		{
 			var configFile = AssetDatabase.LoadAssetAtPath<DatabaseConfigSO>(AssetDatabase.GUIDToAssetPath(DatabaseSyncWindow.SelectedConfig));
 			if (configFile == null)
