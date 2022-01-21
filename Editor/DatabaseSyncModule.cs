@@ -99,6 +99,9 @@ namespace StoryTime.Editor
 				// Thread.Sleep((int)(step * 1000.0f));
 			// }
 			// EditorUtility.ClearProgressBar();
+			// int progressId = Progress.Start("Running one task", 0);
+
+
 			CheckLogin(() => { });
 		}
 
