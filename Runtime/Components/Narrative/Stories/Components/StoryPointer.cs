@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 namespace StoryTime.Components
 {
@@ -8,6 +9,7 @@ namespace StoryTime.Components
 	{
 		[SerializeField] private Camera uiCamera;
 		[SerializeField] private float borderSize = 100f;
+		[SerializeField, Tooltip("UI text distance in meters")] private Text meter;
 
 		private Vector3 targetPosition;
 		private RectTransform pointerRectTransform;
@@ -49,6 +51,9 @@ namespace StoryTime.Components
 
 				pointerRectTransform.localEulerAngles = Vector3.zero;
 			}
+
+			if(meter)
+				meter.text = Vector3.Distance(targetPosition, transform.position).ToString("0") + "m";
 		}
 
 		private void RotatePointerTowardsTargetPosition()
