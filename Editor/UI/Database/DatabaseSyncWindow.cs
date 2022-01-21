@@ -97,7 +97,7 @@ namespace StoryTime.Editor.UI
             Debug.Assert(m_TabPanels.Count == m_TabToggles.Count, "Expected the same number of tab toggle buttons and panels.");
             */
 
-	        var dialogueConfigFile = HelperClass.GetAsset<DialogueSettingConfigSO>(SelectedDialogueConfig);
+	        var dialogueConfigFile = HelperClass.GetAsset<DialogueSettingConfigSO>(AssetDatabase.GUIDToAssetPath(SelectedDialogueConfig));
 
             // First get the config instance id if existing
             var field = root.Q<ObjectField>("config-field");
@@ -106,7 +106,7 @@ namespace StoryTime.Editor.UI
 
             if (SelectedConfig != String.Empty)
             {
-	            var configFile = HelperClass.GetAsset<DatabaseConfigSO>(SelectedConfig);
+	            var configFile = HelperClass.GetAsset<DatabaseConfigSO>(AssetDatabase.GUIDToAssetPath(SelectedConfig));
 	            if (configFile)
 	            {
 		            field.value = configFile;

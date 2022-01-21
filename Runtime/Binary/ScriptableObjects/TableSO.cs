@@ -3,6 +3,7 @@ using System.IO;
 using System.Collections.Generic;
 
 using Newtonsoft.Json.Linq;
+using UnityEditor;
 using UnityEngine;
 
 namespace StoryTime.Binary
@@ -103,6 +104,10 @@ namespace StoryTime.Binary
 #if UNITY_EDITOR
 	        HelperClass.CreateAsset(this, destination);
 	        HelperClass.AddFileToAddressable("JSON_data", destination);
+	        //
+	        HelperClass.ChangeAddressableAddress(
+		        AssetDatabase.AssetPathToGUID(HelperClass.MakePathRelative(destination)), metadata.title.ToLower()
+		    );
 #endif
         }
 

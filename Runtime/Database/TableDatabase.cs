@@ -55,7 +55,8 @@ namespace StoryTime.Database
         public static DatabaseConfigSO Fetch()
         {
 #if UNITY_EDITOR
-	        var configFile = HelperClass.GetAsset<DatabaseConfigSO>( EditorPrefs.GetString("StoryTime-Window-Settings-Config", ""));
+	        var path = EditorPrefs.GetString("StoryTime-Window-Settings-Config", "");
+	        var configFile = HelperClass.GetAsset<DatabaseConfigSO>( AssetDatabase.GUIDToAssetPath(path));
 #else
 			var configFile = null;
 #endif
@@ -240,9 +241,8 @@ namespace StoryTime.Database
 	        // Get existing database files
 	        DatabaseConfigSO config = Fetch();
 	        var assetDirectory = config.dataPath;
-	        var filePaths = Directory.GetFiles(assetDirectory, "*.asset");
+	        var filePaths = Directory.GetFiles(assetDirectory, "*.asset", SearchOption.TopDirectoryOnly);
 
-	        Debug.Log(filePaths.Length);
 	        foreach (var filePath in filePaths)
 	        {
 		        if (File.Exists(filePath))

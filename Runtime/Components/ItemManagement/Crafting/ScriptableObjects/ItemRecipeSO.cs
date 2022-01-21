@@ -4,6 +4,7 @@ using System.Linq;
 using System.Collections.Generic;
 
 using Newtonsoft.Json.Linq;
+using StoryTime.ResourceManagement.Util;
 #if UNITY_EDITOR
 using UnityEditor;
 using UnityEditor.Localization;
@@ -160,7 +161,7 @@ namespace StoryTime.Components.ScriptableObjects
 									string[] guids = AssetDatabase.FindAssets(" t:itemSO", null);
 									foreach (string guid in guids)
 									{
-										item = AssetDatabase.LoadAssetAtPath<ItemSO>(AssetDatabase.GUIDToAssetPath(guid));
+										item = HelperClass.GetAsset<ItemSO>(guid);
 										if (item.ID == itemId)
 											break;
 

@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 
 #if UNITY_EDITOR
 using UnityEditor;
+using UnityEditor.AddressableAssets;
 using UnityEditor.AddressableAssets.Settings;
 #endif
 
@@ -82,16 +83,25 @@ namespace StoryTime.ResourceManagement.Util
 #endif
 		}
 
+		/// <summary>
+		/// Grab the asset from the editor
+		/// @remark - Make sure you convert either the guid to an asset path
+		/// or convert the absolute path to a relative path.
+		/// </summary>
+		/// <param name="destination"></param>
+		/// <param name="convert"></param>
+		/// <typeparam name="T"></typeparam>
+		/// <returns></returns>
 		public static T GetAsset<T>(string destination, bool convert = false) where T : Object
 		{
-			var guid = destination;
+			var path = destination;
 #if UNITY_EDITOR
 			if (convert)
 			{
 				var relativePath = MakePathRelative(destination);
-				guid = relativePath;
+				path = relativePath;
 			}
-			return AssetDatabase.LoadAssetAtPath<T>(AssetDatabase.GUIDToAssetPath(guid));
+			return AssetDatabase.LoadAssetAtPath<T>(path);
 #else
 			return null;
 #endif
@@ -105,7 +115,7 @@ namespace StoryTime.ResourceManagement.Util
 			for (int i = 0; i < guids.Length; i++)
 			{
 				string assetPath = AssetDatabase.GUIDToAssetPath(guids[i]);
-				T asset = AssetDatabase.LoadAssetAtPath<T>(assetPath);
+				T asset = GetAsset<T>(assetPath);
 				if (asset != null)
 				{
 					assets.Add(asset);
@@ -122,6 +132,18 @@ namespace StoryTime.ResourceManagement.Util
 			var settings = GetAddressableSettings();
 			var guid = AssetDatabase.AssetPathToGUID(relativePath);
 			AddAssetToGroup(guid, settings.FindGroup(groupName));
+#endif
+		}
+
+		/// <summary>
+		///
+		/// </summary>
+		/// <param name="guid"></param>
+		/// <param name="newAddress"></param>
+		public static void ChangeAddressableAddress(string guid, string newAddress)
+		{
+#if UNITY_EDITOR
+			AddressableAssetSettingsDefaultObject.Settings.FindAssetEntry(guid).address = newAddress;
 #endif
 		}
 
@@ -169,7 +191,7 @@ namespace StoryTime.ResourceManagement.Util
 		private static AddressableAssetSettings GetAddressableSettings()
 		{
 #if UNITY_EDITOR
-			return UnityEditor.AddressableAssets.AddressableAssetSettingsDefaultObject.Settings;
+			return AddressableAssetSettingsDefaultObject.Settings;
 #else
 			return null;
 #endif
