@@ -76,6 +76,7 @@ namespace StoryTime.Database
 	        var configFile =
 		        HelperClass.GetAsset<DialogueSettingConfigSO>(AssetDatabase.GUIDToAssetPath(path));
 #else
+			// TODO make it work outside the unity editor.
 			var configFile = "";
 #endif
 	        return configFile;
