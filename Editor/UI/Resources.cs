@@ -19,10 +19,9 @@ namespace StoryTime.Editor.UI
 
         public static VisualTreeAsset GetTemplateAsset(string templateFilename)
         {
-            var path = TemplatePath(templateFilename);
+	        var path = TemplatePath(templateFilename);
 
             var asset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(path);
-
             if (asset == null)
                 throw new FileNotFoundException("Failed to load UI Template at path " + path);
             return asset;

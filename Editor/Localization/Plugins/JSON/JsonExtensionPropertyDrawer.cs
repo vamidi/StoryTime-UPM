@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
+
 using UnityEngine;
 
 using UnityEditor;
@@ -8,6 +11,7 @@ using UnityEditor.Localization;
 using UnityEditor.Localization.Reporting;
 using UnityEditor.Localization.Plugins.Google.Columns;
 
+using StoryTime.Utils;
 using StoryTime.Localization;
 
 namespace StoryTime.Editor.Localization.Plugins.JSON
@@ -32,7 +36,7 @@ namespace StoryTime.Editor.Localization.Plugins.JSON
 
 		public Task PushTask;
 
-		public DatabaseConfigSO Provider => m_JsonServiceProvider.objectReferenceValue as DatabaseConfigSO;
+		public FirebaseConfigSO Provider => m_JsonServiceProvider.objectReferenceValue as FirebaseConfigSO;
 
 		// public string m_NewJsonName;
 	}
@@ -199,8 +203,17 @@ namespace StoryTime.Editor.Localization.Plugins.JSON
 			{
 				try
 				{
-					var google = GetTableContent(data);
-					var files = StoryTime.ResourceManagement.Util.HelperClass.GetDataFiles();
+					GetTableContent(data);
+
+					(string name, string fileName)[] files = AssetDatabase.FindAssets("t:TableSO")
+                    	.Select(path =>
+                        {
+	                        string fileName = Path.GetFileNameWithoutExtension(path);
+	                        string name = HelperClass.Capitalize(fileName);
+
+	                        return (name, fileName);
+                        })
+                    	.ToArray();
 
 					var menu = new GenericMenu();
 					foreach (var s in files)

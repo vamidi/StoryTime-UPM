@@ -1,7 +1,8 @@
 ﻿
-namespace StoryTime.Components.ScriptableObjects
-{
-	using Binary;
+// namespace StoryTime.Components.ScriptableObjects
+// namespace StoryTime
+// {
+	using StoryTime.FirebaseService.Database.Binary;
 
 	public partial class CharacterClassSO
 	{
@@ -31,4 +32,4 @@ namespace StoryTime.Components.ScriptableObjects
 			}
 		}
 	}
-}
+// }

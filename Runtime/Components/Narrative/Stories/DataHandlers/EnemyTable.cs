@@ -2,7 +2,8 @@ using UnityEngine;
 
 namespace StoryTime.Components.ScriptableObjects
 {
-	using Binary;
+	using FirebaseService.Database.Binary;
+
 	public class EnemyTable : BaseTable<EnemySO>
 	{
 		public new static EnemySO ConvertRow(TableRow row, EnemySO scriptableObject = null)

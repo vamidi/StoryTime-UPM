@@ -1,8 +1,8 @@
 
 namespace StoryTime.Components.ScriptableObjects
 {
-	using Binary;
-	using Database;
+	using FirebaseService.Database;
+	using FirebaseService.Database.Binary;
 	using Configurations.ScriptableObjects;
 
 	public partial class SkillSO
@@ -18,7 +18,7 @@ namespace StoryTime.Components.ScriptableObjects
 					return skill;
 				}
 
-				DatabaseConfigSO config = TableDatabase.Fetch();
+				FirebaseConfigSO config = TableDatabase.Fetch();
 				if (config != null)
 				{
 					skill.ID = row.RowId;

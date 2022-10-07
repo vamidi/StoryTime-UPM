@@ -32,7 +32,7 @@ namespace StoryTime.Editor.Localization.Plugins.JSON
 
 		[SerializeReference] private List<SheetColumn> fields = new List<SheetColumn>();
 
-		[SerializeField] private DatabaseConfigSO jsonServiceProvider;
+		[SerializeField] private FirebaseConfigSO jsonServiceProvider;
 
 		[SerializeField] private string tableName = String.Empty;
 

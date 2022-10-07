@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace StoryTime.Components.ScriptableObjects
 {
-	using Binary;
+	using FirebaseService.Database.Binary;
 
 	// ReSharper disable once InconsistentNaming
 	public partial class TaskSO

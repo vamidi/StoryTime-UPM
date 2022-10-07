@@ -17,7 +17,8 @@ using Object = UnityEngine.Object;
 
 namespace StoryTime.Editor.Localization.Plugins.JSON
 {
-	using Binary;
+	using FirebaseService.Database;
+	using FirebaseService.Database.Binary;
 
 	public class JsonTableSync
 	{
@@ -32,7 +33,7 @@ namespace StoryTime.Editor.Localization.Plugins.JSON
 		/// </summary>
 		public Configurations.ScriptableObjects.ITableService SheetsService { get; private set; }
 
-		protected internal virtual bool UsingApiKey => (SheetsService as Configurations.ScriptableObjects.DatabaseConfigSO)?.Authentication == true;
+		protected internal virtual bool UsingApiKey => (SheetsService as Configurations.ScriptableObjects.FirebaseConfigSO)?.Authentication == true;
 
 		/// <summary>
 		/// The Id of the Google Sheet. This can be found by examining the url:
@@ -108,7 +109,7 @@ namespace StoryTime.Editor.Localization.Plugins.JSON
 
 				reporter?.ReportProgress("Sending request", 0.2f);
 
-				var table = Database.TableDatabase.Get.GetTable(TableId);
+				var table = TableDatabase.Get.GetTable(TableId);
 
 				reporter?.ReportProgress("Validating response", 0.5f);
 

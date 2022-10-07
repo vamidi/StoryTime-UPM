@@ -3,8 +3,8 @@ using UnityEngine.Localization.Components;
 
 namespace StoryTime.Components.UI
 {
+	using Utils.Extensions;
 	using ScriptableObjects;
-	using Extensions.Localization;
 
 	public class UIInteractionNavFiller : BaseUIInteractionItemFiller<InteractionNavSO>
 	{

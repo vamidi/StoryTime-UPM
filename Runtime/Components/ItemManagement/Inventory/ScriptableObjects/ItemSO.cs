@@ -11,7 +11,7 @@ using UnityEngine.Localization.Settings;
 
 namespace StoryTime.Components.ScriptableObjects
 {
-	using Attributes;
+	using Utils.Attributes;
 
 	/// <summary>
     /// Called whenever a localized string is available.

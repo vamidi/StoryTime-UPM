@@ -12,9 +12,9 @@ using UnityEditor.Localization;
 
 namespace StoryTime.Components.ScriptableObjects
 {
-	using Database;
-	using Binary;
-	using Attributes;
+	using Utils.Attributes;
+	using FirebaseService.Database;
+	using FirebaseService.Database.Binary;
 
 	// ReSharper disable once InconsistentNaming
 	public partial class StorySO

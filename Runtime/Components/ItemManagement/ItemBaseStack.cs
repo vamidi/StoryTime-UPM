@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace StoryTime.Components
 {
-	using Attributes;
+	using Utils.Attributes;
 	using ScriptableObjects;
 
 	[Serializable]

@@ -6,7 +6,7 @@ using UnityEngine.Localization;
 
 namespace StoryTime.Components
 {
-	using Attributes;
+	using Utils.Attributes;
 
 	[Serializable]
 	public partial class CharacterStats

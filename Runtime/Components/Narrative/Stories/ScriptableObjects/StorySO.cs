@@ -11,8 +11,8 @@ using UnityEditor.Localization;
 
 namespace StoryTime.Components.ScriptableObjects
 {
-	using Database;
-	using Attributes;
+	using Utils.Attributes;
+	using FirebaseService.Database;
 
 	/// <summary>
 	/// A Dialogue is a list of consecutive DialogueLines. They play in sequence using the input of the player to skip forward.

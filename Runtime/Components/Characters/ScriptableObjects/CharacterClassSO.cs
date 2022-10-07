@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
@@ -9,11 +9,15 @@ using UnityEditor.Localization;
 using UnityEngine;
 using UnityEngine.Localization;
 
-namespace StoryTime.Components.ScriptableObjects
-{
-	using Attributes;
+using StoryTime.Attributes;
+using StoryTime.Components;
+using StoryTime.Components.ScriptableObjects;
 
-	[CreateAssetMenu(fileName = "Character Class", menuName = "StoryTime/Game/Stats/Character Class", order = 0)]
+
+// TODO find out why this namespace cant stay
+// namespace StoryTime.Components.ScriptableObjects
+// {
+	[CreateAssetMenu(fileName = "CharacterClass", menuName = "StoryTime/Game/Stats/Character Class", order = 0)]
 	// ReSharper disable once InconsistentNaming
 	public partial class CharacterClassSO : LocalizationBehaviour
 	{
@@ -44,22 +48,6 @@ namespace StoryTime.Components.ScriptableObjects
 #if UNITY_EDITOR
 			Initialize();
 #endif
-		}
-
-		public CharacterStats Find(string alias)
-		{
-			return characterStats.Find((stat) => stat.Alias == alias);
-		}
-
-		private void ClearModifiers()
-		{
-			foreach (var stat in characterStats)
-			{
-				if (stat.StatModifiers.Count == 0)
-					continue;
-
-				stat.Clear();
-			}
 		}
 
 		private void Initialize()
@@ -98,5 +86,22 @@ namespace StoryTime.Components.ScriptableObjects
 				}
 			}
 		}
+
+		public CharacterStats Find(string alias)
+		{
+			return characterStats.Find((stat) => stat.Alias == alias);
+		}
+
+		private void ClearModifiers()
+		{
+			Debug.Log(characterStats);
+			foreach (var stat in characterStats)
+			{
+				if (stat.StatModifiers.Count == 0)
+					continue;
+
+				stat.Clear();
+			}
+		}
 	}
-}
+// }

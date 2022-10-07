@@ -2,14 +2,16 @@
 using System.Text;
 using System.Collections;
 using System.Text.RegularExpressions;
+
 using UnityEngine;
 using UnityEngine.Events;
 
 using TMPro;
 
+using StoryTime.ResourceManagement;
+
 namespace StoryTime.Components
 {
-	using ResourceManagement.Util;
 	using Configurations.ScriptableObjects;
 
 	[Serializable] public class ActionEvent : UnityEvent<string> { }

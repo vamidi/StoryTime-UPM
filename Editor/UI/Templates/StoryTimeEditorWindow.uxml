@@ -19,15 +19,15 @@
 		</uie:Toolbar>
 	</ui:Box>
 	<ui:Box name="content">
-		<StoryTime.Editor.UI.CharacterEditor name="character-editor-table-tab-panel" class="panel"/>
-		<StoryTime.Editor.UI.ClassEditor name="class-editor-table-tab-panel" class="panel"/>
-		<StoryTime.Editor.UI.SkillEditor name="skill-editor-table-tab-panel" class="panel"/>
-		<StoryTime.Editor.UI.EquipmentEditor name="equipment-editor-table-tab-panel" class="panel"/>
-		<StoryTime.Editor.UI.StoryEditor name="story-editor-table-tab-panel" class="panel"/>
-		<StoryTime.Editor.UI.TaskEditor name="task-editor-table-tab-panel" class="panel"/>
-		<StoryTime.Editor.UI.ItemEditor name="item-editor-table-tab-panel" class="panel"/>
-		<StoryTime.Editor.UI.EnemyEditor name="enemy-editor-table-tab-panel" class="panel"/>
-		<StoryTime.Editor.UI.RecipeEditor name="recipe-editor-table-tab-panel" class="panel"/>
+		<StoryTime.FirebaseService.Database.Editor.UI.CharacterEditor name="character-editor-table-tab-panel" class="panel"/>
+		<StoryTime.FirebaseService.Database.Editor.UI.ClassEditor name="class-editor-table-tab-panel" class="panel"/>
+		<StoryTime.FirebaseService.Database.Editor.UI.SkillEditor name="skill-editor-table-tab-panel" class="panel"/>
+		<StoryTime.FirebaseService.Database.Editor.UI.EquipmentEditor name="equipment-editor-table-tab-panel" class="panel"/>
+		<StoryTime.FirebaseService.Database.Editor.UI.StoryEditor name="story-editor-table-tab-panel" class="panel"/>
+		<StoryTime.FirebaseService.Database.Editor.UI.TaskEditor name="task-editor-table-tab-panel" class="panel"/>
+		<StoryTime.FirebaseService.Database.Editor.UI.ItemEditor name="item-editor-table-tab-panel" class="panel"/>
+		<StoryTime.FirebaseService.Database.Editor.UI.EnemyEditor name="enemy-editor-table-tab-panel" class="panel"/>
+		<StoryTime.FirebaseService.Database.Editor.UI.RecipeEditor name="recipe-editor-table-tab-panel" class="panel"/>
 	</ui:Box>
 </UXML>
 

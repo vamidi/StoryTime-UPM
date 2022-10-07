@@ -6,9 +6,9 @@ using UnityEngine.Localization;
 
 namespace StoryTime.Components
 {
-	using Binary;
-	using Database;
-	using Attributes;
+	using Utils.Attributes;
+	using FirebaseService.Database;
+	using FirebaseService.Database.Binary;
 
 	public partial class CharacterStats
 	{

@@ -1,8 +1,8 @@
 
 namespace StoryTime.Components.ScriptableObjects
 {
-	using Binary;
-	using Database;
+	using FirebaseService.Database;
+	using FirebaseService.Database.Binary;
 	using Configurations.ScriptableObjects;
 
 	/// <summary>
@@ -24,7 +24,7 @@ namespace StoryTime.Components.ScriptableObjects
 					return character;
 				}
 
-				DatabaseConfigSO config = TableDatabase.Fetch();
+				FirebaseConfigSO config = TableDatabase.Fetch();
 				if (config != null)
 				{
 					character.ID = row.RowId;

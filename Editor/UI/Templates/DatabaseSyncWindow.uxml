@@ -14,10 +14,13 @@
 		/>
 	</ui:VisualElement>
 	<ui:VisualElement name="rowSettings" style="display:none;font-weight:bold;">
+		<ui:TextField label="Firebase Project ID" tooltip="The Project id we need to fetch data from." name="firebase-project-url-field" text="[YOUR_FIREBASE_PROJECT_ID]" password="true" class="unity-property-field-input" binding-path="firebaseProjectId" />
+		<ui:TextField label="App ID" tooltip="The app id we need to fetch data from." name="app-id-field" text="[YOUR_FIREBASE_APP_ID]" class="unity-property-field-input" password="true" binding-path="appId" />
+		<ui:TextField label="Api key" tooltip="The API key of your Firebase app." name="api-key-field" text="[YOUR_FIREBASE_API_KEY]" class="unity-property-field-input" password="true" binding-path="apiKey" />
+		<ui:TextField label="Message Sender ID" tooltip="E-Mail we need to login in to access data from the database." name="message-sender-id-field" text="[YOUR_FIREBASE_MESSAGE_SENDER_ID]" class="unity-property-field-input" password="true" binding-path="messageSenderId" />
 		<ui:TextField label="Database URL" tooltip="The database url to Firebase." name="database-url-field" text="[YOUR_FIREBASE_DATABASE_URL]" class="unity-property-field-input" binding-path="databaseURL" />
 		<ui:TextField label="Project ID" tooltip="The Project id we need to fetch data from." name="project-url-field" text="[YOUR_PROJECT_ID]" class="unity-property-field-input" binding-path="projectID" />
-		<ui:TextField label="Email" tooltip="E-Mail we need to login in to access data from the database." name="email-field" text="[YOUR_FIREBASE_EMAIL_LOGIN]" class="unity-property-field-input" binding-path="email" />
-		<ui:TextField label="Password" tooltip="Password we need to use to login into Firebase." name="password-field" password="true" class="unity-property-field-input" binding-path="password" />
+		<ui:TextField label="Storage bucket URL" tooltip="Password we need to use to login into Firebase." name="storage-bucket-field" class="unity-property-field-input" binding-path="storageBucket" />
 		<ui:TextField label="Data Path" tooltip="Folder to save the incoming data to." name="data-path-field" class="unity-property-field-input" binding-path="dataPath" readonly="true"/>
 		<ui:Button label="Data path" name="btn-choose-path" class="unity-property-button-input" text="Choose data path"/>
 	</ui:VisualElement>
@@ -36,7 +39,7 @@
 <!--		<ui:MinMaxSlider-->
 		<ui:Button label="Save" name="btn-save" class="unity-property-button-input" text="Save Asset"/>
 	</ui:VisualElement>
-	<StoryTime.Editor.UI.ListViewTables name="tables-view-panel" style="flex-grow: 1;"/>
+	<StoryTime.FirebaseService.Database.Editor.UI.ListViewTables name="tables-view-panel" style="flex-grow: 1;"/>
 </UXML>
 
 

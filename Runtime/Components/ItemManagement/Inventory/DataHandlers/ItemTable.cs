@@ -1,8 +1,9 @@
 
+using StoryTime.FirebaseService;
+
 namespace StoryTime.Components.ScriptableObjects
 {
-	using Binary;
-	using Database;
+	using FirebaseService.Database.Binary;
 	using Configurations.ScriptableObjects;
 
 	// ReSharper disable once InconsistentNaming
@@ -19,7 +20,7 @@ namespace StoryTime.Components.ScriptableObjects
 					return item;
 				}
 
-				DatabaseConfigSO config = TableDatabase.Fetch();
+				FirebaseConfigSO config = FirebaseInitializer.Fetch();
 				if (config != null)
 				{
 					item.ID = row.RowId;

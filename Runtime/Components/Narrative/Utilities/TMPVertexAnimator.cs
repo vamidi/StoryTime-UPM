@@ -10,7 +10,7 @@ using TMPro;
 
 namespace StoryTime.Components
 {
-	using Database;
+	using FirebaseService.Database;
 	using Configurations.ScriptableObjects;
 
 	[Serializable] public class CharRevealEvent : UnityEvent<char> { }

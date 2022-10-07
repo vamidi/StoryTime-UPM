@@ -9,8 +9,8 @@ using UnityEditor.Localization;
 
 namespace StoryTime.Components
 {
-	using Binary;
 	using ScriptableObjects;
+	using FirebaseService.Database.Binary;
 	// using ResourceManagement.Util;
 
 	[Serializable]

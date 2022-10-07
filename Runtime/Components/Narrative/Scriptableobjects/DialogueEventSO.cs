@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace StoryTime.Components.ScriptableObjects
 {
-	using Binary;
+	using FirebaseService.Database.Binary;
 
 	// [CreateAssetMenu(fileName = "newDialogueEvent", menuName = "StoryTime/Events/Narrative/Dialogue Event")]
 	[Serializable]
