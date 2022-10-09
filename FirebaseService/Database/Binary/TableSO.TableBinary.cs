@@ -501,7 +501,11 @@ namespace StoryTime.FirebaseService.Database.Binary
 						j++;
 
 					}
-					rows.Add(i, tblRow);
+
+					if (rows.ContainsKey(i))
+						rows[i] = tblRow;
+					else
+						rows.Add(i, tblRow);
 					i++;
 				}
 

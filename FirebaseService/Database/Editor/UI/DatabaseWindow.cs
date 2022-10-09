@@ -94,7 +94,7 @@ namespace StoryTime.FirebaseService.Database.Editor
 			{
 				if (ChoiceIndex == 0)
 				{
-					Module.RequestTableUpdate();
+					Module.RequestTableUpdate("", true);
 				}
 				else
 				{

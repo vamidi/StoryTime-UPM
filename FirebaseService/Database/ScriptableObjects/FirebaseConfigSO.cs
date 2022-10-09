@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using UnityEditor.Localization.Plugins.XLIFF.V20;
+using UnityEngine;
 
 namespace StoryTime.Configurations.ScriptableObjects
 {
@@ -11,19 +12,35 @@ namespace StoryTime.Configurations.ScriptableObjects
 	public class FirebaseConfigSO : ScriptableObject, ITableService
 	{
 		public string DatabaseURL => databaseURL;
-		public string ProjectID => projectID;
+		internal string ProjectID => projectID;
 
 		public string FirebaseProjectId => firebaseProjectId;
 
-		public string AppId => appId;
+		internal string AppId => appId;
 
-		public string ApiKey => apiKey;
+		internal string ApiKey => apiKey;
 
 		public string MessageSenderId => messageSenderId;
 
 		public string StorageBucket => storageBucket;
 
 		public bool Authentication => useServer;
+
+		public string Email => email;
+
+		internal string Password => password;
+
+		/// <summary>
+		/// Database url to fetch data from
+		/// You can retrieve it from your JSON file.
+		/// </summary>
+		[SerializeField] private string email = "";
+
+		/// <summary>
+		/// Database url to fetch data from
+		/// You can retrieve it from your JSON file.
+		/// </summary>
+		[SerializeField] private string password = "";
 
 		/// <summary>
 		/// Database url to fetch data from

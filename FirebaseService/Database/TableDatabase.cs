@@ -1,8 +1,7 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
+
 using Newtonsoft.Json.Linq;
 
 #if UNITY_EDITOR
@@ -24,14 +23,13 @@ namespace StoryTime.FirebaseService.Database
     public sealed class TableDatabase
     {
         // private UInt64 DatabaseVersion = 0;
-        public ReadOnlyCollection<TableSO> Tables => Data.Values.ToList().AsReadOnly();
 
         /// <summary>
         /// All the data (sorted per table) the application needs for reading
         /// This data has the table data from the json files.
         /// ReSharper disable once InconsistentNaming
         /// </summary>
-        private readonly Dictionary<string, TableSO> Data = new Dictionary<string, TableSO>();
+        private readonly Dictionary<string, TableSO> _tables = new Dictionary<string, TableSO>();
 
         // Explicit static constructor to tell C# compiler
         // not to mark type as before field init
@@ -39,7 +37,7 @@ namespace StoryTime.FirebaseService.Database
 
         private TableDatabase()
         {
-#if !UNITY_EDITOR
+#if UNITY_EDITOR
 	        Refresh();
 #endif
         }
@@ -48,23 +46,6 @@ namespace StoryTime.FirebaseService.Database
         // UInt64 GetDatabaseVersion() { return DatabaseVersion; }
 
         public static TableDatabase Get { get; } = new();
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <returns></returns>
-        public static FirebaseConfigSO Fetch()
-        {
-// #if UNITY_EDITOR
-	        // var configFile = HelperClass.GetAsset<DatabaseConfigSO>( EditorPrefs.GetString("StoryTime-Window-Settings-Config", ""));
-// #else
-			var configFile = FirebaseInitializer.Fetch();
-// #endif
-	        // TODO this will ruin the editor and stops the database sync setting window.
-	        // if (configFile == null)
-	        // throw new ArgumentNullException($"{nameof(configFile)} can not be null.", nameof(configFile));
-	        return configFile;
-        }
 
         /// <summary>
         ///
@@ -81,6 +62,11 @@ namespace StoryTime.FirebaseService.Database
 			var configFile = "";
 #endif
 	        return configFile;
+        }
+
+        public void Initialize()
+        {
+
         }
 
         public List<Tuple<UInt32, TableRow>> FindLinks(string tableName, string columnName, UInt32 id)
@@ -165,28 +151,17 @@ namespace StoryTime.FirebaseService.Database
             return table.Rows[entityID];
         }
 
-        public TableSO GetTableById(string tableID)
-        {
-	        foreach (var table in Tables)
-	        {
-		        if (table.ID == tableID)
-			        return table;
-	        }
-
-	        return null;
-        }
-
         internal TableSO AddTable(string tableID, JToken jsonToken, TableMetaData metaData)
         {
 	        TableSO table;
-	        if (!Data.ContainsKey(metaData.title))
+	        if (!_tables.ContainsKey(metaData.title))
 	        {
 		        // load it from the addressable
 		        // if null again
 		        table = ScriptableObject.CreateInstance<TableSO>();
-		        Data[metaData.title] = table;
+		        _tables[metaData.title] = table;
 	        }
-	        else table = Data[metaData.title];
+	        else table = _tables[metaData.title];
 	        return table;
         }
 
@@ -197,13 +172,13 @@ namespace StoryTime.FirebaseService.Database
         /// <returns></returns>
         public TableSO GetTable(string tableName)
         {
-	        if (!Data.ContainsKey(tableName))
+	        if (!_tables.ContainsKey(tableName))
 	        {
 		        Debug.LogWarning($"Could not find {tableName}");
 		        return null;
 	        }
 
-	        return Data[tableName];
+	        return _tables[tableName];
         }
 
         public TableSO.TableBinary GetBinary(string tableName)
@@ -232,13 +207,13 @@ namespace StoryTime.FirebaseService.Database
         }
         void RemoveCache()
         {
-            Data.Clear();
+	        _tables.Clear();
         }
 
         /// <summary>
         /// Fetch existing data
         /// </summary>
-        public void Refresh()
+        private void Refresh()
         {
 	        // Clear out the data
 	        RemoveCache();
@@ -246,37 +221,56 @@ namespace StoryTime.FirebaseService.Database
 
 #if UNITY_EDITOR
 	        // Get existing database files
-	        FirebaseConfigSO config = Fetch();
+	        FirebaseConfigSO config = FirebaseInitializer.Fetch();
 	        var assetDirectory = config.dataPath;
 	        var filePaths = Directory.GetFiles(assetDirectory, "*.asset");
 
-	        Debug.Log(filePaths.Length);
-	        foreach (var filePath in filePaths)
+	        // When we retrieved the file check if the user is already logged in
+	        for (int t = 0; t < filePaths.Length; t++)
 	        {
+		        var filePath = filePaths[t];
+		        EditorUtility.DisplayProgressBar("Importing tables", "Import table data...", (float) t / filePaths.Length);
 		        if (File.Exists(filePath))
 		        {
-			        /*
 			        TableSO table = HelperClass.GetAsset<TableSO>(filePath, true);
 			        if (table != null)
 			        {
 				        // Retrieve data from existing file, if it exists
 				        table.Refresh();
-				        Data.Add(table.Metadata.title, table);
+				        _tables.Add(table.Metadata.title, table);
 			        }
-			        */
 		        }
-#else
-				// Fetch existing data from the addressable list.
-		        string fileName = Path.GetFileNameWithoutExtension(filePath);
-		        HelperClass.GetFileFromAddressable<TableSO>(fileName).Completed += handle => {
-			        if (handle.Result == null) return;
-
-			        // Retrieve data from existing file, if it exists
-			        handle.Result.Refresh();
-			        Data.Add(handle.Metadata.title, handle);
-		        };
-#endif
 	        }
+	        EditorUtility.ClearProgressBar();
+#else
+	        FirebaseInitializer.Fetch((task) =>
+	        {
+		        var config = task.Result;
+		        if (!config)
+		        {
+			        throw new ArgumentNullException($"{nameof(config)} must not be null.", nameof(config));
+		        }
+
+		        var assetDirectory = config.dataPath;
+		        var filePaths = Directory.GetFiles(assetDirectory, "*.asset");
+		        foreach (string filePath in filePaths)
+		        {
+			        // Fetch existing data from the addressable list.
+			        string fileName = Path.GetFileNameWithoutExtension(filePath);
+			        HelperClass.GetFileFromAddressable<TableSO>(fileName).Completed += handle =>
+			        {
+				        Debug.Log(handle.Result);
+				        if (handle.Result == null) return;
+
+				        // Retrieve data from existing file, if it exists
+				        TableSO table = handle.Result;
+				        table.Refresh();
+				        _tables.Add(table.Metadata.title, table);
+			        };
+		        }
+	        });
+#endif
+	        Debug.Log(_tables.Count);
         }
     }
 }

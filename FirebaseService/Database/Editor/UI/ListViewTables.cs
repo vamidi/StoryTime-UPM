@@ -3,6 +3,7 @@
 namespace StoryTime.FirebaseService.Database.Editor.UI
 {
 	using StoryTime.Editor.UI;
+	using Configurations.ScriptableObjects;
 
 	class ListViewTables : VisualElement
 	{
@@ -20,12 +21,26 @@ namespace StoryTime.FirebaseService.Database.Editor.UI
 			asset.CloneTree(this);
 
 			// Tables
-			var tables = ResourceManagement.HelperClass.GetDataFiles();
-			foreach (var table in tables)
+#if !UNITY_EDITOR
+			FirebaseInitializer.Fetch((op) =>
 			{
-				AddTableElement(table.name);
-			}
+				FirebaseConfigSO config = op.Result;
+#else
+				FirebaseConfigSO config = FirebaseInitializer.Fetch();
+#endif
 
+				if (config != null)
+				{
+					var tables = ResourceManagement.HelperClass.GetDataFiles(config);
+					foreach (var table in tables)
+					{
+						AddTableElement(table.name);
+					}
+				}
+
+#if !UNITY_EDITOR
+			});
+#endif
 			// var locales = LocalizationEditorSettings.GetLocales();
 			// m_LocalesList = this.Q<ScrollView>("locales-list");
 			// foreach (var locale in locales)

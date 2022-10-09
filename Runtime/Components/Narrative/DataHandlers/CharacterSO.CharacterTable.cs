@@ -1,7 +1,8 @@
 
+using StoryTime.FirebaseService;
+
 namespace StoryTime.Components.ScriptableObjects
 {
-	using FirebaseService.Database;
 	using FirebaseService.Database.Binary;
 	using Configurations.ScriptableObjects;
 
@@ -24,7 +25,14 @@ namespace StoryTime.Components.ScriptableObjects
 					return character;
 				}
 
-				FirebaseConfigSO config = TableDatabase.Fetch();
+#if !UNITY_EDITOR
+			FirebaseInitializer.Fetch((op) =>
+			{
+				FirebaseConfigSO config = op.Result;
+#else
+				FirebaseConfigSO config = FirebaseInitializer.Fetch();
+#endif
+
 				if (config != null)
 				{
 					character.ID = row.RowId;
@@ -52,6 +60,10 @@ namespace StoryTime.Components.ScriptableObjects
 				}
 
 				return character;
+
+#if !UNITY_EDITOR
+			});
+#endif
 			}
 		}
 	}

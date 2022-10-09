@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
@@ -10,6 +11,7 @@ using UnityEditor.AddressableAssets.Settings;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.ResourceManagement.ResourceLocations;
 using Object = UnityEngine.Object;
 
 namespace StoryTime.ResourceManagement
@@ -66,13 +68,14 @@ namespace StoryTime.ResourceManagement
 
 		public static T GetAsset<T>(string destination, bool convert = false) where T : Object
 		{
-			var guid = destination;
+			var path = destination;
 #if UNITY_EDITOR
 			if (convert)
 			{
-				var relativePath = MakePathRelative(destination);
-				guid = relativePath;
+				path = MakePathRelative(destination);
 			}
+
+			var guid = AssetDatabase.AssetPathToGUID(path);
 			return AssetDatabase.LoadAssetAtPath<T>(AssetDatabase.GUIDToAssetPath(guid));
 #else
 			return null;
@@ -107,6 +110,11 @@ namespace StoryTime.ResourceManagement
 		{
 			return Addressables.LoadAssetAsync<T>(address);
 		}
+
+		// public static AsyncOperationHandle<IList<T>> GetFilesFromAddressable<T>(IList<IResourceLocation> locations)
+		// {
+			// return Addressables.LoadAssetsAsync<T>(locations);
+		// }
 
 		private static AddressableAssetSettings GetAddressableSettings()
 		{

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using Firebase;
 using Firebase.Extensions;
 
@@ -9,6 +11,8 @@ using UnityEditor;
 
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.AddressableAssets.ResourceLocators;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 using Newtonsoft.Json.Linq;
 
@@ -27,15 +31,19 @@ namespace StoryTime.FirebaseService.Database.Editor
 	/// </summary>
 	public class DatabaseSyncModule
 	{
-		private static readonly string s_GroupName = "JSON_data";
+		public static event EventHandler<string> onFetchCompleted;
+
+		internal static readonly string GroupName = "StoryTime-Assets-Tables-Shared";
 		private static readonly string s_DataPath = "Packages/com.vamidicreations.storytime";
 
 		private static Firebase.Database.FirebaseDatabase _database;
 
-		public static event EventHandler<string> onFetchCompleted;
+		private static List<TableSO> tables = new ();
 
 		private Int64 _lastTimeStamp;
 		private bool _canFetch = true;
+
+		private DependencyStatus _firebaseInitialized = DependencyStatus.UnavailableOther;
 
 		// Check to see if we're about to be destroyed.
 		// private static bool m_ShuttingDown = false;
@@ -47,36 +55,16 @@ namespace StoryTime.FirebaseService.Database.Editor
 		/// </summary>
 		public static DatabaseSyncModule Get => new();
 
-		static DatabaseSyncModule() { }
+		static DatabaseSyncModule()
+		{
+#if !UNITY_EDITOR
+			Initialize();
+#endif
+		}
 
 		public void Initialize()
 		{
-			// Load existing data
-			Addressables.InitializeAsync().Completed += (result) =>
-			{
-				// Get all tables when we are done loading the firebase app.
-
-
-				// Retrieve the tables from the project that is selected
-				FirebaseInitializer.Get.Initialize((status) =>
-				{
-					if (status == DependencyStatus.Available)
-					{
-						_database = FirebaseInitializer.Database;
-						RequestTableUpdate();
-					}
-				});
-			};
-
-			// When we retrieved the file check if the user is already logged in
-			// EditorUtility.DisplayProgressBar("Simple Progress Bar", "Doing some work...", t / secs);
-			// for (float t = 0; t < secs; t += step)
-			// {
-			// Normally, some computation happens here.
-			// This example uses Sleep.
-			// Thread.Sleep((int)(step * 1000.0f));
-			// }
-			// EditorUtility.ClearProgressBar();
+			Addressables.InitializeAsync().Completed += AddressableCompleted;
 		}
 
 		/// <summary>
@@ -85,15 +73,32 @@ namespace StoryTime.FirebaseService.Database.Editor
 		/// from the Firebase database
 		/// </summary>
 		/// <param name="tableID"></param>
-		public void RequestTableUpdate(string tableID = "")
+		public void RequestTableUpdate(string tableID = "", bool save = false)
 		{
+			if (_database == null)
+			{
+				// TODO add retry check
+				Debug.LogWarning("Database is not initialized. Retrying...");
+				InitializeFirebase();
+				return;
+			}
+
 			// Wait few seconds before we let the user click again.
 			if (!_canFetch)
 			{
+#if UNITY_EDITOR
 				EditorUtility.DisplayDialog("Please wait", "We are already processing data from server!", "OK");
+#endif
 				return;
 			}
 			_canFetch = false;
+
+			if (!FirebaseInitializer.signedIn)
+			{
+				Debug.LogWarning("User is not found or logged in. Please login");
+				_canFetch = true;
+				return;
+			}
 
 			if (tableID == String.Empty)
 			{
@@ -116,14 +121,33 @@ namespace StoryTime.FirebaseService.Database.Editor
 							var tablesStr = snapshot.GetRawJsonValue();
 							var jsonToken = JObject.Parse(tablesStr);
 
+							Task[] tasks = new Task[jsonToken.Count];
+							int idx = 0;
 							foreach (var token in jsonToken)
 							{
 								// Download all tables.
-								RequestTable(token.Key);
-								// tasks.Add();
+								tasks[idx] = RequestTable(token.Key, save);
+								idx++;
 							}
 
-							OnResponseReceived();
+							Task.WhenAll(tasks).ContinueWithOnMainThread(_ =>
+							{
+								// When we retrieved the file check if the user is already logged in
+								for (int t = 0; t < tables.Count; t++)
+								{
+									var table = tables[t];
+#if UNITY_EDITOR
+									EditorUtility.DisplayProgressBar("Exporting tables", $"Exporting {table.Metadata.title}...", (float)t / tables.Count);
+#endif
+									table.Export();
+								}
+#if UNITY_EDITOR
+								EditorUtility.ClearProgressBar();
+#endif
+
+								tables.Clear();
+								OnResponseReceived();
+							});
 						}
 					});
 				return;
@@ -131,10 +155,38 @@ namespace StoryTime.FirebaseService.Database.Editor
 
 
 			// Request table directly
-			RequestTable(tableID, true);
+			RequestTable(tableID, save);
 		}
 
+		private void AddressableCompleted(AsyncOperationHandle<IResourceLocator> obj)
+		{
+			// HelperClass.GetFileFromAddressable<>()
+		}
 
+		private void AuthStateChanged(object sender, EventArgs eventArgs) {
+			Debug.Log("DatabaseSyncModule: Auth changed");
+			if(_firebaseInitialized == DependencyStatus.Available && FirebaseInitializer.Auth.CurrentUser != null)
+				RequestTableUpdate();
+		}
+
+		private void InitializeFirebase()
+		{
+			if (_firebaseInitialized == DependencyStatus.Available && FirebaseInitializer.Auth.CurrentUser != null)
+			{
+				RequestTableUpdate();
+				return;
+			}
+
+			FirebaseInitializer.Get.Initialize((status) =>
+			{
+				_firebaseInitialized = status;
+				if (status == DependencyStatus.Available)
+				{
+					_database = FirebaseInitializer.Database;
+					FirebaseInitializer.Auth.StateChanged += AuthStateChanged;
+				}
+			});
+		}
 
 		/// <summary>
 		/// Add table to
@@ -142,9 +194,9 @@ namespace StoryTime.FirebaseService.Database.Editor
 		/// <param name="tableID"></param>
 		/// <param name="save"></param>
 		/// <exception cref="ArgumentException"></exception>
-		private void RequestTable(string tableID, bool save = false)
+		private Task<TableSO> RequestTable(string tableID, bool save = false)
 		{
-			_database.GetReference($"tables/{tableID}")
+			return _database.GetReference($"tables/{tableID}")
 				.GetValueAsync().ContinueWithOnMainThread(task =>
 				{
 					if (task.IsFaulted)
@@ -167,6 +219,8 @@ namespace StoryTime.FirebaseService.Database.Editor
 						TableMetaData tableMetadata = item["metadata"].ToObject<TableMetaData>();
 						// Export to addressable is handle in the Table itself --> SOLID PATTERN
 
+						// Debug.LogFormat("Fetching table {0}, {1}", tableID, tableMetadata.title);
+
 						// First fetch the table async
 						return CreateTable(tableID, item, tableMetadata);
 					}
@@ -177,24 +231,18 @@ namespace StoryTime.FirebaseService.Database.Editor
 					if (task.IsCompleted)
 					{
 						TableResult tableResult = task.Result;
-						if (tableResult.Table)
+						if (tableResult.Table != null && tableResult.Item != null)
 						{
 							TableSO table = tableResult.Table;
 
 							table.Import(tableID, tableResult.Item);
 							onFetchCompleted?.Invoke(this, table.Metadata.title);
+							tables.Add(table);
 							return table;
 						}
 					}
 
 					return null;
-				}).ContinueWithOnMainThread(task =>
-				{
-					if (task.Result && save)
-					{
-						Debug.Log($"Exporting {task.Result.Metadata.title}");
-						task.Result.Export();
-					}
 				});
 		}
 
@@ -216,24 +264,37 @@ namespace StoryTime.FirebaseService.Database.Editor
 		private void OnResponseReceived()
 		{
 #if UNITY_EDITOR // TODO see if unity has notify system
-				// Update editor
-				// auto& PropertyModule = FModuleManager::LoadModuleChecked< FPropertyEditorModule >("PropertyEditor");
-				// PropertyModule.NotifyCustomizationModuleChanged();
-#endif
-			FirebaseConfigSO config = FirebaseInitializer.Fetch();
-			if (config && !string.IsNullOrEmpty(config.dataPath))
+			var config = FirebaseInitializer.Fetch();
+
+			// Update editor
+			// auto& PropertyModule = FModuleManager::LoadModuleChecked< FPropertyEditorModule >("PropertyEditor");
+			// PropertyModule.NotifyCustomizationModuleChanged();
+#else
+			FirebaseInitializer.Fetch((task) =>
 			{
-				// Update timestamp
-				_lastTimeStamp = DateTime.Now.Ticks;
+				var config = task.Result;
+				if (!config)
+				{
+					throw new ArgumentNullException($"{nameof(config)} must not be null.", nameof(config));
+				}
+#endif
+				if (config && !string.IsNullOrEmpty(config.dataPath))
+				{
+					// Update timestamp
+					_lastTimeStamp = DateTime.Now.Ticks;
 
-				string destination = $"{config.dataPath}/uptime.txt";
-				File.WriteAllText(destination, _lastTimeStamp.ToString());
-				// Add the uptime file to the addressable group
-				HelperClass.AddFileToAddressable(s_GroupName, destination);
-			}
+					string destination = $"{config.dataPath}/uptime.txt";
+					File.WriteAllText(destination, _lastTimeStamp.ToString());
+					// Add the uptime file to the addressable group
+					HelperClass.AddFileToAddressable(GroupName, destination);
+				}
 
-			Debug.Log("Fetching complete");
-			_canFetch = true;
+				// TODO see if unity has notify system
+				Debug.Log("Fetching complete");
+				_canFetch = true;
+#if !UNITY_EDITOR
+			});
+#endif
 		}
 	}
 }

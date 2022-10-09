@@ -3,7 +3,10 @@ using System.IO;
 using System.Collections.Generic;
 
 using Newtonsoft.Json.Linq;
+
 using UnityEngine;
+
+using StoryTime.FirebaseService.Database.Editor;
 
 namespace StoryTime.FirebaseService.Database.Binary
 {
@@ -100,29 +103,23 @@ namespace StoryTime.FirebaseService.Database.Binary
         /// </summary>
         internal void Export()
         {
+#if !UNITY_EDITOR
 	        FirebaseConfigSO config = TableDatabase.Fetch();
 	        string destination = $"{config.dataPath}/{metadata.title}.asset";
 
 	        if (!Directory.Exists(config.dataPath))
 		        Directory.CreateDirectory(config.dataPath);
 
-#if UNITY_EDITOR
 	      	HelperClass.CreateAsset(this, destination);
-	      	HelperClass.AddFileToAddressable("JSON_data", destination);
+	      	HelperClass.AddFileToAddressable(DatabaseSyncModule.GroupName, destination);
 #endif
         }
 
         public void Refresh()
         {
-#if UNITY_EDITOR
 	        // Retrieve data from existing file, if it exists
+	        // Load the data from the json string we already parsed at the beginning
 	        Binary.Refresh(jsonData, ref Rows);
-#else
-			// Load the data from the json string we already parsed at the beginning
-	        var token = TableBinary.GetTableData(jsonData);
-	        Binary.Refresh(token, ref Rows);
-#endif
-	        Debug.Log(this);
         }
     }
 }
