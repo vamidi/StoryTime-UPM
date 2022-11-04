@@ -1,75 +1,47 @@
-# StoryTime Unity Package
-A Unity package that can communicate data with StoryTime. This package also provides components that users can use to 
-create RPG games.
+# Welcome to StoryTime!
 
-## Prerequisites
-* You must have git installed on your machine.
-* Package(s) from GitHub:
-	* ["com.marijnzwemmer.unity-toolbar-extender": "1.3.1"](https://github.com/marijnz/unity-toolbar-extender),
-* Package(s) from Unity asset store.
-	* [Dotween](https://assetstore.unity.com/packages/tools/animation/dotween-hotween-v2-27676)
+## StoryTime
 
-For more information check out our [Documentations](https://valencio-masaki16.gitbook.io/storytime/)
-	
-## Getting Started
-> **Make sure if you use an existing project that is has Universal Render Pipeline (URP) enabled.**
+**StoryTime** is a data management web-based software, an open-source Software as a service (SaaS) whose goal is to manage data for Unity3D, Unreal (and maybe in the future Godot). StoryTime will also provide packages for Unity3D and Unreal where user can use components that has built-in functions to communicate with the database.
 
-To get started, you'll need to install StoryTime in your Unity project. StoryTime is available as a package via OpenUPM,
-and via direct download as a `.unitypackage` file.
+![Table editor](.gitbook/assets/storytime.png)
 
-### Quick Start: Direct download
-To install StoryTime via direct download, follow these steps:
+![Story editor](.gitbook/assets/storytime-editor.png)
 
-* Go to the [releases page](https://openupm.com/packages/com.vamidicreations.storytime.html), and download the `.unitypackage`. 
-* Open the `.unitypackage`, and import its contents into your project.
+### Features
 
-StoryTime will be installed into the `StoryTime` folder in your project's Assets.
+StoryTime allows users to edit data that are normally stored as raw JSON. It also supports creating stories or craftables in a node editor style. Each table contains the data and metadata that defines the table. Users can also have access to versioning to see all the changes! Everything is stored locally/online and easy to adapt in in-house environments.
 
-### Quick Start: OpenUPM
+### About / Why
 
-To install StoryTime via OpenUPM, follow these steps:
+It started as a school project where designers wanted to work with spreadsheets to create game data, but this became tedious, hard to manage, and hard to collaborate in. So, I wanted to have an application that is able to edit data similar to spreadsheets, but also structured and indexable. Aside from managing data, I also wanted to have plugins where I provide integration in Unity or Unreal where designers can immediately use their data in their games. Lastly StoryTime also wants to provide easy building block for large complex components such as inventory, crafting or dialogues systems.
 
-* Install [`openupm-cli`](https://openupm.com/#get-started). 
-* Open a terminal, and navigate to your project's folder.
-* Run the following command: `openupm add com.vamidicreations.storytime`
+## Useful Links
 
-StoryTime will be installed into the `StoryTime` folder in your project's Packages.
+* [Unity package](https://github.com/vamidi/StoryTime-UPM)
+* [StoryTime web application](https://github.com/vamidi/StoryTime)
+* [Our progress](https://open.codecks.io/storytime)
 
-### Quick Start: Unity Editor
+{% content-ref url="quick-start/getting-started.md" %}
+[getting-started.md](quick-start/getting-started.md)
+{% endcontent-ref %}
 
-To install StoryTime via Unity3D, follow these steps:
+{% content-ref url="quick-start/setup/setup.md" %}
+[setup.md](quick-start/setup/setup.md)
+{% endcontent-ref %}
 
-* Open Unity Hub and select either new ![](Documentation/images/unity_new_btn.png) or click an existing project from
-  the list.
-  ![](Documentation/images/unity_hub_home.png)
-* Once Unity is opened go to the toolbar and click on `Window > Package Manager`.
-* Press the plus `+` in the top left corner and select `Add package from git URL`. Paste `https://github.com/vamidi/StoryTime-UPM.git` 
-and click add.
-  
-  > **If you have `warning CS1030` you can fix this by going to `File > Build Settings` and select x86_64 architecture.**
-  
-  ![](Documentation/images/unity_package_install.gif)
-* Once everything is installed we have to create a config file to start communicating to your [StoryTime](https://github.com/vamidi/StoryTime) server.
-* You can create a config file by right-click anywhere in your asset folder (i.e `Assets > Settings`) and go to `Create > StoryTime > Configurations > Config File`. 
-> **ATTENTION - If you name your config different than the name provided add it to the .gitignore or else you will push sensitive data.**
-  You can just use the standard name provided or create your own.
-* Then go to `Window > StoryTime > Global Settings`.
-* Drag your config file into the first field and more fields will pop up.
-* Fill in the necessary fields in order to communicate. They are listed below.
+{% content-ref url="quick-start/tutorials.md" %}
+[tutorials.md](quick-start/tutorials.md)
+{% endcontent-ref %}
 
-| Variable                	| Default Value                          | Description                                                       						|
-| ----------------------  	| -------------------------------------- | ---------------------------------------------------------------------------------------- |
-| Database URL          	|                       				 | The URL of your StoryTime server                                  						|
-| Project ID        		| YOUR_PROJECT_ID   					 | The project you want to retrieve the data from. (Located in the StoryTime web editor)	|
-| Email    					| YOUR_EMAIL_LOGIN                       | Your StoryTime login credentials.                                 						|
-| Password   				| YOUR_PASSWORD_LOGIN                    | Your StoryTime login credentials.            				 	 						|
-| Data Path     			| YOUR_UNITY_DATA_PATH                   | The location that StoryTime is going to store all the data                   			|
+{% content-ref url="vamidicreations/faq.md" %}
+[faq.md](vamidicreations/faq.md)
+{% endcontent-ref %}
 
-* After filling all the necessary fields you can start syncing all the data.
-* Look at the documentation for more information on getting started with the components.
+{% content-ref url="vamidicreations/roadmap.md" %}
+[roadmap.md](vamidicreations/roadmap.md)
+{% endcontent-ref %}
 
-## License
-
-The StoryTime is open-sourced software licensed under the [Apache 2.0](./LICENSE)
-
-
+{% hint style="info" %}
+Join our StoryTime [Discord server](https://discord.gg/SgJ8X5s)!
+{% endhint %}
