@@ -112,7 +112,7 @@ namespace StoryTime.Components
 			m_CurrentActor = storyDataSo.Character;
 
 			BeginDialogueStory(storyDataSo);
-			DisplayDialogueLine(storyDataSo.StartDialogue);
+			// DisplayDialogueLine(storyDataSo.StartDialogue);
 			ToggleCameras(true);
 		}
 

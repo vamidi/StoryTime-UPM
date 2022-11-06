@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 
 using UnityEngine;
 
 namespace StoryTime.Components.ScriptableObjects
 {
-	using Attributes;
+	using VisualScripting.Data;
 
 	public enum StoryType
 	{
@@ -36,7 +35,7 @@ namespace StoryTime.Components.ScriptableObjects
 	{
 		public CharacterSO Character => character;
 
-		public DialogueLine StartDialogue => dialogueLines[0];
+		public DialogueLine Dialogue => dialogue;
 
 		public bool IsDone => m_IsDone;
 
@@ -48,7 +47,7 @@ namespace StoryTime.Components.ScriptableObjects
 		[SerializeField] protected CharacterSO character;
 
 		// Is being calculated in the story editor.
-		[SerializeField] protected List<DialogueLine> dialogueLines;
+		[SerializeField] protected DialogueLine dialogue;
 
 		/** ------------------------------ DATABASE FIELD ------------------------------ */
 

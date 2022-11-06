@@ -1,0 +1,7 @@
+GridBackground
+{
+    --grid-background-color: var(--prata-colors-grid-light-gray-1);
+    --line-color: var(--prata-colors-grid-light-gray-2);
+    --thick-line-color: var(--prata-colors-grid-light-gray-3);
+    --spacing: var(--prata-metrics-grid-25);
+}

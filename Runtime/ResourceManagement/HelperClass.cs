@@ -1,6 +1,6 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Collections.Generic;
+using System.IO;
 using System.Text.RegularExpressions;
 
 #if UNITY_EDITOR
@@ -11,7 +11,6 @@ using UnityEditor.AddressableAssets.Settings;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
-using UnityEngine.ResourceManagement.ResourceLocations;
 using Object = UnityEngine.Object;
 
 namespace StoryTime.ResourceManagement
@@ -75,11 +74,22 @@ namespace StoryTime.ResourceManagement
 				path = MakePathRelative(destination);
 			}
 
-			var guid = AssetDatabase.AssetPathToGUID(path);
-			return AssetDatabase.LoadAssetAtPath<T>(AssetDatabase.GUIDToAssetPath(guid));
+			// var guid = AssetDatabase.AssetPathToGUID(path);
+			return AssetDatabase.LoadAssetAtPath<T>(path);
 #else
 			return null;
 #endif
+		}
+
+		public static string GetAssetPath<T>(T obj) where T : Object
+		{
+			var path = AssetDatabase.GetAssetPath(obj);
+			if (File.Exists(path))
+			{
+				path = Path.GetDirectoryName(path);
+			}
+
+			return path;
 		}
 
 		public static T[] FindAssetsByType<T>() where T : Object

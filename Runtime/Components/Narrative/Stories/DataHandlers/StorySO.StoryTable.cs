@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Newtonsoft.Json.Linq;
+
 using UnityEngine;
 using UnityEngine.Localization;
 
@@ -114,7 +115,7 @@ namespace StoryTime.Components.ScriptableObjects
 				}
 
 				// start with the start dialogue
-				DialogueLine currentDialogue = story.dialogueLines[0];
+				DialogueLine currentDialogue = null; // story.dialogueLines[0];
 
 				// Debug.Log("Current" + currentDialogue);
 
@@ -281,6 +282,7 @@ namespace StoryTime.Components.ScriptableObjects
 								// validate the data
 								if (nextId != UInt32.MaxValue)
 								{
+									/*
 									story.dialogueLines.Add(
 										DialogueLine.DialogueTable.ConvertRow(TableDatabase.Get.GetRow("dialogues", nextId),
 #if UNITY_EDITOR
@@ -291,6 +293,7 @@ namespace StoryTime.Components.ScriptableObjects
 									);
 
 									currentDialogue.NextDialogue = story.dialogueLines.Last();
+									*/
 								}
 
 								// Debug.Log(" Next: " + currentDialogue.NextDialogue);
@@ -312,6 +315,7 @@ namespace StoryTime.Components.ScriptableObjects
 
 								if (nextId != UInt32.MaxValue)
 								{
+									/*
 									story.dialogueLines.Add(
 										DialogueLine.DialogueTable.ConvertRow(TableDatabase.Get.GetRow("dialogues", nextId),
 #if UNITY_EDITOR
@@ -322,6 +326,7 @@ namespace StoryTime.Components.ScriptableObjects
 									);
 
 									choice.NextDialogue = story.dialogueLines.Last();
+									*/
 								}
 
 								// Debug.Log(" Choice: " + choice);

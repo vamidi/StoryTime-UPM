@@ -2,6 +2,8 @@
 
 using UnityEngine;
 using UnityEngine.Localization;
+using Object = UnityEngine.Object;
+
 
 #if UNITY_EDITOR
 using UnityEditor.Localization;
@@ -36,11 +38,13 @@ namespace StoryTime.Components
 		public string DialogueChoiceEvent => eventName;
 		public ChoiceActionType ActionType => actionType;
 
+		public int test = 0;
+
 		[SerializeField, HideInInspector] private UInt32 id = UInt32.MaxValue;
 		/// <summary>
 		/// The text we use to display.
 		/// </summary>
-		[SerializeField] private LocalizedString text;
+		[SerializeField] private LocalizedString text = new ();
 		// This needs to be calculated
 		[NonSerialized] private DialogueLine m_NextDialogue;
 		[SerializeField] private string eventName = String.Empty;

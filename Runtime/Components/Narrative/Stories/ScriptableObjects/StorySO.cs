@@ -61,8 +61,9 @@ namespace StoryTime.Components.ScriptableObjects
 		{
 			if (ID != UInt32.MaxValue && childId != UInt32.MaxValue)
 			{
-				dialogueLines.Clear();
+				// dialogueLines.Clear();
 				// Only get the first dialogue.
+				/*
 				dialogueLines.Add(
 					DialogueLine.DialogueTable.ConvertRow(TableDatabase.Get.GetRow("dialogues", childId),
 #if UNITY_EDITOR
@@ -71,6 +72,7 @@ namespace StoryTime.Components.ScriptableObjects
 #endif
 						)
 				);
+				*/
 
 				collection = overrideTable ? collection : LocalizationEditorSettings.GetStringTableCollection("Story Titles");
 				// Only get the first dialogue.

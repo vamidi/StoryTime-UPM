@@ -167,7 +167,7 @@ namespace StoryTime.FirebaseService
 #if UNITY_EDITOR
 		internal static FirebaseConfigSO Fetch()
 		{
-			var configFile = AssetDatabase.LoadAssetAtPath<FirebaseConfigSO>(AssetDatabase.GUIDToAssetPath(FirebaseSyncConfig.SelectedConfig));
+			var configFile = HelperClass.GetAsset<FirebaseConfigSO>(FirebaseSyncConfig.SelectedConfig);
 			if (configFile == null)
 			{
 				Debug.LogWarning($"{nameof(configFile)} must not be null.");

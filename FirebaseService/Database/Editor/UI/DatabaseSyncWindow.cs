@@ -192,7 +192,7 @@ namespace StoryTime.Editor.UI
 		        // then get the config file is selected
 		        rootVisualElement.Q<VisualElement>("rowSettings").style.display = DisplayStyle.Flex;
 		        rootVisualElement.Bind(new SerializedObject(config));
-		        FirebaseSyncConfig.SelectedConfig = AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(config));
+		        FirebaseSyncConfig.SelectedConfig = AssetDatabase.GetAssetPath(config);
 	        }
 	        else
 	        {
@@ -209,7 +209,7 @@ namespace StoryTime.Editor.UI
 		        // then get the config file is selected
 		        rootVisualElement.Q<VisualElement>("dialogueSettings").style.display = DisplayStyle.Flex;
 		        rootVisualElement.Bind(new SerializedObject(config));
-		        FirebaseSyncConfig.SelectedDialogueConfig = AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(config));
+		        FirebaseSyncConfig.SelectedDialogueConfig = AssetDatabase.GetAssetPath(config);
 	        }
 	        else
 	        {

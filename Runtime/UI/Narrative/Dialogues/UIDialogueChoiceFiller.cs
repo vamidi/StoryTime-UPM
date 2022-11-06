@@ -15,7 +15,7 @@ namespace StoryTime.Components.UI
 		public void FillChoice(DialogueChoice choiceToFill)
 		{
 			m_CurrentChoice = choiceToFill;
-			choiceText.StringReference = choiceToFill.Sentence;
+			// choiceText.StringReference = choiceToFill.Sentence;
 		}
 
 		public void ButtonClicked()

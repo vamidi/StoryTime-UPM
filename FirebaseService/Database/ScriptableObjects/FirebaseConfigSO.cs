@@ -11,6 +11,10 @@ namespace StoryTime.Configurations.ScriptableObjects
 	[CreateAssetMenu(menuName = "StoryTime/Configurations/Config File", fileName = "FirebaseConfig")]
 	public class FirebaseConfigSO : ScriptableObject, ITableService
 	{
+		public string Email => email;
+
+		internal string Password => password;
+
 		public string DatabaseURL => databaseURL;
 		internal string ProjectID => projectID;
 
@@ -25,10 +29,6 @@ namespace StoryTime.Configurations.ScriptableObjects
 		public string StorageBucket => storageBucket;
 
 		public bool Authentication => useServer;
-
-		public string Email => email;
-
-		internal string Password => password;
 
 		/// <summary>
 		/// Database url to fetch data from
