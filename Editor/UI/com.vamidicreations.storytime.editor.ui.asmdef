@@ -2,7 +2,6 @@
     "name": "com.vamidicreations.storytime.editor.ui",
     "rootNamespace": "StoryTime",
     "references": [
-        "GUID:54526583236c13f4f83c893af43025b3",
         "GUID:6055be8ebefd69e48b49212b09b47b2f",
         "GUID:6546d7765b4165b40850b3667f981c26"
     ],

@@ -8,10 +8,6 @@ namespace StoryTime.Editor.VisualScripting
 		public new class UxmlFactory : UxmlFactory<InspectorView, UxmlTraits> { }
 
 		private UnityEditor.Editor _editor;
-		public InspectorView()
-		{
-
-		}
 
 		public void UpdateSelection(NodeView nodeView)
 		{
@@ -19,7 +15,13 @@ namespace StoryTime.Editor.VisualScripting
 
 			UnityEngine.Object.DestroyImmediate(_editor);
 			_editor = UnityEditor.Editor.CreateEditor(nodeView.node);
-			IMGUIContainer container = new IMGUIContainer(() => { _editor.OnInspectorGUI(); });
+			IMGUIContainer container = new IMGUIContainer(() =>
+			{
+				if (_editor.target)
+				{
+					_editor.OnInspectorGUI();
+				}
+			});
 			Add(container);
 		}
 	}

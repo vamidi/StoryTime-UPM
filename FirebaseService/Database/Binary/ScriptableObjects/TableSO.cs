@@ -104,7 +104,7 @@ namespace StoryTime.FirebaseService.Database.Binary
         internal void Export()
         {
 #if UNITY_EDITOR
-	        FirebaseConfigSO config = FirebaseInitializer.Fetch();
+	        FirebaseConfigSO config = FirebaseConfigSO.FindSettings();
 	        string destination = $"{config.dataPath}/{metadata.title}.asset";
 
 	        if (!Directory.Exists(config.dataPath))

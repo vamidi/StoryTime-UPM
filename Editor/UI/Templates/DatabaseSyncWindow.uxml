@@ -8,7 +8,7 @@
         <uie:ToolbarSpacer style="flex-grow: 1;"/>
     </uie:Toolbar> -->
 	<ui:VisualElement>
-		<ui:Label text="Database settings"/>
+		<ui:Label text="Database settings" class="title"/>
 		<uie:ObjectField
 			label="Loaded config" tooltip="The config we need to load." name="config-field" class="unity-property-field-input" binding-path="config" allow-scene-objects="false"/>
 		/>

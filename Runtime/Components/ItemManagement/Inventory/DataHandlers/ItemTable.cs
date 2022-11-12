@@ -20,7 +20,7 @@ namespace StoryTime.Components.ScriptableObjects
 					return item;
 				}
 
-				FirebaseConfigSO config = FirebaseInitializer.Fetch();
+				FirebaseConfigSO config = FirebaseConfigSO.FindSettings();
 				if (config != null)
 				{
 					item.ID = row.RowId;

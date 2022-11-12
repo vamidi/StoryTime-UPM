@@ -1,11 +1,14 @@
 using UnityEngine;
-using UnityEngine.Events;
 
 using TMPro;
+using UnityEditor;
 
 namespace StoryTime.Configurations.ScriptableObjects
 {
+	using ResourceManagement;
+
 	[CreateAssetMenu(menuName = "StoryTime/Configurations/Dialogue Setting File", fileName = "DialogueSettingConfig")]
+	// ReSharper disable once InconsistentNaming
 	public class DialogueSettingConfigSO : ScriptableObject
 	{
 		public TMP_FontAsset Font { get => font; set => font = value; }
@@ -26,5 +29,21 @@ namespace StoryTime.Configurations.ScriptableObjects
 		[SerializeField, Tooltip("Whether to show the dialogue all at once.")] private bool showDialogueAtOnce = true;
 		[SerializeField, Tooltip("Show text with animation")] private bool animatedText = true;
 
+		/// <summary>
+		///
+		/// </summary>
+		/// <returns></returns>
+		public static DialogueSettingConfigSO FetchDialogueSetting()
+		{
+#if UNITY_EDITOR
+			var path = EditorPrefs.GetString("StoryTime-Window-Dialogue-Settings-Config", "");
+			var configFile =
+				HelperClass.GetAsset<DialogueSettingConfigSO>(AssetDatabase.GUIDToAssetPath(path));
+#else
+			// TODO make it work outside the unity editor.
+			var configFile = "";
+#endif
+			return configFile;
+		}
 	}
 }

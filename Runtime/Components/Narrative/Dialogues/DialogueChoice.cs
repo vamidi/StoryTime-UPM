@@ -30,11 +30,6 @@ namespace StoryTime.Components
 
 		public LocalizedString Sentence => text;
 
-		public DialogueLine NextDialogue
-		{
-			get => m_NextDialogue;
-			set => m_NextDialogue = value;
-		}
 		public string DialogueChoiceEvent => eventName;
 		public ChoiceActionType ActionType => actionType;
 
@@ -45,8 +40,7 @@ namespace StoryTime.Components
 		/// The text we use to display.
 		/// </summary>
 		[SerializeField] private LocalizedString text = new ();
-		// This needs to be calculated
-		[NonSerialized] private DialogueLine m_NextDialogue;
+
 		[SerializeField] private string eventName = String.Empty;
 		[SerializeField] private ChoiceActionType actionType;
 

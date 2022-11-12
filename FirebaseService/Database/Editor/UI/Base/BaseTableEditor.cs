@@ -2,9 +2,12 @@
 using System.Linq;
 using System.Collections.Generic;
 
+using Firebase.Extensions;
+
 using UnityEngine;
 
 using StoryTime.Components.ScriptableObjects;
+using StoryTime.FirebaseService.Database.ResourceManagement;
 
 namespace StoryTime.FirebaseService.Database.Editor
 {
@@ -37,10 +40,6 @@ namespace StoryTime.FirebaseService.Database.Editor
 				}
 			};
 			GenerateList();
-
-			// set the id right
-			var t = target as TableBehaviour;
-			if (t) _choiceIndex = Array.FindIndex(_populatedList.Keys.ToArray(), idx => idx == t.ID);
 		}
 
 		protected virtual string GetGameObjectName() => typeof(T).Name;
@@ -95,14 +94,23 @@ namespace StoryTime.FirebaseService.Database.Editor
 			}
 		}
 
-		protected void GenerateList()
+		protected virtual void GenerateList()
 		{
+			// set the id right
+			Reset();
+		}
+
+		protected void Reset()
+		{
+			// set the id right
 			var tblComp = target as TableBehaviour;
 			if (tblComp != null)
 			{
 				_choiceIndex = Array.FindIndex(_populatedList.Keys.ToArray(), idx => idx == tblComp.ID);
 				BaseEditorList.GenerateList(ref _populatedList, tblComp, out IsJsonObj);
 			}
+
+			Repaint();
 		}
 	}
 
@@ -143,6 +151,42 @@ namespace StoryTime.FirebaseService.Database.Editor
 	[UnityEditor.CustomEditor(typeof(StorySO))]
 	public class StoryEditor : BaseTableEditor<StorySO>
 	{
+		private Dictionary<uint, FirebaseStorageService.StoryFileUpload> stories = new()
+		{
+			{ UInt32.MaxValue, null }
+		};
+
+		protected override void GenerateList()
+		{
+			base.GenerateList();
+			FirebaseInitializer.StorageService.GetFiles<FirebaseStorageService.StoryFileUpload>("stories")
+				.ContinueWithOnMainThread(
+					(task) =>
+					{
+						if (task.IsFaulted)
+						{
+							return;
+						}
+
+						var list = task.Result;
+
+						foreach (var storyFileUpload in list)
+						{
+							if (stories.ContainsKey(storyFileUpload.storyId))
+							{
+								stories[storyFileUpload.storyId] = storyFileUpload;
+							}
+							else
+							{
+								stories.Add(storyFileUpload.storyId, storyFileUpload);
+							}
+						}
+
+						Reset();
+					}
+				);
+		}
+
 		protected override void OnChanged()
 		{
 			var t = target as StorySO;
@@ -153,6 +197,36 @@ namespace StoryTime.FirebaseService.Database.Editor
 				// set all the values from the selected row
 				if (row != null) StorySO.StoryTable.ConvertRow(row, t);
 				else t.Reset();
+
+				Prompt(t);
+			}
+		}
+
+		private void Prompt(StorySO t)
+		{
+			if ((t.rootNode || t.nodes.Count > 0) &&
+				UnityEditor.EditorUtility.DisplayDialog("Available Story",
+				    "There is a current story available.\nAre you sure you want to delete the current one?", "Yes",
+				    "No"))
+			{
+				if (!stories.ContainsKey(t.ID))
+				{
+					Debug.Log("Story could not be found!");
+					return;
+				}
+
+				// Delete the start node
+				// t.rootNode = null;
+
+				// Delete the rest of the nodes
+				foreach (var node in t.nodes)
+				{
+					// t.DeleteNode(node);
+				}
+
+
+				var story = stories[t.ID];
+				t.Parse(story);
 			}
 		}
 

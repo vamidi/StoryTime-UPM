@@ -1,7 +1,7 @@
 ﻿using UnityEditor;
 using UnityEditor.Callbacks;
 
-using StoryTime.VisualScripting.Data.ScriptableObjects;
+using StoryTime.Components.ScriptableObjects;
 namespace StoryTime.Editor.VisualScripting.Utilities
 {
 	public static partial class AssetHandler
@@ -10,7 +10,7 @@ namespace StoryTime.Editor.VisualScripting.Utilities
 		// Handles opening the editor window when double-clicking project files
 		public static bool OnOpenAsset(int instanceID, int line)
 		{
-			DialogueContainerSO container = EditorUtility.InstanceIDToObject(instanceID) as DialogueContainerSO;
+			StorySO container = EditorUtility.InstanceIDToObject(instanceID) as StorySO;
 			if (container != null)
 			{
 				DialogueEditorWindow.OpenDialogueGraphWindow(container);

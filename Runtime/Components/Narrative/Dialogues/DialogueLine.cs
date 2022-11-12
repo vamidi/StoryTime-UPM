@@ -36,26 +36,15 @@ namespace StoryTime.Components
 
 		public DialogueType DialogueType => dialogueType;
 
-		public DialogueLine NextDialogue
-		{
-			get => m_NextDialogue;
-			set => m_NextDialogue = value;
-		}
-
-		[SerializeField] private DialogueChoice startChoice;
-
-		public List<DialogueChoice> Choices => m_Choices;
+		public List<DialogueChoice> Choices => choices;
 
 		[SerializeField, HideInInspector] private UInt32 id = UInt32.MaxValue;
-
-		/// <summary>
-		/// Calculated through the node editor data.
-		/// </summary>
-		protected DialogueLine m_NextDialogue;
 
 		[SerializeField, HideInInspector] private uint nextDialogueID = UInt32.MaxValue;
 
 		[SerializeField] private DialogueType dialogueType;
+
+		[SerializeField] private Emotion emotion;
 
 		[SerializeField] protected LocalizedString characterName;
 
@@ -66,8 +55,8 @@ namespace StoryTime.Components
 		private LocalizedString sentence;
 
 		[SerializeField, Tooltip("Event that will be fired once filled in.")]
-		private DialogueEventSO dialogueEvent = new DialogueEventSO("");
+		private DialogueEventSO dialogueEvent = new ("");
 
-		private List<DialogueChoice> m_Choices = new List<DialogueChoice>();
+		[SerializeField] private List<DialogueChoice> choices = new ();
 	}
 }

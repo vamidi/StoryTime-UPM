@@ -8,7 +8,8 @@ using UnityEngine.Events;
 
 using TMPro;
 
-namespace StoryTime.Components
+using StoryTime.Components;
+namespace StoryTime.Utils.Components
 {
 	using FirebaseService.Database;
 	using Configurations.ScriptableObjects;
@@ -250,7 +251,7 @@ namespace StoryTime.Components
 		{
 			base.Awake();
 
-			m_Config = TableDatabase.FetchDialogueSetting();
+			m_Config = DialogueSettingConfigSO.FetchDialogueSetting();
 
 			if (m_Config != null && useConfig)
 			{

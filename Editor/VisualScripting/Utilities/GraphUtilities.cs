@@ -1,27 +1,24 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
-
+using StoryTime.Components.ScriptableObjects;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 
 using UnityEngine;
-using UnityEngine.UIElements;
 
 using StoryTime.VisualScripting.Data;
-using StoryTime.VisualScripting.Data.ScriptableObjects;
 namespace StoryTime.Editor.VisualScripting.Utilities
 {
-	using Data;
 	using Elements;
 
 	public class GraphUtilities
 	{
 		private DialogueGraphView _targetGraphView;
-		private DialogueContainerSO _containerCached;
+		private StorySO _containerCached;
 		private List<Edge> Edges => _targetGraphView.edges.ToList();
 		private Dictionary<string, DialogueNode> Nodes => _targetGraphView.nodes.ToList().Cast<DialogueNode>()
-			.ToDictionary(node => node.GUID, node => node);
+			.ToDictionary(node => node.node.guid, node => node);
 
 		public static GraphUtilities Instance(DialogueGraphView targetGraphView) => new() {_targetGraphView = targetGraphView};
 
@@ -34,7 +31,7 @@ namespace StoryTime.Editor.VisualScripting.Utilities
 		internal void SaveGraph(string fileName)
 		{
 			var path = $"{Constants.FOLDER_GRAPH}/{fileName}.asset";
-			var prevAsset = Resources.Load<DialogueContainerSO>(path);
+			var prevAsset = Resources.Load<StorySO>(path);
 			if (prevAsset == null)
 			{
 				SaveNewGraph(path);
@@ -45,7 +42,7 @@ namespace StoryTime.Editor.VisualScripting.Utilities
 			}
 		}
 
-		internal void LoadGraph(DialogueContainerSO dialogContainer)
+		internal void LoadGraph(StorySO dialogContainer)
 		{
 			_containerCached = dialogContainer;
 			if (!_containerCached)
@@ -55,7 +52,7 @@ namespace StoryTime.Editor.VisualScripting.Utilities
 			}
 
 			// ClearGraph();
-			CreateNodes();
+			// CreateNodes();
 			// ConnectNodes();
 			// CreateExposedProperties();
 		}
@@ -70,7 +67,7 @@ namespace StoryTime.Editor.VisualScripting.Utilities
 		private void SaveNewGraph(string path)
 		{
 			Debug.Log($"New graph {path}");
-			var dialogueContainer = ScriptableObject.CreateInstance<DialogueContainerSO>();
+			var dialogueContainer = ScriptableObject.CreateInstance<StorySO>();
 
 			SaveSockets(dialogueContainer);
 			SaveNodes(dialogueContainer);
@@ -80,7 +77,7 @@ namespace StoryTime.Editor.VisualScripting.Utilities
 			SaveAsset(dialogueContainer, path);
 		}
 
-		private void UpdateGraph(DialogueContainerSO dialogueContainer)
+		private void UpdateGraph(StorySO dialogueContainer)
 		{
 			SaveSockets(dialogueContainer);
 			SaveNodes(dialogueContainer);
@@ -88,7 +85,7 @@ namespace StoryTime.Editor.VisualScripting.Utilities
 			SaveAsset(dialogueContainer);
 		}
 
-		private void SaveAsset(DialogueContainerSO dialogueContainer, string fileName = "", bool update = false)
+		private void SaveAsset(StorySO dialogueContainer, string fileName = "", bool update = false)
 		{
 			if (!update && fileName != String.Empty)
 			{
@@ -116,15 +113,15 @@ namespace StoryTime.Editor.VisualScripting.Utilities
 		private void CreateExposedProperties()
 		{
 			_targetGraphView.ClearBlackBoardAndExposedProperties();
-			foreach (var exposedProperty in _containerCached.ExposedProperties)
+			foreach (var exposedProperty in _containerCached.exposedProperties)
 			{
 				_targetGraphView.AddPropertyToBlackBoard(exposedProperty);
 			}
 		}
 
-		private void SaveExposedProperties(DialogueContainerSO dialogueContainer)
+		private void SaveExposedProperties(StorySO dialogueContainer)
 		{
-			dialogueContainer.ExposedProperties.AddRange(_targetGraphView.ExposedProperties);
+			dialogueContainer.exposedProperties.AddRange(_targetGraphView.ExposedProperties);
 		}
 
 		private void ClearGraph()
@@ -138,14 +135,14 @@ namespace StoryTime.Editor.VisualScripting.Utilities
 
 		private void CreateNodes()
 		{
-			foreach (var nodeData in _containerCached.DialogueNodes)
+			foreach (var nodeData in _containerCached.nodes)
 			{
-				var tempNode = _targetGraphView.CreateNode(nodeData);
-				_targetGraphView.AddElement(tempNode);
+				// var tempNode = _targetGraphView.CreateNode(nodeData);
+				// _targetGraphView.AddElement(tempNode);
 			}
 		}
 
-		private void SaveSockets(DialogueContainerSO dialogueContainer)
+		private void SaveSockets(StorySO dialogueContainer)
 		{
 			if (!Edges.Any()) return; // if there are no edges
 
@@ -154,30 +151,31 @@ namespace StoryTime.Editor.VisualScripting.Utilities
 			{
 				var outputNode = connectedSocket.output.node as DialogueNode;
 				var inputNode = connectedSocket.input.node as DialogueNode;
-				var index = dialogueContainer.NodeLinks
-					.FindIndex(l => l.BaseNodeGuid == outputNode.GUID &&
-					                l.TargetNodeGuid == inputNode.GUID);
+				var index = 0;
+				// var index = dialogueContainer.nodeLinks
+					// .FindIndex(l => l.BaseNodeGuid == outputNode.GUID &&
+					                // l.TargetNodeGuid == inputNode.GUID);
 
 				NodeLinkData linkData = new()
 				{
-					BaseNodeGuid = outputNode.GUID,
+					BaseNodeGuid = outputNode.node.guid,
 					PortName = connectedSocket.output.portName,
-					TargetNodeGuid = inputNode.GUID
+					TargetNodeGuid = inputNode.node.guid
 				};
 
 				// Update if we found a socket.
 				if (index >= 0)
 				{
-					dialogueContainer.NodeLinks[index] = linkData;
+					// dialogueContainer.nodeLinks[index] = linkData;
 				}
 				else
 				{
-					dialogueContainer.NodeLinks.Add(linkData);
+					// dialogueContainer.nodeLinks.Add(linkData);
 				}
 			}
 		}
 
-		private void SaveNodes(DialogueContainerSO dialogueContainer)
+		private void SaveNodes(StorySO dialogueContainer)
 		{
 			/*
 			foreach (var node in Nodes.Values.Where(node => node.DialogType != NodeTypes.Start))

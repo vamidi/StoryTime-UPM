@@ -61,19 +61,6 @@ namespace StoryTime.Components.ScriptableObjects
 		{
 			if (ID != UInt32.MaxValue && childId != UInt32.MaxValue)
 			{
-				// dialogueLines.Clear();
-				// Only get the first dialogue.
-				/*
-				dialogueLines.Add(
-					DialogueLine.DialogueTable.ConvertRow(TableDatabase.Get.GetRow("dialogues", childId),
-#if UNITY_EDITOR
-						overrideTable ? collection : LocalizationEditorSettings.GetStringTableCollection("Dialogues"),
-						overrideCharacterTable ? characterCollection : LocalizationEditorSettings.GetStringTableCollection("Character Names")
-#endif
-						)
-				);
-				*/
-
 				collection = overrideTable ? collection : LocalizationEditorSettings.GetStringTableCollection("Story Titles");
 				// Only get the first dialogue.
 				var entryId = (ID + 1).ToString();
@@ -87,12 +74,6 @@ namespace StoryTime.Components.ScriptableObjects
 					description = new LocalizedString { TableReference = storyDescriptionCollection.TableCollectionNameReference, TableEntryReference = entryId };
 				else
 					Debug.LogWarning("Collection not found. Did you create any localization tables");
-
-				var field = TableDatabase.Get.GetField(Name, "data", ID);
-				if (field != null)
-				{
-					StoryTable.ParseNodeData(this, (JObject) field.Data);
-				}
 			}
 		}
 	}

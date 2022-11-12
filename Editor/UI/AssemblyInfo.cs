@@ -6,6 +6,8 @@ using System.Runtime.CompilerServices;
 [assembly: InternalsVisibleTo("com.vamidicreations.storytime.runtime.visualscripting")]
 [assembly: InternalsVisibleTo("com.vamidicreations.storytime.editor.visualscripting")]
 
+[assembly: InternalsVisibleTo("com.vamidicreations.storytime.firebase.runtime")]
+
 [assembly: InternalsVisibleTo("com.vamidicreations.storytime.firebase.database")]
 [assembly: InternalsVisibleTo("com.vamidicreations.storytime.firebase.database.editor")]
 

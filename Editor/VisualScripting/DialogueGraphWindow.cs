@@ -8,11 +8,11 @@ using UnityEngine;
 using UnityEngine.UIElements;
 
 using StoryTime.VisualScripting.Data;
-using StoryTime.Editor.VisualScripting.Elements;
-using StoryTime.VisualScripting.Data.ScriptableObjects;
+using StoryTime.Components.ScriptableObjects;
 
 namespace StoryTime.Editor.VisualScripting
 {
+	using Elements;
 	using Utilities;
 
 	public class DialogueEditorWindow : EditorWindow
@@ -28,9 +28,9 @@ namespace StoryTime.Editor.VisualScripting
 		private const string NARRATIVE_TEXT = "New Narrative";
 
 		[MenuItem("Tools/StoryTime/Graph/Dialogue Graph")]
-		public static void ShowWindow() => OpenDialogueGraphWindow(null);
+		public static void ShowWindow() => OpenDialogueGraphWindow();
 
-		public static void OpenDialogueGraphWindow(DialogueContainerSO container = null)
+		public static void OpenDialogueGraphWindow(StorySO container = null)
 		{
 			var window = GetWindow<DialogueEditorWindow>();
 			// TODO change to custom icon.
@@ -76,20 +76,11 @@ namespace StoryTime.Editor.VisualScripting
 
 		private void OnSelectionChange()
 		{
-			Debug.Log("select change");
-			DialogueContainerSO container = Selection.activeObject as DialogueContainerSO;
+			StorySO container = Selection.activeObject as StorySO;
 			if (container && AssetDatabase.CanOpenAssetInEditor(container.GetInstanceID()))
 			{
 				_graphView.PopulateView(container);
 			}
-		}
-
-		/// <summary>
-		/// Unity event
-		/// </summary>
-		private void OnDisable()
-		{
-			rootVisualElement.Remove(_graphView);
 		}
 
 		private void OnError()
@@ -153,9 +144,9 @@ namespace StoryTime.Editor.VisualScripting
 		{
 			var toolbar = new Toolbar();
 
-			_loadFileField = ElementsUtilities.CreateObjectField<DialogueContainerSO>("Load Graph");
-			_loadFileField.objectType = typeof(DialogueContainerSO);
-			_loadFileField.RegisterCallback<ChangeEvent<DialogueContainerSO>>((evt) =>
+			_loadFileField = ElementsUtilities.CreateObjectField<StorySO>("Load Graph");
+			_loadFileField.objectType = typeof(StorySO);
+			_loadFileField.RegisterCallback<ChangeEvent<StorySO>>((evt) =>
 			{
 				if (evt.newValue == null)
 				{
@@ -237,7 +228,7 @@ namespace StoryTime.Editor.VisualScripting
 			}
 
 			var saveUtility = GraphUtilities.Instance(_graphView);
-			var previousGraph = (DialogueContainerSO)_loadFileField.value;
+			var previousGraph = (StorySO)_loadFileField.value;
 			if (previousGraph != null)
 			{
 				// saveUtility.OverwriteGraph((DialogueContainer)loadFileField.value);
@@ -248,7 +239,7 @@ namespace StoryTime.Editor.VisualScripting
 			}
 		}
 
-		private void LoadData(DialogueContainerSO dialogContainer)
+		private void LoadData(StorySO dialogContainer)
 		{
 			if (!dialogContainer)
 			{

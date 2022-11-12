@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -9,8 +8,8 @@ using UnityEngine.UIElements;
 using UnityEditor;
 
 using StoryTime.VisualScripting.Data;
+using StoryTime.Components.ScriptableObjects;
 using StoryTime.VisualScripting.Data.ScriptableObjects;
-using NodeSO = StoryTime.VisualScripting.Data.ScriptableObjects.Node;
 using DialogueNodeSO = StoryTime.VisualScripting.Data.ScriptableObjects.DialogueNode;
 
 namespace StoryTime.Editor.VisualScripting
@@ -18,13 +17,14 @@ namespace StoryTime.Editor.VisualScripting
 	using Elements;
 	using Utilities;
 
-	public class DialogueGraphView : GraphView
+	public class DialogueGraphView : UnityEditor.Experimental.GraphView.GraphView
 	{
 		public new class UxmlFactory : UxmlFactory<DialogueGraphView, UxmlTraits> { }
 
 		public Action<NodeView> OnNodeSelected;
-		public DialogueContainerSO container;
-		public Blackboard BlackBoard;
+		public Action<NodeView> OnNodeDeleted;
+		public StorySO container;
+		public UnityEditor.Experimental.GraphView.Blackboard BlackBoard;
 		public List<ExposedProperty> ExposedProperties = new ();
 
 		private readonly Vector2 DEFAULT_NODE_SIZE = new (350, 400);
@@ -55,22 +55,49 @@ namespace StoryTime.Editor.VisualScripting
 
 			stylesheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/Templates/Variables.uss");
 			styleSheets.Add(stylesheet);
+
+			Undo.undoRedoPerformed += OnUndoRedo;
 		}
 
-		public void PopulateView(DialogueContainerSO dialogueContainer)
+		public void PopulateView(StorySO dialogueContainer)
 		{
+			if (!dialogueContainer)
+			{
+				return;
+			}
+
 			container = dialogueContainer;
 			graphViewChanged -= OnGraphViewChanged;
 			DeleteElements(graphElements);
 			graphViewChanged += OnGraphViewChanged;
 
-			AddElement(GenerateEntryPointNode());
+			// Creates node views
 			container.nodes.ForEach(n => AddElement(CreateNodeView(n, n.name)));
+
+			GenerateEntryPointNode();
+
+			// Creates edges
+			container.nodes.ForEach(n =>
+			{
+				var children = container.GetChildren(n);
+				for (int i = 0; i < children.Count; i++)
+				{
+					Node child = children[i];
+					DialogueNode parentView = FindNodeView(n);
+					DialogueNode childView = FindNodeView(child);
+
+					if (children.Count != parentView.outputs.Count)
+						continue;
+
+					UnityEditor.Experimental.GraphView.Edge edge = parentView.outputs[i].ConnectTo(childView.input);
+					AddElement(edge);
+				}
+			});
 		}
 
-		public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)
+		public override List<UnityEditor.Experimental.GraphView.Port> GetCompatiblePorts(UnityEditor.Experimental.GraphView.Port startPort, UnityEditor.Experimental.GraphView.NodeAdapter nodeAdapter)
 		{
-			var compatiblePorts = new List<Port>();
+			var compatiblePorts = new List<UnityEditor.Experimental.GraphView.Port>();
 			ports.ForEach((port) =>
 			{
 				if (startPort == port) return;
@@ -104,7 +131,7 @@ namespace StoryTime.Editor.VisualScripting
 			ExposedProperties.Add(property);
 
 			var container = new VisualElement();
-			var blackboardField = new BlackboardField{ text = property.PropertyName, typeText = "string"};
+			var blackboardField = new UnityEditor.Experimental.GraphView.BlackboardField{ text = property.PropertyName, typeText = "string"};
 			container.Add(blackboardField);
 
 			var propertyValueTextField = new TextField("Value:")
@@ -117,25 +144,31 @@ namespace StoryTime.Editor.VisualScripting
 				ExposedProperties[changingPropertyIndex].PropertValue = evt.newValue;
 			});
 
-			var blackBoardValueRow = new BlackboardRow(blackboardField, propertyValueTextField);
+			var blackBoardValueRow = new UnityEditor.Experimental.GraphView.BlackboardRow(blackboardField, propertyValueTextField);
 			container.Add(blackBoardValueRow);
 
 			BlackBoard.Add(container);
 		}
 
-		public NodeView CreateNode(NodeData nodeData)
+		private void OnUndoRedo()
 		{
-			return Instantiate(nodeData.Type);
+			PopulateView(container);
+			AssetDatabase.SaveAssets();
 		}
 
-		public NodeView CreateNode(Type type, string title, Vector2 position)
+		private NodeView CreateNode(Type type, string title, Vector2 position)
 		{
 			return Instantiate(type, title, position);
 		}
 
-		public Group CreateGroup(string title, Vector2 mousePosition)
+		private DialogueNode FindNodeView(Node node)
 		{
-			var group = new Group
+			return GetNodeByGuid(node.guid) as DialogueNode;
+		}
+
+		public UnityEditor.Experimental.GraphView.Group CreateGroup(string title, Vector2 mousePosition)
+		{
+			var group = new UnityEditor.Experimental.GraphView.Group
 			{
 				title = title
 			};
@@ -144,7 +177,7 @@ namespace StoryTime.Editor.VisualScripting
 			return group;
 		}
 
-		private GraphViewChange OnGraphViewChanged(GraphViewChange graphViewChange)
+		private UnityEditor.Experimental.GraphView.GraphViewChange OnGraphViewChanged(UnityEditor.Experimental.GraphView.GraphViewChange graphViewChange)
 		{
 			if (graphViewChange.elementsToRemove != null)
 			{
@@ -153,6 +186,14 @@ namespace StoryTime.Editor.VisualScripting
 					if (elem is NodeView nodeView)
 					{
 						container.DeleteNode(nodeView.node);
+						OnNodeDeleted(null);
+					}
+
+					if (elem is UnityEditor.Experimental.GraphView.Edge edge)
+					{
+						NodeView parentView = edge.output.node as NodeView;
+						NodeView childView = edge.input.node as NodeView;
+						container.RemoveChild(parentView.node, childView.node);
 					}
 				});
 			}
@@ -162,7 +203,8 @@ namespace StoryTime.Editor.VisualScripting
 				graphViewChange.edgesToCreate.ForEach(edge =>
 				{
 					NodeView parentView = edge.output.node as NodeView;
-					NodeView childView = edge.output.node as NodeView;
+					NodeView childView = edge.input.node as NodeView;
+					container.AddChild(parentView.node, childView.node);
 				});
 			}
 
@@ -177,21 +219,25 @@ namespace StoryTime.Editor.VisualScripting
 				return null;
 			}
 
-			NodeSO node = container.CreateNode(nodeType);
+			Node node = container.CreateNode(nodeType);
 			node.position = position;
 
 			return CreateNodeView(node, title);
 		}
 
-		private NodeView CreateNodeView(NodeSO node, string title = "")
+		private NodeView CreateNodeView(Node node, string title = "")
 		{
-
-			NodeView nodeView = new SingleChoiceNode(node)
+			NodeView nodeView = new DialogueNode(this, node)
 			{
 				title = title
 			};
 			nodeView.OnNodeSelected = OnNodeSelected;
-			nodeView.Init(this, new Rect(node.position, DEFAULT_NODE_SIZE), node.GetType());
+
+			if (node is StartNode)
+			{
+				InitStartNode(nodeView);
+			}
+
 			nodeView.Draw();
 			nodeView.RefreshExpandedState();
 			nodeView.RefreshPorts();
@@ -201,12 +247,13 @@ namespace StoryTime.Editor.VisualScripting
 
 		private void AddManipulators()
 		{
-			SetupZoom(ContentZoomer.DefaultMinScale, ContentZoomer.DefaultMaxScale);
-			this.AddManipulator(new ContentDragger());
-			this.AddManipulator(new SelectionDragger());
-			this.AddManipulator(new RectangleSelector());
+			SetupZoom(UnityEditor.Experimental.GraphView.ContentZoomer.DefaultMinScale,
+				UnityEditor.Experimental.GraphView.ContentZoomer.DefaultMaxScale);
+			this.AddManipulator(new UnityEditor.Experimental.GraphView.ContentDragger());
+			this.AddManipulator(new UnityEditor.Experimental.GraphView.SelectionDragger());
+			this.AddManipulator(new UnityEditor.Experimental.GraphView.RectangleSelector());
 
-			types = TypeCache.GetTypesDerivedFrom<NodeSO>();
+			types = TypeCache.GetTypesDerivedFrom<Node>();
 			foreach(var type in types) {
 				this.AddManipulator(CreateNodeContextualMenu($"[{type.BaseType.Name}] {type.Name}", type));
 			}
@@ -251,13 +298,13 @@ namespace StoryTime.Editor.VisualScripting
 			}
 
 			nodeCreationRequest = ctx =>
-				SearchWindow.Open(new SearchWindowContext(ctx.screenMousePosition), _searchWindow);
+				UnityEditor.Experimental.GraphView.SearchWindow.Open(new UnityEditor.Experimental.GraphView.SearchWindowContext(ctx.screenMousePosition), _searchWindow);
 		}
 
 		private void AddGridBackground()
 		{
-			var grid = new GridBackground();
-			// grid.StretchToParentSize();
+			var grid = new UnityEditor.Experimental.GraphView.GridBackground();
+			grid.StretchToParentSize();
 			Insert(0, grid);
 		}
 
@@ -278,56 +325,59 @@ namespace StoryTime.Editor.VisualScripting
 			return contentViewContainer.WorldToLocal(worldMousePosition);
 		}
 
-		internal void RemovePort(DialogueNode node, Port socket)
+		internal void RemovePort(DialogueNode node, UnityEditor.Experimental.GraphView.Port socket)
 		{
-			if (node.Choices.Count > 1)
+			if (node.outputs.Count > 1)
 			{
-				node.RemoveFromChoices(socket.portName);
 				var targetEdge = edges.ToList()
-					.Where(x => x.output.portName == socket.portName && x.output.node == socket.node);
+					.Where(x => x.output.portName == socket.portName && x.output.node == socket.node).ToArray();
+
 				if (targetEdge.Any())
 				{
 					var edge = targetEdge.First();
+
+					// Remove the child from the nodes
+					NodeView parentView = edge.output.node as NodeView;
+					NodeView childView = edge.input.node as NodeView;
+					container.RemoveChild(parentView.node, childView.node);
+
+					// Remove link
 					edge.input.Disconnect(edge);
-					RemoveElement(targetEdge.First());
+					RemoveElement(edge);
 				}
 
+				node.outputs.Remove(socket);
 				node.outputContainer.Remove(socket);
 				node.RefreshPorts();
 				node.RefreshExpandedState();
 			}
 		}
 
-		private NodeView GenerateEntryPointNode()
+		private void GenerateEntryPointNode()
 		{
-			if (container.rootNode)
+			if (container && container.rootNode)
 			{
-				return CreateNodeView(container.rootNode, container.rootNode.name);
+				return;
 			}
 
 			StartNode startNode = container.CreateNode(typeof(StartNode)) as StartNode;
 			container.rootNode = startNode;
-			var node = new DialogueNode(startNode)
+			var node = new DialogueNode(this, startNode)
 			{
 				title = "START",
-				Content =
-				{
-					characterID = UInt32.MaxValue,
-					dialogueText = "ENTRYPOINT"
-				},
 			};
-
-			node.Init(this, new Rect(300, 200, 100, 150), startNode.GetType());
 
 			var outputPort = node.CreatePort("Next");
 			node.outputContainer.Add(outputPort);
 
-			node.capabilities &= ~Capabilities.Movable;
-			node.capabilities &= ~Capabilities.Deletable;
+			InitStartNode(node);
 
 			node.Draw();
 			node.RefreshExpandedState();
 			node.RefreshPorts();
+
+			EditorUtility.SetDirty(container);
+			AssetDatabase.SaveAssets();
 
 			/*
 			var node = new DialogueNode
@@ -341,7 +391,13 @@ namespace StoryTime.Editor.VisualScripting
 			};
 			*/
 
-			return node;
+			AddElement(node);
+		}
+
+		private void InitStartNode(NodeView node)
+		{
+			node.capabilities &= ~UnityEditor.Experimental.GraphView.Capabilities.Movable;
+			node.capabilities &= ~UnityEditor.Experimental.GraphView.Capabilities.Deletable;
 		}
 	}
 }

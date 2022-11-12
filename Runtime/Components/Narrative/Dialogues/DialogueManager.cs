@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 
+using StoryTime.Utils.Components;
 namespace StoryTime.Components
 {
 	using ScriptableObjects;
@@ -18,7 +19,7 @@ namespace StoryTime.Components
 	{
 		public GameObject continueBtn;
 
-		private bool ReachedEndOfDialogue => m_CurrentDialogue.NextDialogue == null;
+		private bool ReachedEndOfDialogue => true; // m_CurrentDialogue.NextDialogue == null;
 
 		[SerializeField] private BaseInputReader inputReader;
 
@@ -215,7 +216,7 @@ namespace StoryTime.Components
 
 			if (!ReachedEndOfDialogue && _canContinue)
 			{
-				m_CurrentDialogue = m_CurrentDialogue.NextDialogue;
+				m_CurrentDialogue = null; // m_CurrentDialogue.NextDialogue;
 				// TODO grab the actor from the node editor.
 
 				DisplayDialogueLine(m_CurrentDialogue);
@@ -263,6 +264,7 @@ namespace StoryTime.Components
 					continueWithTask.RaiseEvent();
 			}
 
+			/*
 			if (choice.NextDialogue != null)
 			{
 				ShowNextDialogue(choice.NextDialogue);
@@ -270,6 +272,7 @@ namespace StoryTime.Components
 			}
 			else
 				StartCoroutine(DialogueEndedAndCloseDialogueUI());
+			*/
 
 		}
 

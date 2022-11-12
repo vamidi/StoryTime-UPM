@@ -18,10 +18,7 @@ namespace StoryTime.Editor.UI
     {
 	    const string WindowTitle = "StoryTime Settings";
 
-	    [MenuItem("Tools/StoryTime/Global Settings")]
-        public static void ShowWindow() => OpenWindow();
-
-        public static void OpenWindow()
+	    public static void OpenWindow()
         {
 	        var window = GetWindow<DatabaseSyncWindow>(false, WindowTitle, true);
 	        window.titleContent = new GUIContent("StoryTime Settings", EditorIcons.LocalizationSettings.image);

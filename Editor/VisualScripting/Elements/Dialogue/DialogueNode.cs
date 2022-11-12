@@ -1,140 +1,110 @@
-﻿using System;
-using System.Linq;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-using UnityEngine;
+using UnityEditor;
 using UnityEngine.UIElements;
 using UnityEditor.Experimental.GraphView;
 
 using StoryTime.Components;
-using StoryTime.VisualScripting.Data;
-using StoryTime.Components.ScriptableObjects;
 using Node = StoryTime.VisualScripting.Data.ScriptableObjects.Node;
-
 namespace StoryTime.Editor.VisualScripting.Elements
 {
-	using Data;
 	using Utilities;
 
 	public class DialogueNode : NodeView
 	{
-		/// <summary>
-		/// Unique
-		/// </summary>
-		public string GUID { get; set; } = Guid.NewGuid().ToString();
+		public Port input;
+		public readonly List<Port> outputs = new ();
+		public DialogueNode(DialogueGraphView graphView, Node node) : base(graphView, node) { }
 
-		public List<DialogueChoice> Choices { get; private set; }
-
-		public Type DialogType { get; set; }
-
-		public Content Content { get; set; }
-
-		protected DialogueGraphView _graphView;
-
-		/// <summary>
-		/// All characters in the project.
-		/// </summary>
-		protected List<CharacterSO> Characters = ResourceManagement.HelperClass.FindAssetsByType<CharacterSO>().ToList();
-
-		/// <summary>
-		/// All the available emotions in the project.
-		/// </summary>
-		protected List<Emotion> Emotions => Utils.HelperClass.GetEnumValues<Emotion>().ToList();
-
-		public DialogueNode(Node node) : base(node)
-		{
-		}
-
-		public override void Init(DialogueGraphView graphView, DialogueNodeData nodeData, Type type)
+		public override void Draw()
         {
-            _graphView = graphView;
-            Choices = nodeData.Choices;
-            Content = nodeData.Content;
-            GUID = nodeData.Guid;
-            DialogType = type;
+	        title = node.name;
 
-            SetPosition(new Rect(nodeData.Position, Vector2.zero));
+	        // Input
 
-            mainContainer.AddToClassList("prata-node_main-container");
-            extensionContainer.AddToClassList("prata-node_extension-container");
-        }
-
-        public override void Init(DialogueGraphView graphView, Rect position, Type type)
-        {
-            _graphView = graphView;
-            Choices = new ();
-            Content = new DialogContent
-            {
-                emotion = Emotions[0],
-                characterID = Characters[0].ID
-            };
-            DialogType = type;
-
-            SetPosition(position);
-
-            mainContainer.AddToClassList("prata-node_main-container");
-            extensionContainer.AddToClassList("prata-node_extension-container");
-        }
-
-        public override void Draw()
-        {
-	        title = Content.dialogueText;
-
-            // create the character who is talking
-            var characterSelector = ElementsUtilities.CreateDropDownMenu("Characters");
-
-            characterSelector.RegisterValueChangedCallback(evt =>
-            {
-                var index = Characters.FindIndex(character => character.CharacterName.GetLocalizedString() == evt.newValue);
-                Content.characterID = Characters[index].ID;
-            });
-
-            characterSelector.AppendCharacterAction(Characters, Content.characterID,
-                action => { characterSelector.text = ((CharacterSO)action.userData).CharacterName.GetLocalizedString(); });
-            mainContainer.Insert(1, characterSelector);
-
-            var emotionSelector = ElementsUtilities.CreateDropDownMenu("Emotions");
-
-            emotionSelector.RegisterValueChangedCallback((evt) =>
-            {
-                var index = Emotions.FindIndex(emotion => emotion.ToString().Equals(evt.newValue));
-                Content.emotion = Emotions[index];
-            });
-
-            emotionSelector.AppendEmotionsAction(Emotions, Content.emotion,
-                action => { emotionSelector.text = ((Emotion)action.userData).ToString(); });
-            mainContainer.Insert(2, emotionSelector);
-
-            // Input
-
-            var inputPort = this.CreatePort("Dialogue Connection", direction: Direction.Input,
+	        input = this.CreatePort("Dialogue Connection", direction: Direction.Input,
                 capacity: Port.Capacity.Multi);
 
-            inputContainer.Add(inputPort);
+            inputContainer.Add(input);
 
-            // Foldout
-            var customDataContainer = new VisualElement();
-            customDataContainer.AddToClassList("prata-node_custom-data-container");
+            // Show next dialogue connection
 
-            var textFoldout = ElementsUtilities.CreateFoldout("Dialogue text");
+            var portChoice = this.CreatePort("Next Dialogue");
+            outputs.Add(portChoice);
+            outputContainer.Add(portChoice);
 
-            var textTextField = ElementsUtilities.CreateTextField(Content.dialogueText, (evt) =>
+            // Show choices
+
+            if (node is StoryTime.VisualScripting.Data.ScriptableObjects.DialogueNode dialogueNode)
             {
-                Content.dialogueText = evt.newValue;
-                title = evt.newValue;
-            });
+	            var addChoiceButton = ElementsUtilities.CreateButton("Add Choice", () =>
+	            {
+		            Undo.RecordObject(dialogueNode, "Dialogue Graphview (Create Node Choice)");
+		            var outputPortCount = outputContainer.Query("connector").ToList().Count;
+					var choice = new DialogueChoice();
+		            CreateChoicePort($"New Choice {outputPortCount}", choice);
+		            dialogueNode.Choices.Add(choice); // $"New Choice {outputPortCount}"
+	            });
+	            addChoiceButton.AddToClassList("prata-node_button");
+	            mainContainer.Insert(1, addChoiceButton);
 
-            textTextField.AddClasses("prata-node_textfield", "prata-node_quote-textfield");
+	            foreach (var choice in dialogueNode.Choices)
+	            {
+		            string choiceTitle = choice != null && !choice.Sentence.IsEmpty
+			            ? choice.Sentence.GetLocalizedString()
+			            : "";
+		            CreateChoicePort(choiceTitle, choice);
+	            }
+            }
 
-            textFoldout.Add(textTextField);
-
-            customDataContainer.Add(textFoldout);
-            extensionContainer.Add(customDataContainer);
+            // keep track of undo records
+            Undo.undoRedoPerformed += OnUndoRedo;
+            RefreshExpandedState();
+            RefreshPorts();
         }
 
-        public void RemoveFromChoices(string choice)
-        {
-	        Choices.RemoveAll((c) => c.ID == UInt32.Parse(choice));
-        }
+		private void OnUndoRedo()
+		{
+			if (node is StoryTime.VisualScripting.Data.ScriptableObjects.DialogueNode dialogueNode)
+			{
+				foreach (var choice in dialogueNode.Choices)
+				{
+					string choiceTitle = choice != null && !choice.Sentence.IsEmpty
+						? choice.Sentence.GetLocalizedString()
+						: "";
+					CreateChoicePort(choiceTitle, choice);
+				}
+			}
+		}
+
+		private void CreateChoicePort(string nodeTitle, DialogueChoice choice)
+		{
+			var portChoice = this.CreatePort(nodeTitle);
+
+			var deleteChoiceButton = ElementsUtilities.CreateButton("X", () =>
+			{
+				RemoveFromChoices(choice);
+				RemovePort(portChoice);
+			});
+			deleteChoiceButton.AddToClassList("prata-node_button");
+
+			portChoice.Add(deleteChoiceButton);
+			outputContainer.Add(portChoice);
+			outputs.Add(portChoice);
+		}
+
+		private void RemovePort(Port port)
+		{
+			_graphView.RemovePort(this, port);
+		}
+
+		private void RemoveFromChoices(DialogueChoice choice)
+		{
+			if (node is StoryTime.VisualScripting.Data.ScriptableObjects.DialogueNode dialogueNode)
+			{
+				Undo.RecordObject(dialogueNode, "Dialogue Graphview (Remove Node Choice)");
+				dialogueNode.Choices.Remove(choice);
+			}
+		}
 	}
 }

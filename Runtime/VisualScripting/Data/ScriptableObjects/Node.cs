@@ -7,16 +7,5 @@ namespace StoryTime.VisualScripting.Data.ScriptableObjects
 	{
 		public string guid;
 		public Vector2 position;
-		public List<Node> children;
-
-		public void AddChild(Node parent, Node Child)
-		{
-
-		}
-
-		public void RemoveChild(Node parent, Node Child)
-		{
-
-		}
 	}
 }

@@ -29,7 +29,7 @@ namespace StoryTime.Editor.Localization.Plugins.JSON
 
 		/// <summary>
 		/// The sheets provider is responsible for providing the SheetsService and configuring the type of access.
-		/// <seealso cref="DatabaseConfig"/>.
+		/// <seealso cref="Configurations.ScriptableObjects.FirebaseConfigSO"/>.
 		/// </summary>
 		public Configurations.ScriptableObjects.ITableService SheetsService { get; private set; }
 
@@ -45,10 +45,10 @@ namespace StoryTime.Editor.Localization.Plugins.JSON
 		/// <summary>
 		/// Creates a new instance of a GoogleSheets connection.
 		/// </summary>
-		/// <param name="provider">The Google Sheets service provider. See <see cref="DatabaseConfig"/> for a default implementation.</param>
-		public JsonTableSync(Configurations.ScriptableObjects.ITableService provider)
+		/// <param name="provider">The Google Sheets service provider. See <see cref="Configurations.ScriptableObjects.FirebaseConfigSO"/> for a default implementation.</param>
+		public JsonTableSync(/*Configurations.ScriptableObjects.ITableService provider*/)
 		{
-			SheetsService = provider ?? throw new ArgumentNullException(nameof(provider));
+			// SheetsService = provider ?? throw new ArgumentNullException(nameof(provider));
 		}
 
 		/// <summary>

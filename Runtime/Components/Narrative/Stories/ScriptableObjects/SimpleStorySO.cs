@@ -54,7 +54,7 @@ namespace StoryTime.Components.ScriptableObjects
 		[SerializeField, HideInInspector] // Tooltip("The character id where this story belongs to.")]
 		protected uint parentId = UInt32.MaxValue;
 
-		[SerializeField, HideInInspector] // Tooltip("The id where the dialogue should go first")]
+		[SerializeField] // Tooltip("The id where the dialogue should go first")]
 		protected uint childId = UInt32.MaxValue;
 
 		// ReSharper disable once InconsistentNaming
