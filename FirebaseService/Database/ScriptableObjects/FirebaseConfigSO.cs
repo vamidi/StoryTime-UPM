@@ -7,7 +7,6 @@ using UnityEngine;
 using UnityEngine.UIElements;
 
 using TMPro;
-using Object = UnityEngine.Object;
 
 // ReSharper disable once CheckNamespace
 namespace StoryTime.Configurations.ScriptableObjects
@@ -24,6 +23,8 @@ namespace StoryTime.Configurations.ScriptableObjects
 	// ReSharper disable once InconsistentNaming
 	public class FirebaseConfigSO : ScriptableObject, ITableService
 	{
+		public string Url => storyTimeUrl;
+
 		public string Email => email;
 
 		internal string Password => password;
@@ -42,6 +43,11 @@ namespace StoryTime.Configurations.ScriptableObjects
 		public string StorageBucket => storageBucket;
 
 		public bool Authentication => useServer;
+
+		/// <summary>
+		///
+		/// </summary>
+		[SerializeField] private string storyTimeUrl;
 
 		/// <summary>
 		/// Database url to fetch data from

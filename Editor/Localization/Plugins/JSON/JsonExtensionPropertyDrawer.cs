@@ -1,27 +1,30 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
+using System.Collections.Generic;
 
-using UnityEngine;
+using System.Threading.Tasks;
 
 using UnityEditor;
 using UnityEditor.Localization;
 using UnityEditor.Localization.Reporting;
 using UnityEditor.Localization.Plugins.Google.Columns;
 
-using StoryTime.Utils;
-using StoryTime.Localization;
+using UnityEngine;
 
+using StoryTime.Localization;
 namespace StoryTime.Editor.Localization.Plugins.JSON
 {
 	using UI;
+	using Utils;
 	using Fields;
+	using Configurations.ScriptableObjects;
 
 	class JsonExtensionPropertyDrawerData
 	{
 		public SerializedProperty collection;
+
+		public SerializedProperty jsonServiceProvider;
 
 		public SerializedProperty fields;
 
@@ -32,6 +35,8 @@ namespace StoryTime.Editor.Localization.Plugins.JSON
 		public ReorderableListExtended FieldsList;
 
 		public Task PushTask;
+
+		public FirebaseConfigSO Provider => jsonServiceProvider.objectReferenceValue as FirebaseConfigSO;
 
 		// public string m_NewJsonName;
 	}
@@ -76,6 +81,7 @@ namespace StoryTime.Editor.Localization.Plugins.JSON
 			{
 				collection = property.FindPropertyRelative("m_Collection"),
 				tableId = property.FindPropertyRelative("tableId"),
+				jsonServiceProvider = property.FindPropertyRelative("jsonServiceProvider"),
 				fields = property.FindPropertyRelative("fields"),
 				removeMissingPulledKeys = property.FindPropertyRelative("removeMissingPulledKeys")
 			};
@@ -157,9 +163,16 @@ namespace StoryTime.Editor.Localization.Plugins.JSON
 			EditorGUI.LabelField(position, Styles.Header, EditorStyles.boldLabel);
 			position.MoveToNextLine();
 
-			DrawTableNameField(data, ref position);
-			DrawColumnsField(data, ref position);
-			DrawSyncControls(data, property, ref position);
+			EditorGUI.PropertyField(position, data.jsonServiceProvider);
+			position.MoveToNextLine();
+
+			EditorGUI.BeginDisabledGroup(data.jsonServiceProvider.objectReferenceValue == null);
+			using (new EditorGUI.DisabledGroupScope(data.jsonServiceProvider.objectReferenceValue == null))
+			{
+				DrawTableNameField(data, ref position);
+				DrawColumnsField(data, ref position);
+				DrawSyncControls(data, property, ref position);
+			}
 		}
 
 		public override float GetPropertyHeight(JsonExtensionPropertyDrawerData data, SerializedProperty property,
@@ -181,7 +194,7 @@ namespace StoryTime.Editor.Localization.Plugins.JSON
 
 			if (GUI.Button(buttonPos.left, Styles.OpenTable))
 			{
-				JsonTableSync.OpenTableInBrowser(data.tableId.stringValue);
+				JsonTableSync.OpenTableInBrowser(data.Provider, data.tableId.stringValue);
 			}
 			EditorGUI.EndDisabledGroup();
 #endregion inner
@@ -307,7 +320,7 @@ namespace StoryTime.Editor.Localization.Plugins.JSON
 
 		JsonTableSync GetTableContent(JsonExtensionPropertyDrawerData data)
 		{
-			var google = new JsonTableSync(/*data.Provider*/)
+			var google = new JsonTableSync
 			{
 				TableId = data.tableId.stringValue
 			};

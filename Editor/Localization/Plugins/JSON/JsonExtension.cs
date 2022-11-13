@@ -30,7 +30,7 @@ namespace StoryTime.Editor.Localization.Plugins.JSON
 
 		public bool RemoveMissingPulledKeys => removeMissingPulledKeys;
 
-		[SerializeReference] private List<SheetColumn> fields = new List<SheetColumn>();
+		[SerializeReference] private List<SheetColumn> fields = new ();
 
 		[SerializeField] private FirebaseConfigSO jsonServiceProvider;
 

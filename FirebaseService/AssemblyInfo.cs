@@ -9,9 +9,10 @@
 [assembly: InternalsVisibleTo("com.vamidicreations.storytime.firebase.database.editor")]
 [assembly: InternalsVisibleTo("com.vamidicreations.storytime.firebase.database.editor.tests")]
 
-
 [assembly: InternalsVisibleTo("com.vamidicreations.storytime.editor")]
 [assembly: InternalsVisibleTo("com.vamidicreations.storytime.editor.tests")]
+
+[assembly: InternalsVisibleTo("com.vamidicreations.storytime.editor.localization")]
 
 [assembly: InternalsVisibleTo("com.vamidicreations.storytime.editor.visualscripting")]
 [assembly: InternalsVisibleTo("com.vamidicreations.storytime.editor.visualscripting.tests")]
