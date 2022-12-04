@@ -10,16 +10,15 @@ namespace StoryTime.Components.UI
 	/// <summary>
 	///
 	/// </summary>
-	public class UICraftingManager : ItemManager<
+	public class UICraftingManager : UIItemManager<
 		RecipeItemListFiller,
 		RecipeItemFiller,
 		RecipeInspectorFiller,
 		RecipeItemInspectorFiller,
 		ItemRecipeStack,
-		ItemRecipeSO>
+		ItemRecipeSO,
+		RecipeCollectionSO>
 	{
-		[SerializeField] protected RecipeCollectionSO recipeInventory;
-
 		[Header("Listening to channels")]
 		[SerializeField] protected VoidEventChannelSO onIncreaseAmountEvent;
 
@@ -45,7 +44,7 @@ namespace StoryTime.Components.UI
 
 		protected override List<ItemRecipeStack> FindAll()
 		{
-			return recipeInventory.Items.FindAll(o => o.Item.ItemType.TabType == SelectedTab);
+			return currentInventory.Items.FindAll(o => o.Item.ItemType.TabType == SelectedTab);
 		}
 
 		protected override void OnActionButtonRaised(ItemRecipeStack itemStack)
@@ -98,7 +97,7 @@ namespace StoryTime.Components.UI
 
 		void ShowItemInformation(ItemRecipeStack item)
 		{
-			bool[] availabilityArray = recipeInventory.IngredientsAvailability(currentInventory, item.Item.IngredientsList);
+			bool[] availabilityArray = currentInventory.IngredientsAvailability(currentInventory, item.Item.IngredientsList);
 			inspectorFiller.FillItemInspector(item, availabilityArray);
 		}
 
@@ -119,7 +118,7 @@ namespace StoryTime.Components.UI
 					bool isInteractable = true;
 					buttonFiller.gameObject.SetActive(true);
 					if (itemToInspect.Item.ItemType.ActionType == ItemInventoryActionType.Craft)
-						isInteractable = recipeInventory.HasIngredients(currentInventory, itemToInspect.Item.IngredientsList);
+						isInteractable = currentInventory.HasIngredients(currentInventory, itemToInspect.Item.IngredientsList);
 					else if (itemToInspect.Item.ItemType.ActionType == ItemInventoryActionType.DoNothing)
 					{
 						isInteractable = false;

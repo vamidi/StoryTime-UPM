@@ -1,20 +1,21 @@
-
 using System;
-using System.Collections.Generic;
 using System.Linq;
+using System.Collections.Generic;
+
 using Newtonsoft.Json.Linq;
-using StoryTime.FirebaseService.Database;
-using StoryTime.FirebaseService.Database.ResourceManagement;
-using StoryTime.Utils.Attributes;
-using StoryTime.VisualScripting.Data;
-using StoryTime.VisualScripting.Data.ScriptableObjects;
+
 using UnityEditor;
 using UnityEditor.Localization;
+
 using UnityEngine;
 using UnityEngine.Networking;
 
+using StoryTime.Utils.Attributes;
+using StoryTime.VisualScripting.Data.ScriptableObjects;
+using StoryTime.FirebaseService.Database.ResourceManagement;
 namespace StoryTime.Components.ScriptableObjects
 {
+	using FirebaseService.Database;
 	using FirebaseService.Database.Binary;
 
 	// ReSharper disable once InconsistentNaming
@@ -36,105 +37,17 @@ namespace StoryTime.Components.ScriptableObjects
 		protected StringTableCollection characterCollection;
 #endif
 
+		[SerializeField, Tooltip("Override where we should get the dialogue options data from.")]
+		protected bool overrideStoryDescriptionsTable;
+
+		[SerializeField, ConditionalField("overrideStoryDescriptionsTable"), Tooltip("Table collection we are going to use for the sentence")]
+		protected StringTableCollection storyDescriptionCollection;
+
 		// Node editor stuff
-		[SerializeField] internal StartNode rootNode;
-		[SerializeField] internal List<Node> nodes = new ();
-		[SerializeField] internal List<ExposedProperty> exposedProperties = new ();
-
-		public Node CreateNode(Type type)
-		{
-			Node node = CreateInstance(type) as Node;
-			node.name = type.Name;
-#if UNITY_EDITOR
-			node.guid = GUID.Generate().ToString();
-#endif
-			Undo.RecordObject(this, "Dialogue Graphview (Create Node)");
-			nodes.Add(node);
-
-#if UNITY_EDITOR
-			AssetDatabase.AddObjectToAsset(node, this);
-			Undo.RegisterCreatedObjectUndo(node, "Dialogue Graphview (Create Node)");
-			AssetDatabase.SaveAssets();
-#endif
-			return node;
-		}
-
-		public void DeleteNode(Node node)
-		{
-			Undo.RecordObject(this, "Dialogue Graphview (Create Node)");
-			nodes.Remove(node);
-#if UNITY_EDITOR
-			// AssetDatabase.RemoveObjectFromAsset(node);
-			Undo.DestroyObjectImmediate(node);
-			AssetDatabase.SaveAssets();
-#endif
-		}
-
-		public void AddChild(Node parent, Node child)
-		{
-			if (parent is StartNode startNode)
-			{
-				Undo.RecordObject(startNode, "Dialogue Graphview (Add Child)");
-				startNode.Child = child;
-				EditorUtility.SetDirty(startNode);
-			}
-
-			if (parent is DialogueNode dialogueNode && !dialogueNode.Children.Contains(child))
-			{
-				Undo.RecordObject(dialogueNode, "Dialogue Graphview (Add Child)");
-				dialogueNode.Children.Add(child);
-				EditorUtility.SetDirty(dialogueNode);
-			}
-		}
-
-		public void RemoveChild(Node parent, Node child)
-		{
-			if (parent is StartNode startNode)
-			{
-				Undo.RecordObject(startNode, "Dialogue Graphview (Remove Child)");
-				startNode.Child = null;
-				EditorUtility.SetDirty(startNode);
-			}
-
-			if (parent is DialogueNode dialogueNode)
-			{
-				Undo.RecordObject(dialogueNode, "Dialogue Graphview (Remove Child)");
-				dialogueNode.Children.Remove(child);
-				EditorUtility.SetDirty(dialogueNode);
-			}
-		}
-
-		public List<Node> GetChildren(Node parent)
-		{
-			List<Node> children = new();
-			if (parent is StartNode startNode && startNode.Child)
-			{
-				children.Add(startNode.Child);
-			}
-
-			if (parent is DialogueNode dialogueNode)
-			{
-				children = dialogueNode.Children;
-			}
-
-			return children;
-		}
 
 		public void Parse(FirebaseStorageService.StoryFileUpload storyFileUpload)
 		{
 			// dialogueLines.Clear();
-			// Only get the first dialogue.
-			rootNode.DialogueLine =
-				DialogueLine.DialogueTable.ConvertRow(TableDatabase.Get.GetRow("dialogues", childId),
-#if UNITY_EDITOR
-					overrideTable
-						? collection
-						: LocalizationEditorSettings.GetStringTableCollection("Dialogues"),
-					overrideCharacterTable
-						? characterCollection
-						: LocalizationEditorSettings.GetStringTableCollection("Character Names")
-#endif
-				);
 
 			UnityWebRequest wr = UnityWebRequest.Get(storyFileUpload.url);
 
@@ -210,7 +123,18 @@ namespace StoryTime.Components.ScriptableObjects
 			if (rootNode)
 			{
 				// Instantiate a new dialogue line
-				rootNode.DialogueLine = new ();
+				// Only get the first dialogue.
+				rootNode.DialogueLine =
+						DialogueLine.DialogueTable.ConvertRow(TableDatabase.Get.GetRow("dialogues", childId),
+#if UNITY_EDITOR
+							overrideTable
+								? collection
+								: LocalizationEditorSettings.GetStringTableCollection("Dialogues"),
+							overrideCharacterTable
+								? characterCollection
+								: LocalizationEditorSettings.GetStringTableCollection("Character Names")
+#endif
+						);
 				// Debug.Log("Current" + currentDialogue);
 				ParseNextNodeData(rootNode, node, nodes);
 			}
@@ -218,7 +142,7 @@ namespace StoryTime.Components.ScriptableObjects
 		}
 
 		// Override this function to make your custom converter
-		private DialogueEventSO ConvertEvent(TableRow row, KeyValuePair<string, JToken> @event)
+		private EventNode ConvertEvent(TableRow row, KeyValuePair<string, JToken> @event)
 		{
 			var eventName = "";
 			// validate the data
@@ -233,32 +157,45 @@ namespace StoryTime.Components.ScriptableObjects
 
 			var valueToken = @event.Value["value"];
 
+			EventNode node = null;
 			if (valueToken == null)
 			{
 				Debug.Log("Value is null. Creating empty event");
-				return new DialogueEventSO(eventName);
+				node = CreateNode(typeof(EventNode<>)) as EventNode;
+				node.EventName = eventName;
+				return node;
 			}
 
 			JToken token = valueToken["value"];
 			if (token == null)
 			{
 				Debug.Log("Token is null. Creating empty event");
-				return new DialogueEventSO(eventName);
+				node = CreateNode(typeof(EventNode<>)) as EventNode;
+				node.EventName = eventName;
+				return node;
 			}
 
-			dynamic value = null;
 			switch (token.Type)
 			{
 				case JTokenType.Boolean:
-					value = token.ToObject<bool>();
+					var boolEventNode = CreateNode(typeof(BoolEventNode)) as BoolEventNode;
+					boolEventNode.EventName = eventName;
+					boolEventNode.Value = token.ToObject<bool>();
+					node = boolEventNode;
 					Debug.Log("Creating bool value");
 					break;
 				case JTokenType.Integer:
-					value = token.ToObject<double>();
+					var intEventNode = CreateNode(typeof(IntEventNode)) as EventNode<IComparable>;
+					intEventNode.EventName = eventName;
+					intEventNode.Value = token.ToObject<double>();
+					node = intEventNode;
 					Debug.Log("Creating numeric value");
 					break;
 				case JTokenType.String:
-					value = token.ToObject<string>();
+					var stringEventNode = CreateNode(typeof(StringEventNode)) as EventNode<IComparable>;
+					stringEventNode.EventName = eventName;
+					stringEventNode.Value = token.ToObject<string>();
+					node = stringEventNode;
 					Debug.Log("Creating string value");
 					break;
 				case JTokenType.Object:
@@ -266,7 +203,7 @@ namespace StoryTime.Components.ScriptableObjects
 					break;
 			}
 
-			return new DialogueEventSO(eventName, value);
+			return node;
 		}
 
 		/// <summary>
@@ -292,7 +229,7 @@ namespace StoryTime.Components.ScriptableObjects
 		/// <param name="currentNode"></param>
 		/// <param name="node"></param>
 		/// <param name="nodes"></param>
-		private void ParseNextNodeData(IDialogueNode currentNode, JObject node, JObject nodes)
+		private void ParseNextNodeData(Node currentNode, JObject node, JObject nodes)
 		{
 			if (node["data"] == null)
 				return;
@@ -302,6 +239,8 @@ namespace StoryTime.Components.ScriptableObjects
 			// check what is inside the node
 			if (data != null)
 			{
+				var currentDialogueNode = currentNode as DialogueNode;
+
 				// get the outputs
 				var outputs = node["outputs"].ToObject<JObject>();
 
@@ -321,6 +260,7 @@ namespace StoryTime.Components.ScriptableObjects
 					JObject otherNode;
 					JObject otherData;
 
+					Node nextNode = null;
 					// Fetch event data
 					if (outputToken.Key.Contains("Exec") && connections.Length > 0)
 					{
@@ -333,7 +273,7 @@ namespace StoryTime.Components.ScriptableObjects
 							// grab the data from the other node.
 							otherData = otherNode["data"]?.ToObject<JObject>() ?? emptyObj;
 
-							if (currentNode.DialogueLine != null)
+							if (currentDialogueNode && currentDialogueNode.DialogueLine != null)
 							{
 								// fetch the event name
 								var eventId = otherData["eventId"]?.ToObject<uint>() ?? UInt32.MaxValue;
@@ -346,7 +286,7 @@ namespace StoryTime.Components.ScriptableObjects
 									JObject events = otherData["events"]?.ToObject<JObject>() ?? emptyObj;
 									foreach (var @event in events)
 									{
-										currentNode.DialogueLine.DialogueEvent = ConvertEvent(row, @event);
+										nextNode = ConvertEvent(row, @event);
 									}
 								}
 							}
@@ -368,8 +308,7 @@ namespace StoryTime.Components.ScriptableObjects
 					// grab the data from the other node.
 					otherData = otherNode["data"]?.ToObject<JObject>() ?? emptyObj;
 
-					IDialogueNode nextDialogue = null;
-					if (currentNode.DialogueLine != null)
+					if ( currentDialogueNode && currentDialogueNode.DialogueLine != null)
 					{
 						// Fetch the other dialogueId
 						var nextId = otherData["dialogueId"]?.ToObject<uint>() ?? UInt32.MaxValue;
@@ -381,7 +320,7 @@ namespace StoryTime.Components.ScriptableObjects
 							// validate the data
 							if (nextId != UInt32.MaxValue)
 							{
-								nextDialogue = CreateNode(typeof(DialogueNode)) as DialogueNode;
+								var nextDialogue = CreateNode(typeof(DialogueNode)) as DialogueNode;
 								nextDialogue.DialogueLine = DialogueLine.DialogueTable.ConvertRow(
 									TableDatabase.Get.GetRow("dialogues", nextId),
 #if UNITY_EDITOR
@@ -393,12 +332,13 @@ namespace StoryTime.Components.ScriptableObjects
 										: LocalizationEditorSettings.GetStringTableCollection("Character Names")
 #endif
 								);
+								nextNode = nextDialogue;
 							}
 
 							// Debug.Log(" Next: " + currentDialogue.NextDialogue);
 
 							// now we have the next id check if we have a node that comes after.
-							ParseNextNodeData(nextDialogue, otherNode, nodes);
+							ParseNextNodeData(nextNode, otherNode, nodes);
 						}
 						else
 						{
@@ -417,7 +357,7 @@ namespace StoryTime.Components.ScriptableObjects
 
 							if (nextId != UInt32.MaxValue)
 							{
-								currentNode.DialogueLine =
+								currentDialogueNode.DialogueLine =
 									DialogueLine.DialogueTable.ConvertRow(TableDatabase.Get.GetRow("dialogues", nextId),
 #if UNITY_EDITOR
 										overrideTable
@@ -432,22 +372,22 @@ namespace StoryTime.Components.ScriptableObjects
 								// create a new line for the choice selected.
 								var dialogueNode = CreateNode(typeof(DialogueNode)) as DialogueNode;
 
-								dialogueNode.DialogueLine = currentNode.DialogueLine;
+								dialogueNode.DialogueLine = currentDialogueNode.DialogueLine;
 							}
 
 							// Debug.Log(" Choice: " + choice);
 
 							// add the choices to the currentDialogue
-							if (nextDialogue is DialogueNode dn)
+							if (nextNode is DialogueNode dn)
 							{
 								dn.Choices.Add(choice);
 							}
 
 							// Set the nextDialogue to null because we are dealing with a choice
-							nextDialogue = null;
+							nextNode = null;
 
 							// Find the next dialogue for the choice
-							ParseNextNodeData(nextDialogue, otherNode, nodes);
+							ParseNextNodeData(nextNode, otherNode, nodes);
 						}
 					}
 				}

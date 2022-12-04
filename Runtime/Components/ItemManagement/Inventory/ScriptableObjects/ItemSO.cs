@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using StoryTime.VisualScripting.Data.ScriptableObjects;
 
 #if UNITY_EDITOR
 using UnityEditor.Localization;
@@ -57,7 +58,7 @@ namespace StoryTime.Components.ScriptableObjects
     /// </example>
 	[CreateAssetMenu(fileName = "Item", menuName = "StoryTime/Item Management/Item", order = 51)]
 	// ReSharper disable once InconsistentNaming
-	public partial class ItemSO : LocalizationBehaviour
+	public partial class ItemSO : Graphable<ItemMasterNode>
 	{
 		public LocalizedString ItemName { get => itemName; set => itemName = value; }
 		public LocalizedString Description { get => description; set => description = value; }
@@ -70,24 +71,25 @@ namespace StoryTime.Components.ScriptableObjects
 		public LocalizedSprite LocalizePreviewImage => localizePreviewImage;
 		public bool IsLocalized => isLocalized;
 
-		[SerializeField, Tooltip("Override where we should get the item description data from.")]
-		protected bool overrideDescriptionTable;
-
-		[SerializeField, ConditionalField("overrideDescriptionTable"), Tooltip("Table collection we are going to use for the sentence")]
-		protected StringTableCollection itemDescriptionCollection;
-
 		[SerializeField, HideInInspector, Tooltip("The name of the item")] protected LocalizedString itemName;
 		[SerializeField, HideInInspector, Tooltip("A description of the item")] protected LocalizedString description;
 		[SerializeField, Tooltip("A preview image for the item")] protected Sprite previewImage;
 		[SerializeField, Tooltip("The type of item")] protected ItemTypeSO itemType;
 		[SerializeField, Tooltip("A prefab reference for the model of the item")] protected GameObject prefab;
 		[SerializeField, Tooltip("If the player is able to sell this item")] protected bool sellable;
-		[SerializeField, Tooltip("If the item is sellable, how much will it cost")] protected double sellValue;
+		[SerializeField, ConditionalField("sellable"), Tooltip("If the item is sellable, how much will it cost")] protected double sellValue;
 		[SerializeField, Tooltip("Stat modifiers")] protected List<StatModifier> statModifiers;
-		[SerializeField, Tooltip("A localized preview image for the item")] protected LocalizedSprite localizePreviewImage;
+		[SerializeField, ConditionalField("isLocalized"), Tooltip("A localized preview image for the item")] protected LocalizedSprite localizePreviewImage;
 		[SerializeField, Tooltip("a checkbox for localized asset")] protected bool isLocalized;
 
+		[SerializeField, Tooltip("Override where we should get the item description data from.")]
+		protected bool overrideDescriptionTable;
+
+		[SerializeField, ConditionalField("overrideDescriptionTable"), Tooltip("Table collection we are going to use for the sentence")]
+		protected StringTableCollection itemDescriptionCollection;
+
 		// Effect Primary Value
+
 		// Effect Type Id
 
 		public ItemSO(string name, string dropdownColumn, string linkedColumn = "",

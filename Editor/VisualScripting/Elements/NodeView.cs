@@ -11,12 +11,14 @@ namespace StoryTime.Editor.VisualScripting.Elements
 		public Action<NodeView> OnNodeSelected;
 		public readonly Node node;
 
-		protected DialogueGraphView _graphView;
+		public UnityEditor.Experimental.GraphView.Port output;
 
-		public NodeView(DialogueGraphView graphView, Node node)
+		private readonly BaseGraphView graphView;
+
+		protected NodeView(BaseGraphView graphView, Node node)
 		{
 			this.node = node;
-			_graphView = graphView;
+			this.graphView = graphView;
 			title = node.name;
 			viewDataKey = node.guid;
 
@@ -41,6 +43,11 @@ namespace StoryTime.Editor.VisualScripting.Elements
 		{
 			base.OnSelected();
 			OnNodeSelected?.Invoke(this);
+		}
+
+		protected void RemovePort(UnityEditor.Experimental.GraphView.Port port)
+		{
+			graphView.RemovePort(this, port);
 		}
 	}
 }

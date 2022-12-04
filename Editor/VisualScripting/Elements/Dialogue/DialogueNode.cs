@@ -14,7 +14,8 @@ namespace StoryTime.Editor.VisualScripting.Elements
 	{
 		public Port input;
 		public readonly List<Port> outputs = new ();
-		public DialogueNode(DialogueGraphView graphView, Node node) : base(graphView, node) { }
+
+		public DialogueNode(BaseGraphView graphView, Node node) : base(graphView, node) { }
 
 		public override void Draw()
         {
@@ -30,7 +31,7 @@ namespace StoryTime.Editor.VisualScripting.Elements
             // Show next dialogue connection
 
             var portChoice = this.CreatePort("Next Dialogue");
-            outputs.Add(portChoice);
+            output = portChoice;
             outputContainer.Add(portChoice);
 
             // Show choices
@@ -41,8 +42,8 @@ namespace StoryTime.Editor.VisualScripting.Elements
 	            {
 		            Undo.RecordObject(dialogueNode, "Dialogue Graphview (Create Node Choice)");
 		            var outputPortCount = outputContainer.Query("connector").ToList().Count;
-					var choice = new DialogueChoice();
-		            CreateChoicePort($"New Choice {outputPortCount}", choice);
+		            var choice = new DialogueChoice();
+					CreateChoicePort($"New Choice {outputPortCount}", choice);
 		            dialogueNode.Choices.Add(choice); // $"New Choice {outputPortCount}"
 	            });
 	            addChoiceButton.AddToClassList("prata-node_button");
@@ -91,11 +92,6 @@ namespace StoryTime.Editor.VisualScripting.Elements
 			portChoice.Add(deleteChoiceButton);
 			outputContainer.Add(portChoice);
 			outputs.Add(portChoice);
-		}
-
-		private void RemovePort(Port port)
-		{
-			_graphView.RemovePort(this, port);
 		}
 
 		private void RemoveFromChoices(DialogueChoice choice)

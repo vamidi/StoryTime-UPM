@@ -10,10 +10,17 @@ namespace StoryTime.Editor.VisualScripting.Utilities
 		// Handles opening the editor window when double-clicking project files
 		public static bool OnOpenAsset(int instanceID, int line)
 		{
-			StorySO container = EditorUtility.InstanceIDToObject(instanceID) as StorySO;
-			if (container != null)
+			var story = EditorUtility.InstanceIDToObject(instanceID) as StorySO;
+			if (story != null)
 			{
-				DialogueEditorWindow.OpenDialogueGraphWindow(container);
+				DialogueGraphEditorWindow.OpenDialogueGraphWindow(story);
+				return true;
+			}
+
+			var recipe = EditorUtility.InstanceIDToObject(instanceID) as ItemRecipeSO;
+			if (recipe != null)
+			{
+				ItemGraphEditorWindow.OpenRecipeGraphWindow(recipe);
 				return true;
 			}
 

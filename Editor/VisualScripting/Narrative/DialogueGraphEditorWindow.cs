@@ -12,27 +12,21 @@ using StoryTime.Components.ScriptableObjects;
 
 namespace StoryTime.Editor.VisualScripting
 {
-	using Elements;
 	using Utilities;
 
-	public class DialogueEditorWindow : EditorWindow
+	public class DialogueGraphEditorWindow : BaseGraphEditorWindow
 	{
 		private DialogueGraphView _graphView;
-		private InspectorView _inspectorView;
-
-		private string _filename = NARRATIVE_TEXT;
 
 		private TextField _filenameTextField;
 		private ObjectField _loadFileField;
-
-		private const string NARRATIVE_TEXT = "New Narrative";
 
 		[MenuItem("Tools/StoryTime/Graph/Dialogue Graph")]
 		public static void ShowWindow() => OpenDialogueGraphWindow();
 
 		public static void OpenDialogueGraphWindow(StorySO container = null)
 		{
-			var window = GetWindow<DialogueEditorWindow>();
+			var window = GetWindow<DialogueGraphEditorWindow>();
 			// TODO change to custom icon.
 			window.titleContent = new GUIContent("Dialogue Graph",  EditorGUIUtility.IconContent("d_ScriptableObject Icon").image);
 			window.LoadData(container);
@@ -48,12 +42,14 @@ namespace StoryTime.Editor.VisualScripting
 			// GenerateSecondaryToolbar();
 		}
 
-		public void CreateGUI()
+		protected override void CreateGUI()
 		{
 			VisualElement root = rootVisualElement;
 
-			var visualTree = UI.Resources.GetTemplateAsset($"VisualScripting/{nameof(DialogueEditorWindow)}");
+			var visualTree = UI.Resources.GetTemplateAsset($"VisualScripting/{nameof(DialogueGraphEditorWindow)}");
 			visualTree.CloneTree(root);
+
+			base.CreateGUI();
 
 			// TODO change back to package uss version
 			// var stylesheet = UI.Resources.GetStyleAsset($"VisualScripting/{nameof(DialogueEditorWindow)}");
@@ -64,14 +60,8 @@ namespace StoryTime.Editor.VisualScripting
 
 			_graphView = root.Q<DialogueGraphView>();
 			_graphView.OnNodeSelected = OnNodeSelectionChanged;
-			_inspectorView = root.Q<InspectorView>();
 
 			OnSelectionChange();
-		}
-
-		private void OnNodeSelectionChanged(NodeView obj)
-		{
-			_inspectorView.UpdateSelection(obj);
 		}
 
 		private void OnSelectionChange()
@@ -81,28 +71,6 @@ namespace StoryTime.Editor.VisualScripting
 			{
 				_graphView.PopulateView(container);
 			}
-		}
-
-		private void OnError()
-		{
-			EditorUtility.DisplayDialog("Invalid file name!", "Please enter a valid filename.", "OK");
-		}
-
-		private void GenerateToolbar()
-		{
-			var toolbar = new Toolbar();
-
-			var fileNameTextField = new TextField("File Name");
-			fileNameTextField.SetValueWithoutNotify(_filename);
-			fileNameTextField.MarkDirtyRepaint();
-			fileNameTextField.RegisterValueChangedCallback(evt => _filename = evt.newValue);
-			toolbar.Add(fileNameTextField);
-
-			toolbar.Add(ElementsUtilities.CreateButton("Save Data", RequestSaveDataOperation));
-			toolbar.Add(ElementsUtilities.CreateButton( "Load Data", LoadGraph));
-			toolbar.Add(ElementsUtilities.CreateButton("Clear All", ClearData));
-
-			rootVisualElement.Add(toolbar);
 		}
 
 		private void GenerateMiniMap()
@@ -165,7 +133,7 @@ namespace StoryTime.Editor.VisualScripting
 			rootVisualElement.Insert(2, toolbar);
 		}
 
-		private void LoadGraph()
+		protected override void LoadGraph()
 		{
 			if (string.IsNullOrEmpty(_filename))
 			{
@@ -173,11 +141,9 @@ namespace StoryTime.Editor.VisualScripting
 				return;
 			}
 
-
-
 		}
 
-		private void RequestSaveDataOperation()
+		protected override void RequestSaveDataOperation()
 		{
 			if (string.IsNullOrEmpty(_filename))
 			{
@@ -189,7 +155,7 @@ namespace StoryTime.Editor.VisualScripting
 			saveUtility.SaveGraph(_filename);
 		}
 
-		private void ClearData()
+		protected override void ClearData()
 		{
 			var choice = EditorUtility.DisplayDialogComplex(
 				"Are you sure?",
@@ -253,7 +219,7 @@ namespace StoryTime.Editor.VisualScripting
 		private void ResetTextFields()
 		{
 			_loadFileField.value = null;
-			_filename = NARRATIVE_TEXT;
+			_filename = TEXT;
 			_filenameTextField.SetValueWithoutNotify(_filename);
 			_filenameTextField.MarkDirtyRepaint();
 		}

@@ -1,7 +1,6 @@
-﻿using System;
+﻿using UnityEngine;
 
-using UnityEngine;
-
+using StoryTime.VisualScripting.Data.ScriptableObjects;
 namespace StoryTime.Components.ScriptableObjects
 {
 	using VisualScripting.Data;
@@ -31,44 +30,18 @@ namespace StoryTime.Components.ScriptableObjects
 
 	[CreateAssetMenu(fileName = "newSimpleStory", menuName = "StoryTime/Stories/Simple Story", order = 51)]
 	// ReSharper disable once InconsistentNaming
-	public class SimpleStorySO : LocalizationBehaviour
+	public class SimpleStorySO : Graphable<StartNode>
 	{
 		public CharacterSO Character => character;
 
 		public DialogueLine Dialogue => dialogue;
 
-		public bool IsDone => m_IsDone;
-
-		/** ------------------------------ DATABASE FIELD ------------------------------ */
-
-		public uint ParentId => parentId;
-		public uint ChildId => childId;
-
-		[SerializeField] protected CharacterSO character;
+		// TODO do we need this?
+		[SerializeField, Tooltip("The character associated with the story")] protected CharacterSO character;
 
 		// Is being calculated in the story editor.
-		[SerializeField] protected DialogueLine dialogue;
-
-		/** ------------------------------ DATABASE FIELD ------------------------------ */
-
-		[SerializeField, HideInInspector] // Tooltip("The character id where this story belongs to.")]
-		protected uint parentId = UInt32.MaxValue;
-
-		[SerializeField] // Tooltip("The id where the dialogue should go first")]
-		protected uint childId = UInt32.MaxValue;
-
-		// ReSharper disable once InconsistentNaming
-		protected bool m_IsDone;
+		[SerializeField] protected DialogueLine dialogue = new (true);
 
 		public SimpleStorySO() : base("stories", "title", "parentId") { }
-
-		public override void Reset()
-		{
-			base.Reset();
-
-			childId = UInt32.MaxValue;
-
-			Debug.Log(childId);
-		}
 	}
 }

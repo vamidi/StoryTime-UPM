@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 
@@ -12,11 +11,11 @@ namespace StoryTime.Editor.VisualScripting
 {
 	public class NodeSearchWindow : ScriptableObject, ISearchWindowProvider
 	{
-		private DialogueGraphView _graphView;
+		private BaseGraphView _graphView;
 		private Texture2D _indentationIcon;
 		private TypeCache.TypeCollection types = new();
 
-		public void Init(DialogueGraphView graphView, EditorWindow window)
+		public void Init(BaseGraphView graphView, EditorWindow window)
 		{
 			_graphView = graphView;
 			_indentationIcon = new Texture2D(1, 1);

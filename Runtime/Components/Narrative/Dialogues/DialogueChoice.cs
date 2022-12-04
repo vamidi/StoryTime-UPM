@@ -33,9 +33,8 @@ namespace StoryTime.Components
 		public string DialogueChoiceEvent => eventName;
 		public ChoiceActionType ActionType => actionType;
 
-		public int test = 0;
+		[SerializeField, HideInInspector] public UInt32 id = UInt32.MaxValue;
 
-		[SerializeField, HideInInspector] private UInt32 id = UInt32.MaxValue;
 		/// <summary>
 		/// The text we use to display.
 		/// </summary>

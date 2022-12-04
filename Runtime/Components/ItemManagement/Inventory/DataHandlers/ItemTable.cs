@@ -1,5 +1,6 @@
 
-using StoryTime.FirebaseService;
+
+using StoryTime.VisualScripting.Data.ScriptableObjects;
 
 namespace StoryTime.Components.ScriptableObjects
 {
@@ -60,6 +61,11 @@ namespace StoryTime.Components.ScriptableObjects
 
 				return item;
 			}
+		}
+
+		public void RemoveChild(Node parent, Node child)
+		{
+			throw new System.NotImplementedException();
 		}
 	}
 }

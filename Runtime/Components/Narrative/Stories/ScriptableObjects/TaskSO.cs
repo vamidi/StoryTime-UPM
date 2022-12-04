@@ -33,9 +33,9 @@ namespace StoryTime.Components.ScriptableObjects
 		public uint RequiredCount { get => requiredCount; set => requiredCount = value; }
 		public List<ItemStack> Items { get => items; set => items = value; }
 		public TaskCompletionType Type { get => type; set => type = value; }
-		public SimpleStorySO StoryBeforeTask => storyBeforeTask;
-		public SimpleStorySO WinStory => completeStory;
-		public SimpleStorySO LoseStory => incompleteStory;
+		public StorySO StoryBeforeTask => storyBeforeTask;
+		public StorySO WinStory => completeStory;
+		public StorySO LoseStory => incompleteStory;
 		public bool IsDone => isDone;
 		public CharacterSO Character => character;
 		public TaskEventChannelSO StartTaskEvent => endTaskEvent;
@@ -69,13 +69,13 @@ namespace StoryTime.Components.ScriptableObjects
 		[SerializeField] private CharacterSO character;
 
 		[Tooltip("The story that will be displayed before an action, if any")]
-		[SerializeField] private SimpleStorySO storyBeforeTask;
+		[SerializeField] private StorySO storyBeforeTask;
 
 		[Tooltip("The story that will be displayed when the step is achieved")]
-		[SerializeField] private SimpleStorySO completeStory;
+		[SerializeField] private StorySO completeStory;
 
 		[Tooltip("The story that will be displayed if the step is not achieved yet")]
-		[SerializeField] private SimpleStorySO incompleteStory;
+		[SerializeField] private StorySO incompleteStory;
 
 		[Tooltip("The item to check/give/reward (can be multiple)")]
 		[SerializeField] private List<ItemStack> items;

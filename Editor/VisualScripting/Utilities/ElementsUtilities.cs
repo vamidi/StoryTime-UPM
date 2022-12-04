@@ -36,7 +36,7 @@ namespace StoryTime.Editor.VisualScripting.Utilities
         }
 
         public static Port CreatePort(
-            this DialogueNode node,
+            this NodeView node,
             string portName = "",
             Orientation orientation = Orientation.Horizontal,
             Direction direction = Direction.Output,

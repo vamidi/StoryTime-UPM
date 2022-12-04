@@ -1,9 +1,13 @@
-﻿using System.Collections.Generic;
-using StoryTime.Components;
+﻿using StoryTime.Components;
 using UnityEngine;
 
 namespace StoryTime.VisualScripting.Data.ScriptableObjects
 {
+	public interface IDialogueNode
+	{
+		public DialogueLine DialogueLine { get; }
+	}
+
 	public class StartNode : Node, IDialogueNode
 	{
 		public Node Child
@@ -18,13 +22,10 @@ namespace StoryTime.VisualScripting.Data.ScriptableObjects
 			set => dialogueLine = value;
 		}
 
-		DialogueLine IDialogueNode.DialogueLine
-		{
-			get => DialogueLine;
-			set => DialogueLine = value;
-		}
+		DialogueLine IDialogueNode.DialogueLine => DialogueLine;
 
-		[SerializeField] private Node child;
+		public Node child;
+
 		[SerializeField] private DialogueLine dialogueLine;
 	}
 }

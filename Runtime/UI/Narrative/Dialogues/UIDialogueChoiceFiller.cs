@@ -10,18 +10,18 @@ namespace StoryTime.Components.UI
 		[SerializeField] private LocalizeStringEvent choiceText;
 		[SerializeField] private DialogueChoiceChannelSO makeAChoiceEvent;
 
-		DialogueChoice m_CurrentChoice;
+		private DialogueChoice _currentChoice;
 
 		public void FillChoice(DialogueChoice choiceToFill)
 		{
-			m_CurrentChoice = choiceToFill;
-			// choiceText.StringReference = choiceToFill.Sentence;
+			_currentChoice = choiceToFill;
+			choiceText.StringReference = choiceToFill.Sentence;
 		}
 
 		public void ButtonClicked()
 		{
 			if (makeAChoiceEvent != null)
-				makeAChoiceEvent.RaiseEvent(m_CurrentChoice);
+				makeAChoiceEvent.RaiseEvent(_currentChoice);
 		}
 	}
 }

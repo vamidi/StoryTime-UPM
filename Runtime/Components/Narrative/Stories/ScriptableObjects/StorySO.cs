@@ -25,16 +25,28 @@ namespace StoryTime.Components.ScriptableObjects
 		public LocalizedString Title => title;
 		public LocalizedString Description => description;
 
+		public bool IsDone => m_IsDone;
+
 		public StoryType TypeId => typeId;
 		public List<TaskSO> Tasks => tasks;
 
-		[SerializeField, Tooltip("Override where we should get the dialogue options data from.")]
-		protected bool overrideStoryDescriptionsTable;
+		/** ------------------------------ DATABASE FIELD ------------------------------ */
 
-		[SerializeField, ConditionalField("overrideStoryDescriptionsTable"), Tooltip("Table collection we are going to use for the sentence")]
-		protected StringTableCollection storyDescriptionCollection;
+		public uint ParentId => parentId;
+		public uint ChildId => childId;
 
-		[SerializeField, Tooltip("The collection of tasks composing the Quest")] private List<TaskSO> tasks = new List<TaskSO>();
+		/** ------------------------------ DATABASE FIELD ------------------------------ */
+
+		[SerializeField, HideInInspector] // Tooltip("The character id where this story belongs to.")]
+		protected uint parentId = UInt32.MaxValue;
+
+		[SerializeField] // Tooltip("The id where the dialogue should go first")]
+		protected uint childId = UInt32.MaxValue;
+
+		// ReSharper disable once InconsistentNaming
+		protected bool m_IsDone;
+
+		[SerializeField, Tooltip("The collection of tasks composing the Quest")] private List<TaskSO> tasks = new ();
 		[SerializeField, HideInInspector, Tooltip("The title of the quest")] private LocalizedString title;
 		[SerializeField, HideInInspector, Tooltip("The description of the quest")] private LocalizedString description;
 		[SerializeField, Tooltip("Show the type of the quest. i.e could be part of the main story")] private StoryType typeId = StoryType.WorldQuests;
@@ -50,6 +62,13 @@ namespace StoryTime.Components.ScriptableObjects
 #if UNITY_EDITOR
 			Initialize();
 #endif
+		}
+
+		public override void Reset()
+		{
+			base.Reset();
+
+			childId = UInt32.MaxValue;
 		}
 
 		public void FinishStory()

@@ -20,10 +20,10 @@ namespace StoryTime.Components
 		[SerializeField] private CharacterSO character;
 
 		[SerializeField, Tooltip("Simple story we want to display")]
-		private SimpleStorySO defaultStory;
+		private StorySO defaultStory;
 
 		[SerializeField, Tooltip("Stories that belongs to this character")]
-		private List<SimpleStorySO> stories;
+		private List<StorySO> stories;
 
 		[Header("BroadCasting on channels")]
 		[SerializeField] private VoidEventChannelSO onInteractionEnded;
@@ -56,7 +56,7 @@ namespace StoryTime.Components
 		private bool _hasActiveStory;
 		private bool _hasActiveTask;
 		private TaskSO _currentTask;
-		private SimpleStorySO _currentStory;
+		private StorySO _currentStory;
 
 		public void TurnToPlayer(Vector3 playerPos)
 		{

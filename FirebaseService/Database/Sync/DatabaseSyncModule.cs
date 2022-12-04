@@ -59,7 +59,12 @@ namespace StoryTime.FirebaseService.Database.Editor
 		public void Initialize()
 		{
 			Addressables.InitializeAsync().Completed += AddressableCompleted;
-			RequestTableUpdate();
+#if UNITY_EDITOR
+			if (!EditorApplication.isPlayingOrWillChangePlaymode)
+			{
+				RequestTableUpdate();
+			}
+#endif
 		}
 
 		/// <summary>
@@ -68,11 +73,11 @@ namespace StoryTime.FirebaseService.Database.Editor
 		/// from the Firebase database
 		/// </summary>
 		/// <param name="tableID"></param>
+		/// <param name="save"></param>
 		public void RequestTableUpdate(string tableID = "", bool save = false)
 		{
 			if (_database == null)
 			{
-				// TODO add retry check
 				Debug.LogWarning("Database is not initialized. Retrying...");
 				InitializeFirebase();
 				return;

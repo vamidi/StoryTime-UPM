@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using StoryTime.Utils.Attributes;
+using UnityEditor.Localization;
 using UnityEngine;
 using UnityEngine.Localization;
 
@@ -28,11 +29,6 @@ namespace StoryTime.Components
 		public LocalizedString CharacterName => characterName;
 
 		public LocalizedString Sentence => sentence;
-		public DialogueEventSO DialogueEvent
-		{
-			get => dialogueEvent;
-			set => dialogueEvent =  value;
-		}
 
 		public DialogueType DialogueType => dialogueType;
 
@@ -40,7 +36,11 @@ namespace StoryTime.Components
 
 		[SerializeField, HideInInspector] private UInt32 id = UInt32.MaxValue;
 
-		[SerializeField, HideInInspector] private uint nextDialogueID = UInt32.MaxValue;
+		[SerializeField, Tooltip("Override If you want to display an text dialogue only.")]
+		protected bool simplified;
+
+		[SerializeField, ConditionalField("simplified"), TextArea(1, 25)]
+		protected string simplifiedSentence;
 
 		[SerializeField] private DialogueType dialogueType;
 
@@ -48,15 +48,14 @@ namespace StoryTime.Components
 
 		[SerializeField] protected LocalizedString characterName;
 
-		/// <summary>
-		///
-		/// </summary>
 		[SerializeField, Tooltip("Sentence that will showed when interacting")]
 		private LocalizedString sentence;
 
-		[SerializeField, Tooltip("Event that will be fired once filled in.")]
-		private DialogueEventSO dialogueEvent = new ("");
-
 		[SerializeField] private List<DialogueChoice> choices = new ();
+
+		public DialogueLine(bool simplified = false)
+		{
+			this.simplified = simplified;
+		}
 	}
 }
