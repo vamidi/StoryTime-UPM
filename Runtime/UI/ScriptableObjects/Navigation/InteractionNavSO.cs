@@ -10,7 +10,7 @@ namespace StoryTime.Components.UI.ScriptableObjects
 		Complete
 	}
 
-	[CreateAssetMenu(fileName = "InteractionNav", menuName = "StoryTime/UI/Interaction Navigation", order = 51)]
+	[CreateAssetMenu(fileName = "InteractionNav", menuName = "StoryTime/Game/UI/Interaction Navigation", order = 51)]
 	// ReSharper disable once InconsistentNaming
 	public class InteractionNavSO : InteractionSO
 	{

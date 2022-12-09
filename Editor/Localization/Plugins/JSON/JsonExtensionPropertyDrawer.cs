@@ -12,12 +12,12 @@ using UnityEditor.Localization.Plugins.Google.Columns;
 
 using UnityEngine;
 
-using StoryTime.Localization;
 namespace StoryTime.Editor.Localization.Plugins.JSON
 {
 	using UI;
 	using Utils;
 	using Fields;
+	using Utils.Extensions;
 	using Configurations.ScriptableObjects;
 
 	class JsonExtensionPropertyDrawerData

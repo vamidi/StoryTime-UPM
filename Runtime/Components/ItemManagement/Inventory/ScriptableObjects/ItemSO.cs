@@ -14,6 +14,26 @@ namespace StoryTime.Components.ScriptableObjects
 {
 	using Utils.Attributes;
 
+	[Serializable]
+	public class ItemSettings
+	{
+		public LocalizedString ItemName { get => itemName; internal set => itemName = value; }
+		public LocalizedString Description { get => description; internal set => description = value; }
+		public GameObject Prefab { get => prefab; set => prefab = value; }
+		public bool Sellable { get => sellable; set => sellable = value; }
+		public double SellValue { get => sellValue; set => sellValue = value; }
+		public ItemTypeSO ItemType { get => itemType; set => itemType = value; }
+		public Sprite PreviewImage => previewImage;
+
+		[SerializeField, HideInInspector, Tooltip("The name of the item")] protected LocalizedString itemName;
+		[SerializeField, HideInInspector, Tooltip("A description of the item")] protected LocalizedString description;
+		[SerializeField, Tooltip("A prefab reference for the model of the item")] public GameObject prefab;
+		[SerializeField, Tooltip("A preview image for the item")] protected Sprite previewImage;
+		[SerializeField, Tooltip("The type of item")] protected ItemTypeSO itemType;
+		[SerializeField, Tooltip("If the player is able to sell this item")] protected bool sellable;
+		[SerializeField, ConditionalField("sellable"), Tooltip("If the item is sellable, how much will it cost")] protected double sellValue;
+	}
+
 	/// <summary>
     /// Called whenever a localized string is available.
     /// When the first <see cref="LocalizedAsset{TObject}.ChangeHandler"/> is added, a loading operation will automatically start and the localized string value will be sent to the event when completed.
@@ -56,31 +76,40 @@ namespace StoryTime.Components.ScriptableObjects
     /// }
     /// </code>
     /// </example>
-	[CreateAssetMenu(fileName = "Item", menuName = "StoryTime/Item Management/Item", order = 51)]
+	[CreateAssetMenu(fileName = "Item", menuName = "StoryTime/Game/Item Management/Item", order = 51)]
 	// ReSharper disable once InconsistentNaming
 	public partial class ItemSO : Graphable<ItemMasterNode>
 	{
-		public LocalizedString ItemName { get => itemName; set => itemName = value; }
-		public LocalizedString Description { get => description; set => description = value; }
-		public bool Sellable { get => sellable; set => sellable = value; }
-		public double SellValue { get => sellValue; set => sellValue = value; }
-		public ItemTypeSO ItemType { get => itemType; set => itemType = value; }
-		public Sprite PreviewImage => previewImage;
-		public GameObject Prefab => prefab;
+		public LocalizedString ItemName { get => itemSettings.ItemName; set => itemSettings.ItemName = value; }
+		public LocalizedString Description { get => itemSettings.Description; set => itemSettings.Description = value; }
+		public bool Sellable { get => itemSettings.Sellable; set => itemSettings.Sellable = value; }
+		public double SellValue { get => itemSettings.SellValue; set => itemSettings.SellValue = value; }
+		public ItemTypeSO ItemType { get => itemSettings.ItemType; set => itemSettings.ItemType = value; }
+		public Sprite PreviewImage => itemSettings.PreviewImage;
+		public GameObject Prefab
+		{
+			get => itemSettings.Prefab;
+			internal set => itemSettings.Prefab = value;
+		}
+
 		public List<StatModifier> StatModifiers => statModifiers;
 		public LocalizedSprite LocalizePreviewImage => localizePreviewImage;
 		public bool IsLocalized => isLocalized;
 
-		[SerializeField, HideInInspector, Tooltip("The name of the item")] protected LocalizedString itemName;
-		[SerializeField, HideInInspector, Tooltip("A description of the item")] protected LocalizedString description;
-		[SerializeField, Tooltip("A preview image for the item")] protected Sprite previewImage;
-		[SerializeField, Tooltip("The type of item")] protected ItemTypeSO itemType;
-		[SerializeField, Tooltip("A prefab reference for the model of the item")] protected GameObject prefab;
-		[SerializeField, Tooltip("If the player is able to sell this item")] protected bool sellable;
-		[SerializeField, ConditionalField("sellable"), Tooltip("If the item is sellable, how much will it cost")] protected double sellValue;
+		[Header("Item settings")]
+
+		[SerializeField] public ItemSettings itemSettings = new ();
+
+		[Header("Stats")]
+
 		[SerializeField, Tooltip("Stat modifiers")] protected List<StatModifier> statModifiers;
+
+		[Header("Localization")]
+
 		[SerializeField, ConditionalField("isLocalized"), Tooltip("A localized preview image for the item")] protected LocalizedSprite localizePreviewImage;
 		[SerializeField, Tooltip("a checkbox for localized asset")] protected bool isLocalized;
+
+
 
 		[SerializeField, Tooltip("Override where we should get the item description data from.")]
 		protected bool overrideDescriptionTable;
@@ -113,13 +142,13 @@ namespace StoryTime.Components.ScriptableObjects
 			var entryId = (ID + 1).ToString();
 			collection = LocalizationEditorSettings.GetStringTableCollection("Item Names");
 			if (collection != null)
-				itemName = new LocalizedString { TableReference = collection.TableCollectionNameReference, TableEntryReference = entryId };
+				itemSettings.ItemName = new LocalizedString { TableReference = collection.TableCollectionNameReference, TableEntryReference = entryId };
 			else
 				Debug.LogWarning("Collection not found. Did you create any localization tables for Items");
 
 			var descriptionCollection = overrideDescriptionTable ? itemDescriptionCollection : LocalizationEditorSettings.GetStringTableCollection("Item Descriptions");
 			if (descriptionCollection != null)
-				description = new LocalizedString { TableReference = descriptionCollection.TableCollectionNameReference, TableEntryReference = entryId };
+				itemSettings.Description = new LocalizedString { TableReference = descriptionCollection.TableCollectionNameReference, TableEntryReference = entryId };
 			else
 				Debug.LogWarning("Collection not found. Did you create any localization tables for Items");
 		}

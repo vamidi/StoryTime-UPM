@@ -1,8 +1,5 @@
-﻿using System;
-
-namespace StoryTime.Components
+﻿namespace StoryTime.Components
 {
-	[Serializable]
 	public class ItemStack : ItemBaseStack<ScriptableObjects.ItemSO>
 	{
 		public ItemStack() { }

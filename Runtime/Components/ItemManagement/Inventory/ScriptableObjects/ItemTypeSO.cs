@@ -21,7 +21,7 @@ namespace StoryTime.Components.ScriptableObjects
 		Equip
 	}
 
-	[CreateAssetMenu(fileName = "ItemType", menuName = "StoryTime/Item Management/Item Type", order = 51)]
+	[CreateAssetMenu(fileName = "ItemType", menuName = "StoryTime/Game/Item Management/Item Type", order = 51)]
 	// ReSharper disable once InconsistentNaming
 	public class ItemTypeSO : ScriptableObject
 	{

@@ -17,7 +17,7 @@ namespace StoryTime.Components.ScriptableObjects
 {
 	using FirebaseService.Database;
 
-	[CreateAssetMenu(fileName = "itemRecipe", menuName = "StoryTime/Item Management/Item Recipe", order = 51)]
+	[CreateAssetMenu(fileName = "itemRecipe", menuName = "StoryTime/Game/Item Management/Item Recipe", order = 51)]
 	// ReSharper disable once InconsistentNaming
 	public partial class ItemRecipeSO : ItemSO
 	{
@@ -61,13 +61,13 @@ namespace StoryTime.Components.ScriptableObjects
 				var entryId = (childId + 1).ToString();
 				collection = LocalizationEditorSettings.GetStringTableCollection("Item Names");
 				if (collection != null)
-					itemName = new LocalizedString { TableReference = collection.TableCollectionNameReference, TableEntryReference = entryId };
+					itemSettings.ItemName = new LocalizedString { TableReference = collection.TableCollectionNameReference, TableEntryReference = entryId };
 				else
 					Debug.LogWarning("Collection not found. Did you create any localization tables for Items");
 
 				var descriptionCollection = overrideDescriptionTable ? itemDescriptionCollection : LocalizationEditorSettings.GetStringTableCollection("Item Descriptions");
 				if (descriptionCollection != null)
-					description = new LocalizedString { TableReference = descriptionCollection.TableCollectionNameReference, TableEntryReference = entryId };
+					itemSettings.Description = new LocalizedString { TableReference = descriptionCollection.TableCollectionNameReference, TableEntryReference = entryId };
 				else
 					Debug.LogWarning("Collection not found. Did you create any localization tables for Items");
 

@@ -1,13 +1,18 @@
 using UnityEngine;
-using UnityEditor;
 
-namespace StoryTime.Localization
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
+namespace StoryTime.Utils.Extensions
 {
-    static class RectExtensionMethods
+    public static class RectExtensionMethods
     {
         public static void MoveToNextLine(this ref Rect rect)
         {
-            rect.y += rect.height + EditorGUIUtility.standardVerticalSpacing;
+#if UNITY_EDITOR
+	        rect.y += rect.height + EditorGUIUtility.standardVerticalSpacing;
+#endif
         }
 
         public static (Rect left, Rect right) SplitHorizontalFixedWidthRight(this Rect rect, float rightWidth, float padding = 2)

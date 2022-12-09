@@ -14,12 +14,12 @@ namespace StoryTime.VisualScripting.Data.ScriptableObjects
 	{
 	public T Start => rootNode;
 
-	[Header("Graph editor variables")]
+	// [Header("Graph editor variables")]
 	[SerializeField, ConditionalField("isGraphEnabled")] internal T rootNode;
 	[SerializeField, ConditionalField("isGraphEnabled")] internal List<Node> nodes = new();
 	[SerializeField, ConditionalField("isGraphEnabled")] internal List<ExposedProperty> exposedProperties = new();
 
-	protected bool isGraphEnabled = false;
+	public bool isGraphEnabled = true;
 
 	public Graphable(string name, string dropdownColumn, string linkedColumn = "", uint linkedId = UInt32.MaxValue,
 		string linkedTable = "")
