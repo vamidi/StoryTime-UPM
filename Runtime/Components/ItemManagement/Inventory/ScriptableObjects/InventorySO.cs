@@ -1,25 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace StoryTime.Components.ScriptableObjects
 {
 	// Created with collaboration from:
 	// https://forum.unity.com/threads/inventory-system.980646/
-	[CreateAssetMenu(fileName = "inventory", menuName = "StoryTime/Item Management/Inventory", order = 51)]
+	[CreateAssetMenu(fileName = "inventory", menuName = "StoryTime/Game/Item Management/Inventory", order = 51)]
 	// ReSharper disable once InconsistentNaming
 	public class InventorySO : ItemCollection<ItemStack, ItemSO>
 	{
 		[SerializeField] private int maxItems = 999;
 
-		private int amountItems = 0;
-
-		public override void Init()
-		{
-			base.Init();
-			amountItems = 0;
-		}
+		private int _amountItems = 0;
 
 		/// <summary>
 		///
@@ -51,10 +42,16 @@ namespace StoryTime.Components.ScriptableObjects
 		/// <returns></returns>
 		public override bool AvailabilityCheck(ItemStack item)
 		{
-			if (maxItems > amountItems)
+			if (maxItems > _amountItems)
 				return true;
 
 			return base.AvailabilityCheck(item);
+		}
+
+		protected override void Init()
+		{
+			base.Init();
+			_amountItems = 0;
 		}
 	}
 }

@@ -1,0 +1,27 @@
+{
+    "name": "com.vamidicreations.storytime.editor.visualscripting",
+    "rootNamespace": "StoryTime",
+    "references": [
+        "GUID:54526583236c13f4f83c893af43025b3",
+        "GUID:bafe9b571d9a38a42b1bd6aabc55ff17",
+        "GUID:6daefb57524f51f4bb365afea7567e22",
+        "GUID:622af31d55d7bbb4dba58dbab951d785",
+        "GUID:f89dd21460fb95341aa0acdb856d31dd",
+        "GUID:eec0964c48f6f4e40bc3ec2257ccf8c5",
+        "GUID:2e77701fe0ceda44fb763f03ee704c37"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "Unity.Compat.dll",
+        "Unity.Tasks.dll",
+        "Firebase.TaskExtension.dll",
+        "Newtonsoft.Json.dll"
+    ],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

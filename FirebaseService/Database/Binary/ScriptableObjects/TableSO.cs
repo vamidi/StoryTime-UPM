@@ -103,14 +103,16 @@ namespace StoryTime.FirebaseService.Database.Binary
         /// </summary>
         internal void Export()
         {
-#if !UNITY_EDITOR
-	        FirebaseConfigSO config = TableDatabase.Fetch();
+#if UNITY_EDITOR
+	        FirebaseConfigSO config = FirebaseConfigSO.FindSettings();
 	        string destination = $"{config.dataPath}/{metadata.title}.asset";
 
 	        if (!Directory.Exists(config.dataPath))
 		        Directory.CreateDirectory(config.dataPath);
 
-	      	HelperClass.CreateAsset(this, destination);
+	        if (!File.Exists(destination))
+		        HelperClass.CreateAsset(this, destination);
+
 	      	HelperClass.AddFileToAddressable(DatabaseSyncModule.GroupName, destination);
 #endif
         }

@@ -47,23 +47,6 @@ namespace StoryTime.FirebaseService.Database
 
         public static TableDatabase Get { get; } = new();
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <returns></returns>
-        public static DialogueSettingConfigSO FetchDialogueSetting()
-        {
-#if UNITY_EDITOR
-	        var path = EditorPrefs.GetString("StoryTime-Window-Dialogue-Settings-Config", "");
-	        var configFile =
-		        HelperClass.GetAsset<DialogueSettingConfigSO>(AssetDatabase.GUIDToAssetPath(path));
-#else
-			// TODO make it work outside the unity editor.
-			var configFile = "";
-#endif
-	        return configFile;
-        }
-
         public void Initialize()
         {
 
@@ -221,7 +204,7 @@ namespace StoryTime.FirebaseService.Database
 
 #if UNITY_EDITOR
 	        // Get existing database files
-	        FirebaseConfigSO config = FirebaseInitializer.Fetch();
+	        FirebaseConfigSO config = FirebaseConfigSO.FindSettings();
 	        var assetDirectory = config.dataPath;
 	        var filePaths = Directory.GetFiles(assetDirectory, "*.asset");
 

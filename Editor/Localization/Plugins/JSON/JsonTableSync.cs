@@ -2,6 +2,7 @@ using System;
 using System.Text;
 using System.Linq;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 using Newtonsoft.Json.Linq;
 
@@ -11,29 +12,45 @@ using UnityEditor.Localization.Reporting;
 using UnityEditor.Localization.Plugins.Google.Columns;
 
 using UnityEngine;
-
-using static UnityEngine.Localization.Tables.SharedTableData;
 using Object = UnityEngine.Object;
+using UnityEngine.Localization.Tables;
 
 namespace StoryTime.Editor.Localization.Plugins.JSON
 {
 	using FirebaseService.Database;
 	using FirebaseService.Database.Binary;
+	using Configurations.ScriptableObjects;
 
 	public class JsonTableSync
 	{
-		public static void OpenTableInBrowser(string tableId)
+		public static void OpenTableInBrowser(ITableService provider, string tableId)
 		{
+#if UNITY_EDITOR
+			var service = provider as FirebaseConfigSO ?? throw new ArgumentNullException(nameof(provider));
 
+			if (service.Url == String.Empty)
+			{
+				Debug.LogWarning("Hosting must contain a valid URL.");
+				return;
+			}
+
+			var table = TableDatabase.Get.GetTable(tableId);
+
+			if (table)
+			{
+				Application.OpenURL($"{service.Url}/dashboard/projects/{service.ProjectID}/tables/{table.ID}");
+			}
+
+#endif
 		}
 
 		/// <summary>
 		/// The sheets provider is responsible for providing the SheetsService and configuring the type of access.
-		/// <seealso cref="DatabaseConfig"/>.
+		/// <seealso cref="Configurations.ScriptableObjects.FirebaseConfigSO"/>.
 		/// </summary>
-		public Configurations.ScriptableObjects.ITableService SheetsService { get; private set; }
+		// private FirebaseConfigSO SheetsService { get; }
 
-		protected internal virtual bool UsingApiKey => (SheetsService as Configurations.ScriptableObjects.FirebaseConfigSO)?.Authentication == true;
+		private bool UsingApiKey => false; // (SheetsService as Configurations.ScriptableObjects.FirebaseConfigSO)?.Authentication == true;
 
 		/// <summary>
 		/// The Id of the Google Sheet. This can be found by examining the url:
@@ -43,17 +60,8 @@ namespace StoryTime.Editor.Localization.Plugins.JSON
 		public string TableId { get; set;  }
 
 		/// <summary>
-		/// Creates a new instance of a GoogleSheets connection.
-		/// </summary>
-		/// <param name="provider">The Google Sheets service provider. See <see cref="DatabaseConfig"/> for a default implementation.</param>
-		public JsonTableSync(Configurations.ScriptableObjects.ITableService provider)
-		{
-			SheetsService = provider ?? throw new ArgumentNullException(nameof(provider));
-		}
-
-		/// <summary>
 		/// Returns all the column titles(values from the first row) for the selected sheet inside of the Spreadsheet with id <see cref="TableId"/>.
-		/// This method requires the <see cref="SheetsService"/> to use OAuth authorization as it uses a data filter which reuires elevated authorization.
+		/// This method requires the SheetsService to use OAuth authorization as it uses a data filter which requires elevated authorization.
 		/// </summary>
 		/// <returns>All the </returns>
 		public IList<string> GetColumnTitles()
@@ -87,10 +95,10 @@ namespace StoryTime.Editor.Localization.Plugins.JSON
 				if (createUndo)
 				{
 					Undo.RecordObjects(modifiedAssets.ToArray(),
-						$"Pull `{collection.TableCollectionName}` from JSON file");
+						$"Pulled `{collection.TableCollectionName}` from JSON file");
 				}
 
-				reporter?.Start($"Pull `{collection.TableCollectionName}` from JSON file", "Preparing fields");
+				reporter?.Start($"Pulling `{collection.TableCollectionName}` from JSON file", "Preparing fields");
 
 				// The response columns will be in the same order we request them, we need the key
 				// before we can process any values so ensure the first column is the key column.
@@ -220,16 +228,55 @@ namespace StoryTime.Editor.Localization.Plugins.JSON
             var keysProcessed = new HashSet<long>();
 
             // We want to keep track of the order the entries are pulled in so we can match it
-            var sortedEntries = new List<SharedTableEntry>(rowCount);
+            var sortedEntries = new List<SharedTableData.SharedTableEntry>(rowCount);
 
             long totalCellsProcessed = 0;
             for (int row = 0; row < rowCount; row++)
             {
-	            var localeId = (row + 1).ToString();
-	            var rowKeyEntry = keyColumn.PullKey(localeId, localeId);
-	            sortedEntries.Add(rowKeyEntry);
-
 	            var keyRowData = rows[row];
+
+	            var keyValue = keyRowData.rowData.Find((keyColumn as SheetColumn)?.Column);
+
+	            if (keyValue == null || keyValue.Data is string)
+	            {
+		            var v = keyValue != null ? keyValue.Data : "null";
+		            reporter?.Fail($"Json value is not of type object in {TableId}, value: {v}");
+		            continue;
+	            }
+
+	            JObject jsonValue = keyValue.Data;
+	            var enJsonToken = jsonValue["en"];
+	            string tokenValue = enJsonToken != null ? enJsonToken.ToObject<string>() : "";
+
+	            if (tokenValue == null)
+	            {
+		            tokenValue = "";
+	            }
+	            tokenValue = tokenValue
+			            .Replace(",", "")
+			            .TrimEnd('.');
+
+	            int partLength = 50;
+	            string[] words = tokenValue.Split(' ');
+	            string part = string.Empty;
+
+	            for (int i = 0; i < partLength; i++)
+	            {
+		            if (i >= words.Length)
+			            break;
+
+		            var word = words[i];
+		            if (part.Length + word.Length < partLength)
+			            part += string.IsNullOrEmpty(part) ? word : "-" + word;
+	            }
+
+	            tokenValue = Regex.Replace(part, @"(\s+|@|&|'|\(|\)|<|>|#|!)", "");
+
+	            var localeId = (row + 1).ToString();
+	            var cellValue = $"{localeId}_{tokenValue}";
+	            // var rowKeyEntry = keyColumn.PullKey(localeId, localeId);
+	            var rowKeyEntry = keyColumn.PullKey(cellValue, localeId);
+	            sortedEntries.Add(rowKeyEntry);
 
 	            // Skip rows with no key data
 	            if (rowKeyEntry == null)
@@ -237,8 +284,6 @@ namespace StoryTime.Editor.Localization.Plugins.JSON
 		            messages.AppendLine($"No key data was found for row {localeId} with Note '{localeId}'.");
 		            continue;
 	            }
-
-	            var keyValue = keyRowData.rowData.Find((keyColumn as SheetColumn)?.Column);
 
 	            for (int map = 1; map < fieldMapping.Count; ++map)
 	            {
@@ -252,14 +297,6 @@ namespace StoryTime.Editor.Localization.Plugins.JSON
 		            keysProcessed.Add(rowKeyEntry.Id);
 		            totalCellsProcessed++;
 
-		            // TODO retrieve the right mapped field
-		            if (keyValue == null || keyValue.Data is string)
-		            {
-			            var v = keyValue != null ? keyValue.Data : "null";
-			            reporter?.Fail($"Json value is not of type object in {TableId}, value: {v}, key: {mapValue.Column}");
-						break;
-		            }
-		            JObject jsonValue = keyValue.Data;
 		            var mapJsonValue = jsonValue[mapValue.Column];
 
 		            string value = null;
@@ -291,11 +328,10 @@ namespace StoryTime.Editor.Localization.Plugins.JSON
             reporter?.Completed($"Completed merge of {rowCount} rows and {totalCellsProcessed} cells from {fieldMapping.Count} columns successfully.\n{messages}");
         }
 
-		void HandleMissingEntriesAndMatchPullOrder(HashSet<long> entriesToKeep, List<SharedTableEntry> sortedEntries,
+		private void HandleMissingEntriesAndMatchPullOrder(HashSet<long> entriesToKeep, List<SharedTableData.SharedTableEntry> sortedEntries,
 			StringTableCollection collection, StringBuilder removedEntriesLog, bool removeMissingEntries)
 		{
 			// We either remove missing entries or add them to the end.
-
 			var stringTables = collection.StringTables;
 
 			removedEntriesLog.AppendLine("Removed missing entries:");
@@ -317,7 +353,7 @@ namespace StoryTime.Editor.Localization.Plugins.JSON
 					removedEntriesLog.AppendLine($"\t{entry.Key}({entry.Id})");
 
 					// Remove the entry
-					collection.SharedData.RemoveKey(entry.Id);
+					collection.SharedData.RemoveKey(entry.Key);
 					i--;
 
 					// Remove from tables

@@ -4,13 +4,11 @@ using UnityEngine;
 
 namespace StoryTime.Components
 {
+	using UI;
 	using ScriptableObjects;
 	using Events.ScriptableObjects;
-	public class RecipeManager : MonoBehaviour
+	public class RecipeManager : ItemManager<ItemRecipeStack, ItemRecipeSO, RecipeCollectionSO>
 	{
-		[SerializeField] protected InventorySO currentInventory;
-		[SerializeField] protected RecipeCollectionSO recipeInventory;
-
 		[Header("Listening to channels")]
 		[SerializeField] private ItemEventChannelSO craftRecipeEvent;
 		[SerializeField] private ItemEventChannelSO cookRecipeEvent;
@@ -60,11 +58,11 @@ namespace StoryTime.Components
 		protected virtual void CraftCookRecipeEventRaised(ItemRecipeStack recipe)
 		{
 			// Find recipe
-			if (recipeInventory.Contains(recipe))
+			if (currentInventory.Contains(recipe))
 			{
 				List<ItemStack> ingredients = recipe.Item.IngredientsList;
 				// Remove ingredients (when it's a consumable)
-				if (recipeInventory.HasIngredients(currentInventory, ingredients))
+				if (currentInventory.HasIngredients(currentInventory, ingredients))
 				{
 					foreach (var ingredient in ingredients)
 					{

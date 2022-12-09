@@ -74,10 +74,6 @@ passwords.txt
 [Ll]ogs/
 [Uu]ser[Ss]ettings/
 
-# compiled json data
-[Dd]ata
-[Dd]ata.meta
-
 # MemoryCaptures can get excessive in size.
 # They also could contain extremely sensitive data
 [Mm]emoryCaptures/

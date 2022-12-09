@@ -40,7 +40,7 @@ namespace StoryTime.Components.ScriptableObjects
 		public StatModType statType;
 	}
 
-	[CreateAssetMenu(fileName = "Equipment", menuName = "StoryTime/Item Management/Equipment", order = 50)]
+	[CreateAssetMenu(fileName = "Equipment", menuName = "StoryTime/Game/Item Management/Equipment", order = 50)]
 	// ReSharper disable once InconsistentNaming
 	public class EquipmentSO : ItemSO
 	{

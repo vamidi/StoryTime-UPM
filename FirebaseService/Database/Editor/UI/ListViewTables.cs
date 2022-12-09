@@ -26,7 +26,7 @@ namespace StoryTime.FirebaseService.Database.Editor.UI
 			{
 				FirebaseConfigSO config = op.Result;
 #else
-				FirebaseConfigSO config = FirebaseInitializer.Fetch();
+				FirebaseConfigSO config = FirebaseConfigSO.FindSettings();
 #endif
 
 				if (config != null)

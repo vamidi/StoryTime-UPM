@@ -4,6 +4,7 @@ using System.Linq;
 using System.Collections.Generic;
 
 using Newtonsoft.Json.Linq;
+
 #if UNITY_EDITOR
 using UnityEditor;
 using UnityEditor.Localization;
@@ -16,28 +17,27 @@ namespace StoryTime.Components.ScriptableObjects
 {
 	using FirebaseService.Database;
 
-	[CreateAssetMenu(fileName = "itemRecipe", menuName = "StoryTime/Item Management/Item Recipe", order = 51)]
+	[CreateAssetMenu(fileName = "itemRecipe", menuName = "StoryTime/Game/Item Management/Item Recipe", order = 51)]
 	// ReSharper disable once InconsistentNaming
-	public class ItemRecipeSO : ItemSO
+	public partial class ItemRecipeSO : ItemSO
 	{
-		public List<ItemStack> IngredientsList => ingredientsList;
+		public List<ItemStack> IngredientsList => rootNode.GetIngredients();
 		public ItemSO ResultingDish => resultingDish;
 
 		public uint ChildId
 		{
-			get => childId;
+			internal get => childId;
 			set => childId = value;
 		}
 
 		[SerializeField, HideInInspector, Tooltip("Child id, which is the reference to the itemId")] protected UInt32 childId;
 
-		// TODO add Recipe functionality
-		[SerializeField, Tooltip("The list of the ingredients necessary to the recipe")]
-		private List<ItemStack> ingredientsList = new List<ItemStack>();
-
 		[SerializeField, Tooltip("The resulting dish to the recipe")] private ItemSO resultingDish;
 
-		ItemRecipeSO() : base("shopCraftables", "name", "childId", UInt32.MaxValue, "items") { }
+		ItemRecipeSO() : base("shopCraftables", "name", "childId", UInt32.MaxValue, "items")
+		{
+			isGraphEnabled = true;
+		}
 
 		public override void OnEnable()
 		{
@@ -61,13 +61,13 @@ namespace StoryTime.Components.ScriptableObjects
 				var entryId = (childId + 1).ToString();
 				collection = LocalizationEditorSettings.GetStringTableCollection("Item Names");
 				if (collection != null)
-					itemName = new LocalizedString { TableReference = collection.TableCollectionNameReference, TableEntryReference = entryId };
+					itemSettings.ItemName = new LocalizedString { TableReference = collection.TableCollectionNameReference, TableEntryReference = entryId };
 				else
 					Debug.LogWarning("Collection not found. Did you create any localization tables for Items");
 
 				var descriptionCollection = overrideDescriptionTable ? itemDescriptionCollection : LocalizationEditorSettings.GetStringTableCollection("Item Descriptions");
 				if (descriptionCollection != null)
-					description = new LocalizedString { TableReference = descriptionCollection.TableCollectionNameReference, TableEntryReference = entryId };
+					itemSettings.Description = new LocalizedString { TableReference = descriptionCollection.TableCollectionNameReference, TableEntryReference = entryId };
 				else
 					Debug.LogWarning("Collection not found. Did you create any localization tables for Items");
 
@@ -180,8 +180,8 @@ namespace StoryTime.Components.ScriptableObjects
 										AssetDatabase.SaveAssets();
 									}
 
-									if(recipe.ingredientsList.Find(i => i.Item.ID == itemId) == null)
-										recipe.ingredientsList.Add(new ItemStack(item, amount));
+									if(recipe.IngredientsList.Find(i => i.Item.ID == itemId) == null)
+										recipe.IngredientsList.Add(new ItemStack(item, amount));
 								}
 							}
 						}

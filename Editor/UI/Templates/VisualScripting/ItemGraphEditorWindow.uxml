@@ -1,0 +1,16 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/Templates/DialogueEditorWindow.uss?fileID=7433441132597879392&amp;guid=759610de7d184e44eb9fed3421f09283&amp;type=3#DialogueEditorWindow" />
+    <uie:Toolbar>
+        <uie:ToolbarMenu display-tooltip-when-elided="true" text="Assets" />
+    </uie:Toolbar>
+    <StoryTime.Editor.VisualScripting.SplitView fixed-pane-index="0" fixed-pane-initial-dimension="300">
+        <ui:VisualElement name="LeftPanel">
+            <ui:Label text="Inspector" display-tooltip-when-elided="true" />
+            <StoryTime.Editor.VisualScripting.InspectorView />
+        </ui:VisualElement>
+        <ui:VisualElement name="RightPanel" style="flex-grow: 1;">
+            <ui:Label text="Recipe View" display-tooltip-when-elided="true" />
+            <StoryTime.Editor.VisualScripting.ItemGraphView focusable="true" style="flex-grow: 1;" />
+        </ui:VisualElement>
+    </StoryTime.Editor.VisualScripting.SplitView>
+</ui:UXML>

@@ -7,8 +7,8 @@ namespace StoryTime.Events.ScriptableObjects
 	// ReSharper disable once InconsistentNaming
 	public class DialogueStoryChannelSO : ScriptableObject
 	{
-		public UnityAction<Components.ScriptableObjects.SimpleStorySO> OnEventRaised;
-		public void RaiseEvent(Components.ScriptableObjects.SimpleStorySO story)
+		public UnityAction<Components.ScriptableObjects.StorySO> OnEventRaised;
+		public void RaiseEvent(Components.ScriptableObjects.StorySO story)
 		{
 			OnEventRaised?.Invoke(story);
 		}

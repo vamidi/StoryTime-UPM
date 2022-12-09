@@ -5,7 +5,7 @@ using UnityEngine.UIElements;
 
 namespace StoryTime.Editor.UI
 {
-    static class Resources
+    internal static class Resources
     {
 	    const string m_ResourceRoot = "Packages/com.vamidicreations.storytime/Editor/Resources";
         const string m_TemplateRoot = "Packages/com.vamidicreations.storytime/Editor/UI/Templates";

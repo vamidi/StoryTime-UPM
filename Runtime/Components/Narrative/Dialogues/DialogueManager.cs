@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 
 using UnityEngine;
 using Cinemachine;
+
+using StoryTime.Utils.Components;
+using StoryTime.VisualScripting.Data.ScriptableObjects;
 
 namespace StoryTime.Components
 {
@@ -18,7 +20,18 @@ namespace StoryTime.Components
 	{
 		public GameObject continueBtn;
 
-		private bool ReachedEndOfDialogue => m_CurrentDialogue.NextDialogue == null;
+		private bool ReachedEndOfDialogue
+		{
+			get
+			{
+				return _currentDialogue switch
+				{
+					DialogueNode dialogueNode => dialogueNode.Children.Count == 0,
+					StartNode startNode => startNode.Child == null,
+					_ => true
+				};
+			}
+		}
 
 		[SerializeField] private BaseInputReader inputReader;
 
@@ -40,7 +53,7 @@ namespace StoryTime.Components
 		[SerializeField] private DialogueLineChannelSO openUIDialogueEvent;
 		[SerializeField] private DialogueChoiceChannelSO showChoicesUIEvent;
 
-		// [SerializeField] private DialogueStoryChannelSO endStoryEvent;
+		[SerializeField] private DialogueStoryChannelSO endStoryEvent;
 
 		[SerializeField] private VoidEventChannelSO continueWithTask;
 		[SerializeField] private VoidEventChannelSO closeDialogueUIEvent;
@@ -51,9 +64,9 @@ namespace StoryTime.Components
 
 		[SerializeField] private TMPVertexAnimator revealer;
 
-		private SimpleStorySO m_CurrentStory;
-		private CharacterSO m_CurrentActor;
-		private DialogueLine m_CurrentDialogue;
+		private StorySO _currentStory;
+		// private CharacterSO _currentActor;
+		private Node _currentDialogue;
 
 		private bool _isInputEnabled;
 		private bool _canContinue;
@@ -109,19 +122,78 @@ namespace StoryTime.Components
 		/// <param name="storyDataSo"></param>
 		public void Interact(SimpleStorySO storyDataSo)
 		{
-			m_CurrentActor = storyDataSo.Character;
+			// _currentActor = storyDataSo.Character;
 
-			BeginDialogueStory(storyDataSo);
-			DisplayDialogueLine(storyDataSo.StartDialogue);
+			DisplayDialogueLine(storyDataSo.Dialogue);
 			ToggleCameras(true);
 		}
 
 		/// <summary>
+		/// Override with new created event nodes
+		/// </summary>
+		/// <param name="node"></param>
+		protected void ProcessEventNodes(EventNode node)
+		{
+			if (dialogueEvent == null && node && node.EventName != String.Empty)
+			{
+				return;
+			}
+
+			// Call event when the dialogue begins
+
+			if (node is BoolEventNode boolEventNode)
+			{
+				dialogueEvent.RaiseEvent(boolEventNode.EventName, boolEventNode.Value);
+			}
+
+			if (node is IntEventNode intEventNode)
+			{
+				dialogueEvent.RaiseEvent(intEventNode.EventName, intEventNode.Value);
+			}
+
+			if (node is StringEventNode stringEventNode)
+			{
+				dialogueEvent.RaiseEvent(stringEventNode.EventName, stringEventNode.Value);
+			}
+		}
+
+		/// <summary>
+		/// Displays DialogueData in the UI, one by one.
+		/// Start interaction with the NPC
+		/// </summary>
+		/// <param name="storyDataSo"></param>
+		private void Interact(StorySO storyDataSo)
+		{
+			// _currentActor = storyDataSo.Character;
+
+			BeginDialogueStory(storyDataSo);
+			DisplayDialogue(storyDataSo.rootNode);
+			ToggleCameras(true);
+		}
+
+		private void DisplayDialogue(Node node)
+		{
+			_canContinue = false;
+
+			if(node is IDialogueNode dialogueNode)
+			{
+				// send event out before the dialogue starts
+				// InitEvents();
+				// CallEvents(true);
+
+				DisplayDialogueLine(dialogueNode.DialogueLine);
+				SetActiveDialogue(node);
+			}
+
+			ProcessEventNodes(node as EventNode);
+		}
+
+		/// <summary>
 		/// Displays a line of dialogue in the UI, by requesting it to the <c>DialogueManager</c>.
-		/// This function is also called by <c>DialogueBehaviour</c> from clips on Timeline during cutscenes.
+		/// This function is also called by <see cref="DialogueLine"/> from clips on Timeline during cutscenes.
 		/// </summary>
 		/// <param name="dialogueLine"></param>
-		public void DisplayDialogueLine(DialogueLine dialogueLine)
+		private void DisplayDialogueLine(DialogueLine dialogueLine)
 		{
 			_canContinue = false;
 
@@ -134,27 +206,18 @@ namespace StoryTime.Components
 				openUIDialogueEvent.RaiseEvent(dialogueLine);
 			}
 			ToggleContinueBtn(false);
-
-			// Call event when the dialogue begins
-			if (dialogueEvent != null && dialogueLine.DialogueEvent.EventName != String.Empty)
-			{
-				dialogueEvent.RaiseEvent(dialogueLine.DialogueEvent.EventName, dialogueLine.DialogueEvent.Value);
-			}
-
-
-			SetActiveDialogue(dialogueLine);
 		}
 
 		/// <summary>
 		///
 		/// </summary>
-		/// <param name="nextDialogueLineSo"></param>
-		public void ShowNextDialogue(DialogueLine nextDialogueLineSo)
+		/// <param name="nextDialogue"></param>
+		private void ShowNextDialogue(Node nextDialogue)
 		{
 			// TODO make this work with increment only instead of setting the next dialogue.
 			// increment to the next dialogue sequence
 			DialogueChoiceEndAndCloseUI(true);
-			DisplayDialogueLine(nextDialogueLineSo);
+			DisplayDialogue(nextDialogue);
 		}
 
 		public void ToggleCameras(bool enable)
@@ -170,17 +233,17 @@ namespace StoryTime.Components
 		/// Prepare DialogueManager when first time displaying DialogueData.
 		/// <param name="storyDataSo"></param>
 		/// </summary>
-		private void BeginDialogueStory(SimpleStorySO storyDataSo)
+		private void BeginDialogueStory(StorySO storyDataSo)
 		{
 			inputReader.EnableDialogueInput();
-			m_CurrentStory = storyDataSo;
+			_currentStory = storyDataSo;
 			_isInputEnabled = false;
 			StopAllCoroutines();
 		}
 
-		private void SetActiveDialogue(DialogueLine dialogue)
+		private void SetActiveDialogue(Node dialogue)
 		{
-			m_CurrentDialogue = dialogue;
+			_currentDialogue = dialogue;
 		}
 
 		/// <summary>
@@ -197,16 +260,15 @@ namespace StoryTime.Components
 		/// </summary>
 		private void OnAdvance()
 		{
-			bool hasOptions = m_CurrentDialogue.Choices.Count > 0;
 			if (revealer.IsRevealing && !revealer.IsAllRevealed())
 			{
 				Skip();
 				return;
 			}
 
-			if (hasOptions)
+			if (_currentDialogue is DialogueNode dialogueNode && dialogueNode.Choices.Count > 0)
 			{
-				DisplayChoices(m_CurrentDialogue.Choices);
+				DisplayChoices(dialogueNode);
 				return;
 			}
 
@@ -215,10 +277,15 @@ namespace StoryTime.Components
 
 			if (!ReachedEndOfDialogue && _canContinue)
 			{
-				m_CurrentDialogue = m_CurrentDialogue.NextDialogue;
-				// TODO grab the actor from the node editor.
+				_currentDialogue = _currentDialogue switch
+				{
+					DialogueNode => null,
+					StartNode startNode => startNode.Child,
+					_ => null
+				};
 
-				DisplayDialogueLine(m_CurrentDialogue);
+				// TODO grab the actor from the node editor.
+				DisplayDialogue(_currentDialogue);
 				return;
 			}
 
@@ -232,7 +299,7 @@ namespace StoryTime.Components
 				continueBtn.gameObject.SetActive(toggle);
 		}
 
-		private void DisplayChoices(List<DialogueChoice> choices)
+		private void DisplayChoices(DialogueNode dialogueNode)
 		{
 			inputReader.advanceDialogueEvent -= OnAdvance;
 			if (makeDialogueChoiceEvent != null)
@@ -242,7 +309,7 @@ namespace StoryTime.Components
 
 			if (showChoicesUIEvent != null)
 			{
-				showChoicesUIEvent.RaiseEvent(choices);
+				showChoicesUIEvent.RaiseEvent(dialogueNode.Choices);
 			}
 		}
 
@@ -255,7 +322,7 @@ namespace StoryTime.Components
 
 			if (dialogueEvent != null && choice.DialogueChoiceEvent != String.Empty)
 			{
-				dialogueEvent.RaiseEvent(choice.DialogueChoiceEvent, m_CurrentStory);
+				dialogueEvent.RaiseEvent(choice.DialogueChoiceEvent, _currentStory);
 			}
 			else if (choice.ActionType == ChoiceActionType.ContinueWithTask)
 			{
@@ -263,14 +330,27 @@ namespace StoryTime.Components
 					continueWithTask.RaiseEvent();
 			}
 
-			if (choice.NextDialogue != null)
+			var nextNode = FindSelectedChoiceNode(choice);
+			if (nextNode != null)
 			{
-				ShowNextDialogue(choice.NextDialogue);
-				SetActiveDialogue(choice.NextDialogue);
+				ShowNextDialogue(nextNode);
 			}
 			else
 				StartCoroutine(DialogueEndedAndCloseDialogueUI());
+		}
 
+		private Node FindSelectedChoiceNode(DialogueChoice choice)
+		{
+			if (_currentDialogue is DialogueNode dialogueNode)
+			{
+				var idx = dialogueNode.Choices.IndexOf(choice);
+				if (idx != -1)
+				{
+					return dialogueNode.Children[idx + 1];
+				}
+			}
+
+			return null;
 		}
 
 		private void DialogueChoiceEndAndCloseUI(bool resubscribe = false)
@@ -297,7 +377,7 @@ namespace StoryTime.Components
 
 			yield return new WaitForSeconds(1.5f);
 
-			// if (endStoryEvent != null) endStoryEvent.RaiseEvent(m_CurrentStory, null);
+			if (endStoryEvent != null) endStoryEvent.RaiseEvent(_currentStory);
 
 			DialogueChoiceEndAndCloseUI();
 			inputReader.EnableGameplayInput();

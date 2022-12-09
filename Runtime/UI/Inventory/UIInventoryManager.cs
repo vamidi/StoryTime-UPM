@@ -7,13 +7,14 @@ namespace StoryTime.Components.UI
 	using Components.ScriptableObjects;
 	using Events.ScriptableObjects;
 
-	public class UIInventoryManager : ItemManager<
+	public class UIInventoryManager : UIItemManager<
 		InventoryItemListFiller,
 		InventoryItemFiller,
 		InventoryInspectorFiller,
 		InventoryItemInspectorFiller,
 		ItemStack,
-		ItemSO>
+		ItemSO,
+		InventorySO>
 	{
 
 		[SerializeField] protected CharacterSO character;

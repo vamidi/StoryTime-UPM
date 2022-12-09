@@ -14,7 +14,7 @@ namespace StoryTime.Components.ScriptableObjects
 		Materials, // Gadgets that can be used to activate something
 		Stories, // Items that the player needs to use.
 	}
-	[CreateAssetMenu(fileName = "tabType", menuName = "StoryTime/Item Management/Tab Type", order = 51)]
+	[CreateAssetMenu(fileName = "tabType", menuName = "StoryTime/Game/Item Management/Tab Type", order = 51)]
 	// ReSharper disable once InconsistentNaming
 	public class InventoryTabTypeSO : ScriptableObject
 	{

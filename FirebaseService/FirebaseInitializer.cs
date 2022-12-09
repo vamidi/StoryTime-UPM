@@ -3,16 +3,13 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 
 using Firebase;
-using Firebase.ConfigAutoSync;
 using Firebase.RemoteConfig;
+using Firebase.ConfigAutoSync;
 
 using UnityEngine;
-using UnityEngine.ResourceManagement.AsyncOperations;
 
-#if UNITY_EDITOR
-using UnityEditor;
-using StoryTime.ResourceManagement;
-#endif
+using StoryTime.FirebaseService.Database.ResourceManagement;
+using HelperClass = StoryTime.ResourceManagement.HelperClass;
 
 namespace StoryTime.FirebaseService
 {
@@ -31,14 +28,16 @@ namespace StoryTime.FirebaseService
 
 		internal static Firebase.Auth.FirebaseAuth Auth;
 		internal static Firebase.Database.FirebaseDatabase Database;
+		internal static readonly FirebaseStorageService StorageService = new ();
 		internal static
 #if UNITY_EDITOR
-			readonly
+		readonly
 #endif
-			FirebaseConfigSO DatabaseConfigSo;
+		FirebaseConfigSO DatabaseConfigSo;
 
 		internal static bool signedIn;
 
+		private static Firebase.Storage.FirebaseStorage _storage;
 		private static readonly List<Task<DependencyStatus>> InitializedCallbacks = new();
 
 		private static readonly List<Action> ActivateFetchCallbacks = new();
@@ -59,7 +58,7 @@ namespace StoryTime.FirebaseService
 		{
 			Debug.Log("Initializing Firebase");
 #if UNITY_EDITOR
-			// DatabaseConfigSo = Fetch();
+			DatabaseConfigSo = FirebaseConfigSO.FindSettings();
 #endif
 		}
 
@@ -88,6 +87,7 @@ namespace StoryTime.FirebaseService
 
 					DatabaseConfigSo = op.Result;
 #endif
+
 					FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(async task =>
 					{
 						// lock (InitializedCallbacks)
@@ -164,26 +164,6 @@ namespace StoryTime.FirebaseService
 			return this;
 		}
 
-#if UNITY_EDITOR
-		internal static FirebaseConfigSO Fetch()
-		{
-			var configFile = AssetDatabase.LoadAssetAtPath<FirebaseConfigSO>(AssetDatabase.GUIDToAssetPath(FirebaseSyncConfig.SelectedConfig));
-			if (configFile == null)
-			{
-				Debug.LogWarning($"{nameof(configFile)} must not be null.");
-			}
-
-			return configFile;
-		}
-#else
-		internal static void Fetch(Action<AsyncOperationHandle<FirebaseConfigSO>> callback)
-		{
-			// TODO FIX me
-			var configFile = HelperClass.GetFileFromAddressable<FirebaseConfigSO>("DatabaseConfig");
-			configFile.Completed += callback;
-		}
-#endif
-
 		private async Task CallInitializedCallbacks()
 		{
 			await Task.WhenAll(InitializedCallbacks);
@@ -239,6 +219,7 @@ namespace StoryTime.FirebaseService
 
 				_app = FirebaseApp.Create(firebaseAppOptions);
 				Database = Firebase.Database.FirebaseDatabase.GetInstance(_app);
+				_storage = Firebase.Storage.FirebaseStorage.GetInstance(_app);
 				Auth = Firebase.Auth.FirebaseAuth.GetAuth(_app);
 				Auth.StateChanged += AuthStateChanged;
 
@@ -256,6 +237,7 @@ namespace StoryTime.FirebaseService
 					Firebase.Auth.FirebaseUser newUser = task.Result;
 
 					Debug.LogFormat("User signed in successfully: {0} ({1})", newUser.DisplayName, newUser.UserId);
+					StorageService.Initialize(_storage, Database, DatabaseConfigSo);
 				});
 			}
 

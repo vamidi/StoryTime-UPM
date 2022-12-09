@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using StoryTime.Utils.Attributes;
+using UnityEditor.Localization;
 using UnityEngine;
 using UnityEngine.Localization;
 
@@ -28,44 +29,33 @@ namespace StoryTime.Components
 		public LocalizedString CharacterName => characterName;
 
 		public LocalizedString Sentence => sentence;
-		public DialogueEventSO DialogueEvent
-		{
-			get => dialogueEvent;
-			set => dialogueEvent =  value;
-		}
 
 		public DialogueType DialogueType => dialogueType;
 
-		public DialogueLine NextDialogue
-		{
-			get => m_NextDialogue;
-			set => m_NextDialogue = value;
-		}
-
-		public List<DialogueChoice> Choices => m_Choices;
+		public List<DialogueChoice> Choices => choices;
 
 		[SerializeField, HideInInspector] private UInt32 id = UInt32.MaxValue;
 
-		/// <summary>
-		/// Calculated through the node editor data.
-		/// </summary>
-		protected DialogueLine m_NextDialogue;
+		[SerializeField, Tooltip("Override If you want to display an text dialogue only.")]
+		protected bool simplified;
 
-		[SerializeField, HideInInspector] private uint nextDialogueID = UInt32.MaxValue;
+		[SerializeField, ConditionalField("simplified"), TextArea(1, 25)]
+		protected string simplifiedSentence;
 
 		[SerializeField] private DialogueType dialogueType;
 
+		[SerializeField] private Emotion emotion;
+
 		[SerializeField] protected LocalizedString characterName;
 
-		/// <summary>
-		///
-		/// </summary>
 		[SerializeField, Tooltip("Sentence that will showed when interacting")]
 		private LocalizedString sentence;
 
-		[SerializeField, Tooltip("Event that will be fired once filled in.")]
-		private DialogueEventSO dialogueEvent = new DialogueEventSO("");
+		[SerializeField] private List<DialogueChoice> choices = new ();
 
-		private List<DialogueChoice> m_Choices = new List<DialogueChoice>();
+		public DialogueLine(bool simplified = false)
+		{
+			this.simplified = simplified;
+		}
 	}
 }

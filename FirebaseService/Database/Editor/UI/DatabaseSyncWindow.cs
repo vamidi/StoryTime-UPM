@@ -18,10 +18,7 @@ namespace StoryTime.Editor.UI
     {
 	    const string WindowTitle = "StoryTime Settings";
 
-	    [MenuItem("Tools/StoryTime/Global Settings")]
-        public static void ShowWindow() => OpenWindow();
-
-        public static void OpenWindow()
+	    public static void OpenWindow()
         {
 	        var window = GetWindow<DatabaseSyncWindow>(false, WindowTitle, true);
 	        window.titleContent = new GUIContent("StoryTime Settings", EditorIcons.LocalizationSettings.image);
@@ -192,7 +189,7 @@ namespace StoryTime.Editor.UI
 		        // then get the config file is selected
 		        rootVisualElement.Q<VisualElement>("rowSettings").style.display = DisplayStyle.Flex;
 		        rootVisualElement.Bind(new SerializedObject(config));
-		        FirebaseSyncConfig.SelectedConfig = AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(config));
+		        FirebaseSyncConfig.SelectedConfig = AssetDatabase.GetAssetPath(config);
 	        }
 	        else
 	        {
@@ -209,7 +206,7 @@ namespace StoryTime.Editor.UI
 		        // then get the config file is selected
 		        rootVisualElement.Q<VisualElement>("dialogueSettings").style.display = DisplayStyle.Flex;
 		        rootVisualElement.Bind(new SerializedObject(config));
-		        FirebaseSyncConfig.SelectedDialogueConfig = AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(config));
+		        FirebaseSyncConfig.SelectedDialogueConfig = AssetDatabase.GetAssetPath(config);
 	        }
 	        else
 	        {

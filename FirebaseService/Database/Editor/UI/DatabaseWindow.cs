@@ -52,7 +52,7 @@ namespace StoryTime.FirebaseService.Database.Editor
 
 		private static readonly string[] TableNames;
 
-		private static string iconLocation = "Packages/com.vamidicreations.storytime/Editor/Images/";
+		private static string iconLocation = "Packages/com.vamidicreations.storytime/Editor/Editor Default Resources/";
 		private static DatabaseSyncModule Module;
 
 		static DatabaseSyncButton()

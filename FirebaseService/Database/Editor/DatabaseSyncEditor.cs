@@ -18,7 +18,9 @@ namespace StoryTime.FirebaseService.Database.Editor
 
 		static DatabaseSyncEditor()
 		{
+#if UNITY_EDITOR
 			DatabaseSyncModule.Get.Initialize();
+#endif
 		}
 	}
 }

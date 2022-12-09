@@ -25,11 +25,13 @@ namespace StoryTime.Components
 
 	public enum Emotion
 	{
+		Normal,
 		Angry,
 		Happy,
 		Sad,
 		Scared,
-		Surprised
+		Surprised,
+		Blank
 		// Extend to your liking.
 	}
 

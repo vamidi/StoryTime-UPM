@@ -8,8 +8,10 @@
         "GUID:84651a3751eca9349aac36a66bba901b",
         "GUID:eec0964c48f6f4e40bc3ec2257ccf8c5",
         "GUID:2e77701fe0ceda44fb763f03ee704c37",
-        "GUID:54526583236c13f4f83c893af43025b3"
-    ],
+        "GUID:54526583236c13f4f83c893af43025b3",
+		"GUID:622af31d55d7bbb4dba58dbab951d785",
+		"GUID:6daefb57524f51f4bb365afea7567e22"
+	],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

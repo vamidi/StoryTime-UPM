@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 using Firebase;
 using Firebase.Extensions;
 
@@ -18,6 +18,7 @@ using Newtonsoft.Json.Linq;
 
 using StoryTime.ResourceManagement;
 
+// ReSharper disable once CheckNamespace
 namespace StoryTime.FirebaseService.Database.Editor
 {
 	using Binary;
@@ -55,16 +56,15 @@ namespace StoryTime.FirebaseService.Database.Editor
 		/// </summary>
 		public static DatabaseSyncModule Get => new();
 
-		static DatabaseSyncModule()
-		{
-#if !UNITY_EDITOR
-			Initialize();
-#endif
-		}
-
 		public void Initialize()
 		{
 			Addressables.InitializeAsync().Completed += AddressableCompleted;
+#if UNITY_EDITOR
+			if (!EditorApplication.isPlayingOrWillChangePlaymode)
+			{
+				RequestTableUpdate();
+			}
+#endif
 		}
 
 		/// <summary>
@@ -73,11 +73,11 @@ namespace StoryTime.FirebaseService.Database.Editor
 		/// from the Firebase database
 		/// </summary>
 		/// <param name="tableID"></param>
+		/// <param name="save"></param>
 		public void RequestTableUpdate(string tableID = "", bool save = false)
 		{
 			if (_database == null)
 			{
-				// TODO add retry check
 				Debug.LogWarning("Database is not initialized. Retrying...");
 				InitializeFirebase();
 				return;
@@ -264,7 +264,7 @@ namespace StoryTime.FirebaseService.Database.Editor
 		private void OnResponseReceived()
 		{
 #if UNITY_EDITOR // TODO see if unity has notify system
-			var config = FirebaseInitializer.Fetch();
+			var config = FirebaseConfigSO.FindSettings();
 
 			// Update editor
 			// auto& PropertyModule = FModuleManager::LoadModuleChecked< FPropertyEditorModule >("PropertyEditor");

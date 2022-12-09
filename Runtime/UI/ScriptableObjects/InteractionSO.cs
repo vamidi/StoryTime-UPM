@@ -3,7 +3,7 @@ using UnityEngine.Localization;
 
 namespace StoryTime.Components.UI.ScriptableObjects
 {
-	[CreateAssetMenu(fileName = "Interaction", menuName = "StoryTime/UI/Interaction", order = 51)]
+	[CreateAssetMenu(fileName = "Interaction", menuName = "StoryTime/Game/UI/Interaction", order = 51)]
 	// ReSharper disable once InconsistentNaming
 	public class InteractionSO : ScriptableObject
 	{

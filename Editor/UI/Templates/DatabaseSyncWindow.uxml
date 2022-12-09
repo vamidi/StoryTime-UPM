@@ -8,12 +8,13 @@
         <uie:ToolbarSpacer style="flex-grow: 1;"/>
     </uie:Toolbar> -->
 	<ui:VisualElement>
-		<ui:Label text="Database settings"/>
+		<ui:Label text="Database settings" class="title"/>
 		<uie:ObjectField
 			label="Loaded config" tooltip="The config we need to load." name="config-field" class="unity-property-field-input" binding-path="config" allow-scene-objects="false"/>
 		/>
 	</ui:VisualElement>
 	<ui:VisualElement name="rowSettings" style="display:none;font-weight:bold;">
+		<ui:TextField label="Url" tooltip="Location of your hosted StoryTime application" name="host-field" class="unity-property-field-input" binding-path="storyTimeUrl" />
 		<ui:TextField label="Email" tooltip="Your firebase login email credential" name="email-field" class="unity-property-field-input" binding-path="email" />
 		<ui:TextField label="Password" tooltip="Your firebase login password credential" name="password-field" password="true" class="unity-property-field-input" binding-path="password" />
 		<ui:TextField label="Firebase Project ID" tooltip="The Project id we need to fetch data from." name="firebase-project-url-field" password="true" class="unity-property-field-input" binding-path="firebaseProjectId" />

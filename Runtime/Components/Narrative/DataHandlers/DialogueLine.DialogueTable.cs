@@ -43,16 +43,13 @@ namespace StoryTime.Components
 
 				foreach (var field in row.Fields)
 				{
+					/*
 					if (field.Key.Equals("nextId"))
 					{
 						uint data = (uint)field.Value.Data;
 						dialogue.nextDialogueID = data == UInt32.MaxValue - 1 ? UInt32.MaxValue : data;
 					}
-
-					if (field.Key.Equals("options"))
-					{
-						// dialogue.sentence = (string) field.Value.Data;
-					}
+					*/
 
 					if (field.Key.Equals("characterId"))
 					{
@@ -73,11 +70,13 @@ namespace StoryTime.Components
 						}
 					}
 
-					// if (field.Key.Equals("parentId"))
-					// {
-					// uint data = (uint) field.Value.Data;
-					// dialogue.parentId = data == UInt32.MaxValue - 1 ? UInt32.MaxValue : data;
-					// }
+					/*
+					if (field.Key.Equals("parentId"))
+					{
+						uint data = (uint) field.Value.Data;
+						dialogue.parentId = data == UInt32.MaxValue - 1 ? UInt32.MaxValue : data;
+					}
+					*/
 				}
 
 				return dialogue;
