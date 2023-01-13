@@ -153,10 +153,11 @@ namespace StoryTime.Editor.VisualScripting
 
 		private void AddStyles()
 		{
-			var stylesheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/Templates/DialogueEditorWindow.uss");
+			var stylesheet = UI.Resources.GetStyleAsset("VisualScripting/DialogueGraphEditorWindow");
+
 			styleSheets.Add(stylesheet);
 
-			stylesheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/Templates/Variables.uss");
+			stylesheet = UI.Resources.GetStyleAsset("VisualScripting/Variables");
 			styleSheets.Add(stylesheet);
 		}
 	}

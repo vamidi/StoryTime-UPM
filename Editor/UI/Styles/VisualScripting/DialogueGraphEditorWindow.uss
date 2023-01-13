@@ -1,0 +1,48 @@
+GridBackground {
+	--grid-background-color: rgb(40, 40, 40);
+	--line-color: rgba(193, 196, 192, 0.1);
+	--thick-line-color: rgba(193, 196, 192, 0.1);
+	--spacing: 15;
+}
+
+.panel-header {
+	margin-left: 0;
+	padding-left: 10px;
+}
+
+.prata-node_custom-data-container
+{
+	background-color: var(--prata-colors-window-dark-gray-3);
+	border-radius: var(--prata-metrics-window-pixels-4);
+	padding: var(--prata-metrics-window-pixels-8);
+}
+
+.prata-node_custom-data-container > Foldout
+{
+	margin-left: var(--prata-metrics-window-pixels-negative-4);
+	margin-top: var(--prata-metrics-window-pixels-4);
+}
+
+.prata-node_custom-data-container > Foldout > TextField
+{
+	margin-left: var(--prata-metrics-window-pixels-negative-12);
+	margin-top: var(--prata-metrics-window-pixels-8);
+}
+
+/* INPUTS */
+
+.prata-node_textfield > .unity-text-field_input
+{
+	background-color: var(--prata-colors-window-dark-gray-1);
+	border-color: var(--prata-colors-window-dark-gray-6);
+	border-radius: var(--prata-metrics-window-pixels-4);
+	max-width: var(--prata-metrics-window-pixels-240);
+	min-width: var(--prata-metrics-window-pixels-160);
+	padding: var(--prata-metrics-window-pixels-8);
+}
+
+.prata-node_textfield_hidden > .unity-text-field_input
+{
+	background-color: transparent;
+	border-color: transparent;
+}

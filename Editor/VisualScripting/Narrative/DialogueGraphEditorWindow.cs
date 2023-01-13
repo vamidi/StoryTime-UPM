@@ -52,7 +52,7 @@ namespace StoryTime.Editor.VisualScripting
 			base.CreateGUI();
 
 			// TODO change back to package uss version
-			// var stylesheet = UI.Resources.GetStyleAsset($"VisualScripting/{nameof(DialogueEditorWindow)}");
+			// var stylesheet = UI.Resources.GetStyleAsset($"VisualScripting/{nameof(DialogueGraphEditorWindow)}");
 			// root.styleSheets.Add(stylesheet);
 
 			// var stylesheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/Templates/DialogueEditorWindow.uss");

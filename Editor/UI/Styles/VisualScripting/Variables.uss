@@ -1,0 +1,32 @@
+:root 
+{
+    --prata-colors-grid-light-gray-1: #2b2b2b;
+    --prata-colors-grid-light-gray-2: rgba(51,51,51,0.4);
+    --prata-colors-grid-light-gray-3: rgba(51,51,51,1);
+    
+    --prata-colors-window-dark-gray-1: #1D1D1E;
+    --prata-colors-window-dark-gray-2: #2B2E2F;
+    --prata-colors-window-dark-gray-3: #212325;
+    --prata-colors-window-dark-gray-4: #232527;
+    --prata-colors-window-dark-gray-5: #252729;
+    --prata-colors-window-dark-gray-6: #27292C;
+    --prata-colors-window-yellow: #FDD057;
+    --prata-colors-window-yellow: #FDD057;
+    
+    --prata-metrics-grid-25: 25;
+    --prata-metrics-window-pixels-negative-12: -12px;
+    --prata-metrics-window-pixels-negative-4: -4px;
+    --prata-metrics-window-pixels-0: 0px;
+    --prata-metrics-window-pixels-2: 2px;
+    --prata-metrics-window-pixels-4: 4px;
+    --prata-metrics-window-pixels-8: 8px;
+    --prata-metrics-window-pixels-11: 11px;
+    --prata-metrics-window-pixels-16: 16px;
+    --prata-metrics-window-pixels-25: 25px;
+    --prata-metrics-window-pixels-35: 35px;
+    --prata-metrics-window-pixels-160: 160px;
+    --prata-metrics-window-pixels-240: 240px;
+    --prata-metrics-window-pixels-600: 600px;
+    --prata-metrics-window-pixels-1000: 1000px;
+    
+}
