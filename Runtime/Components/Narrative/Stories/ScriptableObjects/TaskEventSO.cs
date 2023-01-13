@@ -6,7 +6,7 @@ namespace StoryTime.Components.ScriptableObjects
 	/// Task event in Scriptable object form.
 	/// You can override this object and add values to it.
 	/// </summary>
-	[CreateAssetMenu(menuName = "StoryTime/Events/Stories/Task Event")]
+	[CreateAssetMenu(menuName = "StoryTime/Game/Events/Narrative/Task Event")]
 	// ReSharper disable once InconsistentNaming
 	public class TaskEventSO : ScriptableObject
 	{

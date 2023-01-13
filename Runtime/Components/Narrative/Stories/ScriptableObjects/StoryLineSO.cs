@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace StoryTime.Components.ScriptableObjects
 {
-	[CreateAssetMenu(fileName = "storyLine", menuName = "StoryTime/Stories/Story Line", order = 51)]
+	[CreateAssetMenu(fileName = "storyLine", menuName = "StoryTime/Game/Narrative/Story Line", order = 51)]
 	// ReSharper disable once InconsistentNaming
 	public class StoryLineSO : TableBehaviour
 	{

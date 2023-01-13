@@ -12,7 +12,7 @@ namespace StoryTime.Components.ScriptableObjects
 		Drain,
 	}
 
-	[CreateAssetMenu(fileName = "Skill", menuName = "StoryTime/Game/Characters/Skill", order = 0)]
+	[CreateAssetMenu(fileName = "Skill", menuName = "StoryTime/Game/Characters/Skill", order = 4)]
 	// ReSharper disable once InconsistentNaming
 	public partial class SkillSO : LocalizationBehaviour
 	{

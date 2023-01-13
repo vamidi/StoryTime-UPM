@@ -20,7 +20,7 @@ namespace StoryTime.Components.ScriptableObjects
 		Defend // Defend an object or npc. 5
 	}
 
-	[CreateAssetMenu(fileName = "Task", menuName = "StoryTime/Stories/Task", order = 51)]
+	[CreateAssetMenu(fileName = "Task", menuName = "StoryTime/Game/Narrative/Task", order = 51)]
 	// ReSharper disable once InconsistentNaming
 	public partial class TaskSO : LocalizationBehaviour
 	{

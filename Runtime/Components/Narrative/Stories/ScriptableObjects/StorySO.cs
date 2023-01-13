@@ -18,7 +18,7 @@ namespace StoryTime.Components.ScriptableObjects
 	/// A Dialogue is a list of consecutive DialogueLines. They play in sequence using the input of the player to skip forward.
 	/// In future versions it might contain support for branching conversations.
 	/// </summary>
-	[CreateAssetMenu(fileName = "newStory", menuName = "StoryTime/Stories/Story", order = 51)]
+	[CreateAssetMenu(fileName = "newStory", menuName = "StoryTime/Game/Narrative/Story", order = 51)]
 	// ReSharper disable once InconsistentNaming
 	public partial class StorySO : SimpleStorySO
 	{

@@ -15,7 +15,7 @@ namespace StoryTime.Components.ScriptableObjects
 	/// <summary>
 	/// Scriptable Object that represents an "Actor", that is the protagonist of a Dialogue
 	/// </summary>
-	[CreateAssetMenu(fileName = "newCharacter", menuName = "StoryTime/Game/Characters/Character")]
+	[CreateAssetMenu(fileName = "newCharacter", menuName = "StoryTime/Game/Characters/Character", order = 0)]
 	// ReSharper disable once InconsistentNaming
 	public partial class CharacterSO : LocalizationBehaviour
 	{

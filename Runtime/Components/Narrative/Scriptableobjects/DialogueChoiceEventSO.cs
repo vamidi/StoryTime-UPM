@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace StoryTime.Components.ScriptableObjects
 {
-	[CreateAssetMenu(fileName = "newDialogueChoiceEvent", menuName = "StoryTime/Events/Narrative/Dialogue Choice Event")]
+	[CreateAssetMenu(fileName = "newDialogueChoiceEvent", menuName = "StoryTime/Game/Events/Narrative/Dialogue Choice Event")]
 	public class DialogueChoiceEventSO : ScriptableObject
 	{
 		public string EventName => eventName;

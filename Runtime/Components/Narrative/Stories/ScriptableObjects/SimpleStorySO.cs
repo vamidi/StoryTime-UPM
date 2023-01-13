@@ -37,7 +37,7 @@ namespace StoryTime.Components.ScriptableObjects
 		[SerializeField] public DialogueLine dialogue = new (true);
 	}
 
-	[CreateAssetMenu(fileName = "newSimpleStory", menuName = "StoryTime/Stories/Simple Story", order = 51)]
+	[CreateAssetMenu(fileName = "newSimpleStory", menuName = "StoryTime/Game/Narrative/Simple Story", order = 51)]
 	// ReSharper disable once InconsistentNaming
 	public class SimpleStorySO : Graphable<StartNode>
 	{

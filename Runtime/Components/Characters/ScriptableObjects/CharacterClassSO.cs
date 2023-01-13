@@ -17,7 +17,7 @@ using StoryTime.Components.ScriptableObjects;
 // TODO find out why this namespace cant stay
 // namespace StoryTime.Components.ScriptableObjects
 // {
-	[CreateAssetMenu(fileName = "CharacterClass", menuName = "StoryTime/Game/Stats/Character Class", order = 0)]
+	[CreateAssetMenu(fileName = "CharacterClass", menuName = "StoryTime/Game/Characters/Character Class", order = 1)]
 	// ReSharper disable once InconsistentNaming
 	public partial class CharacterClassSO : LocalizationBehaviour
 	{
