@@ -37,7 +37,10 @@ namespace StoryTime.Editor.VisualScripting.Elements
 			EditorUtility.SetDirty(node);
 		}
 
-		public virtual void Draw() { }
+		public virtual void Draw()
+		{
+			title = node.name;
+		}
 
 		public override void OnSelected()
 		{

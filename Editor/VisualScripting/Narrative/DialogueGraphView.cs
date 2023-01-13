@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using System.Collections.Generic;
 
 using UnityEngine.UIElements;
 
@@ -10,6 +9,7 @@ using StoryTime.VisualScripting.Data;
 using StoryTime.Components.ScriptableObjects;
 using StoryTime.VisualScripting.Data.ScriptableObjects;
 
+using StartNodeSO = StoryTime.VisualScripting.Data.ScriptableObjects.StartNode;
 using DialogueNodeSO = StoryTime.VisualScripting.Data.ScriptableObjects.DialogueNode;
 
 namespace StoryTime.Editor.VisualScripting
@@ -36,32 +36,46 @@ namespace StoryTime.Editor.VisualScripting
 			}
 
 			// Creates node views
-			container.nodes.ForEach(n => AddElement(CreateNodeView(n, n.name)));
+			container.nodes.Value.ForEach(n => AddElement(CreateNodeView(n, n.name)));
 
 			// Creates edges
-			container.nodes.ForEach(n =>
+			container.nodes.Value.ForEach(n =>
 			{
-				if (n is DialogueNodeSO node)
+				if (n is StartNodeSO startNode)
 				{
 					// simple output only.
-					if (node.Child)
+					if (startNode.Child)
+					{
+						StartNode parentView = FindNodeView<StartNode>(n);
+						DialogueNode childView = FindNodeView<DialogueNode>(startNode.Child);
+
+						// if the dialogue socket is connected. initialize it.
+						UnityEditor.Experimental.GraphView.Edge edge = parentView.output.ConnectTo(childView.input);
+						AddElement(edge);
+					}
+				}
+
+				if (n is DialogueNodeSO dialogueNode)
+				{
+					// simple output only.
+					if (dialogueNode.Child)
 					{
 						DialogueNode parentView = FindNodeView<DialogueNode>(n);
-						DialogueNode childView = FindNodeView<DialogueNode>(node.Child);
+						DialogueNode childView = FindNodeView<DialogueNode>(dialogueNode.Child);
 
 						// if the dialogue socket is connected. initialize it.
 						UnityEditor.Experimental.GraphView.Edge edge = parentView.output.ConnectTo(childView.input);
 						AddElement(edge);
 					}
 
-					var children = container.GetChildren(n);
+					var children = container.GetChildren(dialogueNode);
 					for (int i = 0; i < children.Count; i++)
 					{
 						Node child = children[i];
-						DialogueNode parentView = FindNodeView<DialogueNode>(n);
+						DialogueNode parentView = FindNodeView<DialogueNode>(dialogueNode);
 						DialogueNode childView = FindNodeView<DialogueNode>(child);
 
-						if (parentView.node is DialogueNodeSO parentDialogueNode)
+						if (parentView.node is DialogueNodeSO parentDialogueNode && parentDialogueNode.Choices.Count > 0)
 						{
 							if (parentDialogueNode.Choices.Count != parentView.outputs.Count)
 								continue;
@@ -193,7 +207,7 @@ namespace StoryTime.Editor.VisualScripting
 				return;
 			}
 
-			StartNode startNode = container.CreateNode(typeof(StartNode)) as StartNode;
+			StartNodeSO startNode = container.CreateNode(typeof(StartNodeSO)) as StartNodeSO;
 			container.rootNode = startNode;
 			var node = new DialogueNode(this, startNode)
 			{
@@ -230,6 +244,15 @@ namespace StoryTime.Editor.VisualScripting
 
 		protected override NodeView InitializeNodeView(Node node, string title = "")
 		{
+			if (node.GetType() == typeof(StoryTime.VisualScripting.Data.ScriptableObjects.StartNode))
+			{
+				return new StartNode(this, node)
+				{
+					title = title,
+					OnNodeSelected = OnNodeSelected
+				};
+			}
+
 			return new DialogueNode(this, node)
 			{
 				title = title,
@@ -246,7 +269,7 @@ namespace StoryTime.Editor.VisualScripting
 		protected override NodeView CreateNodeView(Node node, string title = "")
 		{
 			NodeView nodeView = base.CreateNodeView(node, title);
-			if (node is StartNode)
+			if (node.GetType() == typeof(StoryTime.VisualScripting.Data.ScriptableObjects.StartNode))
 			{
 				InitStartNode(nodeView);
 			}

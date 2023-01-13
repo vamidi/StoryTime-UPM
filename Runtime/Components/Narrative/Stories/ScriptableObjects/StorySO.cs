@@ -40,12 +40,13 @@ namespace StoryTime.Components.ScriptableObjects
 		[SerializeField, HideInInspector] // Tooltip("The character id where this story belongs to.")]
 		protected uint parentId = UInt32.MaxValue;
 
-		[SerializeField] // Tooltip("The id where the dialogue should go first")]
+		[SerializeField, HideInInspector] // Tooltip("The id where the dialogue should go first")]
 		protected uint childId = UInt32.MaxValue;
 
 		// ReSharper disable once InconsistentNaming
 		protected bool m_IsDone;
 
+		[Header("Dialogue Details")]
 		[SerializeField, Tooltip("The collection of tasks composing the Quest")] private List<TaskSO> tasks = new ();
 		[SerializeField, HideInInspector, Tooltip("The title of the quest")] private LocalizedString title;
 		[SerializeField, HideInInspector, Tooltip("The description of the quest")] private LocalizedString description;

@@ -33,10 +33,10 @@ namespace StoryTime.Editor.VisualScripting
 			}
 
 			// Creates node views
-			container.nodes.ForEach(n => AddElement(CreateNodeView(n, n.name)));
+			container.nodes.Value.ForEach(n => AddElement(CreateNodeView(n, n.name)));
 
 			// Creates edges
-			container.nodes.ForEach(n => {
+			container.nodes.Value.ForEach(n => {
 				var children = container.GetChildren(n);
 				children.ForEach(c => {
 					MasterNode parentView = FindNodeView<MasterNode>(n);

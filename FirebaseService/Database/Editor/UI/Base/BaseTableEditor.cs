@@ -204,7 +204,7 @@ namespace StoryTime.FirebaseService.Database.Editor
 
 		private void Prompt(StorySO t)
 		{
-			if ((t.rootNode || t.nodes.Count > 0) &&
+			if ((t.rootNode || t.nodes.Value.Count > 0) &&
 				UnityEditor.EditorUtility.DisplayDialog("Available Story",
 				    "There is a current story available.\nAre you sure you want to delete the current one?", "Yes",
 				    "No"))
@@ -219,7 +219,7 @@ namespace StoryTime.FirebaseService.Database.Editor
 				// t.rootNode = null;
 
 				// Delete the rest of the nodes
-				foreach (var node in t.nodes)
+				foreach (var node in t.nodes.Value)
 				{
 					// t.DeleteNode(node);
 				}

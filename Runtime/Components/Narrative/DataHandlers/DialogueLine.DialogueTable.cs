@@ -60,7 +60,7 @@ namespace StoryTime.Components
 						{
 							characterID++;
 							if (characterCollection)
-								dialogue.characterName = new LocalizedString
+								dialogue.speaker.CharacterName = new LocalizedString
 								{
 									TableReference = characterCollection.TableCollectionNameReference,
 									TableEntryReference = characterID

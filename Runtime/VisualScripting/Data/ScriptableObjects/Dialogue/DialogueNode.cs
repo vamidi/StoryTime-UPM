@@ -5,8 +5,21 @@ using StoryTime.Components;
 
 namespace StoryTime.VisualScripting.Data.ScriptableObjects
 {
-	public class DialogueNode : StartNode
+	public interface IDialogueNode
 	{
+		public DialogueLine DialogueLine { get; }
+	}
+
+	public class DialogueNode : ChildNode, IDialogueNode
+	{
+		public DialogueLine DialogueLine
+		{
+			get => dialogueLine;
+			internal set => dialogueLine = value;
+		}
+
+		DialogueLine IDialogueNode.DialogueLine => DialogueLine;
+
 		public List<Node> Children => children;
 
 		public List<DialogueChoice> Choices => choices;

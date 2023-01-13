@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 using StoryTime.VisualScripting.Data.ScriptableObjects;
 namespace StoryTime.Components.ScriptableObjects
@@ -28,19 +29,23 @@ namespace StoryTime.Components.ScriptableObjects
 		ContinueWithTask,
 	}
 
+	[Serializable]
+	internal class DialogueDetails
+	{
+		[SerializeField, Tooltip("The character associated with the story")] public CharacterSO[] speakers;
+		// Is being calculated in the story editor.
+		[SerializeField] public DialogueLine dialogue = new (true);
+	}
+
 	[CreateAssetMenu(fileName = "newSimpleStory", menuName = "StoryTime/Stories/Simple Story", order = 51)]
 	// ReSharper disable once InconsistentNaming
 	public class SimpleStorySO : Graphable<StartNode>
 	{
-		public CharacterSO Character => character;
+		public CharacterSO[] Speakers => dialogueDetails.speakers;
 
-		public DialogueLine Dialogue => dialogue;
+		public DialogueLine Dialogue => dialogueDetails.dialogue;
 
-		// TODO do we need this?
-		[SerializeField, Tooltip("The character associated with the story")] protected CharacterSO character;
-
-		// Is being calculated in the story editor.
-		[SerializeField] protected DialogueLine dialogue = new (true);
+		[SerializeField] private DialogueDetails dialogueDetails = new();
 
 		public SimpleStorySO() : base("stories", "title", "parentId") { }
 	}

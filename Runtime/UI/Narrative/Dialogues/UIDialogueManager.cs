@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Localization.Components;
 
 namespace StoryTime.Components.UI
@@ -11,8 +12,9 @@ namespace StoryTime.Components.UI
 
 	public class UIDialogueManager : MonoBehaviour
 	{
-		[SerializeField] LocalizeStringEvent sentence;
-		[SerializeField] LocalizeStringEvent actorName;
+		[SerializeField] private UnityEvent<string> sentenceEvent;
+		[SerializeField] private LocalizeStringEvent sentence;
+		[SerializeField] private LocalizeStringEvent actorName;
 
 		[SerializeField] private UIDialogueChoicesManager choicesManager;
 		[SerializeField] private DialogueChoiceChannelSO showChoicesEvent;
@@ -31,10 +33,17 @@ namespace StoryTime.Components.UI
 
 		public void SetDialogue(DialogueLine dialogueLine)
 		{
+			// User can optionally show the name of the character.
+			if(!dialogueLine.Speaker.CharacterName.IsEmpty) actorName.StringReference = dialogueLine.Speaker.CharacterName;
+
+			if (dialogueLine.isSimplified && sentenceEvent != null)
+			{
+				sentenceEvent.Invoke(dialogueLine.SimplifiedSentence);
+				return;
+			}
+
 			// TODO see class LocalizeStringEvent for the reference variables
 			sentence.StringReference = dialogueLine.Sentence;
-			// User can optionally show the name of the character.
-			if(!dialogueLine.CharacterName.IsEmpty) actorName.StringReference = dialogueLine.CharacterName;
 		}
 
 		void ShowChoices(List<DialogueChoice> choices)

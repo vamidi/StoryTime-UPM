@@ -19,7 +19,11 @@ namespace StoryTime.Components.ScriptableObjects
 	// ReSharper disable once InconsistentNaming
 	public partial class CharacterSO : LocalizationBehaviour
 	{
-		public LocalizedString CharacterName => characterName;
+		public LocalizedString CharacterName
+		{
+			get => characterName;
+			internal set => characterName = value;
+		}
 
 		public LocalizedString Description => characterDescription;
 

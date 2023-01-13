@@ -19,10 +19,9 @@ namespace StoryTime.Editor.VisualScripting.Elements
 
 		public override void Draw()
         {
-	        title = node.name;
+	        base.Draw();
 
 	        // Input
-
 	        input = this.CreatePort("Dialogue Connection", direction: Direction.Input,
                 capacity: Port.Capacity.Multi);
 

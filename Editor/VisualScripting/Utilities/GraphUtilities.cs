@@ -113,7 +113,7 @@ namespace StoryTime.Editor.VisualScripting.Utilities
 		private void CreateExposedProperties()
 		{
 			_targetGraphView.ClearBlackBoardAndExposedProperties();
-			foreach (var exposedProperty in _containerCached.exposedProperties)
+			foreach (var exposedProperty in _containerCached.exposedProperties.Value)
 			{
 				_targetGraphView.AddPropertyToBlackBoard(exposedProperty);
 			}
@@ -121,7 +121,7 @@ namespace StoryTime.Editor.VisualScripting.Utilities
 
 		private void SaveExposedProperties(StorySO dialogueContainer)
 		{
-			dialogueContainer.exposedProperties.AddRange(_targetGraphView.ExposedProperties);
+			dialogueContainer.exposedProperties.Value.AddRange(_targetGraphView.ExposedProperties);
 		}
 
 		private void ClearGraph()
@@ -135,7 +135,7 @@ namespace StoryTime.Editor.VisualScripting.Utilities
 
 		private void CreateNodes()
 		{
-			foreach (var nodeData in _containerCached.nodes)
+			foreach (var nodeData in _containerCached.nodes.Value)
 			{
 				// var tempNode = _targetGraphView.CreateNode(nodeData);
 				// _targetGraphView.AddElement(tempNode);

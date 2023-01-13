@@ -26,11 +26,15 @@ namespace StoryTime.Components
 			set => id = value;
 		}
 
-		public LocalizedString CharacterName => characterName;
+		public CharacterSO Speaker => speaker;
+
+		public string SimplifiedSentence => simplifiedSentence;
 
 		public LocalizedString Sentence => sentence;
 
 		public DialogueType DialogueType => dialogueType;
+
+		public bool isSimplified => simplified;
 
 		public List<DialogueChoice> Choices => choices;
 
@@ -39,16 +43,16 @@ namespace StoryTime.Components
 		[SerializeField, Tooltip("Override If you want to display an text dialogue only.")]
 		protected bool simplified;
 
-		[SerializeField, ConditionalField("simplified"), TextArea(1, 25)]
+		[SerializeField, ConditionalField(nameof(simplified)), TextArea(1, 25), Tooltip("Sentence that will showed when interacting")]
 		protected string simplifiedSentence;
 
 		[SerializeField] private DialogueType dialogueType;
 
 		[SerializeField] private Emotion emotion;
 
-		[SerializeField] protected LocalizedString characterName;
+		[SerializeField] protected CharacterSO speaker;
 
-		[SerializeField, Tooltip("Sentence that will showed when interacting")]
+		[SerializeField, ConditionalField(nameof(simplified), inverse: true), Tooltip("Sentence that will showed when interacting")]
 		private LocalizedString sentence;
 
 		[SerializeField] private List<DialogueChoice> choices = new ();
