@@ -10,7 +10,7 @@ namespace StoryTime.Components.UI
 
 	public class ListFiller<TFiller, TStack, TItem> : MonoBehaviour
 		where TItem : ItemSO
-		where TStack: ItemBaseStack<TItem>
+		where TStack: BaseStack<TItem>
 		where TFiller: ItemBaseFiller<TStack, TItem>
 	{
 		[SerializeField] private TFiller itemPrefab;

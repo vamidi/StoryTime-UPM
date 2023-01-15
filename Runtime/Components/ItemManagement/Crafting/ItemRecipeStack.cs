@@ -3,7 +3,7 @@ using System;
 namespace StoryTime.Components
 {
 	[Serializable]
-	public class ItemRecipeStack : ItemBaseStack<ScriptableObjects.ItemRecipeSO>
+	public class ItemRecipeStack : BaseStack<ScriptableObjects.ItemRecipeSO>
 	{
 		public ItemRecipeStack() { }
 		public ItemRecipeStack(ItemRecipeStack item) : base(item) { }

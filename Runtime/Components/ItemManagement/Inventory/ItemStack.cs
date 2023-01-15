@@ -1,6 +1,6 @@
 ﻿namespace StoryTime.Components
 {
-	public class ItemStack : ItemBaseStack<ScriptableObjects.ItemSO>
+	public class ItemStack : BaseStack<ScriptableObjects.ItemSO>
 	{
 		public ItemStack() { }
 		public ItemStack(ItemStack item) : base(item) { }

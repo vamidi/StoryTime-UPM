@@ -7,7 +7,7 @@ namespace StoryTime.Components
 	using ScriptableObjects;
 	public abstract class ItemCollection<TStack, TItem> : ScriptableObject
 		where TItem: ItemSO
-		where TStack: ItemBaseStack<TItem>, new()
+		where TStack: BaseStack<TItem>, new()
 	{
 		public List<TStack> Items => items;
 

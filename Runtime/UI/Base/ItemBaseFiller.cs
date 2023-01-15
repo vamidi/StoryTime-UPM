@@ -11,7 +11,7 @@ namespace StoryTime.Components.UI
 
 	public abstract class ItemBaseFiller<TStack, TItem> : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 		where TItem : ItemSO
-		where TStack: ItemBaseStack<TItem>
+		where TStack: BaseStack<TItem>
 	{
 		[HideInInspector] public TStack currentItem;
 

@@ -10,7 +10,7 @@ namespace StoryTime.Components.UI
 
 	public abstract class UIItemManager<TListFiller, TItemFiller, TInspectorFiller, TInspector, TStack, TItem, TCollection> : MonoBehaviour
 		where TItem: ItemSO
-		where TStack: ItemBaseStack<TItem>, new()
+		where TStack: BaseStack<TItem>, new()
 		where TInspector: InspectorItemBaseFiller<TStack, TItem>
 		where TInspectorFiller : InspectorBaseFiller<TInspector, TStack, TItem>
 		where TItemFiller: ItemBaseFiller<TStack, TItem>

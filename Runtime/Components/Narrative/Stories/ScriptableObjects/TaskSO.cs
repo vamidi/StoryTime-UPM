@@ -54,8 +54,8 @@ namespace StoryTime.Components.ScriptableObjects
 		// It could be even a reference to a group of monsters of some type.
 		private uint npc = UInt32.MaxValue;
 
-		[Tooltip("Which enemy category do we need to hunt")]
-		[SerializeField] private uint enemyCategory = UInt32.MaxValue;
+		// TODO show category instead of number
+		[SerializeField, HideInInspector, Tooltip("Which enemy category do we need to hunt")] private uint enemyCategory = UInt32.MaxValue;
 
 		// Reference to the parent, which is the quest.
 

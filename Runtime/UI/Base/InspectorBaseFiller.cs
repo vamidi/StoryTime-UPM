@@ -6,7 +6,7 @@ namespace StoryTime.Components.UI
 
 	public abstract class InspectorBaseFiller<TInspector, TStack, TItem> : MonoBehaviour
 		where TItem: ItemSO
-		where TStack: ItemBaseStack<TItem>
+		where TStack: BaseStack<TItem>
 		where TInspector : InspectorItemBaseFiller<TStack, TItem>
 	{
 		[SerializeField] protected TInspector inventoryInspector;
