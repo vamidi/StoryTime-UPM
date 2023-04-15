@@ -15,7 +15,7 @@ using UnityEngine.Localization;
 
 namespace StoryTime.Components.ScriptableObjects
 {
-	using FirebaseService.Database;
+	using Database;
 
 	[CreateAssetMenu(fileName = "itemRecipe", menuName = "StoryTime/Game/Item Management/Item Recipe", order = 51)]
 	// ReSharper disable once InconsistentNaming

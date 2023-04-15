@@ -113,15 +113,15 @@ namespace StoryTime.Editor.VisualScripting.Utilities
 		private void CreateExposedProperties()
 		{
 			_targetGraphView.ClearBlackBoardAndExposedProperties();
-			foreach (var exposedProperty in _containerCached.exposedProperties.Value)
-			{
-				_targetGraphView.AddPropertyToBlackBoard(exposedProperty);
-			}
+			// foreach (var exposedProperty in _containerCached.exposedProperties.Value)
+			// {
+				// _targetGraphView.AddPropertyToBlackBoard(exposedProperty);
+			// }
 		}
 
 		private void SaveExposedProperties(StorySO dialogueContainer)
 		{
-			dialogueContainer.exposedProperties.Value.AddRange(_targetGraphView.ExposedProperties);
+			// dialogueContainer.exposedProperties.Value.AddRange(_targetGraphView.ExposedProperties);
 		}
 
 		private void ClearGraph()
@@ -135,11 +135,11 @@ namespace StoryTime.Editor.VisualScripting.Utilities
 
 		private void CreateNodes()
 		{
-			foreach (var nodeData in _containerCached.nodes.Value)
-			{
+			// foreach (var nodeData in _containerCached.nodes.Value)
+			// {
 				// var tempNode = _targetGraphView.CreateNode(nodeData);
 				// _targetGraphView.AddElement(tempNode);
-			}
+			// }
 		}
 
 		private void SaveSockets(StorySO dialogueContainer)

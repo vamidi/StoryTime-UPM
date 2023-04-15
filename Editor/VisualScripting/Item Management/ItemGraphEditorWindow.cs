@@ -4,7 +4,7 @@ using UnityEngine.UIElements;
 
 namespace StoryTime.Editor.VisualScripting
 {
-	using Components.ScriptableObjects;
+	using StoryTime.Components.ScriptableObjects;
 
 	public class ItemGraphEditorWindow : BaseGraphEditorWindow
 	{

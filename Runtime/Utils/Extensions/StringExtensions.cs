@@ -46,5 +46,25 @@ namespace StoryTime.Utils.Extensions
 			}
 			return true;
 		}
+
+		public static string UcFirst(this string input)
+		{
+			if (string.IsNullOrEmpty(input))
+			{
+				return string.Empty;
+			}
+
+			return char.ToUpper(input[0]) + input.Substring(1);
+		}
+
+		public static string LcFirst(this string input)
+		{
+			if (string.IsNullOrEmpty(input))
+			{
+				return string.Empty;
+			}
+
+			return char.ToLower(input[0]) + input.Substring(1);
+		}
 	}
 }

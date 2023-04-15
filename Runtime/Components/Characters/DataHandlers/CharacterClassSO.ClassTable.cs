@@ -1,35 +1,32 @@
 ﻿
-// namespace StoryTime.Components.ScriptableObjects
-// namespace StoryTime
-// {
-	using StoryTime.FirebaseService.Database.Binary;
+namespace StoryTime.Components.ScriptableObjects
+{
+	using Database.Binary;
 
-	public partial class CharacterClassSO
+	public partial class CharacterClassSO : IBaseTable<CharacterClassSO>
 	{
-		public class ClassTable : BaseTable<CharacterClassSO>
+		public CharacterClassSO ConvertRow(TableRow row, CharacterClassSO scriptableObject)
 		{
-			public new static CharacterClassSO ConvertRow(TableRow row, CharacterClassSO scriptableObject)
+			CharacterClassSO characterClass =
+				scriptableObject ? scriptableObject : CreateInstance<CharacterClassSO>();
+
+			if (row.Fields.Count == 0)
 			{
-				CharacterClassSO characterClass = scriptableObject ? scriptableObject : CreateInstance<CharacterClassSO>();
-
-				if (row.Fields.Count == 0)
-				{
-					return characterClass;
-				}
-
-				foreach (var field in row.Fields)
-				{
-					if (field.Value.Data == null)
-						continue;
-
-					if (field.Key.Equals("expCurve"))
-					{
-						characterClass.expCurve = (string)field.Value.Data;
-					}
-				}
-
 				return characterClass;
 			}
+
+			foreach (var field in row.Fields)
+			{
+				if (field.Value.Data == null)
+					continue;
+
+				if (field.Key.Equals("expCurve"))
+				{
+					characterClass.expCurve = (string)field.Value.Data;
+				}
+			}
+
+			return characterClass;
 		}
 	}
-// }
+}

@@ -1,7 +1,7 @@
 ﻿using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 
 using UnityEngine;
 using UnityEngine.Events;
@@ -9,10 +9,10 @@ using UnityEngine.Events;
 using TMPro;
 
 using StoryTime.Components;
+using StoryTime.Configurations.ScriptableObjects;
+// ReSharper disable once CheckNamespace
 namespace StoryTime.Utils.Components
 {
-	using FirebaseService.Database;
-	using Configurations.ScriptableObjects;
 
 	[Serializable] public class CharRevealEvent : UnityEvent<char> { }
 
@@ -251,7 +251,7 @@ namespace StoryTime.Utils.Components
 		{
 			base.Awake();
 
-			m_Config = DialogueSettingConfigSO.FetchDialogueSetting();
+			m_Config = DialogueSettingConfigSO.GetOrCreateSettings();
 
 			if (m_Config != null && useConfig)
 			{

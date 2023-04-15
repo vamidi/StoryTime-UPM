@@ -7,7 +7,7 @@ using UnityEngine;
 
 using StoryTime.Utils.Types;
 using StoryTime.Utils.Attributes;
-using StoryTime.Components.ScriptableObjects;
+using StoryTime.Database.ScriptableObjects;
 
 namespace StoryTime.VisualScripting.Data.ScriptableObjects
 {

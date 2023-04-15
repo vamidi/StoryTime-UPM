@@ -1,14 +1,17 @@
-﻿#if UNITY_EDITOR
+﻿
+#if UNITY_EDITOR
 using UnityEditor.Localization;
 #endif
+
 using UnityEngine;
 using UnityEngine.Localization;
 
 namespace StoryTime.Components
 {
 	using Utils.Attributes;
-	using FirebaseService.Database;
-	using FirebaseService.Database.Binary;
+
+	using Database;
+	using Database.Binary;
 
 	public partial class CharacterStats
 	{

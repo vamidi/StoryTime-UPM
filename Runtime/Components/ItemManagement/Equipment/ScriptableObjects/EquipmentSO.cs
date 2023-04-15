@@ -42,7 +42,7 @@ namespace StoryTime.Components.ScriptableObjects
 
 	[CreateAssetMenu(fileName = "Equipment", menuName = "StoryTime/Game/Item Management/Equipment", order = 50)]
 	// ReSharper disable once InconsistentNaming
-	public class EquipmentSO : ItemSO
+	public partial class EquipmentSO : ItemSO
 	{
 		public EquipmentCategory Category => category;
 		public EquipmentType Type => type;

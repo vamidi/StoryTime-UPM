@@ -17,9 +17,10 @@ using UnityEngine.Localization.Tables;
 
 namespace StoryTime.Editor.Localization.Plugins.JSON
 {
-	using FirebaseService.Database;
-	using FirebaseService.Database.Binary;
-	using Configurations.ScriptableObjects;
+	using FirebaseService.Settings;
+
+	using StoryTime.Database;
+	using StoryTime.Database.Binary;
 
 	public class JsonTableSync
 	{
@@ -28,7 +29,7 @@ namespace StoryTime.Editor.Localization.Plugins.JSON
 #if UNITY_EDITOR
 			var service = provider as FirebaseConfigSO ?? throw new ArgumentNullException(nameof(provider));
 
-			if (service.Url == String.Empty)
+			if (service.DatabaseURL == String.Empty)
 			{
 				Debug.LogWarning("Hosting must contain a valid URL.");
 				return;
@@ -38,7 +39,7 @@ namespace StoryTime.Editor.Localization.Plugins.JSON
 
 			if (table)
 			{
-				Application.OpenURL($"{service.Url}/dashboard/projects/{service.ProjectID}/tables/{table.ID}");
+				// Application.OpenURL($"{service.DatabaseURL}/projects/{service.ProjectID}/tables/{table.ID}");
 			}
 
 #endif

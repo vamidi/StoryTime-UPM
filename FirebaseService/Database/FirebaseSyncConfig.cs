@@ -6,8 +6,6 @@ namespace StoryTime.FirebaseService.Database
 	public class FirebaseSyncConfig
 	{
 		// const string EditorPrefTabValueKey = "StoryTime-Window-Settings-Tab";
-		const string EditorPrefConfigValueKey = "StoryTime-Window-Settings-Config";
-		const string EditorPrefDialogueConfigValueKey = "StoryTime-Window-Dialogue-Settings-Config";
 
 		// static readonly Vector2 MinSize = new Vector2(450, 600);
 		// List<ToolbarToggle> m_TabToggles;
@@ -31,18 +29,6 @@ namespace StoryTime.FirebaseService.Database
 	        set => EditorPrefs.SetInt(EditorPrefTabValueKey, value);
 	    }
 		*/
-
-		public static string SelectedConfig
-		{
-			get => EditorPrefs.GetString(EditorPrefConfigValueKey, "");
-			internal set => EditorPrefs.SetString(EditorPrefConfigValueKey, value);
-		}
-
-		public static string SelectedDialogueConfig
-		{
-			get => EditorPrefs.GetString(EditorPrefDialogueConfigValueKey, "");
-			internal set => EditorPrefs.SetString(EditorPrefDialogueConfigValueKey, value);
-		}
 	}
 }
 #endif

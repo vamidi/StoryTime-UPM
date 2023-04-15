@@ -209,7 +209,7 @@ namespace StoryTime.Editor.VisualScripting
 			}
 
 			StartNodeSO startNode = container.CreateNode(typeof(StartNodeSO)) as StartNodeSO;
-			container.rootNode = startNode;
+			// container.rootNode = startNode;
 			var node = new DialogueNode(this, startNode)
 			{
 				title = "START",

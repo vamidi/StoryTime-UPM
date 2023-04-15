@@ -8,6 +8,7 @@ using UnityEditor.Localization;
 
 using org.mariuszgromada.math.mxparser;
 
+using StoryTime.Database.ScriptableObjects;
 namespace StoryTime.Components.ScriptableObjects
 {
 	using Attributes;

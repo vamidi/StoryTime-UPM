@@ -1,10 +1,8 @@
 using System;
-using System.IO;
-using System.Linq;
 using System.Collections.Generic;
 
 using System.Threading.Tasks;
-
+using StoryTime.Database;
 using UnityEditor;
 using UnityEditor.Localization;
 using UnityEditor.Localization.Reporting;
@@ -15,28 +13,29 @@ using UnityEngine;
 namespace StoryTime.Editor.Localization.Plugins.JSON
 {
 	using UI;
-	using Utils;
 	using Fields;
 	using Utils.Extensions;
-	using Configurations.ScriptableObjects;
+
+	using FirebaseService.Settings;
 
 	class JsonExtensionPropertyDrawerData
 	{
-		public SerializedProperty collection;
+		public SerializedProperty Collection;
 
-		public SerializedProperty jsonServiceProvider;
+		public SerializedProperty JsonServiceProvider;
 
-		public SerializedProperty fields;
+		public SerializedProperty Fields;
 
-		public SerializedProperty tableId;
+		public SerializedProperty TableName;
+		public SerializedProperty TableId;
 
-		public SerializedProperty removeMissingPulledKeys;
+		public SerializedProperty RemoveMissingPulledKeys;
 
 		public ReorderableListExtended FieldsList;
 
 		public Task PushTask;
 
-		public FirebaseConfigSO Provider => jsonServiceProvider.objectReferenceValue as FirebaseConfigSO;
+		public FirebaseConfigSO Provider => JsonServiceProvider.objectReferenceValue as FirebaseConfigSO;
 
 		// public string m_NewJsonName;
 	}
@@ -79,18 +78,19 @@ namespace StoryTime.Editor.Localization.Plugins.JSON
 		{
 			var data = new JsonExtensionPropertyDrawerData
 			{
-				collection = property.FindPropertyRelative("m_Collection"),
-				tableId = property.FindPropertyRelative("tableId"),
-				jsonServiceProvider = property.FindPropertyRelative("jsonServiceProvider"),
-				fields = property.FindPropertyRelative("fields"),
-				removeMissingPulledKeys = property.FindPropertyRelative("removeMissingPulledKeys")
+				Collection = property.FindPropertyRelative("m_Collection"),
+				TableName = property.FindPropertyRelative("tableName"),
+				TableId = property.FindPropertyRelative("tableId"),
+				JsonServiceProvider = property.FindPropertyRelative("jsonServiceProvider"),
+				Fields = property.FindPropertyRelative("fields"),
+				RemoveMissingPulledKeys = property.FindPropertyRelative("removeMissingPulledKeys")
 			};
 
-			var ltc = data.collection.objectReferenceValue as LocalizationTableCollection;
+			var ltc = data.Collection.objectReferenceValue as LocalizationTableCollection;
 			if (ltc != null)
 			{
 				// data.m_NewJsonName = ltc.TableCollectionName;
-				data.FieldsList = new ReorderableListExtended(property.serializedObject, data.fields)
+				data.FieldsList = new ReorderableListExtended(property.serializedObject, data.Fields)
 				{
 					Header = Styles.MappedFields,
 					AddMenuType = typeof(SheetColumn),
@@ -101,20 +101,20 @@ namespace StoryTime.Editor.Localization.Plugins.JSON
 						{
 							var columns = FieldMapping.CreateDefaultMapping();
 
-							data.fields.ClearArray();
+							data.Fields.ClearArray();
 							foreach (var c in columns)
 							{
-								var colElement = data.fields.AddArrayElement();
+								var colElement = data.Fields.AddArrayElement();
 								colElement.managedReferenceValue = c;
 							}
 
-							data.fields.serializedObject.ApplyModifiedProperties();
+							data.Fields.serializedObject.ApplyModifiedProperties();
 						});
 
 						// We can not extract the column data when using an
 						// if (!data.UsingApiKey)
 						// {
-						if (string.IsNullOrEmpty(data.tableId.stringValue))
+						if (string.IsNullOrEmpty(data.TableId.stringValue))
 						{
 							menu.AddDisabledItem(Styles.ExtractColumns);
 						}
@@ -133,14 +133,14 @@ namespace StoryTime.Editor.Localization.Plugins.JSON
 									Debug.Log($"Could not map: {string.Join(", ", unused)}");
 								}
 
-								data.fields.ClearArray();
+								data.Fields.ClearArray();
 								foreach (var c in columns)
 								{
-									var colElement = data.fields.AddArrayElement();
+									var colElement = data.Fields.AddArrayElement();
 									colElement.managedReferenceValue = c;
 								}
 
-								data.fields.serializedObject.ApplyModifiedProperties();
+								data.Fields.serializedObject.ApplyModifiedProperties();
 							});
 						}
 
@@ -163,11 +163,11 @@ namespace StoryTime.Editor.Localization.Plugins.JSON
 			EditorGUI.LabelField(position, Styles.Header, EditorStyles.boldLabel);
 			position.MoveToNextLine();
 
-			EditorGUI.PropertyField(position, data.jsonServiceProvider);
+			EditorGUI.PropertyField(position, data.JsonServiceProvider);
 			position.MoveToNextLine();
 
-			EditorGUI.BeginDisabledGroup(data.jsonServiceProvider.objectReferenceValue == null);
-			using (new EditorGUI.DisabledGroupScope(data.jsonServiceProvider.objectReferenceValue == null))
+			EditorGUI.BeginDisabledGroup(data.JsonServiceProvider.objectReferenceValue == null);
+			using (new EditorGUI.DisabledGroupScope(data.JsonServiceProvider.objectReferenceValue == null))
 			{
 				DrawTableNameField(data, ref position);
 				DrawColumnsField(data, ref position);
@@ -187,14 +187,14 @@ namespace StoryTime.Editor.Localization.Plugins.JSON
 		void DrawTableNameField(JsonExtensionPropertyDrawerData data, ref Rect position)
 		{
 #region inner
-			EditorGUI.BeginDisabledGroup(string.IsNullOrEmpty(data.tableId.stringValue));
+			EditorGUI.BeginDisabledGroup(string.IsNullOrEmpty(data.TableId.stringValue));
 			var sheetNamePos = position.SplitHorizontal();
 			var buttonPos = sheetNamePos.right.SplitHorizontal();
-			data.tableId.stringValue = EditorGUI.TextField(sheetNamePos.left, data.tableId.stringValue);
+			data.TableId.stringValue = EditorGUI.TextField(sheetNamePos.left, data.TableId.stringValue);
 
 			if (GUI.Button(buttonPos.left, Styles.OpenTable))
 			{
-				JsonTableSync.OpenTableInBrowser(data.Provider, data.tableId.stringValue);
+				JsonTableSync.OpenTableInBrowser(data.Provider, data.TableId.stringValue);
 			}
 			EditorGUI.EndDisabledGroup();
 #endregion inner
@@ -205,25 +205,16 @@ namespace StoryTime.Editor.Localization.Plugins.JSON
 				{
 					GetTableContent(data);
 
-					(string name, string fileName)[] files = AssetDatabase.FindAssets("t:TableSO")
-                    	.Select(guid =>
-                        {
-	                        string path = AssetDatabase.GUIDToAssetPath(guid);
-	                        string fileName = Path.GetFileNameWithoutExtension(path);
-
-	                        string name = HelperClass.Capitalize(fileName);
-
-	                        return (name, fileName);
-                        })
-                    	.ToArray();
+					var tables = TableDatabase.Get.Tables;
 
 					var menu = new GenericMenu();
-					foreach (var s in files)
+					foreach (var table in tables)
 					{
-						menu.AddItem(new GUIContent(s.name), false, () =>
+						menu.AddItem(new GUIContent(table.Value.Metadata.title.UcFirst()), false, () =>
 						{
-							data.tableId.stringValue = s.fileName;
-							data.tableId.serializedObject.ApplyModifiedProperties();
+							data.TableName.stringValue = table.Value.Metadata.title;
+							data.TableId.stringValue = table.Key;
+							data.TableId.serializedObject.ApplyModifiedProperties();
 						});
 					}
 
@@ -273,7 +264,7 @@ namespace StoryTime.Editor.Localization.Plugins.JSON
 			}
 
 			using (new EditorGUI.DisabledGroupScope(data.PushTask != null ||
-			                                        string.IsNullOrEmpty(data.tableId.stringValue) ||
+			                                        string.IsNullOrEmpty(data.TableId.stringValue) ||
 			                                        data.FieldsList.count == 0))
 			{
 				using (new EditorGUI.DisabledGroupScope(data.FieldsList.index < 0))
@@ -288,6 +279,7 @@ namespace StoryTime.Editor.Localization.Plugins.JSON
 						// s_PushRequests.Add((collection, data.pushTask));
 					}
 
+					// TODO able to select certain rows
 					if (GUI.Button(splitRow.right, Styles.PullSelected))
 					{
 						// var google = GetGoogleSheets(data);
@@ -299,6 +291,7 @@ namespace StoryTime.Editor.Localization.Plugins.JSON
 
 				splitRow = position.SplitHorizontal();
 				position.MoveToNextLine();
+				// TODO able to push data back to firebase
 				if (GUI.Button(splitRow.left, Styles.Push))
 				{
 					// var google = GetGoogleSheets(data);
@@ -310,10 +303,15 @@ namespace StoryTime.Editor.Localization.Plugins.JSON
 
 				if (GUI.Button(splitRow.right, Styles.Pull))
 				{
+					if (!ValidatePull(data))
+					{
+						return;
+					}
+
 					var google = GetTableContent(data);
 					var target = property.GetActualObjectForSerializedProperty<JsonExtension>(fieldInfo);
 					google.PullIntoStringTableCollection(target.TargetCollection as StringTableCollection, target.Fields,
-						data.removeMissingPulledKeys.boolValue, TaskReporter.CreateDefaultReporter(), true);
+						data.RemoveMissingPulledKeys.boolValue, TaskReporter.CreateDefaultReporter(), true);
 				}
 			}
 		}
@@ -322,9 +320,17 @@ namespace StoryTime.Editor.Localization.Plugins.JSON
 		{
 			var google = new JsonTableSync
 			{
-				TableId = data.tableId.stringValue
+				TableId = data.TableId.stringValue
 			};
 			return google;
+		}
+
+		private bool ValidatePull(JsonExtensionPropertyDrawerData data)
+		{
+			StringTableCollection createdCollection = LocalizationEditorSettings.GetStringTableCollection(data.TableName.stringValue.UcFirst());
+
+			return createdCollection != null && EditorUtility.DisplayDialog("Dialogue data found!",
+				"Are you sure you want to replace the existing data?", "Overwrite", "Cancel");
 		}
 	}
 }

@@ -1,19 +1,16 @@
 ﻿using System;
 using System.Threading;
+using Newtonsoft.Json.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
 using UnityEngine;
 
-using Newtonsoft.Json.Linq;
-
-using Firebase.Storage;
-using Firebase.Extensions;
-
-using StoryTime.Configurations.ScriptableObjects;
 
 namespace StoryTime.FirebaseService.Database.ResourceManagement
 {
+	using Settings;
+
 	public enum NbLocationFileType {
 		Default,
 		Story,
@@ -23,17 +20,17 @@ namespace StoryTime.FirebaseService.Database.ResourceManagement
 
 	public class FirebaseStorageService
 	{
-		private FirebaseStorage _storage;
-		private Firebase.Database.FirebaseDatabase _database;
+		// private FirebaseStorage _storage;
+		// private Firebase.Database.FirebaseDatabase _database;
 
 		// Path to the storage bucket
 		private string projectID = "";
 		private readonly string BASE_STORAGE_PATH = "node-editor/projects";
 
-		public void Initialize(FirebaseStorage storage, Firebase.Database.FirebaseDatabase database, FirebaseConfigSO config)
+		public void Initialize(/*FirebaseStorage storage, Firebase.Database.FirebaseDatabase database, */ FirebaseConfigSO config)
 		{
-			_storage = storage;
-			_database = database;
+			// _storage = storage;
+			// _database = database;
 			projectID = config.ProjectID;
 			// StorageReference pathReference =
 			// Storage.GetReference($"node-editor/projects/{DatabaseConfigSo.ProjectID}");
@@ -44,10 +41,14 @@ namespace StoryTime.FirebaseService.Database.ResourceManagement
 		public Task<List<T>> GetFiles<T>(string path)
 			where T : FileUpload
 		{
+			return new Task<List<T>>(() => new List<T>());
+
+			/*
 			if (_database == null)
 			{
 				return new Task<List<T>>(() => new List<T>());
 			}
+
 
 			return _database.GetReference(path)
 				.OrderByChild("metadata/projectID")
@@ -79,6 +80,7 @@ namespace StoryTime.FirebaseService.Database.ResourceManagement
 					}
 					return list;
 				});
+				*/
 
 		}
 
@@ -92,23 +94,25 @@ namespace StoryTime.FirebaseService.Database.ResourceManagement
 		/// </summary>
 		public void PushFileToStorage(
 			string path, FileUpload fileUpload,
-			NbLocationFileType location = NbLocationFileType.Default,
-			StorageMetadata metadata = null
+			NbLocationFileType location = NbLocationFileType.Default
+			// StorageMetadata metadata = null
 		)
 		{
 			// string filePath = $"{GetRoot()}/${path}/${fileUpload.file.name}";
-			string filePath = "";
-			StorageReference storageRef = _storage.GetReference(filePath);
+			// string filePath = "";
+			// StorageReference storageRef = _storage.GetReference(filePath);
 
 			// Start uploading a file
-			var progress = new StorageProgress<UploadState>(state =>
+			/*var progress = new StorageProgress<UploadState>(state =>
 			{
 				// called periodically during the upload
 				Debug.Log(String.Format("Progress: {0} of {1} bytes transferred.",
 					state.BytesTransferred, state.TotalByteCount));
 			});
+			*/
 
 			// Upload the file to the path "images/rivers.jpg"
+			/*
 			storageRef.PutFileAsync(filePath, null, progress, CancellationToken.None)
 				.ContinueWith((Task<StorageMetadata> task) =>
 				{
@@ -120,13 +124,13 @@ namespace StoryTime.FirebaseService.Database.ResourceManagement
 					else
 					{
 						// Metadata contains file metadata such as size, content-type, and download URL.
-						StorageMetadata metadata = task.Result;
+						// StorageMetadata metadata = task.Result;
 						string md5Hash = metadata.Md5Hash;
 						Debug.Log("Finished uploading...");
 						Debug.Log("md5 hash = " + md5Hash);
 					}
 
-					/*.ContinueWith(urlTask =>
+					.ContinueWith(urlTask =>
 					{
 					var downloadURL = urlTask.Result;
 					fileUpload.url = downloadURL;
@@ -135,9 +139,9 @@ namespace StoryTime.FirebaseService.Database.ResourceManagement
 						this.updateFileData(location, fileUpload).then();
 					else
 						this.saveFileData(location, fileUpload).then((ref) => fileUpload.id = ref.key);
-					});;
-					*/
+					});
 				});
+			*/
 		}
 
 		private string GetRoot()

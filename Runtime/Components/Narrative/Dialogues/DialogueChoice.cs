@@ -12,8 +12,6 @@ using UnityEditor.Localization;
 namespace StoryTime.Components
 {
 	using ScriptableObjects;
-	using FirebaseService.Database.Binary;
-	// using ResourceManagement.Util;
 
 	[Serializable]
 	// ReSharper disable once InconsistentNaming

@@ -12,7 +12,7 @@ using DialogueNodeSO = StoryTime.VisualScripting.Data.ScriptableObjects.Dialogue
 namespace StoryTime.Editor.VisualScripting
 {
 	using Elements;
-	using Components.ScriptableObjects;
+	using StoryTime.Components.ScriptableObjects;
 
 	public class ItemGraphView : BaseGraphView<ItemRecipeSO>
 	{
@@ -33,9 +33,10 @@ namespace StoryTime.Editor.VisualScripting
 			}
 
 			// Creates node views
-			container.nodes.Value.ForEach(n => AddElement(CreateNodeView(n, n.name)));
+			// container.nodes.Value.ForEach(n => AddElement(CreateNodeView(n, n.name)));
 
 			// Creates edges
+			/*
 			container.nodes.Value.ForEach(n => {
 				var children = container.GetChildren(n);
 				children.ForEach(c => {
@@ -46,6 +47,7 @@ namespace StoryTime.Editor.VisualScripting
 					AddElement(edge);
 				});
 			});
+			*/
 		}
 
 		protected override void GenerateEntryPointNode()

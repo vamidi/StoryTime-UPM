@@ -4,7 +4,6 @@ using System.Collections.Generic;
 
 using Newtonsoft.Json.Linq;
 
-using UnityEditor;
 using UnityEditor.Localization;
 
 using UnityEngine;
@@ -13,13 +12,14 @@ using UnityEngine.Networking;
 using StoryTime.Utils.Attributes;
 using StoryTime.VisualScripting.Data.ScriptableObjects;
 using StoryTime.FirebaseService.Database.ResourceManagement;
+
 namespace StoryTime.Components.ScriptableObjects
 {
-	using FirebaseService.Database;
-	using FirebaseService.Database.Binary;
+	using Database;
+	using Database.Binary;
 
 	// ReSharper disable once InconsistentNaming
-	public partial class StorySO
+	public partial class StorySO : IBaseTable<StorySO>
 	{
 		[SerializeField, Tooltip("Override where we should get the dialogue options data from.")]
 		protected bool overrideDialogueOptionsTable;
@@ -42,6 +42,50 @@ namespace StoryTime.Components.ScriptableObjects
 
 		[SerializeField, ConditionalField("overrideStoryDescriptionsTable"), Tooltip("Table collection we are going to use for the sentence")]
 		protected StringTableCollection storyDescriptionCollection;
+
+		public StorySO ConvertRow(TableRow row, StorySO scriptableObject = null)
+		{
+			StorySO story = scriptableObject ? scriptableObject : CreateInstance<StorySO>();
+
+			if (row.Fields.Count == 0)
+			{
+				return story;
+			}
+
+			story.ID = row.RowId;
+
+			foreach (var field in row.Fields)
+			{
+				if (field.Key.Equals("id"))
+				{
+					uint data = (uint) field.Value.Data;
+					story.ID = data == uint.MaxValue - 1 ? uint.MaxValue : data;
+				}
+
+				// Fetch the first dialogue we should start
+				if (field.Key.Equals("childId"))
+				{
+					// retrieve the necessary items
+					uint data = (uint) field.Value.Data;
+					story.childId = data == uint.MaxValue - 1 ? uint.MaxValue : data;
+				}
+
+				if (field.Key.Equals("parentId"))
+				{
+					// retrieve the necessary items
+					uint data = (uint) field.Value.Data;
+					story.parentId = data == uint.MaxValue - 1 ? uint.MaxValue : data;
+				}
+
+				if (field.Key.Equals("typeId"))
+				{
+					story.typeId = (StoryType) field.Value.Data;
+				}
+			}
+
+			return story;
+		}
+
 
 		// Node editor stuff
 
@@ -391,52 +435,6 @@ namespace StoryTime.Components.ScriptableObjects
 						}
 					}
 				}
-			}
-		}
-
-		public class StoryTable : BaseTable<StorySO>
-		{
-			public new static StorySO ConvertRow(TableRow row, StorySO scriptableObject = null)
-			{
-				StorySO story = scriptableObject ? scriptableObject : CreateInstance<StorySO>();
-
-				if (row.Fields.Count == 0)
-				{
-					return story;
-				}
-
-				story.ID = row.RowId;
-
-				foreach (var field in row.Fields)
-				{
-					if (field.Key.Equals("id"))
-					{
-						uint data = (uint) field.Value.Data;
-						story.ID = data == uint.MaxValue - 1 ? uint.MaxValue : data;
-					}
-
-					// Fetch the first dialogue we should start
-					if (field.Key.Equals("childId"))
-					{
-						// retrieve the necessary items
-						uint data = (uint) field.Value.Data;
-						story.childId = data == uint.MaxValue - 1 ? uint.MaxValue : data;
-					}
-
-					if (field.Key.Equals("parentId"))
-					{
-						// retrieve the necessary items
-						uint data = (uint) field.Value.Data;
-						story.parentId = data == uint.MaxValue - 1 ? uint.MaxValue : data;
-					}
-
-					if (field.Key.Equals("typeId"))
-					{
-						story.typeId = (StoryType) field.Value.Data;
-					}
-				}
-
-				return story;
 			}
 		}
 	}

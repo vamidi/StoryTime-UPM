@@ -7,7 +7,7 @@ using UnityEditor.Localization;
 
 namespace StoryTime.Components
 {
-	using FirebaseService.Database.Binary;
+	using Database.Binary;
 
 	/// <summary>
 	/// Dialogue Holder

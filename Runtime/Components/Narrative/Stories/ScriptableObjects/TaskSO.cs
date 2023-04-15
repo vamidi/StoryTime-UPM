@@ -6,6 +6,7 @@ using UnityEngine.Localization;
 using UnityEditor.Localization;
 
 
+using StoryTime.Database.ScriptableObjects;
 namespace StoryTime.Components.ScriptableObjects
 {
 	using Events.ScriptableObjects;

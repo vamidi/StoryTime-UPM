@@ -1,16 +1,15 @@
 ﻿
 namespace StoryTime.Components.ScriptableObjects
 {
-	using FirebaseService.Database.Binary;
+	using Database.Binary;
 
 	public partial class ItemRecipeSO
 	{
-		public class RecipeCraftTable
+		public ItemRecipeSO ConvertRow(TableRow row, ItemRecipeSO scriptableObject = null)
 		{
-			public static T ConvertRow<T>(TableRow row, T scriptableObject = null) where T : ItemSO
-			{
-				return ItemTable.ConvertRow(row, scriptableObject);
-			}
+			ItemRecipeSO item = scriptableObject ? scriptableObject : CreateInstance<ItemRecipeSO>();
+
+			return base.ConvertRow(row, item) as ItemRecipeSO;
 		}
 	}
 }

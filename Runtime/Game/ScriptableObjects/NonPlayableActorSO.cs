@@ -1,5 +1,6 @@
 using UnityEngine;
 
+using StoryTime.Database.ScriptableObjects;
 namespace StoryTime.Components.ScriptableObjects
 {
 	[CreateAssetMenu(fileName = "newNpc", menuName = "StoryTime/Game/NPC")]

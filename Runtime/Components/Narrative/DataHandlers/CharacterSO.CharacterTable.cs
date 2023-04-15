@@ -1,10 +1,8 @@
 
-using StoryTime.FirebaseService;
 
 namespace StoryTime.Components.ScriptableObjects
 {
-	using FirebaseService.Database.Binary;
-	using Configurations.ScriptableObjects;
+	using Database.Binary;
 
 	/// <summary>
 	/// Dialogue Holder
@@ -12,11 +10,9 @@ namespace StoryTime.Components.ScriptableObjects
 	/// up the dialogue system
 	/// </summary>
 	// ReSharper disable once InconsistentNaming
-	public partial class CharacterSO
+	public partial class CharacterSO : IBaseTable<CharacterSO>
 	{
-		public class CharacterTable : BaseTable<CharacterSO>
-		{
-			public new static CharacterSO ConvertRow(TableRow row, CharacterSO scriptableObject)
+		public CharacterSO ConvertRow(TableRow row, CharacterSO scriptableObject = null)
 			{
 				CharacterSO character = scriptableObject ? scriptableObject : CreateInstance<CharacterSO>();
 
@@ -30,16 +26,12 @@ namespace StoryTime.Components.ScriptableObjects
 			{
 				FirebaseConfigSO config = op.Result;
 #else
-				FirebaseConfigSO config = FirebaseConfigSO.FindSettings();
 #endif
 
-				if (config != null)
-				{
-					character.ID = row.RowId;
-					var entryId = (character.ID + 1).ToString();
+				character.ID = row.RowId;
+				var entryId = (character.ID + 1).ToString();
 
-					if(!character.characterName.IsEmpty) character.characterName.TableEntryReference = entryId;
-				}
+				if(!character.characterName.IsEmpty) character.characterName.TableEntryReference = entryId;
 
 				foreach (var field in row.Fields)
 				{
@@ -65,6 +57,5 @@ namespace StoryTime.Components.ScriptableObjects
 			});
 #endif
 			}
-		}
 	}
 }

@@ -1,8 +1,8 @@
 ﻿using System;
-
 using UnityEngine;
 using UnityEngine.Localization;
 
+using StoryTime.Database.ScriptableObjects;
 namespace StoryTime.Components.ScriptableObjects
 {
 	public enum DamageType

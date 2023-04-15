@@ -55,13 +55,23 @@ namespace StoryTime.ResourceManagement
 			return path;
 		}
 
-		public static void CreateAsset<T>(T item, string destination) where T: ScriptableObject
+		public static T CreateAsset<T>(string destination) where T: ScriptableObject
 		{
 #if UNITY_EDITOR
 			var relativePath = MakePathRelative(destination);
+			if (File.Exists(destination))
+			{
+				return GetAsset<T>(destination, true);
+			}
+
+			T item = ScriptableObject.CreateInstance<T>();
 			AssetDatabase.CreateAsset(item, relativePath);
 			AssetDatabase.Refresh();
 			AssetDatabase.SaveAssets();
+
+			return item;
+#else
+			return null;
 #endif
 		}
 
@@ -83,27 +93,44 @@ namespace StoryTime.ResourceManagement
 
 		public static string GetAssetPath<T>(T obj) where T : Object
 		{
+			return AssetDatabase.GetAssetPath(obj);
+		}
+
+		public static string GetAssetParentFolder<T>(T obj) where T : Object
+		{
 			var path = AssetDatabase.GetAssetPath(obj);
 			if (File.Exists(path))
 			{
-				path = Path.GetDirectoryName(path);
+				return Path.GetDirectoryName(path);
 			}
 
-			return path;
+			return "";
 		}
 
-		public static T[] FindAssetsByType<T>() where T : Object
+		public static string[] FindAssetsByType<T>() where T : Object
 		{
 #if UNITY_EDITOR
 			return AssetDatabase.FindAssets(string.Format("t:{0}", typeof(T)))
-				.Select(p =>
-				{
-					string assetPath = AssetDatabase.GUIDToAssetPath(p);
-					return AssetDatabase.LoadAssetAtPath<T>(assetPath);
-				}).ToArray();
+				.Select(AssetDatabase.GUIDToAssetPath).ToArray();
 #else
 			return [];
 #endif
+		}
+
+		public static T[] FindAndLoadAssets<T>() where T : Object
+		{
+#if UNITY_EDITOR
+			return FindAssetsByType<T>()
+				.Select(AssetDatabase.LoadAssetAtPath<T>).ToArray();
+#else
+			return [];
+#endif
+		}
+
+		public static void RefreshAssets()
+		{
+			AssetDatabase.Refresh();
+			AssetDatabase.SaveAssets();
 		}
 
 		public static void AddFileToAddressable(string groupName, string destination)
