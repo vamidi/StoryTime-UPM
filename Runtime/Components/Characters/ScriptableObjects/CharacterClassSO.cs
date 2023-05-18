@@ -20,17 +20,30 @@ namespace StoryTime.Components.ScriptableObjects
 	// ReSharper disable once InconsistentNaming
 	public partial class CharacterClassSO : LocalizationBehaviour
 	{
-		public LocalizedString ClassName => className;
-		public string ExpCurve => expCurve;
+		public LocalizedString ClassName
+		{
+			get => className;
+			internal set => className = value;
+		}
+
+		public string ExpCurve
+		{
+			get => expCurve;
+			internal set => expCurve = value;
+		}
+
+		public ReadOnlyCollection<SkillSO> Skills => skills.AsReadOnly();
 		public ReadOnlyCollection<CharacterStats> Stats => characterStats.AsReadOnly();
 
-		[SerializeField] private LocalizedString className;
+		[SerializeField] private LocalizedString className = new ();
+
 		[
 			SerializeField,
 #if UNITY_EDITOR
 			ReadOnly
 #endif
 		] protected string expCurve;
+
 		[SerializeField] private List<CharacterStats> characterStats;
 		[SerializeField] private List<SkillSO> skills;
 
@@ -79,16 +92,21 @@ namespace StoryTime.Components.ScriptableObjects
 #if UNITY_EDITOR
 					collection = overrideTable ? collection : LocalizationEditorSettings.GetStringTableCollection("Stat Names");
 #endif
-					stat = CharacterStats.StatTable.ConvertRow(row, collection, stat);
+					stat = CharacterStats.ConvertRow(row, collection, stat);
 
 					characterStats.Add(stat);
 				}
 			}
 		}
 
-		public CharacterStats Find(string alias)
+		public void AddSkill(SkillSO skill)
 		{
-			return characterStats.Find((stat) => stat.Alias == alias);
+			skills.Add(skill);
+		}
+
+		public CharacterStats Find(Attribute alias)
+		{
+			return characterStats.Find((stat) => stat.Attribute == alias);
 		}
 
 		private void ClearModifiers()

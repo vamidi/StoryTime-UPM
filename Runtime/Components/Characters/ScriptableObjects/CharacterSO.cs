@@ -26,14 +26,30 @@ namespace StoryTime.Components.ScriptableObjects
 			internal set => characterName = value;
 		}
 
-		public LocalizedString Description => characterDescription;
+		public LocalizedString Description
+		{
+			get => characterDescription;
+			internal set => characterDescription = value;
+		}
 
-		public CharacterClassSO CharacterClass => characterClass;
+		public CharacterClassSO CharacterClass {
+			get => characterClass;
+			internal set => characterClass = value;
+		}
 
 		public ReadOnlyCollection<EquipmentSO> Equipments => equipments.AsReadOnly();
 
-		public int Level => currentLevel;
-		public int MaxLevel => maxLevel;
+		public int Level
+		{
+			get => currentLevel;
+			internal set => currentLevel = value;
+		}
+
+		public int MaxLevel
+		{
+			get => maxLevel;
+			internal set => maxLevel = value;
+		}
 
 		public int CurrentExp => currentExp;
 		public int MaxExp => maxExp;

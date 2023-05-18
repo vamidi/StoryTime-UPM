@@ -40,7 +40,7 @@ namespace StoryTime.FirebaseService.Database.Editor.UI
 		private string itemsPath = "Assets/Samples/StoryTime/1.4.2-preview/Essentials/ScriptableObjects/Item Management/Items";
 		// private string recipePath = "Assets/Scripts/Industry/Recipe Data";
 
-		[MenuItem("Tools/StoryTime/StoryTime Manager")]
+		[MenuItem("Tools/StoryTime/Asset Manager")]
 		public static void OpenWindow()
 		{
 			GetWindow<StoryTimeEditorWindow>().Show();

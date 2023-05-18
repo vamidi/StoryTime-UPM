@@ -4,8 +4,10 @@ using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 
 using StoryTime.Components.ScriptableObjects;
+
 namespace StoryTime.Editor.UI
 {
+	/* TODO see if we need this
 	public class ClassEditor : EditorTab<CharacterClassSO>
 	{
 		internal new class UxmlFactory : UxmlFactory<ClassEditor> {}
@@ -30,4 +32,5 @@ namespace StoryTime.Editor.UI
 			}
 		}
 	}
+	*/
 }

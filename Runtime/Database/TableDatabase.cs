@@ -23,7 +23,7 @@ namespace StoryTime.Database
     public sealed class TableDatabase
     {
         // private UInt64 DatabaseVersion = 0;
-        public ReadOnlyDictionary<string, TableSO> Tables => new (_tables);
+        public ReadOnlyDictionary<string, LazyLoadReference<TableSO>> Tables => new (_tables);
 
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace StoryTime.Database
         /// This data has the table data from the json files.
         /// ReSharper disable once InconsistentNaming
         /// </summary>
-        private readonly Dictionary<string, TableSO> _tables = new ();
+        private readonly Dictionary<string, LazyLoadReference<TableSO>> _tables = new ();
 
         // Explicit static constructor to tell C# compiler
         // not to mark type as before field init
@@ -39,7 +39,9 @@ namespace StoryTime.Database
 
         private TableDatabase()
         {
+#if UNITY_EDITOR
 	        Refresh();
+#endif
         }
 
         // Get the timestamp of the last synced database version
@@ -132,14 +134,15 @@ namespace StoryTime.Database
         internal TableSO AddTable(string destination, TableMetaData metaData)
         {
 	        TableSO table;
-	        if (!_tables.ContainsKey(metaData.id))
+	        if (_tables.ContainsKey(metaData.id))
 	        {
-		        // load it from the addressable
-		        // if null again
-		        table = HelperClass.CreateAsset<TableSO>(destination);
-		        _tables[metaData.id] = table;
+		        return _tables[metaData.id].asset;
 	        }
-	        else table = _tables[metaData.id];
+
+	        // load it from the addressable
+	        // if null again
+	        table = HelperClass.CreateAsset<TableSO>(destination);
+	        _tables[metaData.id] = table;
 	        return table;
         }
 
@@ -174,7 +177,7 @@ namespace StoryTime.Database
 		        return null;
 	        }
 
-	        return _tables[tableId];
+	        return _tables[tableId].asset;
         }
 
         /// <summary>
@@ -184,20 +187,20 @@ namespace StoryTime.Database
         /// <returns></returns>
         public TableSO GetTableByName(string tableName)
         {
-	        var source = _tables.First(t => t.Value.Metadata.title == tableName);
+	        var source = _tables.First(t => t.Value.asset.Metadata.title == tableName);
 
-	        if (source.Value == null)
+	        if (source.Value.asset == null)
 	        {
 		        Debug.LogWarning($"Could not find {tableName}");
 		        return null;
 	        }
 
-	        return source.Value;
+	        return source.Value.asset;
         }
 
         public string[] GetTableNames()
         {
-	        return _tables.Values.Select(t => t.Metadata.title).ToArray();
+	        return _tables.Values.Select(t => t.asset.Metadata.title).ToArray();
         }
 
         [CanBeNull]

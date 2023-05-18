@@ -2,11 +2,13 @@
 using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 
+using StoryTime.Editor.Wizards;
 using StoryTime.Components.ScriptableObjects;
+
 // ReSharper disable once CheckNamespace
 namespace StoryTime.Editor.UI
 {
-	public class EnemyEditor : EditorTab<EnemySO>
+	public class EnemyEditor : EditorTab<EnemyWizard, EnemySO>
 	{
 		internal new class UxmlFactory : UxmlFactory<EnemyEditor> {}
 

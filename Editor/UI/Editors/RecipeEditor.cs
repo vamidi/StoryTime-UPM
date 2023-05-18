@@ -2,12 +2,12 @@
 using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 
-using StoryTime.Editor.UI;
+using StoryTime.Editor.Wizards;
 using StoryTime.Components.ScriptableObjects;
 
 namespace StoryTime.Editor.UI
 {
-	public class RecipeEditor : EditorTab<ItemRecipeSO>
+	public class RecipeEditor : EditorTab<RecipeWizard, ItemRecipeSO>
 	{
 		internal new class UxmlFactory : UxmlFactory<RecipeEditor> {}
 
@@ -15,6 +15,8 @@ namespace StoryTime.Editor.UI
 		{
 			var asset = Resources.GetTemplateAsset($"Editors/{nameof(RecipeEditor)}");
 			asset.CloneTree(this);
+
+			wizardButtonTitle = "Create Recipe/Craftable";
 		}
 
 		protected override void DrawSelection(Box cardInfo, ItemRecipeSO recipe)

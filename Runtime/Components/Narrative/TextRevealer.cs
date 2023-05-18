@@ -20,7 +20,6 @@ namespace StoryTime.Components
 	public class TextRevealer : MonoBehaviour
 	{
 		[Header("Configuration")]
-		public DialogueSettingConfigSO dialogueSettings;
 		public ActionEvent onAction;
 
 		public int numCharactersFade = 3;
@@ -31,6 +30,8 @@ namespace StoryTime.Components
 		public UnityEvent allRevealed = new UnityEvent();
 
 		public TextMeshProUGUI _text;
+
+		private GameSettingConfigSO _gameSettings;
 
 		private string _originalString = String.Empty;
 		private string _adjustedString = String.Empty;
@@ -256,10 +257,12 @@ namespace StoryTime.Components
 
 		private void Awake()
 		{
+			_gameSettings =  GameSettingConfigSO.GetOrCreateSettings();
+
 			// Grab the text component
 			_text = GetComponent <TextMeshProUGUI>();
 
-			if (dialogueSettings != null) _text.font = dialogueSettings.Font;
+			if (_gameSettings != null) _text.font = _gameSettings.Font;
 		}
 	}
 }

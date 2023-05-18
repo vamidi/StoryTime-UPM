@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using UnityEngine;
+using UnityEngine.Localization;
 
 namespace StoryTime.Components.ScriptableObjects
 {
@@ -27,7 +28,7 @@ namespace StoryTime.Components.ScriptableObjects
 		Necklace,
 	}
 
-	public enum ClassType
+	public enum EquipmentStatType
 	{
 
 	}
@@ -35,7 +36,7 @@ namespace StoryTime.Components.ScriptableObjects
 	[Serializable]
 	public struct EquipmentStat
 	{
-		public string alias;
+		public Attribute alias;
 		public float flat;
 		public StatModType statType;
 	}
@@ -44,14 +45,35 @@ namespace StoryTime.Components.ScriptableObjects
 	// ReSharper disable once InconsistentNaming
 	public partial class EquipmentSO : ItemSO
 	{
-		public EquipmentCategory Category => category;
-		public EquipmentType Type => type;
-		public ClassType ClassType => classType;
+		public LocalizedString EquipmentName
+		{
+			get => equipmentName;
+			internal set => equipmentName = value;
+		}
+
+		public EquipmentCategory Category
+		{
+			get => category;
+			internal set => category = value;
+		}
+
+		public EquipmentType Type
+		{
+			get => type;
+			internal set => type = value;
+		}
+
+		public CharacterClassSO ClassType
+		{
+			get => classType;
+			internal set => classType = value;
+		}
 		public ReadOnlyCollection<EquipmentStat> Stats => stats.AsReadOnly();
 
+		[SerializeField, Tooltip("The equipment name")] protected LocalizedString equipmentName = new ();
 		[SerializeField, Tooltip("In which category this weapon/armor/accessory falls into.")] protected EquipmentCategory category;
 		[SerializeField, Tooltip("The type of weapon or armor this equipment is.")] protected EquipmentType type;
-		[SerializeField, Tooltip("The class where this equipment belongs to.")] protected ClassType classType;
+		[SerializeField, Tooltip("The class where this equipment belongs to.")] protected CharacterClassSO classType;
 		[SerializeField, Tooltip("Which stats this weapon gives")] protected List<EquipmentStat> stats;
 
 		public EquipmentSO() : base("equipments", "name") { }
@@ -62,6 +84,11 @@ namespace StoryTime.Components.ScriptableObjects
 #if UNITY_EDITOR
 			Initialize();
 #endif
+		}
+
+		public void AddStat(EquipmentStat stat)
+		{
+			stats.Add(stat);
 		}
 
 		protected override void OnTableIDChanged()
@@ -96,7 +123,10 @@ namespace StoryTime.Components.ScriptableObjects
 
 					if (field.Key.Equals("alias"))
 					{
-						stat.alias = (string)field.Value.Data;
+						stat.alias = new Attribute
+						{
+							alias = (AttributeType)field.Value.Data
+						};
 					}
 
 					if (field.Key.Equals("statType"))
@@ -105,7 +135,7 @@ namespace StoryTime.Components.ScriptableObjects
 					}
 				}
 
-				stats.Add(stat);
+				AddStat(stat);
 			}
 		}
 	}

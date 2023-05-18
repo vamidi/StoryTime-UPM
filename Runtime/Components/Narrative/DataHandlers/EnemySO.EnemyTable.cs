@@ -1,14 +1,14 @@
-using UnityEngine;
-
+// ReSharper disable once CheckNamespace
 namespace StoryTime.Components.ScriptableObjects
 {
 	using Database.Binary;
 
+	// ReSharper disable once InconsistentNaming
 	public partial class EnemySO : IBaseTable<EnemySO>
 	{
 		public EnemySO ConvertRow(TableRow row, EnemySO scriptableObject = null)
 		{
-			EnemySO enemy = scriptableObject ? scriptableObject : ScriptableObject.CreateInstance<EnemySO>();
+			EnemySO enemy = scriptableObject ? scriptableObject : CreateInstance<EnemySO>();
 
 			if (row.Fields.Count == 0)
 			{
@@ -24,12 +24,16 @@ namespace StoryTime.Components.ScriptableObjects
 
 				if (field.Key.Equals("category"))
 				{
-					enemy.Category = (uint) field.Value.Data;
+					enemy.Category = new EnemyCategory
+					{
+						categoryId = (uint)field.Value.Data
+					};
 				}
 
 				if (field.Key.Equals("name"))
 				{
-					enemy.EnemyName = (string) field.Value.Data;
+					// TODO fixme
+					// enemy.EnemyName = (string) field.Value.Data;
 				}
 			}
 

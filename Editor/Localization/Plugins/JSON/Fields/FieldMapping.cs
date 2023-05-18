@@ -15,9 +15,9 @@ namespace StoryTime.Editor.Localization.Plugins.JSON.Fields
 		/// Creates a KeyColumn at "A" and then a <see cref="LocaleColumn"/> for each <see cref="Locale"/> in the project, each mapped to a unique Column.
 		/// </summary>
 		/// <returns></returns>
-		public static List<SheetColumn> CreateDefaultMapping()
+		public static List<SheetColumn> CreateDefaultMapping(string columnText = "text")
 		{
-			var columns = new List<SheetColumn> { new JsonField {Column = "text" } };
+			var columns = new List<SheetColumn> { new JsonField {Column = columnText } };
 			AddLocaleMappings(columns);
 			return columns;
 		}

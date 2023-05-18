@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using StoryTime.Utils.Configurations;
 using StoryTime.Utils.Extensions;
 using TMPro;
@@ -13,7 +14,7 @@ namespace StoryTime.Configurations.ScriptableObjects
 
 	[CreateAssetMenu(menuName = "StoryTime/Configurations/Dialogue Setting File", fileName = "DialogueSettingConfig")]
 	// ReSharper disable once InconsistentNaming
-	public class DialogueSettingConfigSO : ScriptableObject
+	public class GameSettingConfigSO : ScriptableObject
 	{
 		public TMP_FontAsset Font { get => font; set => font = value; }
 		public AudioClip PunctuationClip { get => punctuationClip; set => punctuationClip = value; }
@@ -36,25 +37,26 @@ namespace StoryTime.Configurations.ScriptableObjects
 		[SerializeField, Tooltip("Automatic resize the text when there is less or lots of text on screen.")] private bool autoResize = true;
 		[SerializeField, Tooltip("Whether to show the dialogue all at once.")] private bool showDialogueAtOnce = true;
 		[SerializeField, Tooltip("Show text with animation")] private bool animatedText = true;
-		[SerializeField, Tooltip("The selected table for fetching dialogue tables")] private string dialogueTableId = "";
 
-		internal static DialogueSettingConfigSO GetOrCreateSettings()
+		[SerializeField, Tooltip("The selected table for fetching localized data")] private List<string> tableIds = new();
+
+		internal static GameSettingConfigSO GetOrCreateSettings()
 		{
 			PathLocations locations = PathLocations.FetchPathLocations();
-			string destination = $"{SettingsPath}/DialogueSettingConfigSO.asset";
+			string destination = $"{SettingsPath}/GameSettingConfigSO.asset";
 
 			// if we have a new location grab it
 			if (!locations.GlobalSettings.IsNullOrEmpty())
 			{
-				destination = locations.DialogueSettings;
+				destination = locations.GameSettings;
 			}
 
-			var settings = HelperClass.GetAsset<DialogueSettingConfigSO>(destination);
+			var settings = HelperClass.GetAsset<GameSettingConfigSO>(destination);
 
 #if UNITY_EDITOR
 			if (settings == null)
 			{
-				settings = HelperClass.CreateAsset<DialogueSettingConfigSO>(destination);
+				settings = HelperClass.CreateAsset<GameSettingConfigSO>(destination);
 			}
 #endif
 			if (settings == null)

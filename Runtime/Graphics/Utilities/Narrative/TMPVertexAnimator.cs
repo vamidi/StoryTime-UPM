@@ -57,7 +57,7 @@ namespace StoryTime.Utils.Components
 		private bool m_StopAnimating;
 		private bool _isRevealing;
 
-		private DialogueSettingConfigSO m_Config;
+		private GameSettingConfigSO m_Config;
 
 		private List<DialogueCommand> m_Commands = new List<DialogueCommand>();
 
@@ -251,7 +251,7 @@ namespace StoryTime.Utils.Components
 		{
 			base.Awake();
 
-			m_Config = DialogueSettingConfigSO.GetOrCreateSettings();
+			m_Config = GameSettingConfigSO.GetOrCreateSettings();
 
 			if (m_Config != null && useConfig)
 			{

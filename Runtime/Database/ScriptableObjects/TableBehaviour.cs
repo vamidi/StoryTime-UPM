@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-
 using UnityEngine;
 
+using UnityEditor;
+
+using StoryTime.Configurations.ScriptableObjects;
 namespace StoryTime.Database.ScriptableObjects
 {
 	using Binary;
@@ -14,7 +16,7 @@ namespace StoryTime.Database.ScriptableObjects
 	    public UInt32 ID
 	    {
 		    get => id;
-		    set {
+		    internal set {
 			    id = value;
 #if UNITY_EDITOR
 			    OnTableIDChanged();
@@ -25,11 +27,11 @@ namespace StoryTime.Database.ScriptableObjects
 	    /// <summary>
 	    /// Name of the table that we are using.
 	    /// </summary>
-	    public string Name { get => tableName; protected set => tableName = value; }
-	    public string DropdownColumn { get => dropdownColumn; protected set => dropdownColumn = value; }
-	    public UInt32 LinkedID { get => linkID; protected set => linkID = value; }
-	    public string LinkedColumn { get => linkedColumn; protected set => linkedColumn = value; }
-		public string LinkedTable { get => linkedTable; protected set => linkedTable = value; }
+	    public string Name { get => tableName; internal set => tableName = value; }
+	    public string DropdownColumn { get => dropdownColumn; internal set => dropdownColumn = value; }
+	    public UInt32 LinkedID { get => linkID; internal set => linkID = value; }
+	    public string LinkedColumn { get => linkedColumn; internal set => linkedColumn = value; }
+		public string LinkedTable { get => linkedTable; internal set => linkedTable = value; }
 
 	    [SerializeField, HideInInspector] private UInt32 id = UInt32.MaxValue;
 	    [SerializeField, HideInInspector] private string tableName = String.Empty;
@@ -76,6 +78,27 @@ namespace StoryTime.Database.ScriptableObjects
 				});
 		    }
 #endif
+	    }
+
+	    public virtual void Awake()
+	    {
+		    /*
+		    var aaSettings = GlobalSettingsSO.GetOrCreateSettings().GetAddressableAssetSettings(true);
+		    if (aaSettings == null)
+			    return;
+
+		    var tableEntry = TableType == typeof(StringTable) ? AddressableGroupRules.AddStringTableAsset(table, aaSettings, createUndo));
+
+		    if (createUndo)
+			    Undo.RecordObjects(new UnityEngine.Object[] { aaSettings, tableEntry.parentGroup }, "Update table");
+
+		    tableEntry.address = AddressHelper.GetTableAddress(table.TableCollectionName, table.LocaleIdentifier);
+		    tableEntry.labels.RemoveWhere(AddressHelper.IsLocaleLabel); // Locale may have changed so clear the old ones.
+
+		    // Label the locale
+		    var localeLabel = AddressHelper.FormatAssetLabel(table.LocaleIdentifier);
+		    tableEntry.SetLabel(localeLabel, true, true);
+		    */
 	    }
 
 	    public virtual void Reset() { }

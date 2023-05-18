@@ -2,12 +2,12 @@
 using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 
-using StoryTime.Editor.UI;
+using StoryTime.Editor.Wizards;
 using StoryTime.Components.ScriptableObjects;
-
+// ReSharper disable once CheckNamespace
 namespace StoryTime.Editor.UI
 {
-	public class SkillEditor : EditorTab<SkillSO>
+	public class SkillEditor : EditorTab<SkillWizard, SkillSO>
 	{
 		internal new class UxmlFactory : UxmlFactory<SkillEditor> {}
 
@@ -15,6 +15,8 @@ namespace StoryTime.Editor.UI
 		{
 			var asset = Resources.GetTemplateAsset($"Editors/{nameof(SkillEditor)}");
 			asset.CloneTree(this);
+
+			wizardButtonTitle = "Create Skill";
 		}
 
 		protected override void DrawSelection(Box cardInfo, SkillSO characterClass)

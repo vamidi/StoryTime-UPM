@@ -29,7 +29,7 @@ namespace StoryTime.Components.ScriptableObjects
 		public LocalizedString Description => description;
 		public bool Hidden { get => hidden; set => hidden = value; }
 		public uint Npc { get => npc; set => npc = value; }
-		public uint EnemyCategory => enemyCategory;
+		public EnemySO.EnemyCategory EnemyCategory => enemyCategory;
 		public uint ParentId { get; set; } = UInt32.MaxValue;
 		public uint RequiredCount { get => requiredCount; set => requiredCount = value; }
 		public List<ItemStack> Items { get => items; set => items = value; }
@@ -56,7 +56,7 @@ namespace StoryTime.Components.ScriptableObjects
 		private uint npc = UInt32.MaxValue;
 
 		// TODO show category instead of number
-		[SerializeField, HideInInspector, Tooltip("Which enemy category do we need to hunt")] private uint enemyCategory = UInt32.MaxValue;
+		[SerializeField, HideInInspector, Tooltip("Which enemy category do we need to hunt")] private EnemySO.EnemyCategory enemyCategory = new ();
 
 		// Reference to the parent, which is the quest.
 

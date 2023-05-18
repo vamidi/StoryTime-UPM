@@ -83,7 +83,7 @@ namespace StoryTime.Components.ScriptableObjects
 					var linkField = skill.GetField("attributes", "alias", paramId);
 					if (linkField != null)
 					{
-						skill.magicCurve = linkField.Data;
+						// skill.magicCurve = linkField.Data;
 					}
 				}
 
@@ -93,7 +93,7 @@ namespace StoryTime.Components.ScriptableObjects
 					var linkField = skill.GetField("attributes", "alias", paramId);
 					if (linkField != null)
 					{
-						skill.parameter = linkField.Data;
+						// skill.parameter = linkField.Data;
 					}
 				}
 

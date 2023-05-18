@@ -15,7 +15,7 @@ namespace StoryTime.Utils.Configurations
 
 		internal string GlobalSettings;
 		internal string FirebaseSettings;
-		internal string DialogueSettings;
+		internal string GameSettings;
 
 		internal static PathLocations FetchPathLocations()
 		{
@@ -31,7 +31,7 @@ namespace StoryTime.Utils.Configurations
 			{
 				GlobalSettings = item["GlobalSettings"]?.ToObject<string>() ?? "",
 				FirebaseSettings = item["FirebaseSettings"]?.ToObject<string>() ?? "",
-				DialogueSettings = item["DialogueSettings"]?.ToObject<string>() ?? ""
+				GameSettings = item["GameSettings"]?.ToObject<string>() ?? ""
 			};
 		}
 
@@ -42,7 +42,7 @@ namespace StoryTime.Utils.Configurations
 			var oldLocations = FetchPathLocations();
 			if (oldLocations.GlobalSettings == locations.GlobalSettings &&
 			    oldLocations.FirebaseSettings == locations.FirebaseSettings &&
-			    oldLocations.DialogueSettings == locations.DialogueSettings
+			    oldLocations.GameSettings == locations.GameSettings
 			   )
 			{
 				Debug.Log("No changes found");
@@ -54,7 +54,7 @@ namespace StoryTime.Utils.Configurations
 			JObject locObject = new JObject(
 				new JProperty("GlobalSettings", locations.GlobalSettings),
 				new JProperty("FirebaseSettings", locations.FirebaseSettings),
-				new JProperty("DialogueSettings", locations.DialogueSettings)
+				new JProperty("GameSettings", locations.GameSettings)
 			);
 
 			File.WriteAllText(destination, locObject.ToString());
@@ -71,7 +71,7 @@ namespace StoryTime.Utils.Configurations
 
 		public override string ToString()
 		{
-			return $"Global: {GlobalSettings}, Firebase: {FirebaseSettings}, DialogueSettings: {DialogueSettings}";
+			return $"Global: {GlobalSettings}, Firebase: {FirebaseSettings}, DialogueSettings: {GameSettings}";
 		}
 	}
 }

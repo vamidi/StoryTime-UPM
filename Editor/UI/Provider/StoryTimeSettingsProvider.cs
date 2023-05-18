@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Collections.ObjectModel;
@@ -13,22 +14,20 @@ using UnityEngine.UIElements;
 
 using TMPro;
 using UnityEditor.Localization;
-using UnityEditor.Localization.UI;
 using UnityEngine.Localization;
-using UnityEngine.Localization.Settings;
+using UnityEditor.Localization.UI;
 
 using StoryTime.Database;
 using StoryTime.Utils.Extensions;
 using StoryTime.Utils.Configurations;
-using StoryTime.Database.ScriptableObjects;
 using UnityEditor.Localization.Reporting;
+using StoryTime.Database.ScriptableObjects;
+using StoryTime.Editor.Localization.Plugins.JSON.Fields;
 
 // ReSharper disable once CheckNamespace
 namespace StoryTime.Editor.UI
 {
 	using Localization.Plugins.JSON;
-	using Localization.Plugins.JSON.Fields;
-
 
 	// using FirebaseService.Database;
 	using FirebaseService.Settings;
@@ -36,13 +35,29 @@ namespace StoryTime.Editor.UI
 
 	public class StoryTimeSettingsProvider : SettingsProvider
 	{
-		private SerializedObject settings;
-		private SerializedObject globalSettings;
-		private SerializedObject dialogueSettings;
+		protected class LocalizationData
+		{
+			/// <summary>
+			/// Table name value from the <see cref="TableDatabase"/>
+			/// </summary>
+			public string Table = "";
 
-		private const string defaultDialogueTable = "dialogues";
+			/// <summary>
+			/// Localized table names from <see cref="StringTableCollection"/>
+			/// </summary>
+			public string[] TableNames;
 
-		// Register the SettingsProvider
+			/// <summary>
+			/// The columns that we should retrieve inside the <see cref="TableSO"/>
+			/// </summary>
+			public string[] Columns;
+		}
+
+		private SerializedObject _settings;
+		private SerializedObject _globalSettings;
+		private SerializedObject _gameSettings;
+
+			// Register the SettingsProvider
 		[SettingsProvider]
 		public static SettingsProvider CreateMyCustomSettingsProvider()
 		{
@@ -71,12 +86,13 @@ namespace StoryTime.Editor.UI
 			Debug.Log("Activate");
 
 			// This function is called when the user clicks on the MyCustom element in the Settings window.
-			settings = FirebaseConfigSO.GetSerializedSettings();
-			globalSettings = GlobalSettingsSO.GetSerializedSettings();
+			_settings = FirebaseConfigSO.GetSerializedSettings();
+			_globalSettings = GlobalSettingsSO.GetSerializedSettings();
 
-			var dialogueConfig = ((GlobalSettingsSO)globalSettings.targetObject).DialogueSettings;
-			if(dialogueConfig) {
-				dialogueSettings = new SerializedObject(dialogueConfig);
+			var gameConfig = ((GlobalSettingsSO)_globalSettings.targetObject).GameSettings;
+			if (gameConfig)
+			{
+				_gameSettings = new SerializedObject(gameConfig);
 			}
 
 			var asset = Resources.GetTemplateAsset("DatabaseSyncWindow");
@@ -110,6 +126,147 @@ namespace StoryTime.Editor.UI
 			*/
 		}
 
+		protected virtual List<LocalizationData> GetLocalizationData()
+		{
+			return new ()
+			{
+				new LocalizationData
+				{
+					Table = "Dialogues",
+					TableNames = new [] { "Dialogues" },
+					Columns = new [] { "text" }
+				},
+
+				new LocalizationData
+				{
+					Table = "Characters",
+					TableNames = new [] { "Character Names" },
+					Columns = new [] { "name" }
+				},
+
+				new LocalizationData
+				{
+					Table = "Stories",
+					TableNames = new [] { "Story Titles", "Story Descriptions" },
+					Columns = new [] { "title", "description" }
+				},
+
+				new LocalizationData
+				{
+					Table = "Items",
+					TableNames = new [] { "Item Names", "Item Descriptions" },
+					Columns = new [] { "name", "description" }
+				},
+
+				new LocalizationData
+				{
+					Table = "Enemies",
+					TableNames = new [] { "Enemies" },
+					Columns = new [] { "name" }
+				},
+
+				new LocalizationData
+				{
+					Table = "Tasks",
+					TableNames = new [] { "Tasks" },
+					Columns = new [] { "description" }
+				},
+
+				new LocalizationData
+				{
+					Table = "Classes",
+					TableNames = new [] { "Classes" },
+					Columns = new [] { "className" }
+				},
+
+				new LocalizationData
+				{
+					Table = "Skills",
+					TableNames = new [] { "Skill Names", "Skill Descriptions" },
+					Columns = new [] { "name", "description" }
+				},
+
+				new LocalizationData
+				{
+					Table = "Equipments",
+					TableNames = new [] { "Equipment Names", "Equipment Descriptions" },
+					Columns = new [] { "name", "description" }
+				},
+
+				new LocalizationData
+				{
+					Table = "EffectTypes",
+					TableNames = new [] { "Effect Types" },
+					Columns = new [] { "name" }
+				},
+				new LocalizationData
+				{
+					Table = "EnemyCategories",
+					TableNames = new [] { "Enemy Categories" },
+					Columns = new [] { "name" }
+				},
+
+				/* TODO what do we want to do for equipment types
+				new LocalizationData
+				{
+					Table = "EquipmentTypes",
+					TableNames = new [] { "Dialogues" },
+					Columns = new [] { "text" }
+				},
+				*/
+
+				new LocalizationData
+				{
+					Table = "ItemTypes",
+					TableNames = new [] { "Item Types" },
+					Columns = new [] { "name" }
+				},
+
+				new LocalizationData
+				{
+					Table = "NonPlayableCharacters",
+					TableNames = new [] { "NPC Names", "NPC Descriptions" },
+					Columns = new [] { "name", "description" }
+				},
+
+				new LocalizationData
+				{
+					Table = "Attributes",
+					TableNames = new [] { "Attribute Names" },
+					Columns = new [] { "paramName" }
+				},
+
+				new LocalizationData
+				{
+					Table = "QuestTypes",
+					TableNames = new [] { "Quest Types" },
+					Columns = new [] { "name" }
+				},
+
+				new LocalizationData
+				{
+					Table = "RewardTypes",
+					TableNames = new [] { "Reward Types" },
+					Columns = new [] { "name" }
+				},
+
+				// TODO add descriptions for the shop owners
+				new LocalizationData
+				{
+					Table = "Shops",
+					TableNames = new [] { "Shop Names" },
+					Columns = new [] { "name" }
+				},
+
+				new LocalizationData
+				{
+					Table = "TaskCompletionTypes",
+					TableNames = new [] { "Task Completion Types" },
+					Columns = new [] { "name" }
+				}
+			};
+		}
+
 		// TODO refactor this because this is duplicate code from DatabaseSyncWindow
 		private void Initialize(VisualElement root)
 		{
@@ -119,8 +276,8 @@ namespace StoryTime.Editor.UI
 			// First get the settings field and bind it to the config file.
 			var globalConfigField = root.Q<ObjectField>("global-config-field");
 			globalConfigField.objectType = typeof(GlobalSettingsSO);
-			globalConfigField.value = globalSettings.targetObject;
-			globalConfigField.Bind(globalSettings);
+			globalConfigField.value = _globalSettings.targetObject;
+			globalConfigField.Bind(_globalSettings);
 
 			globalConfigField.RegisterValueChangedCallback((evt) =>
 			{
@@ -136,8 +293,8 @@ namespace StoryTime.Editor.UI
 					PathLocations.SavePathLocations(new PathLocations
 					{
 						GlobalSettings = ResourceManagement.HelperClass.GetAssetPath(config),
-						FirebaseSettings = ResourceManagement.HelperClass.GetAssetPath(settings.targetObject),
-						DialogueSettings = ResourceManagement.HelperClass.GetAssetPath(dialogueSettings.targetObject),
+						FirebaseSettings = ResourceManagement.HelperClass.GetAssetPath(_settings.targetObject),
+						GameSettings = ResourceManagement.HelperClass.GetAssetPath(_gameSettings.targetObject),
 					});
 				}
 				else
@@ -154,8 +311,8 @@ namespace StoryTime.Editor.UI
 			// First get the settings field and bind it to the config file.
 			var field = root.Q<ObjectField>("config-field");
 			field.objectType = typeof(FirebaseConfigSO);
-			field.value = settings.targetObject;
-			field.Bind(settings);
+			field.value = _settings.targetObject;
+			field.Bind(_settings);
 
 			field.RegisterValueChangedCallback((evt) =>
 			{
@@ -169,9 +326,9 @@ namespace StoryTime.Editor.UI
 
 					PathLocations.SavePathLocations(new PathLocations
 					{
-						GlobalSettings = ResourceManagement.HelperClass.GetAssetPath(globalSettings.targetObject),
+						GlobalSettings = ResourceManagement.HelperClass.GetAssetPath(_globalSettings.targetObject),
 						FirebaseSettings = ResourceManagement.HelperClass.GetAssetPath(config),
-						DialogueSettings = ResourceManagement.HelperClass.GetAssetPath(dialogueSettings.targetObject),
+						GameSettings = ResourceManagement.HelperClass.GetAssetPath(_gameSettings.targetObject),
 					});
 				}
 				else
@@ -182,14 +339,14 @@ namespace StoryTime.Editor.UI
 			});
 
 			// First get the dialogue config instance id if existing
-			var dialogueConfigField = root.Q<ObjectField>("dialogue-config-field");
-			dialogueConfigField.objectType = typeof(DialogueSettingConfigSO);
-			dialogueConfigField.value = dialogueSettings.targetObject;
-			dialogueConfigField.Bind(dialogueSettings);
+			var dialogueConfigField = root.Q<ObjectField>("game-config-field");
+			dialogueConfigField.objectType = typeof(GameSettingConfigSO);
+			dialogueConfigField.value = _gameSettings.targetObject;
+			dialogueConfigField.Bind(_gameSettings);
 
 			dialogueConfigField.RegisterValueChangedCallback((evt) =>
 			{
-				var config = evt.newValue as DialogueSettingConfigSO;
+				var config = evt.newValue as GameSettingConfigSO;
 				if (config != null)
 				{
 					// then get the config file is selected
@@ -199,9 +356,9 @@ namespace StoryTime.Editor.UI
 
 					PathLocations.SavePathLocations(new PathLocations
 					{
-						GlobalSettings = ResourceManagement.HelperClass.GetAssetPath(globalSettings.targetObject),
-						FirebaseSettings = ResourceManagement.HelperClass.GetAssetPath(settings.targetObject),
-						DialogueSettings = ResourceManagement.HelperClass.GetAssetPath(config),
+						GlobalSettings = ResourceManagement.HelperClass.GetAssetPath(_globalSettings.targetObject),
+						FirebaseSettings = ResourceManagement.HelperClass.GetAssetPath(_settings.targetObject),
+						GameSettings = ResourceManagement.HelperClass.GetAssetPath(config),
 					});
 				}
 				else
@@ -213,28 +370,28 @@ namespace StoryTime.Editor.UI
 
 			PopulateProperties(root);
 
-	        // TODO able to reset the token if users are switching to different environments.
+			// TODO able to reset the token if users are switching to different environments.
 
-	        /*
-	        m_TabToggles = root.Query<ToolbarToggle>().ToList();
-            m_TabPanels = new List<VisualElement>();
-            for (int i = 0; i < m_TabToggles.Count; ++i)
-            {
-                var toggle = m_TabToggles[i];
-                var panelName = $"{toggle.name}-panel";
-                var panel = root.Q(panelName);
-                Debug.Assert(panel != null, $"Could not find panel \"{panelName}\"");
-                m_TabPanels.Add(panel);
-                panel.style.display = SelectedTab == i ? DisplayStyle.Flex : DisplayStyle.None;
-                toggle.value = SelectedTab == i;
-                int idx = i;
-                toggle.RegisterValueChangedCallback((chg) => TabSelected(idx));
-            }
-            Debug.Assert(m_TabPanels.Count == m_TabToggles.Count, "Expected the same number of tab toggle buttons and panels.");
-            */
+			/*
+			m_TabToggles = root.Query<ToolbarToggle>().ToList();
+		    m_TabPanels = new List<VisualElement>();
+		    for (int i = 0; i < m_TabToggles.Count; ++i)
+		    {
+		        var toggle = m_TabToggles[i];
+		        var panelName = $"{toggle.name}-panel";
+		        var panel = root.Q(panelName);
+		        Debug.Assert(panel != null, $"Could not find panel \"{panelName}\"");
+		        m_TabPanels.Add(panel);
+		        panel.style.display = SelectedTab == i ? DisplayStyle.Flex : DisplayStyle.None;
+		        toggle.value = SelectedTab == i;
+		        int idx = i;
+		        toggle.RegisterValueChangedCallback((chg) => TabSelected(idx));
+		    }
+		    Debug.Assert(m_TabPanels.Count == m_TabToggles.Count, "Expected the same number of tab toggle buttons and panels.");
+		    */
 		}
 
-		private void SaveConfig(FirebaseConfigSO configFile, DialogueSettingConfigSO dialogueSettingConfig = null)
+		private void SaveConfig(FirebaseConfigSO configFile, GameSettingConfigSO dialogueSettingConfig = null)
 		{
 			if (configFile != null)
 			{
@@ -258,7 +415,7 @@ namespace StoryTime.Editor.UI
 		{
 			// Global settings
 
-			SerializedProperty dataPathProp = globalSettings.FindProperty("dataPath");
+			SerializedProperty dataPathProp = _globalSettings.FindProperty("dataPath");
 			root.Q<TextField>("data-path-field").BindProperty(dataPathProp);
 
 			root.Q<Button>("btn-choose-path").clickable.clicked += () =>
@@ -268,20 +425,21 @@ namespace StoryTime.Editor.UI
 					return;
 
 				dataPathProp.stringValue = assetDirectory;
-				globalSettings.ApplyModifiedProperties();
+				_globalSettings.ApplyModifiedProperties();
 				// SaveConfig(configFile);
 			};
 
 			// configure the buttons
-			root.Q<Button>("btn-save").clickable.clicked += () => SaveConfig(settings.targetObject as FirebaseConfigSO, dialogueSettings.targetObject as DialogueSettingConfigSO);
+			root.Q<Button>("btn-save").clickable.clicked += () => SaveConfig(_settings.targetObject as FirebaseConfigSO,
+				_gameSettings.targetObject as GameSettingConfigSO);
 
 			// Dialogue Settings
-			SerializedProperty fontProp = dialogueSettings.FindProperty("font");
-			SerializedProperty autoResizeProp = dialogueSettings.FindProperty("autoResize");
-			SerializedProperty animatedTextProp = dialogueSettings.FindProperty("animatedText");
-			SerializedProperty showDialogueAtOnceProp = dialogueSettings.FindProperty("showDialogueAtOnce");
-			SerializedProperty voiceClipProp = dialogueSettings.FindProperty("voiceClip");
-			SerializedProperty punctuationClipProp = dialogueSettings.FindProperty("punctuationClip");
+			SerializedProperty fontProp = _gameSettings.FindProperty("font");
+			SerializedProperty autoResizeProp = _gameSettings.FindProperty("autoResize");
+			SerializedProperty animatedTextProp = _gameSettings.FindProperty("animatedText");
+			SerializedProperty showDialogueAtOnceProp = _gameSettings.FindProperty("showDialogueAtOnce");
+			SerializedProperty voiceClipProp = _gameSettings.FindProperty("voiceClip");
+			SerializedProperty punctuationClipProp = _gameSettings.FindProperty("punctuationClip");
 
 			var toggle = root.Q<Toggle>("dialogue-resize-field");
 			toggle.value = autoResizeProp.boolValue;
@@ -292,7 +450,7 @@ namespace StoryTime.Editor.UI
 			toggle.RegisterValueChangedCallback(evt =>
 			{
 				animatedTextProp.boolValue = evt.newValue;
-				dialogueSettings.ApplyModifiedProperties();
+				_gameSettings.ApplyModifiedProperties();
 			});
 
 			toggle = root.Q<Toggle>("dialogue-show-field");
@@ -300,7 +458,7 @@ namespace StoryTime.Editor.UI
 			toggle.RegisterValueChangedCallback(evt =>
 			{
 				showDialogueAtOnceProp.boolValue = evt.newValue;
-				dialogueSettings.ApplyModifiedProperties();
+				_gameSettings.ApplyModifiedProperties();
 			});
 
 			var audioClipField = root.Q<ObjectField>("dialogue-char-clip-field");
@@ -309,7 +467,7 @@ namespace StoryTime.Editor.UI
 			audioClipField.RegisterValueChangedCallback(evt =>
 			{
 				voiceClipProp.objectReferenceValue = evt.newValue as AudioClip;
-				dialogueSettings.ApplyModifiedProperties();
+				_gameSettings.ApplyModifiedProperties();
 			});
 
 			audioClipField = root.Q<ObjectField>("dialogue-punctuation-field");
@@ -318,7 +476,7 @@ namespace StoryTime.Editor.UI
 			audioClipField.RegisterValueChangedCallback(evt =>
 			{
 				punctuationClipProp.objectReferenceValue = evt.newValue as AudioClip;
-				dialogueSettings.ApplyModifiedProperties();
+				_gameSettings.ApplyModifiedProperties();
 			});
 
 			var fontField = root.Q<ObjectField>("dialogue-font-field");
@@ -330,22 +488,22 @@ namespace StoryTime.Editor.UI
 				if (newValue != null)
 				{
 					fontProp.objectReferenceValue = newValue;
-					dialogueSettings.ApplyModifiedProperties();
+					_gameSettings.ApplyModifiedProperties();
 				}
 			});
 
 			// Firebase settings
 
-			SerializedProperty databaseUrlProp = settings.FindProperty("databaseURL");
-			SerializedProperty storageBucketProp = settings.FindProperty("storageBucket");
-			SerializedProperty projectIDProp = settings.FindProperty("projectID");
+			SerializedProperty databaseUrlProp = _settings.FindProperty("databaseURL");
+			SerializedProperty storageBucketProp = _settings.FindProperty("storageBucket");
+			SerializedProperty projectIDProp = _settings.FindProperty("projectID");
 			// SerializedProperty useServerProp = settings.FindProperty("useServer");
 
 			root.Q<TextField>("database-url-field").BindProperty(databaseUrlProp);
 			root.Q<TextField>("storage-bucket-field").BindProperty(storageBucketProp);
 
 			var dropdown = root.Q<DropdownField>("project-id-field");
-			var config = settings.targetObject as FirebaseConfigSO;
+			var config = _settings.targetObject as FirebaseConfigSO;
 			if (config != null)
 			{
 				dropdown.value = config.Projects[projectIDProp.stringValue];
@@ -354,36 +512,73 @@ namespace StoryTime.Editor.UI
 				{
 					var selected = config.Projects.FirstOrDefault(x => x.Value == evt.newValue).Key;
 					projectIDProp.stringValue = selected;
-					settings.ApplyModifiedProperties();
+					_settings.ApplyModifiedProperties();
 				});
 			}
 
-			// Dialogue settings
-			SerializedProperty tableIdProp = dialogueSettings.FindProperty("dialogueTableId");
+			// Game settings
+			PopulateLocalizationFields(root);
+		}
 
-			string dialogueTableId = !tableIdProp.stringValue.IsNullOrEmpty()
-				? tableIdProp.stringValue
-				: defaultDialogueTable;
+		private void PopulateLocalizationFields(VisualElement root)
+		{
+			// get the array for the of the prop
+			SerializedProperty tableIdsProp = _gameSettings.FindProperty("tableIds");
 
-			TableSO tableSo = TableDatabase.Get.GetTable(dialogueTableId);
-			dropdown = root.Q<DropdownField>("dialogue-fetch-field");
-			dropdown.value = tableSo ? tableSo.Metadata.title.UcFirst() : "";
-			dropdown.choices = TableDatabase.Get.GetTableNames().Select(t => t.UcFirst()).ToList();
-			dropdown.RegisterValueChangedCallback(evt =>
+			// loop through all the localization data
+			var localizedData = GetLocalizationData();
+			foreach (var ld in localizedData)
 			{
-				var toLower = evt.newValue.LcFirst();
-				TableSO table = TableDatabase.Get.GetTableByName(toLower);
-				if (!table)
-				{
-					return;
-				}
-				tableIdProp.stringValue = table.ID;
-				dialogueSettings.ApplyModifiedProperties();
-			});
+				// get the table
+				TableSO tableSo = TableDatabase.Get.GetTableByName(ld.Table.LcFirst());
 
-			// TODO make it possible to import stories, items etc
+				if (tableSo == null)
+				{
+					continue;
+				}
+
+				var dropdown = root.Q<DropdownField>($"{ld.Table.LcFirst()}-fetch-field");
+
+				if (dropdown == null)
+				{
+					continue;
+				}
+
+				// if (dropdown == null)
+				// {
+				// 	throw new ArgumentNullException($"Can't find field {ld.LcFirst()}");
+				// }
+
+				dropdown.value = tableSo ? tableSo.Metadata.title.UcFirst() : "";
+				dropdown.choices = localizedData.Select(t => t.Table.UcFirst()).ToList();
+				dropdown.RegisterValueChangedCallback(_ =>
+				{
+					// var toLower = evt.newValue.LcFirst();
+					// TableSO table = TableDatabase.Get.GetTableByName(toLower);
+					if (!tableSo)
+					{
+						return;
+					}
+
+					if (tableIdsProp.arraySize > 0)
+					{
+						for (int i = 0; i < tableIdsProp.arraySize; i++)
+						{
+							// If we found the table id already don't add it to the array.
+							if (tableIdsProp.GetArrayElementAtIndex(i).stringValue == tableSo.ID)
+								return;
+						}
+					}
+
+					tableIdsProp.arraySize++;
+					var newEntry = tableIdsProp.GetArrayElementAtIndex(tableIdsProp.arraySize - 1);
+					newEntry.stringValue = tableSo.ID;
+					_gameSettings.ApplyModifiedProperties();
+				});
+			}
+
 			// TODO make this async if it takes a long time
-			var fetchDialogueBtn = root.Q<Button>("btn-fetch-dialogue");
+			var fetchDialogueBtn = root.Q<Button>("btn-fetch-data");
 			fetchDialogueBtn.clickable.clicked += () =>
 			{
 				if (!Directory.Exists($"{Application.dataPath}/Localization"))
@@ -392,48 +587,75 @@ namespace StoryTime.Editor.UI
 					Directory.CreateDirectory($"{Application.dataPath}/Localization");
 				}
 
-				ReadOnlyCollection<Locale> locales = LocalizationEditorSettings.GetLocales();
-				StringTableCollection createdCollection = LocalizationEditorSettings.GetStringTableCollection(tableSo.Metadata.title.UcFirst());
-				if (createdCollection == null)
+
+				foreach (var ld in localizedData)
 				{
-					createdCollection = LocalizationEditorSettings.CreateStringTableCollection(tableSo.Metadata.title.UcFirst(),
-						$"{Application.dataPath}/Localization", locales);
-				}
+					Debug.AssertFormat(
+						ld.TableNames.Length == ld.Columns.Length, "TableNames and Columns are not the same length {0}, {1}",
+						ld.TableNames.Length,
+						ld.Columns.Length
+					);
 
-				var currentExtensions = createdCollection.Extensions;
+					TableSO tableSo = TableDatabase.Get.GetTableByName(ld.Table.LcFirst());
 
-				var jsonExtension = currentExtensions.First(c => c.GetType() == typeof(JsonExtension)) as JsonExtension;
-				if (currentExtensions.IsNullOrEmpty() || jsonExtension == null)
-				{
-					jsonExtension = Activator.CreateInstance(typeof(JsonExtension)) as JsonExtension;
-
-					if (jsonExtension == null)
+					if (tableSo == null)
 					{
-						throw new ArgumentNullException(nameof(jsonExtension));
+						Debug.LogFormat("Cant find table {0} in database", ld.Table);
+						continue;
 					}
 
-					jsonExtension.TableName = tableSo.Metadata.title;
-					jsonExtension.TableId = tableSo.ID;
+					int ldColumnIndex = 0;
+					EditorUtility.DisplayProgressBar("Importing Localization data", $"Importing {ld.Table}", (float)ldColumnIndex / localizedData.Count);
+					foreach (var tableName in ld.TableNames)
+					{
+						ReadOnlyCollection<Locale> locales = LocalizationEditorSettings.GetLocales();
+						StringTableCollection createdCollection =
+							LocalizationEditorSettings.GetStringTableCollection(tableName);
 
-					var columns = FieldMapping.CreateDefaultMapping();
-					jsonExtension.Fields = columns.AsReadOnly();
+						if (createdCollection == null)
+						{
+							// Create at location
+							createdCollection = LocalizationEditorSettings.CreateStringTableCollection(tableName, $"{Application.dataPath}/Localization/{tableName}", locales);
+						}
 
-					createdCollection.AddExtension(jsonExtension);
+						var currentExtensions = createdCollection.Extensions;
+						if (currentExtensions.IsNullOrEmpty() || !(currentExtensions.First(c => c.GetType() == typeof(JsonExtension)) is JsonExtension))
+						{
+							var jsonExtension = Activator.CreateInstance(typeof(JsonExtension)) as JsonExtension;
 
-					Debug.Log("Fetching dialogue data");
-					LoadDialogueData(jsonExtension);
-					ShowDialogueData(createdCollection);
-					return;
+							if (jsonExtension == null)
+							{
+								throw new ArgumentNullException(nameof(jsonExtension));
+							}
+
+							jsonExtension.TableName = tableName;
+							jsonExtension.TableId = tableSo.ID;
+
+							string columnName = ld.Columns[ldColumnIndex];
+							var columns = FieldMapping.CreateDefaultMapping(columnName);
+							jsonExtension.Fields = columns.AsReadOnly();
+
+							createdCollection.AddExtension(jsonExtension);
+
+							Debug.Log($"Fetching {tableName} data");
+							LoadLocalizationData(jsonExtension);
+							// ShowDialogueData(createdCollection);
+							continue;
+						}
+
+/*
+						if (EditorUtility.DisplayDialog("Dialogue data found!",
+							    "Are you sure you want to replace the existing data?", "Overwrite", "Cancel"))
+						{
+							Debug.Log("Fetching dialogue data");
+							LoadLocalizationData(jsonExtension);
+							// ShowDialogueData(createdCollection);
+						}
+*/
+						ldColumnIndex++;
+					}
+					EditorUtility.ClearProgressBar();
 				}
-
-				if (EditorUtility.DisplayDialog("Dialogue data found!",
-					    "Are you sure you want to replace the existing data?", "Overwrite", "Cancel"))
-				{
-					Debug.Log("Fetching dialogue data");
-					LoadDialogueData(jsonExtension);
-					ShowDialogueData(createdCollection);
-				}
-
 
 				/*
 				if (m_CollectionTypePopup.value == typeof(AssetTableCollection))
@@ -446,13 +668,13 @@ namespace StoryTime.Editor.UI
 			};
 		}
 
-		private void LoadDialogueData(JsonExtension extension)
+		private void LoadLocalizationData(JsonExtension extension)
 		{
-			var google = new JsonTableSync
+			var sync = new JsonTableSync
 			{
 				TableId = extension.TableId
 			};
-			google.PullIntoStringTableCollection(extension.TargetCollection as StringTableCollection, extension.Fields,
+			sync.PullIntoStringTableCollection(extension.TargetCollection as StringTableCollection, extension.Fields,
 				extension.RemoveMissingPulledKeys, TaskReporter.CreateDefaultReporter(), true);
 		}
 

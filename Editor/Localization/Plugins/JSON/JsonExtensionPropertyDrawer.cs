@@ -210,9 +210,9 @@ namespace StoryTime.Editor.Localization.Plugins.JSON
 					var menu = new GenericMenu();
 					foreach (var table in tables)
 					{
-						menu.AddItem(new GUIContent(table.Value.Metadata.title.UcFirst()), false, () =>
+						menu.AddItem(new GUIContent(table.Value.asset.Metadata.title.UcFirst()), false, () =>
 						{
-							data.TableName.stringValue = table.Value.Metadata.title;
+							data.TableName.stringValue = table.Value.asset.Metadata.title;
 							data.TableId.stringValue = table.Key;
 							data.TableId.serializedObject.ApplyModifiedProperties();
 						});
@@ -329,7 +329,7 @@ namespace StoryTime.Editor.Localization.Plugins.JSON
 		{
 			StringTableCollection createdCollection = LocalizationEditorSettings.GetStringTableCollection(data.TableName.stringValue.UcFirst());
 
-			return createdCollection != null && EditorUtility.DisplayDialog("Dialogue data found!",
+			return createdCollection != null && EditorUtility.DisplayDialog("Existing data found!",
 				"Are you sure you want to replace the existing data?", "Overwrite", "Cancel");
 		}
 	}

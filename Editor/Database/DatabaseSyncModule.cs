@@ -47,8 +47,8 @@ namespace StoryTime.Editor.Database
 
 		private readonly string _fallbackSettingsPath;
 
-		private FirebaseConfigSO config;
-		private GlobalSettingsSO globalSettings;
+		private FirebaseConfigSO _config;
+		private GlobalSettingsSO _globalSettings;
 
 		private struct ProjectResponse
 		{
@@ -72,16 +72,26 @@ namespace StoryTime.Editor.Database
 		private DatabaseSyncModule()
 		{
 			_fallbackSettingsPath = $"{Application.dataPath}/Settings/StoryTime";
+			_config = FirebaseConfigSO.GetOrCreateSettings();
+			_globalSettings = GlobalSettingsSO.GetOrCreateSettings();
 		}
 
-		public void Initialize()
+		public async void Initialize()
 		{
-			config = FirebaseConfigSO.GetOrCreateSettings();
-			globalSettings = GlobalSettingsSO.GetOrCreateSettings();
-#if !UNITY_EDITOR
-			Addressables.InitializeAsync().Completed += AddressableCompleted;
-		#else
-			InitializeAddressables();
+
+#if UNITY_EDITOR
+			// Retrieve the projects of the user
+			await RetrieveProjects();
+			await RequestTableUpdate();
+			RunOnMainThread.Schedule(() =>
+			{
+				// Save all the created assets
+				HelperClass.RefreshAssets();
+
+				// TODO see if unity has notify system
+				Debug.Log("Fetching complete");
+				_canFetch = true;
+			}, 0);
 #endif
 		}
 
@@ -95,9 +105,9 @@ namespace StoryTime.Editor.Database
 		public async Task RequestTableUpdate(string tableID = "", bool save = false)
 		{
 			string destination = $"{_fallbackSettingsPath}/uptime_tables.txt";
-			if (globalSettings && !string.IsNullOrEmpty(globalSettings.DataPath))
+			if (_globalSettings && !string.IsNullOrEmpty(_globalSettings.DataPath))
 			{
-				destination = $"{globalSettings.DataPath}/uptime_tables.txt";
+				destination = $"{_globalSettings.DataPath}/uptime_tables.txt";
 			}
 
 			// Wait few seconds before we let the user click again.
@@ -114,10 +124,24 @@ namespace StoryTime.Editor.Database
 			{
 				var lastTimeStamp = await GetUptime(destination);
 
-				var request = UnityWebRequest.Get($"{config.DatabaseURL}/{config.Platform}/projects/{config.ProjectID}/tables?time={lastTimeStamp}");
+				var request = UnityWebRequest.Get($"{_config.DatabaseURL}/{_config.Platform}/projects/{_config.ProjectID}/tables?time={lastTimeStamp}");
 				request.SendWebRequest();
 				while (!request.isDone) {
 					await Task.Yield();
+				}
+
+				switch (request.result)
+				{
+					case UnityWebRequest.Result.ConnectionError:
+#if UNITY_EDITOR
+						Debug.LogWarningFormat("Connection error: {0}", request.error);
+						return;
+#else
+					throw new ArgumentException( $"Connection error: {request.error}");
+#endif
+					// case UnityWebRequest.Result.ProtocolError:
+					// Debug.Log("Protocol error");
+					// throw new ArgumentException( $"Protocol error: {request.error}");
 				}
 
 				// var tasks = new List<Task>();
@@ -167,9 +191,9 @@ namespace StoryTime.Editor.Database
 				return;
 			}
 
-
 			// Request table directly
-			await RequestTable(tableID, save).ContinueWith((table) =>
+			await RequestTable(tableID, save);
+			RunOnMainThread.Schedule(() =>
 			{
 				// Save all the created assets
 				HelperClass.RefreshAssets();
@@ -177,7 +201,7 @@ namespace StoryTime.Editor.Database
 				// TODO see if unity has notify system
 				Debug.Log("Fetching complete");
 				_canFetch = true;
-			});
+			}, 0);
 		}
 
 		/// <summary>
@@ -188,7 +212,7 @@ namespace StoryTime.Editor.Database
 		/// <exception cref="ArgumentException"></exception>
 		private async Task<TableSO> RequestTable(string tableID, bool save = false)
 		{
-			var request = UnityWebRequest.Get($"{config.DatabaseURL}/{config.Platform}/projects/{config.ProjectID}/tables/{tableID}");
+			var request = UnityWebRequest.Get($"{_config.DatabaseURL}/{_config.Platform}/projects/{_config.ProjectID}/tables/{tableID}");
 			request.SendWebRequest();
 			while (!request.isDone) {
 				await Task.Yield();
@@ -232,43 +256,12 @@ namespace StoryTime.Editor.Database
 			return null;
 		}
 
-#if !UNITY_EDITOR
-		/// <summary>
-		///
-		/// </summary>
-		/// <param name="obj"></param>
-		private void AddressableCompleted(AsyncOperationHandle<IResourceLocator> obj)
-		{
-			// HelperClass.GetFileFromAddressable<>()
-			InitializeAddressables();
-		}
-#endif
-		/// <summary>
-		///
-		/// </summary>
-		private async void InitializeAddressables()
-		{
-			// Retrieve the projects of the user
-			await RetrieveProjects();
-			await RequestTableUpdate();
-			RunOnMainThread.Schedule(() =>
-			{
-				// Save all the created assets
-				HelperClass.RefreshAssets();
-
-				// TODO see if unity has notify system
-				Debug.Log("Fetching complete");
-				_canFetch = true;
-			}, 0);
-		}
-
-
 		private async Task RetrieveProjects()
 		{
 			var destination = $"{_fallbackSettingsPath}/uptime_projects.txt";
 			var lastTimeStampLoadedProjects = await GetUptime(destination);
 
-			var request = UnityWebRequest.Get($"{config.DatabaseURL}/{config.Platform}/projects?time={lastTimeStampLoadedProjects}");
+			var request = UnityWebRequest.Get($"{_config.DatabaseURL}/{_config.Platform}/projects?time={lastTimeStampLoadedProjects}");
 			request.SendWebRequest();
 			while (!request.isDone) {
 				await Task.Yield();
@@ -278,7 +271,12 @@ namespace StoryTime.Editor.Database
 			switch (request.result)
 			{
 				case UnityWebRequest.Result.ConnectionError:
+#if UNITY_EDITOR
+					Debug.LogWarningFormat("Connection error: {0}", request.error);
+					return;
+#else
 					throw new ArgumentException( $"Connection error: {request.error}");
+#endif
 				// case UnityWebRequest.Result.ProtocolError:
 					// Debug.Log("Protocol error");
 					// throw new ArgumentException( $"Protocol error: {request.error}");
@@ -307,7 +305,7 @@ namespace StoryTime.Editor.Database
 				responses.Add(res);
 
 				// Also add it to the config file
-				config.AddProject(res.uid, res.name);
+				_config.AddProject(res.uid, res.name);
 			}
 
 			// create file with current timestamp of retrieving latest projects
@@ -357,9 +355,9 @@ namespace StoryTime.Editor.Database
 		private string GetDataPath()
 		{
 			string dir = $"{Application.dataPath}/Data";
-			if (globalSettings && !string.IsNullOrEmpty(globalSettings.DataPath))
+			if (_globalSettings && !string.IsNullOrEmpty(_globalSettings.DataPath))
 			{
-				dir = $"{globalSettings.DataPath}";
+				dir = $"{_globalSettings.DataPath}";
 			}
 
 			if (!Directory.Exists(dir))

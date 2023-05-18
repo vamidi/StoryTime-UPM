@@ -65,7 +65,10 @@ namespace StoryTime.Components.ScriptableObjects
 
 				if (field.Key.Equals("enemyCategory"))
 				{
-					task.enemyCategory = (uint)field.Value.Data;
+					task.enemyCategory = new EnemySO.EnemyCategory
+					{
+						categoryId = (uint)field.Value.Data
+					};
 				}
 			}
 

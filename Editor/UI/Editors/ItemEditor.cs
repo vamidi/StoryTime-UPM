@@ -1,11 +1,12 @@
 ﻿using UnityEngine;
 using UnityEngine.UIElements;
 
+using StoryTime.Editor.Wizards;
 using StoryTime.Components.ScriptableObjects;
 
 namespace StoryTime.Editor.UI
 {
-	public class ItemEditor : EditorTab<ItemSO>
+	public class ItemEditor : EditorTab<ItemWizard, ItemSO>
 	{
 		internal new class UxmlFactory : UxmlFactory<ItemEditor> {}
 

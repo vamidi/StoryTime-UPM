@@ -4,6 +4,7 @@ using StoryTime.Components;
 using StoryTime.Editor.Game.Components;
 using StoryTime.Components.ScriptableObjects;
 
+// ReSharper disable once CheckNamespace
 namespace StoryTime.Editor.Components
 {
 	[CustomEditor(typeof(CharacterLootTable))]

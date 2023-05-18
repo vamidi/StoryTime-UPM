@@ -2,12 +2,11 @@
 using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 
-using StoryTime.Editor.UI;
+using StoryTime.Editor.Wizards;
 using StoryTime.Components.ScriptableObjects;
-
 namespace StoryTime.Editor.UI
 {
-	public class EquipmentEditor : EditorTab<EquipmentSO>
+	public class EquipmentEditor : EditorTab<EquipmentWizard, EquipmentSO>
 	{
 		internal new class UxmlFactory : UxmlFactory<EquipmentEditor> {}
 
@@ -15,6 +14,8 @@ namespace StoryTime.Editor.UI
 		{
 			var asset = Resources.GetTemplateAsset($"Editors/{nameof(EquipmentEditor)}");
 			asset.CloneTree(this);
+
+			wizardButtonTitle = "Create Equipment";
 		}
 
 		protected override void DrawSelection(Box cardInfo, EquipmentSO equipment)

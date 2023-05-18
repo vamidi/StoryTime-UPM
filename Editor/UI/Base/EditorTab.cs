@@ -9,11 +9,15 @@ using UnityEngine.UIElements;
 
 using StoryTime.Editor.Extensions;
 using StoryTime.Database.ScriptableObjects;
+using StoryTime.Editor.Wizards;
+
 namespace StoryTime.Editor.UI
 {
 	using Database;
 
-	public class DrawListView<T> where T : TableBehaviour
+	public class DrawListView<TW, T>
+		where TW : ScriptableWizard
+		where T : TableBehaviour
 	{
 		public List<T> Items => _items;
 		public List<string> Names => _names;
@@ -94,15 +98,20 @@ namespace StoryTime.Editor.UI
 
 		protected bool IsJsonObj;
 		protected SerializedObject serializedObject;
-		protected string defaultPath = "Assets/";
 		protected UnityEditor.Editor editor;
 
 		public abstract void Repaint();
 	}
 
-	public abstract class EditorTab<T> : EditorTab where T : TableBehaviour
+	public abstract class EditorTab<TW, T> : EditorTab
+		where TW : ScriptableWizard
+		where T : TableBehaviour
 	{
-		protected readonly DrawListView<T> ItemListView;
+		protected string wizardTitle = "";
+		protected string wizardButtonTitle = "";
+		protected string wizardOtherButtonTitle = "";
+
+		protected readonly DrawListView<TW, T> ItemListView;
 
 		protected Dictionary<uint, string> PopulatedList = new()
 		{
@@ -116,7 +125,7 @@ namespace StoryTime.Editor.UI
 
 		protected EditorTab()
 		{
-			ItemListView = new DrawListView<T>();
+			ItemListView = new DrawListView<TW, T>();
 
 			DatabaseSyncModule.onFetchCompleted += (_, tableName) =>
 			{
@@ -257,29 +266,20 @@ namespace StoryTime.Editor.UI
 
 		private void CreateNew()
 		{
-			var path = EditorUtility.SaveFilePanel("Create new", defaultPath, "", "asset");
-			if (string.IsNullOrEmpty(path))
-				return;
+			// register to the on create function
+			BaseWizard<TW, T>.OnCreate += OnCreateNew;
+			BaseWizard<TW, T>.CreateWizard(wizardTitle, wizardButtonTitle, wizardOtherButtonTitle);
+		}
 
-			path = path.Substring(path.ToLower().IndexOf("assets/", StringComparison.Ordinal));
-			T newItem = ScriptableObject.CreateInstance<T>();
-			AssetDatabase.CreateAsset(newItem, path);
-			AssetDatabase.Refresh();
-			AssetDatabase.SaveAssets();
-
-			defaultPath = path;
-
-			string withoutExtension = Path.GetFileNameWithoutExtension(defaultPath);
-			path = path.Trim('/') + "/" + withoutExtension;
-			EditorMenuTreeExtensions.SplitMenuPath(path, out path, out var itemName);
-
+		private void OnCreateNew(T newItem, string itemName)
+		{
 			ItemListView.Items.Add(newItem);
 			ItemListView.Names.Add(itemName);
 
-			// TODO sort
-			// ItemListView.Items.Sort((x,y) => String.Compare(x.Name, y.Name));
+			ItemListView.Items.Sort((x,y) => String.CompareOrdinal(x.Name, y.Name));
 
 			_listView.Rebuild();
+			BaseWizard<TW, T>.OnCreate -= OnCreateNew;
 		}
 
 		private void DeleteItem()

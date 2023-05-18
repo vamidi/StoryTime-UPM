@@ -6,11 +6,12 @@ using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
+using StoryTime.Editor.Wizards;
 using StoryTime.Components.ScriptableObjects;
-
+// ReSharper disable once CheckNamespace
 namespace StoryTime.Editor.UI
 {
-	public class CharacterEditor : EditorTab<CharacterSO>
+	public class CharacterEditor : EditorTab<CharacterWizard, CharacterSO>
 	{
 		internal new class UxmlFactory : UxmlFactory<CharacterEditor> {}
 
@@ -18,6 +19,9 @@ namespace StoryTime.Editor.UI
 		{
 			var asset = Resources.GetTemplateAsset($"Editors/{nameof(CharacterEditor)}");
 			asset.CloneTree(this);
+
+			wizardButtonTitle = "Create Character";
+
 			/*
 			var t = target as Components.TableBehaviour;
 			if (_choiceIndex >= 0)

@@ -98,8 +98,12 @@ namespace StoryTime.Editor.UI
 				}
 				else
 				{
-					TableSO table = TableDatabase.Get.GetTable(TableNames[ChoiceIndex]);
-					if(table.ID != String.Empty) Module.RequestTableUpdate(table.ID);
+					TableSO table = TableDatabase.Get.GetTableByName(TableNames[ChoiceIndex]);
+					if (table)
+					{
+						Debug.Log(table.ID);
+						Module.RequestTableUpdate(table.ID);
+					}
 				}
 			}
 

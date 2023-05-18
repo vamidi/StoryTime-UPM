@@ -22,7 +22,7 @@ namespace StoryTime.Components
 
 		public UInt32 ParamID => paramId;
 		public LocalizedString StatName => statName;
-		public string Alias => alias;
+		public Attribute Attribute => attribute;
 		public string Formula => paramFormula;
 
 		public float Flat => flat;
@@ -56,7 +56,8 @@ namespace StoryTime.Components
 		[SerializeField] private uint id = UInt32.MaxValue;
 		[SerializeField] private uint paramId = UInt32.MaxValue;
 		[SerializeField] protected LocalizedString statName;
-		[SerializeField] protected string alias = "";
+		// TODO better naming
+		[SerializeField] protected Attribute attribute = new ();
 		[SerializeField] protected string paramFormula = "";
 		[SerializeField] protected float flat = 0f;
 		[SerializeField] protected float rate = 0f;

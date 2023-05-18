@@ -15,6 +15,7 @@ namespace StoryTime.Editor.UI
 	public class DatabaseSyncWindow : EditorWindow
     {
 	    const string WindowTitle = "StoryTime Settings";
+	    private const string GameConfigField = "game-config-field";
 
 	    public static void OpenWindow()
         {
@@ -57,7 +58,7 @@ namespace StoryTime.Editor.UI
             Debug.Assert(m_TabPanels.Count == m_TabToggles.Count, "Expected the same number of tab toggle buttons and panels.");
             */
 
-	        var dialogueConfigFile = StoryTime.ResourceManagement.HelperClass.GetAsset<DialogueSettingConfigSO>("");
+	        var dialogueConfigFile = StoryTime.ResourceManagement.HelperClass.GetAsset<GameSettingConfigSO>("");
 
             // First get the config instance id if existing
             var field = root.Q<ObjectField>("config-field");
@@ -86,8 +87,8 @@ namespace StoryTime.Editor.UI
             }
 
             // First get the dialogue config instance id if existing
-            var dialogueConfigField = root.Q<ObjectField>("dialogue-config-field");
-            dialogueConfigField.objectType = typeof(DialogueSettingConfigSO);
+            var dialogueConfigField = root.Q<ObjectField>(GameConfigField);
+            dialogueConfigField.objectType = typeof(GameSettingConfigSO);
             dialogueConfigField.RegisterValueChangedCallback(OnDialogueFileChanged);
 
             var fontField = root.Q<ObjectField>("dialogue-font-field");
@@ -96,7 +97,7 @@ namespace StoryTime.Editor.UI
             if (dialogueConfigFile)
             {
 	            dialogueConfigField.value = dialogueConfigFile;
-	            root.Q<VisualElement>("dialogueSettings").style.display = DisplayStyle.Flex;
+	            root.Q<VisualElement>("GameSettings").style.display = DisplayStyle.Flex;
 	            root.Bind(new SerializedObject(dialogueConfigField.value));
 
 	            fontField.RegisterValueChangedCallback((evt) =>
@@ -191,22 +192,22 @@ namespace StoryTime.Editor.UI
 
         void OnDialogueFileChanged(ChangeEvent<UnityEngine.Object> evt)
         {
-	        var config = evt.newValue as DialogueSettingConfigSO;
+	        var config = evt.newValue as GameSettingConfigSO;
 	        if (config != null)
 	        {
 		        // then get the config file is selected
-		        rootVisualElement.Q<VisualElement>("dialogueSettings").style.display = DisplayStyle.Flex;
+		        rootVisualElement.Q<VisualElement>("gameSettings").style.display = DisplayStyle.Flex;
 		        rootVisualElement.Bind(new SerializedObject(config));
 		        // FirebaseSyncConfig.SelectedDialogueConfig = AssetDatabase.GetAssetPath(config);
 	        }
 	        else
 	        {
-		        rootVisualElement.Q<VisualElement>("dialogueSettings").style.display = DisplayStyle.None;
+		        rootVisualElement.Q<VisualElement>("gameSettings").style.display = DisplayStyle.None;
 		        // FirebaseSyncConfig.SelectedDialogueConfig = "";
 	        }
         }
 
-        void SaveConfig(FirebaseConfigSO configFile, DialogueSettingConfigSO dialogueSettingConfig = null)
+        void SaveConfig(FirebaseConfigSO configFile, GameSettingConfigSO dialogueSettingConfig = null)
         {
 	        Debug.Log("Saving Database Config file");
 	        EditorUtility.SetDirty(configFile);
