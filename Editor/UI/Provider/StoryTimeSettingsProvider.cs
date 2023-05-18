@@ -15,7 +15,6 @@ using TMPro;
 using UnityEditor.Localization;
 using UnityEditor.Localization.UI;
 using UnityEngine.Localization;
-using UnityEngine.Localization.Settings;
 
 using StoryTime.Database;
 using StoryTime.Utils.Extensions;
@@ -36,10 +35,16 @@ namespace StoryTime.Editor.UI
 
 	public class StoryTimeSettingsProvider : SettingsProvider
 	{
+		internal const string SettingsPath = "Project/StoryTime System Package";
+
+		// ReSharper disable once InconsistentNaming
 		private SerializedObject settings;
+		// ReSharper disable once InconsistentNaming
 		private SerializedObject globalSettings;
+		// ReSharper disable once InconsistentNaming
 		private SerializedObject dialogueSettings;
 
+		// ReSharper disable once InconsistentNaming
 		private const string defaultDialogueTable = "dialogues";
 
 		// Register the SettingsProvider
@@ -55,7 +60,12 @@ namespace StoryTime.Editor.UI
 			return provider;
 		}
 
-		StoryTimeSettingsProvider() : base("Project/MyCustomUIElementsSettings", SettingsScope.Project)
+		public static void Open()
+		{
+			SettingsService.OpenProjectSettings(SettingsPath);
+		}
+
+		StoryTimeSettingsProvider() : base(SettingsPath, SettingsScope.Project)
 		{
 			label = "StoryTime";
 
@@ -346,7 +356,7 @@ namespace StoryTime.Editor.UI
 
 			var dropdown = root.Q<DropdownField>("project-id-field");
 			var config = settings.targetObject as FirebaseConfigSO;
-			if (config != null)
+			if (config != null && !config.Projects.IsNullOrEmpty())
 			{
 				dropdown.value = config.Projects[projectIDProp.stringValue];
 				dropdown.choices = config.Projects.Values.ToList();

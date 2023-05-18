@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using JetBrains.Annotations;
+using StoryTime.Utils.Extensions;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -184,7 +185,13 @@ namespace StoryTime.Database
         /// <returns></returns>
         public TableSO GetTableByName(string tableName)
         {
-	        var source = _tables.First(t => t.Value.Metadata.title == tableName);
+	        if (_tables.IsNullOrEmpty())
+	        {
+		        Debug.LogWarning("There are no tables found!");
+		        return null;
+	        }
+
+	        var source = _tables.FirstOrDefault(t => t.Value.Metadata.title == tableName);
 
 	        if (source.Value == null)
 	        {
