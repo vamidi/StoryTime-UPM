@@ -4,7 +4,6 @@ using UnityEditor;
 using UnityEngine;
 
 using StoryTime.Database.ScriptableObjects;
-using StoryTime.Configurations.ScriptableObjects;
 using StoryTime.Editor.Extensions;
 
 namespace StoryTime.Editor.Wizards

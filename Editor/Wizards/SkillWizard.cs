@@ -1,8 +1,7 @@
-using System;
-
 using UnityEngine;
 using UnityEngine.Localization;
 
+using StoryTime.Components;
 using StoryTime.Components.ScriptableObjects;
 namespace StoryTime.Editor.Wizards
 {

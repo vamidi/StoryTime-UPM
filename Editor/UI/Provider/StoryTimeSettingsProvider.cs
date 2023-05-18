@@ -35,6 +35,8 @@ namespace StoryTime.Editor.UI
 
 	public class StoryTimeSettingsProvider : SettingsProvider
 	{
+		internal const string SettingsPath = "Project/StoryTime System Package";
+
 		protected class LocalizationData
 		{
 			/// <summary>
@@ -57,7 +59,10 @@ namespace StoryTime.Editor.UI
 		private SerializedObject _globalSettings;
 		private SerializedObject _gameSettings;
 
-			// Register the SettingsProvider
+		// ReSharper disable once InconsistentNaming
+		private const string defaultDialogueTable = "dialogues";
+
+		// Register the SettingsProvider
 		[SettingsProvider]
 		public static SettingsProvider CreateMyCustomSettingsProvider()
 		{
@@ -70,7 +75,12 @@ namespace StoryTime.Editor.UI
 			return provider;
 		}
 
-		StoryTimeSettingsProvider() : base("Project/MyCustomUIElementsSettings", SettingsScope.Project)
+		public static void Open()
+		{
+			SettingsService.OpenProjectSettings(SettingsPath);
+		}
+
+		StoryTimeSettingsProvider() : base(SettingsPath, SettingsScope.Project)
 		{
 			label = "StoryTime";
 
@@ -503,8 +513,9 @@ namespace StoryTime.Editor.UI
 			root.Q<TextField>("storage-bucket-field").BindProperty(storageBucketProp);
 
 			var dropdown = root.Q<DropdownField>("project-id-field");
+
 			var config = _settings.targetObject as FirebaseConfigSO;
-			if (config != null)
+			if (config != null && !config.Projects.IsNullOrEmpty())
 			{
 				dropdown.value = config.Projects[projectIDProp.stringValue];
 				dropdown.choices = config.Projects.Values.ToList();

@@ -58,14 +58,14 @@ namespace StoryTime.Editor.UI
             Debug.Assert(m_TabPanels.Count == m_TabToggles.Count, "Expected the same number of tab toggle buttons and panels.");
             */
 
-	        var dialogueConfigFile = StoryTime.ResourceManagement.HelperClass.GetAsset<GameSettingConfigSO>("");
+	        var dialogueConfigFile = StoryTime.ResourceManagement.HelperClass.GetAsset<GameSettingConfigSO>(GameSettingConfigSO.SettingsPath);
 
-            // First get the config instance id if existing
+	        // First get the config instance id if existing
             var field = root.Q<ObjectField>("config-field");
             field.objectType = typeof(FirebaseConfigSO);
             field.RegisterValueChangedCallback(OnConfigFileChanged);
 
-            var configFile = StoryTime.ResourceManagement.HelperClass.GetAsset<FirebaseConfigSO>(FirebaseConfigSO.SettingsPath);
+            var configFile = HelperClass.GetAsset<FirebaseConfigSO>(FirebaseConfigSO.SettingsPath);
             if (configFile)
             {
 	            field.value = configFile;

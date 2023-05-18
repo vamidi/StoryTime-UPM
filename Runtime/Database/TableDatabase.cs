@@ -13,6 +13,7 @@ using UnityEngine;
 namespace StoryTime.Database
 {
     using Binary;
+    using Utils.Extensions;
     using ScriptableObjects;
     using ResourceManagement;
 
@@ -187,7 +188,13 @@ namespace StoryTime.Database
         /// <returns></returns>
         public TableSO GetTableByName(string tableName)
         {
-	        var source = _tables.First(t => t.Value.asset.Metadata.title == tableName);
+	        if (_tables.IsNullOrEmpty())
+	        {
+		        Debug.LogWarning("There are no tables found!");
+		        return null;
+	        }
+
+	        var source = _tables.FirstOrDefault(t => t.Value.asset.Metadata.title == tableName);
 
 	        if (source.Value.asset == null)
 	        {

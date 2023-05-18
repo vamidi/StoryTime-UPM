@@ -25,7 +25,7 @@ namespace StoryTime.Configurations.ScriptableObjects
 		public bool AnimatedText { get => animatedText; set => animatedText = value; }
 		public bool AutoResize { get => autoResize; set => autoResize = value; }
 
-		private const string SettingsPath = "Assets/Settings/StoryTime";
+		internal const string SettingsPath = "Assets/Settings/StoryTime";
 
 		[SerializeField] private LocalizationSettings localizationSettings;
 

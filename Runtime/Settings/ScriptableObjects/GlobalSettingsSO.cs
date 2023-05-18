@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 
 using UnityEngine;
 
@@ -77,6 +78,11 @@ namespace StoryTime.Configurations.ScriptableObjects
 		{
 			PathLocations locations = PathLocations.FetchPathLocations();
 			string destination = $"{SettingsPath}/GlobalSettingsSO.asset";
+
+			if (!Directory.Exists(SettingsPath))
+			{
+				Directory.CreateDirectory(SettingsPath);
+			}
 
 			// if we have a new location grab it
 			if (!String.IsNullOrEmpty(locations.GlobalSettings))

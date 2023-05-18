@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -13,6 +14,12 @@ namespace StoryTime.FirebaseService.Settings
 	using ResourceManagement;
 	using Utils.Configurations;
 
+	internal enum ApiPlatform
+	{
+		Firebase,
+		Prisma
+	}
+
 	/// <summary>
 	/// Configuration for connecting to a Google Sheet.
 	/// </summary>
@@ -20,15 +27,15 @@ namespace StoryTime.FirebaseService.Settings
 
 	[CreateAssetMenu(menuName = "StoryTime/Configurations/Config File", fileName = "FirebaseConfig", order = 1)]
 	// ReSharper disable once InconsistentNaming
-	public partial class FirebaseConfigSO : ScriptableObject, ITableService
+	public class FirebaseConfigSO : ScriptableObject, ITableService
 	{
-		public const string SettingsPath = "Assets/Settings/StoryTime";
+		internal const string SettingsPath = "Assets/Settings/StoryTime";
 
-		public string Email => email;
+		internal string Email => email;
 
-		public string DatabaseURL => databaseURL;
+		internal string DatabaseURL => databaseURL;
 
-		public string Platform => platform;
+		internal ApiPlatform Platform => platform;
 
 		internal string ProjectID => projectID;
 
@@ -63,7 +70,7 @@ namespace StoryTime.FirebaseService.Settings
 		/// </summary>
 		[SerializeField] private string databaseURL = "http://localhost:8080/api";
 
-		[SerializeField] private string platform = "firebase";
+		[SerializeField] private ApiPlatform platform = ApiPlatform.Firebase;
 
 		/// <summary>
 		/// Firebase api key
@@ -119,6 +126,11 @@ namespace StoryTime.FirebaseService.Settings
 			// Look up if config is already assigned.
 			PathLocations locations = PathLocations.FetchPathLocations();
 			string destination = $"{SettingsPath}/DatabaseConfigSO.asset";
+
+			if (!Directory.Exists(SettingsPath))
+			{
+				Directory.CreateDirectory(SettingsPath);
+			}
 
 			// if we have a new location grab it
 			if (!String.IsNullOrEmpty(locations.FirebaseSettings))
