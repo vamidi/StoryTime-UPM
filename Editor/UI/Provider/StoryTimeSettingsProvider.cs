@@ -351,8 +351,12 @@ namespace StoryTime.Editor.UI
 			// First get the dialogue config instance id if existing
 			var dialogueConfigField = root.Q<ObjectField>("game-config-field");
 			dialogueConfigField.objectType = typeof(GameSettingConfigSO);
-			dialogueConfigField.value = _gameSettings.targetObject;
-			dialogueConfigField.Bind(_gameSettings);
+
+			if (_gameSettings != null && _gameSettings.targetObject)
+			{
+				dialogueConfigField.value = _gameSettings.targetObject;
+				dialogueConfigField.Bind(_gameSettings);
+			}
 
 			dialogueConfigField.RegisterValueChangedCallback((evt) =>
 			{
@@ -360,7 +364,12 @@ namespace StoryTime.Editor.UI
 				if (config != null)
 				{
 					// then get the config file is selected
-					dialogueConfigField.Bind(new SerializedObject(config));
+					((GlobalSettingsSO) _globalSettings.targetObject).GameSettings = config;
+
+					var serializedConfig = new SerializedObject(config);
+					_gameSettings = serializedConfig;
+
+					dialogueConfigField.Bind(serializedConfig);
 					dialogueConfigField.style.display = DisplayStyle.Flex;
 					// FirebaseSyncConfig.SelectedDialogueConfig = AssetDatabase.GetAssetPath(config);
 
@@ -370,6 +379,8 @@ namespace StoryTime.Editor.UI
 						FirebaseSettings = ResourceManagement.HelperClass.GetAssetPath(_settings.targetObject),
 						GameSettings = ResourceManagement.HelperClass.GetAssetPath(config),
 					});
+
+					_globalSettings.ApplyModifiedProperties();
 				}
 				else
 				{

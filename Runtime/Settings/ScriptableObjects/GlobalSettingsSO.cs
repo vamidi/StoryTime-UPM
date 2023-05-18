@@ -20,7 +20,11 @@ namespace StoryTime.Configurations.ScriptableObjects
 		public const string SettingsPath = "Assets/Settings/StoryTime";
 
 		public string DataPath => dataPath;
-		public GameSettingConfigSO GameSettings => gameSettings;
+		public GameSettingConfigSO GameSettings
+		{
+			get => gameSettings;
+			internal set => gameSettings = value;
+		}
 
 		private const string k_DataPath = "Assets/Data";
 
