@@ -14,6 +14,8 @@ namespace StoryTime.Components.ScriptableObjects
 			{
 				return enemy;
 			}
+			
+			
 
 			foreach (var field in row.Fields)
 			{

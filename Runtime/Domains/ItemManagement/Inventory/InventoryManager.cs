@@ -9,6 +9,7 @@ namespace StoryTime.Components
 
 	public class InventoryManager : MonoBehaviour
 	{
+		// Events
 		[Header("Broadcasting on channels")]
 		[SerializeField] private ItemEventChannelSO equipItemEvent;
 
