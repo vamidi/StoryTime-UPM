@@ -1,4 +1,4 @@
-﻿using System;
+﻿using StoryTime.Domains.Settings.ScriptableObjects;
 using UnityEditor;
 using UnityEngine;
 
@@ -7,7 +7,6 @@ using UnityToolbarExtender;
 namespace StoryTime.Editor.UI
 {
 	using Database;
-	using FirebaseService.Settings;
 
 	using StoryTime.Database;
 	using StoryTime.Database.ScriptableObjects;
@@ -88,7 +87,7 @@ namespace StoryTime.Editor.UI
 			EditorStyles.popup.fixedHeight = 22;
 			ChoiceIndex = EditorGUILayout.Popup(new GUIContent(""), ChoiceIndex, TableNames,
 				GUILayout.Width(100.0f), GUILayout.ExpandHeight(true));
-
+			
 			// When we press sync to get the table data from the server.
 			if(GUILayout.Button(new GUIContent(content, "Sync the Database"), ToolbarStyles.CommandButtonStyle))
 			{
@@ -122,7 +121,7 @@ namespace StoryTime.Editor.UI
 		private static SerializedObject s_DatabaseConfig;
 		public static readonly string FileName = "DatabaseConfig";
 
-		public static void Open(FirebaseConfigSO config)
+		public static void Open(StoryTimeSettingsSO config)
 		{
 			s_DatabaseConfig = new SerializedObject(config);
 		}

@@ -4,6 +4,7 @@ using UnityEngine.UIElements;
 
 using StoryTime.Editor.Wizards;
 using StoryTime.Components.ScriptableObjects;
+using StoryTime.Editor.Domains.UI;
 
 namespace StoryTime.Editor.UI
 {
@@ -13,7 +14,7 @@ namespace StoryTime.Editor.UI
 
 		public RecipeEditor()
 		{
-			var asset = Resources.GetTemplateAsset($"Editors/{nameof(RecipeEditor)}");
+			var asset = UIResourceHelper.GetTemplateAsset($"Editors/{nameof(RecipeEditor)}");
 			asset.CloneTree(this);
 
 			wizardButtonTitle = "Create Recipe/Craftable";

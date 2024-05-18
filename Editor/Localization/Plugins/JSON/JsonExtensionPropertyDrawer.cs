@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 using System.Threading.Tasks;
 using StoryTime.Database;
+using StoryTime.Domains.Settings.ScriptableObjects;
 using UnityEditor;
 using UnityEditor.Localization;
 using UnityEditor.Localization.Reporting;
@@ -15,9 +16,7 @@ namespace StoryTime.Editor.Localization.Plugins.JSON
 	using UI;
 	using Fields;
 	using Utils.Extensions;
-
-	using FirebaseService.Settings;
-
+	
 	class JsonExtensionPropertyDrawerData
 	{
 		public SerializedProperty Collection;
@@ -35,7 +34,7 @@ namespace StoryTime.Editor.Localization.Plugins.JSON
 
 		public Task PushTask;
 
-		public FirebaseConfigSO Provider => JsonServiceProvider.objectReferenceValue as FirebaseConfigSO;
+		public StoryTimeSettingsSO Provider => JsonServiceProvider.objectReferenceValue as StoryTimeSettingsSO;
 
 		// public string m_NewJsonName;
 	}

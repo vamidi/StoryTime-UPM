@@ -1,6 +1,8 @@
 ﻿using UnityEngine.UIElements;
 
 using StoryTime.Database;
+using StoryTime.Editor.Domains.UI;
+
 namespace StoryTime.Editor.UI
 {
 	class ListViewTables : VisualElement
@@ -12,10 +14,10 @@ namespace StoryTime.Editor.UI
 		internal new class UxmlFactory : UxmlFactory<ListViewTables> { }
 		public ListViewTables()
 		{
-			var styles = Resources.GetStyleAsset(nameof(ListViewTables));
+			var styles = UIResourceHelper.GetStyleAsset(nameof(ListViewTables));
 			styleSheets.Add(styles);
 
-			var asset = Resources.GetTemplateAsset(nameof(ListViewTables));
+			var asset = UIResourceHelper.GetTemplateAsset(nameof(ListViewTables));
 			asset.CloneTree(this);
 
 			// Tables

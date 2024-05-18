@@ -1,4 +1,5 @@
 using System;
+using StoryTime.Editor.Domains.UI;
 using UnityEngine.UIElements;
 
 using UnityEditor;
@@ -37,10 +38,10 @@ namespace StoryTime.Editor.UI
 
 		public ListViewTableRow()
 		{
-			var styles = Resources.GetStyleAsset(nameof(ListViewTables));
+			var styles = UIResourceHelper.GetStyleAsset(nameof(ListViewTables));
 			styleSheets.Add(styles);
 
-			var asset = Resources.GetTemplateAsset(nameof(ListViewTableRow));
+			var asset = UIResourceHelper.GetTemplateAsset(nameof(ListViewTableRow));
 			asset.CloneTree(this);
 		}
 

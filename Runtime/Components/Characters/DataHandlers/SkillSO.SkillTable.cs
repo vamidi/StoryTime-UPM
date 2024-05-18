@@ -1,6 +1,8 @@
 
-using StoryTime.Configurations.ScriptableObjects;
 // ReSharper disable once CheckNamespace
+
+using StoryTime.Domains.Settings.ScriptableObjects;
+
 namespace StoryTime.Components.ScriptableObjects
 {
 	using Database.Binary;
@@ -23,7 +25,7 @@ namespace StoryTime.Components.ScriptableObjects
 			{
 				GlobalSettingsSO config = op.Result;
 #else
-			GlobalSettingsSO config = GlobalSettingsSO.GetOrCreateSettings();
+			StoryTimeSettingsSO config = CreateInstance<StoryTimeSettingsSO>();
 #endif
 
 			if (config != null)

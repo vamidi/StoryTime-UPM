@@ -4,6 +4,7 @@ using UnityEngine.UIElements;
 
 using StoryTime.Editor.Wizards;
 using StoryTime.Components.ScriptableObjects;
+using StoryTime.Editor.Domains.UI;
 
 // ReSharper disable once CheckNamespace
 namespace StoryTime.Editor.UI
@@ -14,7 +15,7 @@ namespace StoryTime.Editor.UI
 
 		public EnemyEditor()
 		{
-			var asset = Resources.GetTemplateAsset($"Editors/{nameof(EnemyEditor)}");
+			var asset = UIResourceHelper.GetTemplateAsset($"Editors/{nameof(EnemyEditor)}");
 			asset.CloneTree(this);
 		}
 

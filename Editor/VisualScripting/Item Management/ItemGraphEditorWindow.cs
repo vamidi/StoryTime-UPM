@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using StoryTime.Editor.Domains.UI;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -26,7 +27,7 @@ namespace StoryTime.Editor.VisualScripting
 		{
 			VisualElement root = rootVisualElement;
 
-			var visualTree = UI.Resources.GetTemplateAsset($"VisualScripting/{nameof(ItemGraphEditorWindow)}");
+			var visualTree = UIResourceHelper.GetTemplateAsset($"VisualScripting/{nameof(ItemGraphEditorWindow)}");
 			visualTree.CloneTree(root);
 
 			base.CreateGUI();

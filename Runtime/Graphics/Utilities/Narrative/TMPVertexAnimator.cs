@@ -9,7 +9,8 @@ using UnityEngine.Events;
 using TMPro;
 
 using StoryTime.Components;
-using StoryTime.Configurations.ScriptableObjects;
+using StoryTime.Domains.Settings.ScriptableObjects;
+
 // ReSharper disable once CheckNamespace
 namespace StoryTime.Utils.Components
 {
@@ -57,7 +58,7 @@ namespace StoryTime.Utils.Components
 		private bool m_StopAnimating;
 		private bool _isRevealing;
 
-		private GameSettingConfigSO m_Config;
+		private StoryTimeSettingsSO m_Config;
 
 		private List<DialogueCommand> m_Commands = new List<DialogueCommand>();
 
@@ -251,7 +252,8 @@ namespace StoryTime.Utils.Components
 		{
 			base.Awake();
 
-			m_Config = GameSettingConfigSO.GetOrCreateSettings();
+			throw new ArgumentException("Config needs to be set");
+			m_Config = null; // StoryTimeSettingsSO.GetOrCreateSettings();
 
 			if (m_Config != null && useConfig)
 			{

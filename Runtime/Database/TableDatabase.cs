@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using JetBrains.Annotations;
+using StoryTime.Domains.Resource;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -142,7 +143,7 @@ namespace StoryTime.Database
 
 	        // load it from the addressable
 	        // if null again
-	        table = HelperClass.CreateAsset<TableSO>(destination);
+	        table = ResourceHelper.CreateAsset<TableSO>(destination);
 	        _tables[metaData.id] = table;
 	        return table;
         }
@@ -161,7 +162,7 @@ namespace StoryTime.Database
 		        AddTable(destination, metadata);
 	        }
 
-	        HelperClass.AddFileToAddressable(TableSO.GroupName, destination);
+	        ResourceHelper.AddFileToAddressable(TableSO.GroupName, destination);
 #endif
         }
 
@@ -250,7 +251,7 @@ namespace StoryTime.Database
 	        // UpdateTime();
 #if UNITY_EDITOR
 	        // Get existing database files
-	        var tables = HelperClass.FindAndLoadAssets<TableSO>();
+	        var tables = ResourceHelper.FindAndLoadAssets<TableSO>();
 
 	        // When we retrieved the file check if the user is already logged in
 	        for (int t = 0; t < tables.Length; t++)

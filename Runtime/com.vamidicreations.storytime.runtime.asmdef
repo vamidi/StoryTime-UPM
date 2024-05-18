@@ -15,7 +15,10 @@
         "GUID:84651a3751eca9349aac36a66bba901b",
         "GUID:622af31d55d7bbb4dba58dbab951d785",
         "GUID:6daefb57524f51f4bb365afea7567e22",
-        "GUID:bafe9b571d9a38a42b1bd6aabc55ff17"
+        "GUID:bafe9b571d9a38a42b1bd6aabc55ff17",
+        "GUID:0d8beb7f090555447a6cf5ce9e54dbb4",
+        "GUID:d0acddb179989574c8355991596bd3e6",
+        "GUID:0022c094e0c7f481288196a6d3e9ce33"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
@@ -24,7 +27,8 @@
     "precompiledReferences": [
         "Newtonsoft.Json.dll",
         "DOTween.dll",
-        "MathParser.org-mXparser.dll"
+        "MathParser.org-mXparser.dll",
+        "Zenject-usage.dll"
     ],
     "autoReferenced": true,
     "defineConstraints": [],

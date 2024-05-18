@@ -8,6 +8,8 @@ using UnityEngine.UIElements;
 
 using StoryTime.Editor.Wizards;
 using StoryTime.Components.ScriptableObjects;
+using StoryTime.Editor.Domains.UI;
+
 // ReSharper disable once CheckNamespace
 namespace StoryTime.Editor.UI
 {
@@ -17,7 +19,7 @@ namespace StoryTime.Editor.UI
 
 		public CharacterEditor()
 		{
-			var asset = Resources.GetTemplateAsset($"Editors/{nameof(CharacterEditor)}");
+			var asset = UIResourceHelper.GetTemplateAsset($"Editors/{nameof(CharacterEditor)}");
 			asset.CloneTree(this);
 
 			wizardButtonTitle = "Create Character";

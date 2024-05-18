@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 using Newtonsoft.Json.Linq;
-
+using StoryTime.Domains.Settings.ScriptableObjects;
 using UnityEditor;
 using UnityEditor.Localization;
 using UnityEditor.Localization.Reporting;
@@ -17,19 +17,17 @@ using UnityEngine.Localization.Tables;
 
 namespace StoryTime.Editor.Localization.Plugins.JSON
 {
-	using FirebaseService.Settings;
-
 	using StoryTime.Database;
 	using StoryTime.Database.Binary;
 
 	public class JsonTableSync
 	{
-		public static void OpenTableInBrowser(ITableService provider, string tableId)
+		public static void OpenTableInBrowser(StoryTimeSettingsSO provider, string tableId)
 		{
 #if UNITY_EDITOR
-			var service = provider as FirebaseConfigSO ?? throw new ArgumentNullException(nameof(provider));
+			var service = provider ?? throw new ArgumentNullException(nameof(provider));
 
-			if (service.DatabaseURL == String.Empty)
+			if (service.ApiUrl == String.Empty)
 			{
 				Debug.LogWarning("Hosting must contain a valid URL.");
 				return;
@@ -47,7 +45,7 @@ namespace StoryTime.Editor.Localization.Plugins.JSON
 
 		/// <summary>
 		/// The sheets provider is responsible for providing the SheetsService and configuring the type of access.
-		/// <seealso cref="Configurations.ScriptableObjects.FirebaseConfigSO"/>.
+		/// <seealso cref="StoryTime.Domains.Database.ScriptableObjects.APIConfigSO"/>.
 		/// </summary>
 		// private FirebaseConfigSO SheetsService { get; }
 

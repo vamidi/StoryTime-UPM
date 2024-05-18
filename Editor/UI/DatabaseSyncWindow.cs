@@ -1,3 +1,6 @@
+using System;
+using StoryTime.Domains.Settings.ScriptableObjects;
+using StoryTime.Editor.Domains.UI;
 using UnityEditor;
 using UnityEditor.UIElements;
 
@@ -5,13 +8,10 @@ using UnityEngine;
 using UnityEngine.UIElements;
 
 using TMPro;
+using Object = UnityEngine.Object;
 
 namespace StoryTime.Editor.UI
 {
-	using ResourceManagement;
-	using FirebaseService.Settings;
-	using Configurations.ScriptableObjects;
-
 	public class DatabaseSyncWindow : EditorWindow
     {
 	    const string WindowTitle = "StoryTime Settings";
@@ -26,8 +26,8 @@ namespace StoryTime.Editor.UI
 
         void OnEnable()
         {
-	        var asset = Resources.GetTemplateAsset(nameof(DatabaseSyncWindow));
-	        var styles = Resources.GetStyleAsset(nameof(DatabaseSyncWindow));
+	        var asset = UIResourceHelper.GetTemplateAsset(nameof(DatabaseSyncWindow));
+	        var styles = UIResourceHelper.GetStyleAsset(nameof(DatabaseSyncWindow));
 
 	        asset.CloneTree(rootVisualElement);
 	        rootVisualElement.styleSheets.Add(styles);
@@ -58,14 +58,17 @@ namespace StoryTime.Editor.UI
             Debug.Assert(m_TabPanels.Count == m_TabToggles.Count, "Expected the same number of tab toggle buttons and panels.");
             */
 
-	        var dialogueConfigFile = StoryTime.ResourceManagement.HelperClass.GetAsset<GameSettingConfigSO>(GameSettingConfigSO.SettingsPath);
+
+	        throw new ArgumentException("Not implemented yet.");
+	        
+	        StoryTimeSettingsSO dialogueConfigFile = null; // ResourceHelper.GetAsset<StoryTimeSettingsSO>(GameSettingConfigSO.SettingsPath);
 
 	        // First get the config instance id if existing
             var field = root.Q<ObjectField>("config-field");
-            field.objectType = typeof(FirebaseConfigSO);
+            field.objectType = typeof(StoryTimeSettingsSO);
             field.RegisterValueChangedCallback(OnConfigFileChanged);
 
-            var configFile = HelperClass.GetAsset<FirebaseConfigSO>(FirebaseConfigSO.SettingsPath);
+            StoryTimeSettingsSO configFile = null; // ResourceHelper.GetAsset<StoryTimeSettingsSO>(APIConfigSO.SettingsPath);
             if (configFile)
             {
 	            field.value = configFile;
@@ -88,7 +91,7 @@ namespace StoryTime.Editor.UI
 
             // First get the dialogue config instance id if existing
             var dialogueConfigField = root.Q<ObjectField>(GameConfigField);
-            dialogueConfigField.objectType = typeof(GameSettingConfigSO);
+            dialogueConfigField.objectType = typeof(StoryTimeSettingsSO);
             dialogueConfigField.RegisterValueChangedCallback(OnDialogueFileChanged);
 
             var fontField = root.Q<ObjectField>("dialogue-font-field");
@@ -173,9 +176,9 @@ namespace StoryTime.Editor.UI
         }
         */
 
-        void OnConfigFileChanged(ChangeEvent<UnityEngine.Object> evt)
+        void OnConfigFileChanged(ChangeEvent<Object> evt)
         {
-	        var config = evt.newValue as FirebaseConfigSO;
+	        var config = evt.newValue as StoryTimeSettingsSO;
 	        if (config != null)
 	        {
 		        // then get the config file is selected
@@ -190,9 +193,9 @@ namespace StoryTime.Editor.UI
 	        }
         }
 
-        void OnDialogueFileChanged(ChangeEvent<UnityEngine.Object> evt)
+        void OnDialogueFileChanged(ChangeEvent<Object> evt)
         {
-	        var config = evt.newValue as GameSettingConfigSO;
+	        var config = evt.newValue as StoryTimeSettingsSO;
 	        if (config != null)
 	        {
 		        // then get the config file is selected
@@ -207,7 +210,7 @@ namespace StoryTime.Editor.UI
 	        }
         }
 
-        void SaveConfig(FirebaseConfigSO configFile, GameSettingConfigSO dialogueSettingConfig = null)
+        void SaveConfig(StoryTimeSettingsSO configFile, StoryTimeSettingsSO dialogueSettingConfig = null)
         {
 	        Debug.Log("Saving Database Config file");
 	        EditorUtility.SetDirty(configFile);

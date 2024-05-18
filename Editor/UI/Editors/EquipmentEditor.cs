@@ -4,6 +4,8 @@ using UnityEngine.UIElements;
 
 using StoryTime.Editor.Wizards;
 using StoryTime.Components.ScriptableObjects;
+using StoryTime.Editor.Domains.UI;
+
 namespace StoryTime.Editor.UI
 {
 	public class EquipmentEditor : EditorTab<EquipmentWizard, EquipmentSO>
@@ -12,7 +14,7 @@ namespace StoryTime.Editor.UI
 
 		public EquipmentEditor()
 		{
-			var asset = Resources.GetTemplateAsset($"Editors/{nameof(EquipmentEditor)}");
+			var asset = UIResourceHelper.GetTemplateAsset($"Editors/{nameof(EquipmentEditor)}");
 			asset.CloneTree(this);
 
 			wizardButtonTitle = "Create Equipment";

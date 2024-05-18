@@ -1,4 +1,5 @@
 ﻿
+using StoryTime.Editor.Domains.UI;
 using UnityEngine.UIElements;
 
 using UnityEditor;
@@ -155,11 +156,11 @@ namespace StoryTime.Editor.VisualScripting
 
 		private void AddStyles()
 		{
-			var stylesheet = UI.Resources.GetStyleAsset("VisualScripting/DialogueGraphEditorWindow");
+			var stylesheet = UIResourceHelper.GetStyleAsset("VisualScripting/DialogueGraphEditorWindow");
 
 			styleSheets.Add(stylesheet);
 
-			stylesheet = UI.Resources.GetStyleAsset("VisualScripting/Variables");
+			stylesheet = UIResourceHelper.GetStyleAsset("VisualScripting/Variables");
 			styleSheets.Add(stylesheet);
 		}
 	}

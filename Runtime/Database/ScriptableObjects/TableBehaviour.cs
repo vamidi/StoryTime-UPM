@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-using UnityEditor;
-
-using StoryTime.Configurations.ScriptableObjects;
 namespace StoryTime.Database.ScriptableObjects
 {
 	using Binary;

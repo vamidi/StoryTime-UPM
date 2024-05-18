@@ -3,6 +3,7 @@ using UnityEngine.UIElements;
 
 using StoryTime.Editor.Wizards;
 using StoryTime.Components.ScriptableObjects;
+using StoryTime.Editor.Domains.UI;
 
 namespace StoryTime.Editor.UI
 {
@@ -12,7 +13,7 @@ namespace StoryTime.Editor.UI
 
 		public ItemEditor()
 		{
-			var asset = StoryTime.Editor.UI.Resources.GetTemplateAsset($"Editors/{nameof(ItemEditor)}");
+			var asset = UIResourceHelper.GetTemplateAsset($"Editors/{nameof(ItemEditor)}");
 			asset.CloneTree(this);
 		}
 

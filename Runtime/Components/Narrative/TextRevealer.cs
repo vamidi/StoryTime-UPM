@@ -2,18 +2,15 @@
 using System.Text;
 using System.Collections;
 using System.Text.RegularExpressions;
-
+using StoryTime.Domains.Resource;
+using StoryTime.Domains.Settings.ScriptableObjects;
 using UnityEngine;
 using UnityEngine.Events;
 
 using TMPro;
 
-using StoryTime.ResourceManagement;
-
 namespace StoryTime.Components
 {
-	using Configurations.ScriptableObjects;
-
 	[Serializable] public class ActionEvent : UnityEvent<string> { }
 
 	[RequireComponent(typeof(TextMeshProUGUI))]
@@ -31,7 +28,7 @@ namespace StoryTime.Components
 
 		public TextMeshProUGUI _text;
 
-		private GameSettingConfigSO _gameSettings;
+		private StoryTimeSettingsSO _gameSettings;
 
 		private string _originalString = String.Empty;
 		private string _adjustedString = String.Empty;
@@ -200,7 +197,7 @@ namespace StoryTime.Components
 					// even numbers in the array are text, odd numbers are tags
 					// <action=>
 					// first grab the value from the regular expression
-					Match regexMatch = HelperClass.GetActionRegex(@"<action=(.*?)>", original, i);
+					Match regexMatch = ResourceHelper.GetActionRegex(@"<action=(.*?)>", original, i);
 					// the indices needs to match either
 					if (regexMatch.Success && i == regexMatch.Index)
 					{
@@ -210,7 +207,7 @@ namespace StoryTime.Components
 						firstFullyInvisibleChar = (int) Mathf.Min(keyIndex, maxIndex) + 1;
 						unrevealed = original.Substring(firstFullyInvisibleChar);
 
-						Match match = HelperClass.GetActionRegex(@"(?<=<action=)(.*?)(?=>)", original, i);
+						Match match = ResourceHelper.GetActionRegex(@"(?<=<action=)(.*?)(?=>)", original, i);
 						actionTag = match.Value;
 
 						// jump to the end of the match
@@ -257,7 +254,7 @@ namespace StoryTime.Components
 
 		private void Awake()
 		{
-			_gameSettings =  GameSettingConfigSO.GetOrCreateSettings();
+			_gameSettings = ScriptableObject.CreateInstance<StoryTimeSettingsSO>();
 
 			// Grab the text component
 			_text = GetComponent <TextMeshProUGUI>();

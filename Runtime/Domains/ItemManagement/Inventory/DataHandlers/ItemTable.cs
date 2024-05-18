@@ -1,5 +1,6 @@
 
-using StoryTime.Configurations.ScriptableObjects;
+using StoryTime.Domains.Settings.ScriptableObjects;
+
 // ReSharper disable once CheckNamespace
 namespace StoryTime.Components.ScriptableObjects
 {
@@ -17,7 +18,7 @@ namespace StoryTime.Components.ScriptableObjects
 				return item;
 			}
 
-			GlobalSettingsSO config = GlobalSettingsSO.GetOrCreateSettings();
+			var config = CreateInstance<StoryTimeSettingsSO>();
 			if (config)
 			{
 				item.ID = row.RowId;

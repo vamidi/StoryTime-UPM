@@ -8,6 +8,7 @@ using UnityEngine.UIElements;
 
 using StoryTime.Utils.Extensions;
 using StoryTime.Components.ScriptableObjects;
+using StoryTime.Editor.Domains.UI;
 
 namespace StoryTime.FirebaseService.Database.Editor.UI
 {
@@ -56,10 +57,10 @@ namespace StoryTime.FirebaseService.Database.Editor.UI
 			if (titleContent != null && titleContent.text == GetType().FullName)
 				titleContent.text = GetType().GetNiceName().SplitPascalCase();
 
-			TemplateContainer treeAsset = Resources.GetTemplate(nameof(StoryTimeEditorWindow));
+			TemplateContainer treeAsset = UIResourceHelper.GetTemplate(nameof(StoryTimeEditorWindow));
 			rootVisualElement.Add(treeAsset);
 
-			var styles = Resources.GetStyleAsset(nameof(StoryTimeEditorWindow));
+			var styles = UIResourceHelper.GetStyleAsset(nameof(StoryTimeEditorWindow));
 			rootVisualElement.styleSheets.Add(styles);
 
 			_root = rootVisualElement;

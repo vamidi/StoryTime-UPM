@@ -7,6 +7,7 @@ using UnityEngine;
 
 using StoryTime.VisualScripting.Data;
 using StoryTime.Components.ScriptableObjects;
+using StoryTime.Editor.Domains.UI;
 using StoryTime.VisualScripting.Data.ScriptableObjects;
 
 using StartNodeSO = StoryTime.VisualScripting.Data.ScriptableObjects.StartNode;
@@ -130,10 +131,10 @@ namespace StoryTime.Editor.VisualScripting
 
 		private void AddStyles()
 		{
-			var stylesheet = UI.Resources.GetStyleAsset($"VisualScripting/{nameof(DialogueGraphEditorWindow)}");
+			var stylesheet = UIResourceHelper.GetStyleAsset($"VisualScripting/{nameof(DialogueGraphEditorWindow)}");
 			styleSheets.Add(stylesheet);
 
-			stylesheet = UI.Resources.GetStyleAsset("VisualScripting/Variables");
+			stylesheet = UIResourceHelper.GetStyleAsset("VisualScripting/Variables");
 
 			styleSheets.Add(stylesheet);
 		}

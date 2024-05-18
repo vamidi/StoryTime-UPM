@@ -9,8 +9,6 @@ using UnityEngine;
 
 namespace StoryTime.FirebaseService.Database.ResourceManagement
 {
-	using Settings;
-
 	public enum NbLocationFileType {
 		Default,
 		Story,
@@ -27,11 +25,11 @@ namespace StoryTime.FirebaseService.Database.ResourceManagement
 		private string projectID = "";
 		private readonly string BASE_STORAGE_PATH = "node-editor/projects";
 
-		public void Initialize(/*FirebaseStorage storage, Firebase.Database.FirebaseDatabase database, */ FirebaseConfigSO config)
+		public void Initialize(/* APIConfigSO config */)
 		{
 			// _storage = storage;
 			// _database = database;
-			projectID = config.ProjectID;
+			// projectID = config.ProjectID;
 			// StorageReference pathReference =
 			// Storage.GetReference($"node-editor/projects/{DatabaseConfigSo.ProjectID}");
 

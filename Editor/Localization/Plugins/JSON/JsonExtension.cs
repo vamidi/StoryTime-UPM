@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using StoryTime.Domains.Settings.ScriptableObjects;
 using UnityEditor.Localization;
 using UnityEditor.Localization.Plugins.Google;
 using UnityEditor.Localization.Plugins.Google.Columns;
@@ -11,9 +12,7 @@ using UnityEngine;
 namespace StoryTime.Editor.Localization.Plugins.JSON
 {
 	using Fields;
-	using FirebaseService.Settings;
-
-
+	
 	/// <summary>
     /// <see cref="StringTableCollection"/> that provides an editor interface to <see cref="GoogleSheets"/>.
     /// </summary>
@@ -48,7 +47,7 @@ namespace StoryTime.Editor.Localization.Plugins.JSON
 
 		[SerializeReference] private List<SheetColumn> fields = new ();
 
-		[SerializeField] private FirebaseConfigSO jsonServiceProvider;
+		[SerializeField] private StoryTimeSettingsSO jsonServiceProvider;
 
 		[SerializeField] private string tableName = String.Empty;
 
@@ -59,7 +58,7 @@ namespace StoryTime.Editor.Localization.Plugins.JSON
 		public override void Initialize()
 		{
 			base.Initialize();
-			jsonServiceProvider = FirebaseConfigSO.GetOrCreateSettings();
+			jsonServiceProvider = ScriptableObject.CreateInstance<StoryTimeSettingsSO>();
 		}
 
 		public void AddField(SheetColumn column)

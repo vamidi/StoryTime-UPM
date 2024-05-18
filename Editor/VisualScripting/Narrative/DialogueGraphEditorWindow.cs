@@ -9,6 +9,7 @@ using UnityEngine.UIElements;
 
 using StoryTime.VisualScripting.Data;
 using StoryTime.Components.ScriptableObjects;
+using StoryTime.Editor.Domains.UI;
 
 namespace StoryTime.Editor.VisualScripting
 {
@@ -46,7 +47,7 @@ namespace StoryTime.Editor.VisualScripting
 		{
 			VisualElement root = rootVisualElement;
 
-			var visualTree = UI.Resources.GetTemplateAsset($"VisualScripting/{nameof(DialogueGraphEditorWindow)}");
+			var visualTree = UIResourceHelper.GetTemplateAsset($"VisualScripting/{nameof(DialogueGraphEditorWindow)}");
 			visualTree.CloneTree(root);
 
 			base.CreateGUI();
