@@ -39,8 +39,6 @@ namespace StoryTime.Editor.Database
 
 		private bool _canFetch = true;
 		
-		// users API-Key 7753f4cc-efe3-4ff7-9761-c086bf213783
-
 		// Check to see if we're about to be destroyed.
 		// private static bool m_ShuttingDown = false;
 		// private static object m_Lock = new object();
