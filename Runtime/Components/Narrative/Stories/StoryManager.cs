@@ -131,7 +131,7 @@ namespace StoryTime.Components
 		{
 			if (eventName == "AcceptQuest")
 			{
-				var qStory = stories.Find(story => (int)storyID == story.ID);
+				var qStory = stories.Find(story => (string)storyID == story.ID);
 				if (qStory != null)
 				{
 					subStories.Add(qStory);

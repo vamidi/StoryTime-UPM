@@ -14,7 +14,7 @@ namespace StoryTime.Editor.UI
 	{
 		private static TableDatabase _tableDatabase;
 
-		public static void GenerateList(ref Dictionary<uint, string> populatedList, TableBehaviour target, out bool isJsonObj)
+		public static void GenerateList(ref Dictionary<String, String> populatedList, TableBehaviour target, out bool isJsonObj)
 		{
 			isJsonObj = false;
 			if (target != null)
@@ -23,13 +23,13 @@ namespace StoryTime.Editor.UI
 
 				var binary = _tableDatabase.GetBinary(target.Name);
 				string linkColumn = target.LinkedColumn;
-				uint linkId = target.LinkedID;
+				String linkId = target.LinkedID;
 				bool linkTable = target.LinkedTable != String.Empty;
 
 				// retrieve the column we need to show
 				if (binary != null)
 				{
-					populatedList = linkColumn != "" && (linkTable || linkId != UInt32.MaxValue) ? binary.PopulateWithLink(
+					populatedList = linkColumn != "" && (linkTable || linkId != String.Empty) ? binary.PopulateWithLink(
 						target.DropdownColumn,
 						linkColumn,
 						linkId,

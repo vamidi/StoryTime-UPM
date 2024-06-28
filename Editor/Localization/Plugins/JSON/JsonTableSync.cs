@@ -124,7 +124,7 @@ namespace StoryTime.Editor.Localization.Plugins.JSON
 				if (table == null) throw new Exception($"No table data available for {TableId}");
 
 				// The data will be structured differently if we used a filter or not so we need to extract the parts we need.
-				var pulledRows = new List<(uint valueIndex, TableRow rowData)>();
+				var pulledRows = new List<(String valueIndex, TableRow rowData)>();
 
 				if (UsingApiKey)
 				{
@@ -205,7 +205,7 @@ namespace StoryTime.Editor.Localization.Plugins.JSON
 			}
 		}
 
-		void MergePull(List<(uint valueIndex, TableRow rowData)> rows, StringTableCollection collection, IList<SheetColumn> fieldMapping, bool removeMissingEntries, ITaskReporter reporter)
+		void MergePull(List<(String valueIndex, TableRow rowData)> rows, StringTableCollection collection, IList<SheetColumn> fieldMapping, bool removeMissingEntries, ITaskReporter reporter)
         {
             reporter?.ReportProgress("Preparing to merge", 0.55f);
 

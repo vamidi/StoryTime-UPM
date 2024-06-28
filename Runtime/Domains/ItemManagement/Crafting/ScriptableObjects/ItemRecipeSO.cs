@@ -34,7 +34,7 @@ namespace StoryTime.Components.ScriptableObjects
 
 		[SerializeField, Tooltip("The resulting dish to the recipe")] private ItemSO resultingDish;
 
-		ItemRecipeSO() : base("shopCraftables", "name", "childId", UInt32.MaxValue, "items")
+		ItemRecipeSO() : base("shopCraftables", "name", "childId", "", "items")
 		{
 			isGraphEnabled = true;
 		}
@@ -56,7 +56,7 @@ namespace StoryTime.Components.ScriptableObjects
 		protected override void Initialize()
 		{
 #if UNITY_EDITOR
-			if (ID != UInt32.MaxValue)
+			if (ID != String.Empty)
 			{
 				var entryId = (childId + 1).ToString();
 				collection = LocalizationEditorSettings.GetStringTableCollection("Item Names");
@@ -142,12 +142,12 @@ namespace StoryTime.Components.ScriptableObjects
 							var otherData = otherNode["data"]?.ToObject<JObject>() ?? emptyObj;
 
 							// fetch the item id
-							var itemId = otherData["itemId"]?.ToObject<uint>() ?? UInt32.MaxValue;
-							if (itemId != UInt32.MaxValue)
+							var itemId = otherData["itemId"]?.ToObject<String>() ?? String.Empty;
+							if (itemId != String.Empty)
 							{
 								var link = TableDatabase.Get.FindLink("shopCraftConditions", "childId", itemId);
 
-								if (link.Item1 != UInt32.MaxValue && link.Item2.Fields.Count > 0)
+								if (link.Item1 != String.Empty && link.Item2.Fields.Count > 0)
 								{
 									int amount = 1;
 									var amountField =  link.Item2.Find("amount");

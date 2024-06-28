@@ -113,9 +113,9 @@ namespace StoryTime.Editor.UI
 
 		protected readonly DrawListView<TW, T> ItemListView;
 
-		protected Dictionary<uint, string> PopulatedList = new()
+		protected Dictionary<String, String> PopulatedList = new()
 		{
-			{ UInt32.MaxValue, "None" }
+			{ "Empty", "None" }
 		};
 
 		protected int choiceIndex = Int32.MaxValue;

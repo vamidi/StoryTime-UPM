@@ -108,11 +108,11 @@ namespace StoryTime.Editor.VisualScripting.Utilities
         public static void AppendCharacterAction(
             this ToolbarMenu toolbarMenu,
             List<CharacterSO> characters,
-            UInt32 savedCharacterId = UInt32.MaxValue,
+            String savedCharacterId = "",
             Action<DropdownMenuAction> action = null
         )
         {
-            if (savedCharacterId == UInt32.MaxValue)
+            if (savedCharacterId == String.Empty)
             {
                 toolbarMenu.text = characters[0].CharacterName.GetLocalizedString();
             }

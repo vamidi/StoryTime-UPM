@@ -81,7 +81,7 @@ namespace StoryTime.Components.ScriptableObjects
 
 				if (field.Key.Equals("magicCurve"))
 				{
-					uint paramId = (uint)field.Value.Data;
+					string paramId = (string)field.Value.Data;
 					var linkField = skill.GetField("attributes", "alias", paramId);
 					if (linkField != null)
 					{
@@ -91,7 +91,7 @@ namespace StoryTime.Components.ScriptableObjects
 
 				if (field.Key.Equals("dmgParameter"))
 				{
-					uint paramId = (uint)field.Value.Data;
+					string paramId = (string)field.Value.Data;
 					var linkField = skill.GetField("attributes", "alias", paramId);
 					if (linkField != null)
 					{

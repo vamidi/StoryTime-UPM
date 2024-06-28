@@ -26,8 +26,8 @@ namespace StoryTime.Components.ScriptableObjects
 
 				if (field.Key.Equals("nextId"))
 				{
-					uint data = (uint)field.Value.Data;
-					task.NextId = data == UInt32.MaxValue - 1 ? UInt32.MaxValue : data;
+					string data = field.Value.Data;
+					task.NextId = data;
 				}
 
 				if (field.Key.Equals("description"))
@@ -42,14 +42,14 @@ namespace StoryTime.Components.ScriptableObjects
 
 				if (field.Key.Equals("npc"))
 				{
-					uint data = (uint)field.Value.Data;
-					task.Npc = data == UInt32.MaxValue - 1 ? UInt32.MaxValue : data;
+					string data = field.Value.Data;
+					task.Npc = data;
 				}
 
 				if (field.Key.Equals("parentId"))
 				{
-					uint data = (uint)field.Value.Data;
-					task.ParentId = data == UInt32.MaxValue - 1 ? UInt32.MaxValue : data;
+					string data = field.Value.Data;
+					task.ParentId = data;
 					Debug.Log($"parentId {task.ParentId}");
 				}
 

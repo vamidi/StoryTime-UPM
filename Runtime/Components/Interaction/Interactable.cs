@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace StoryTime.Components
@@ -6,7 +7,7 @@ namespace StoryTime.Components
 
 	public class Interactable : MonoBehaviour
 	{
-		public uint GetID => nonPlayableCharacter ? nonPlayableCharacter.ID : uint.MaxValue;
+		public String GetID => nonPlayableCharacter ? nonPlayableCharacter.ID : "";
 
 		[SerializeField] private NonPlayableActorSO nonPlayableCharacter;
 	}

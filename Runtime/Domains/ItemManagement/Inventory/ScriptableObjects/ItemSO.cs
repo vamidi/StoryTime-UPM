@@ -122,7 +122,7 @@ namespace StoryTime.Components.ScriptableObjects
 		// Effect Type Id
 
 		public ItemSO(string name, string dropdownColumn, string linkedColumn = "",
-			UInt32 linkedId = UInt32.MaxValue, string linkedTable = "") : base(name, dropdownColumn, linkedColumn, linkedId, linkedTable) { }
+			String linkedId = "", string linkedTable = "") : base(name, dropdownColumn, linkedColumn, linkedId, linkedTable) { }
 
 		ItemSO(): base("items", "name") {}
 

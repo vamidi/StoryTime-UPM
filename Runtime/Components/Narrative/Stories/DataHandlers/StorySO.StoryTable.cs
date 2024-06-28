@@ -58,23 +58,23 @@ namespace StoryTime.Components.ScriptableObjects
 			{
 				if (field.Key.Equals("id"))
 				{
-					uint data = (uint) field.Value.Data;
-					story.ID = data == uint.MaxValue - 1 ? uint.MaxValue : data;
+					string data = (String) field.Value.Data;
+					story.ID = data;
 				}
 
 				// Fetch the first dialogue we should start
 				if (field.Key.Equals("childId"))
 				{
 					// retrieve the necessary items
-					uint data = (uint) field.Value.Data;
-					story.childId = data == uint.MaxValue - 1 ? uint.MaxValue : data;
+					String data = (String) field.Value.Data;
+					story.childId = data;
 				}
 
 				if (field.Key.Equals("parentId"))
 				{
 					// retrieve the necessary items
-					uint data = (uint) field.Value.Data;
-					story.parentId = data == uint.MaxValue - 1 ? uint.MaxValue : data;
+					String data = field.Value.Data;
+					story.parentId = data;
 				}
 
 				if (field.Key.Equals("typeId"))
@@ -320,8 +320,8 @@ namespace StoryTime.Components.ScriptableObjects
 							if (currentDialogueNode && currentDialogueNode.DialogueLine != null)
 							{
 								// fetch the event name
-								var eventId = otherData["eventId"]?.ToObject<uint>() ?? UInt32.MaxValue;
-								if (eventId != UInt32.MaxValue)
+								var eventId = otherData["eventId"]?.ToObject<String>() ?? String.Empty;
+								if (eventId != String.Empty)
 								{
 									var row = TableDatabase.Get.GetRow("events", eventId);
 
@@ -355,14 +355,14 @@ namespace StoryTime.Components.ScriptableObjects
 					if ( currentDialogueNode && currentDialogueNode.DialogueLine != null)
 					{
 						// Fetch the other dialogueId
-						var nextId = otherData["dialogueId"]?.ToObject<uint>() ?? UInt32.MaxValue;
+						var nextId = otherData["dialogueId"]?.ToObject<string>() ?? String.Empty;
 
 						// if this node does not consist of any choices
 						// go this way
 						if (!containsOption)
 						{
 							// validate the data
-							if (nextId != UInt32.MaxValue)
+							if (nextId != String.Empty)
 							{
 								var nextDialogue = CreateNode(typeof(DialogueNode)) as DialogueNode;
 								nextDialogue.DialogueLine = DialogueLine.DialogueTable.ConvertRow(
@@ -387,7 +387,7 @@ namespace StoryTime.Components.ScriptableObjects
 						else
 						{
 							// grab the choice id from the current node.
-							var optionId = data["options"][outputToken.Key]["value"].ToObject<uint>();
+							var optionId = data["options"][outputToken.Key]["value"].ToObject<String>();
 
 							// Grab the choice
 							DialogueChoice choice = DialogueChoice.ChoiceTable.ConvertRow(
@@ -399,7 +399,7 @@ namespace StoryTime.Components.ScriptableObjects
 
 							// find the next dialogue of this choice.
 
-							if (nextId != UInt32.MaxValue)
+							if (nextId != String.Empty)
 							{
 								currentDialogueNode.DialogueLine =
 									DialogueLine.DialogueTable.ConvertRow(TableDatabase.Get.GetRow("dialogues", nextId),

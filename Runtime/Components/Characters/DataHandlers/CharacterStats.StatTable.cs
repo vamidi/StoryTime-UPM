@@ -39,7 +39,7 @@ namespace StoryTime.Components
 
 				if (field.Key.Equals("paramId"))
 				{
-					stat.paramId = (uint)field.Value.Data;
+					stat.paramId = (string)field.Value.Data;
 #if UNITY_EDITOR
 					// Only get the first dialogue.
 					var paramEntryId = (stat.paramId + 1).ToString();

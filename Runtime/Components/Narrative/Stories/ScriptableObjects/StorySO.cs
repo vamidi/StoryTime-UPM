@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-using Newtonsoft.Json.Linq;
+using StoryTime.Domains.Attributes;
 using UnityEngine;
 using UnityEngine.Localization;
 
@@ -29,16 +28,16 @@ namespace StoryTime.Components.ScriptableObjects
 
 		/** ------------------------------ DATABASE FIELD ------------------------------ */
 
-		public uint ParentId => parentId;
-		public uint ChildId => childId;
+		public string ParentId => parentId;
+		public string ChildId => childId;
 
 		/** ------------------------------ DATABASE FIELD ------------------------------ */
 
-		[SerializeField, HideInInspector] // Tooltip("The character id where this story belongs to.")]
-		protected uint parentId = UInt32.MaxValue;
+		[SerializeField, Uuid] // Tooltip("The character id where this story belongs to.")]
+		protected string parentId;
 
-		[SerializeField, HideInInspector] // Tooltip("The id where the dialogue should go first")]
-		protected uint childId = UInt32.MaxValue;
+		[SerializeField, Uuid] // Tooltip("The id where the dialogue should go first")]
+		protected string childId;
 
 		// ReSharper disable once InconsistentNaming
 		protected bool m_IsDone;
@@ -65,8 +64,9 @@ namespace StoryTime.Components.ScriptableObjects
 		public override void Reset()
 		{
 			base.Reset();
-
-			childId = UInt32.MaxValue;
+#if UNITY_EDITOR
+			childId = System.Guid.NewGuid().ToString();
+#endif
 		}
 
 		public void FinishStory()
@@ -76,7 +76,7 @@ namespace StoryTime.Components.ScriptableObjects
 
 		private void Initialize()
 		{
-			if (ID != UInt32.MaxValue && childId != UInt32.MaxValue)
+			if (ID != "" && childId != "")
 			{
 				collection = overrideTable ? collection : LocalizationEditorSettings.GetStringTableCollection("Story Titles");
 				// Only get the first dialogue.

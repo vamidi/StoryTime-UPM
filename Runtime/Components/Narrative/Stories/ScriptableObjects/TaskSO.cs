@@ -25,12 +25,12 @@ namespace StoryTime.Components.ScriptableObjects
 	// ReSharper disable once InconsistentNaming
 	public partial class TaskSO : LocalizationBehaviour
 	{
-		public uint NextId { get => nextId; set => nextId = value; }
+		public String NextId { get => nextId; set => nextId = value; }
 		public LocalizedString Description => description;
 		public bool Hidden { get => hidden; set => hidden = value; }
-		public uint Npc { get => npc; set => npc = value; }
+		public String Npc { get => npc; set => npc = value; }
 		public EnemySO.EnemyCategory EnemyCategory => enemyCategory;
-		public uint ParentId { get; set; } = UInt32.MaxValue;
+		public String ParentId { get; set; } = String.Empty;
 		public uint RequiredCount { get => requiredCount; set => requiredCount = value; }
 		public List<ItemStack> Items { get => items; set => items = value; }
 		public TaskCompletionType Type { get => type; set => type = value; }
@@ -49,11 +49,11 @@ namespace StoryTime.Components.ScriptableObjects
 		[SerializeField] private bool hidden;
 
 		// the next task that the player needs to perform.
-		private uint nextId = UInt32.MaxValue;
+		private String nextId = String.Empty;
 
 		// Reference to the interactable id, could be a monster or a npc
 		// It could be even a reference to a group of monsters of some type.
-		private uint npc = UInt32.MaxValue;
+		private String npc = String.Empty;
 
 		// TODO show category instead of number
 		[SerializeField, HideInInspector, Tooltip("Which enemy category do we need to hunt")] private EnemySO.EnemyCategory enemyCategory = new ();
@@ -139,7 +139,7 @@ namespace StoryTime.Components.ScriptableObjects
 
 		private void Initialize()
 		{
-			if (ID != UInt32.MaxValue)
+			if (ID != String.Empty)
 			{
 				collection = overrideTable ? collection : LocalizationEditorSettings.GetStringTableCollection("Task Descriptions");
 				// Only get the first dialogue.

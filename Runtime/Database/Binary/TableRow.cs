@@ -5,7 +5,7 @@ namespace StoryTime.Database.Binary
 {
     public class TableRow
     {
-	    public uint RowId = UInt32.MaxValue;
+	    public string RowId;
         public Dictionary<TableRowInfo, TableField> Fields = new Dictionary<TableRowInfo, TableField>();
 
         public TableField Find(string columnName)

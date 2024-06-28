@@ -1,5 +1,5 @@
 ﻿using System;
-
+using StoryTime.Domains.Attributes;
 using UnityEngine;
 using UnityEngine.Localization;
 using Object = UnityEngine.Object;
@@ -20,7 +20,7 @@ namespace StoryTime.Components
 		/// <summary>
 		/// ID of the row inside the table.
 		/// </summary>
-		public UInt32 ID
+		public String ID
 		{
 			get => id;
 			set => id = value;
@@ -31,7 +31,7 @@ namespace StoryTime.Components
 		public string DialogueChoiceEvent => eventName;
 		public ChoiceActionType ActionType => actionType;
 
-		[SerializeField, HideInInspector] public UInt32 id = UInt32.MaxValue;
+		[SerializeField, HideInInspector, Uuid] public String id;
 
 		/// <summary>
 		/// The text we use to display.

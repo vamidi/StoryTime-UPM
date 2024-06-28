@@ -145,7 +145,7 @@ namespace StoryTime.Components.ScriptableObjects
 			// Set initial level
 			currentLevel = initialLevel;
 
-			if (ID != UInt32.MaxValue)
+			if (ID != "")
 			{
 				var entryId = (ID + 1).ToString();
 				collection = overrideTable ? collection : LocalizationEditorSettings.GetStringTableCollection("Character Names");

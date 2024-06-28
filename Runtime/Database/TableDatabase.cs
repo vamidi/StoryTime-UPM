@@ -16,7 +16,6 @@ namespace StoryTime.Database
     using Binary;
     using Utils.Extensions;
     using ScriptableObjects;
-    using ResourceManagement;
 
     /// <summary>
     /// TableDatabase stores table data from the json file and stores it into memory
@@ -51,24 +50,24 @@ namespace StoryTime.Database
 
         public static TableDatabase Get { get; } = new();
 
-        public List<Tuple<UInt32, TableRow>> FindLinks(string tableName, string columnName, UInt32 id)
+        public List<Tuple<String, TableRow>> FindLinks(string tableName, string columnName, String id)
         {
-            List<Tuple<UInt32, TableRow>> result = new List<Tuple<uint, TableRow>>();
+            List<Tuple<String, TableRow>> result = new List<Tuple<String, TableRow>>();
 
             TableSO table = GetTable(tableName);
             if (table)
             {
-	            foreach(KeyValuePair<UInt32, TableRow> row in table.Rows)
+	            foreach(KeyValuePair<String, TableRow> row in table.Rows)
 	            {
 		            foreach (KeyValuePair<TableRowInfo, TableField> field in row.Value.Fields)
 		            {
 			            if (field.Key.NotEquals(columnName))
 				            continue;
 
-			            double d = field.Value.Data;
+			            string d = field.Value.Data;
 			            // memcpy(&d, field.Value.Data.Get(), FMath::Min((size_t)sizeof(double), (size_t)field.Value.Size));
-			            if ((uint) d == id)
-				            result.Add(new Tuple<uint, TableRow>(row.Key, row.Value));
+			            if (d == id)
+				            result.Add(new Tuple<string, TableRow>(row.Key, row.Value));
 		            }
 	            }
             }
@@ -76,7 +75,7 @@ namespace StoryTime.Database
             return result;
         }
 
-        public /* const */ TableField GetField(string tableName, uint columnId, uint id)
+        public /* const */ TableField GetField(string tableName, uint columnId, String id)
         {
             TableRow row = GetRow(tableName, id);
 
@@ -98,7 +97,7 @@ namespace StoryTime.Database
         /// <param name="columnName"></param>
         /// <param name="id"></param>
         /// <returns></returns>
-        public /* const */ TableField GetField(string tableName, string columnName, uint id)
+        public /* const */ TableField GetField(string tableName, string columnName, String id)
         {
             TableRow row = GetRow(tableName, id);
 
@@ -119,7 +118,7 @@ namespace StoryTime.Database
         /// <param name="tableName"></param>
         /// <param name="entityID"></param>
         /// <returns></returns>
-        public TableRow GetRow(string tableName, uint entityID)
+        public TableRow GetRow(string tableName, string entityID)
         {
 	        TableSO table = GetTable(tableName);
 	        Debug.Log(table);
@@ -218,23 +217,23 @@ namespace StoryTime.Database
 	        return table != null ? table.Binary : null;
         }
 
-        public Tuple<uint, TableRow> FindLink(string tableName, string columnName, uint id)
+        public Tuple<String, TableRow> FindLink(string tableName, string columnName, String id)
         {
             /* const */ TableSO table = GetTable(tableName);
 
-            foreach (KeyValuePair<uint, TableRow> row in table.Rows)
+            foreach (KeyValuePair<String, TableRow> row in table.Rows)
             {
 	            var field = row.Value.Find(columnName);
 	            if (field != null)
 	            {
-		            double d = field.Data;
+		            string d = field.Data;
 		            // memcpy(&d, field.Value.Data.Get(), FMath::Min((size_t)sizeof(double), (size_t)field.Value.Size));
-		            if ((uint) d == id)
-			            return new Tuple<uint, TableRow>(row.Key, row.Value);
+		            if (d == id)
+			            return new Tuple<String, TableRow>(row.Key, row.Value);
 	            }
             }
 
-            return new Tuple<uint, TableRow>(UInt32.MaxValue, null);
+            return new Tuple<String, TableRow>("", null);
         }
         void RemoveCache()
         {

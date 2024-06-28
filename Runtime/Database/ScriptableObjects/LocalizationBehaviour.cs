@@ -17,7 +17,7 @@ namespace StoryTime.Database.ScriptableObjects
 		[SerializeField, ConditionalField("overrideTable"), Tooltip("Table collection we are going to use")]
 		protected StringTableCollection collection;
 
-		public LocalizationBehaviour(string name, string dropdownColumn, string linkedColumn = "", uint linkedId = UInt32.MaxValue, string linkedTable = "")
+		public LocalizationBehaviour(string name, string dropdownColumn, string linkedColumn = "", string linkedId = "", string linkedTable = "")
 			: base(name, dropdownColumn, linkedColumn, linkedId, linkedTable) { }
 	}
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using StoryTime.Domains.Attributes;
 using UnityEngine;
 using UnityEngine.Localization;
 
@@ -14,13 +15,13 @@ namespace StoryTime.Components
 		/// <summary>
 		/// ID of the row inside the table.
 		/// </summary>
-		public UInt32 ID
+		public String ID
 		{
 			get => id;
 			set => id = value;
 		}
 
-		public UInt32 ParamID => paramId;
+		public String ParamID => paramId;
 		public LocalizedString StatName => statName;
 		public Attribute Attribute => attribute;
 		public string Formula => paramFormula;
@@ -53,8 +54,8 @@ namespace StoryTime.Components
 		/**
 		 * Database variables
 		 */
-		[SerializeField] private uint id = UInt32.MaxValue;
-		[SerializeField] private uint paramId = UInt32.MaxValue;
+		[SerializeField, Uuid] private String id;
+		[SerializeField] private String paramId;
 		[SerializeField] protected LocalizedString statName;
 		// TODO better naming
 		[SerializeField] protected Attribute attribute = new ();

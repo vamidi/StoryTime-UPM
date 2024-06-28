@@ -64,7 +64,7 @@ namespace StoryTime.Components.ScriptableObjects
 
 		private void Initialize()
 		{
-			if (ID != UInt32.MaxValue)
+			if (ID != String.Empty)
 			{
 				// Clear out every stat modifier the player class has.
 				ClearModifiers();

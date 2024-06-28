@@ -23,9 +23,9 @@ namespace StoryTime.Editor.UI
 		protected bool IsJsonObj;
 
 		private int _choiceIndex;
-		private Dictionary<uint, string> _populatedList = new()
+		private Dictionary<String, String> _populatedList = new()
 		{
-			{ UInt32.MaxValue, "None" }
+			{ "Empty", "None" }
 		};
 
 
@@ -140,7 +140,7 @@ namespace StoryTime.Editor.UI
 		protected override void OnChanged()
 		{
 			var t = target as CharacterSO;
-			if (t && t.ID != UInt32.MaxValue)
+			if (t && t.ID != String.Empty)
 			{
 				var row = t.GetRow(t.Name, t.ID);
 				// set all the values from the selected row
@@ -152,9 +152,9 @@ namespace StoryTime.Editor.UI
 	[UnityEditor.CustomEditor(typeof(StorySO))]
 	public class StoryTableEditor : BaseTableEditor<StorySO>
 	{
-		private Dictionary<uint, FirebaseStorageService.StoryFileUpload> stories = new()
+		private Dictionary<String, FirebaseStorageService.StoryFileUpload> stories = new()
 		{
-			{ UInt32.MaxValue, null }
+			{ "Empty", null }
 		};
 
 		protected override void GenerateList()
@@ -193,7 +193,7 @@ namespace StoryTime.Editor.UI
 		protected override void OnChanged()
 		{
 			var t = target as StorySO;
-			if (t != null && t.ID != UInt32.MaxValue)
+			if (t != null && t.ID != String.Empty)
 			{
 				var row = t.GetRow(t.Name, t.ID);
 
@@ -324,7 +324,7 @@ namespace StoryTime.Editor.UI
 		protected override void OnChanged()
 		{
 			var t = target as SkillSO;
-			if (t != null && t.ID != UInt32.MaxValue)
+			if (t != null && t.ID != String.Empty)
 			{
 				var row = t.GetRow(t.Name, t.ID);
 
@@ -341,7 +341,7 @@ namespace StoryTime.Editor.UI
 		protected override void OnChanged()
 		{
 			var t = target as CharacterClassSO;
-			if (t != null && t.ID != UInt32.MaxValue)
+			if (t != null && t.ID != String.Empty)
 			{
 				var row = t.GetRow(t.Name, t.ID);
 
@@ -358,7 +358,7 @@ namespace StoryTime.Editor.UI
 		protected override void OnChanged()
 		{
 			var t = target as TaskSO;
-			if (t != null && t.ID != UInt32.MaxValue)
+			if (t != null && t.ID != String.Empty)
 			{
 				var row = t.GetRow(t.Name, t.ID);
 
@@ -375,7 +375,7 @@ namespace StoryTime.Editor.UI
 		{
 			Debug.Log($"is JObject {IsJsonObj}");
 			var t = target as ItemSO;
-			if (t != null && t.ID != UInt32.MaxValue)
+			if (t != null && t.ID != String.Empty)
 			{
 				var row = t.GetRow(t.Name, t.ID);
 
@@ -395,7 +395,7 @@ namespace StoryTime.Editor.UI
 		{
 			Debug.Log($"is JObject {IsJsonObj}");
 			var t = target as ItemRecipeSO;
-			if (t != null && t.ID != UInt32.MaxValue)
+			if (t != null && t.ID != String.Empty)
 			{
 				var row = t.GetRow(t.Name, t.ID);
 
@@ -413,7 +413,7 @@ namespace StoryTime.Editor.UI
 		protected override void OnChanged()
 		{
 			var t = target as EnemySO;
-			if (t != null && t.ID != UInt32.MaxValue)
+			if (t != null && t.ID != String.Empty)
 			{
 				var row = t.GetRow(t.Name, t.ID);
 

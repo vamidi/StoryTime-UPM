@@ -131,7 +131,7 @@ namespace StoryTime.Components
 		/// </summary>
 		/// <param name="itemID"></param>
 		/// <returns></returns>
-		public virtual TStack Get(uint itemID)
+		public virtual TStack Get(String itemID)
 		{
 			foreach (var currentItemStack in items)
 			{

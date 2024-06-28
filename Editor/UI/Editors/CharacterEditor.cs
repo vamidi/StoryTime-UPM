@@ -63,7 +63,7 @@ namespace StoryTime.Editor.UI
 					Debug.Log(iterator.propertyPath);
 					choiceIndex = Array.FindIndex(PopulatedList.Keys.ToArray(), idx => idx == character.ID);
 
-					PopupField<uint> popupField = new PopupField<uint>("ID", PopulatedList.Keys.ToList(), choiceIndex)
+					PopupField<String> popupField = new PopupField<String>("ID", PopulatedList.Keys.ToList(), choiceIndex)
 					{
 						bindingPath = "id",
 						formatListItemCallback = i => PopulatedList[i],
@@ -72,7 +72,7 @@ namespace StoryTime.Editor.UI
 
 					popupField.RegisterValueChangedCallback(evt =>
 					{
-						if (evt.newValue >= 0 && ItemListView.Selected != null)
+						if (evt.newValue != "" && ItemListView.Selected != null)
 						{
 							if (ItemListView.Selected.ID != evt.newValue)
 							{
@@ -118,7 +118,7 @@ namespace StoryTime.Editor.UI
 		protected override void OnChanged()
 		{
 			var t = ItemListView.Selected;
-			if (t && t.ID != UInt32.MaxValue)
+			if (t && t.ID != String.Empty)
 			{
 				var row = t.GetRow(t.Name, t.ID);
 				// set all the values from the selected row

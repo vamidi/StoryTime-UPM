@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using StoryTime.Domains.Attributes;
 using StoryTime.Utils.Attributes;
 using UnityEditor.Localization;
 using UnityEngine;
@@ -20,7 +21,7 @@ namespace StoryTime.Components
 		/// <summary>
 		/// ID of the row inside the table.
 		/// </summary>
-		public UInt32 ID
+		public String ID
 		{
 			get => id;
 			set => id = value;
@@ -38,7 +39,7 @@ namespace StoryTime.Components
 
 		public List<DialogueChoice> Choices => choices;
 
-		[SerializeField, HideInInspector] private UInt32 id = UInt32.MaxValue;
+		[SerializeField, HideInInspector, Uuid] private String id;
 
 		[SerializeField, Tooltip("Override If you want to display an text dialogue only.")]
 		protected bool simplified;

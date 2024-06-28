@@ -29,9 +29,9 @@ namespace StoryTime.Database.ScriptableObjects
 			private bool _listUpdated;
 			private string _shownColumn;
 
-			private readonly Dictionary<uint, string> _list = new()
+			private readonly Dictionary<String, String> _list = new()
 			{
-				{ UInt32.MaxValue, "None" }
+				{ "Empty", "None" }
 			};
 
 			/*
@@ -263,17 +263,17 @@ namespace StoryTime.Database.ScriptableObjects
 			}
 			*/
 
-			public uint GetColumnID(string columnName)
+			public string GetColumnID(string columnName)
 			{
 				string cName = columnName;
 
 				for (uint j = 0; j < _ujson.ColumnCount; ++j)
 				{
 					if (String.CompareOrdinal(_ujson.JsonColumnEntries[(int)j].Name, cName) == 0)
-						return j;
+						return j.ToString();
 				}
 
-				return uint.MaxValue;
+				return String.Empty;
 			}
 
 			public string GetColumnName(uint columnId)
@@ -284,7 +284,7 @@ namespace StoryTime.Database.ScriptableObjects
 				return _ujson.JsonColumnEntries[(int)columnId].Name;
 			}
 
-			protected internal void Refresh(string stream, ref Dictionary<UInt32, TableRow> rows)
+			protected internal void Refresh(string stream, ref Dictionary<String, TableRow> rows)
 			{
 				// clear out existing data
 				_data.Clear();
@@ -301,11 +301,11 @@ namespace StoryTime.Database.ScriptableObjects
 			/// <param name="isJObject"></param>
 			/// <param name="otherTable"></param>
 			/// <returns></returns>
-			public Dictionary<uint, string> PopulateWithLink(string columnToShow, string linkedColumn, uint linkedId,
+			public Dictionary<String, String> PopulateWithLink(string columnToShow, string linkedColumn, string linkedId,
 				out bool isJObject, string otherTable = "")
 			{
 				isJObject = false;
-				return new Dictionary<uint, string>();
+				return new Dictionary<String, String>();
 				/*
 				// Find the other binary if we need to show the string that is inside that table.
 				// If not that means the linked column is in the same table.
@@ -369,18 +369,18 @@ namespace StoryTime.Database.ScriptableObjects
 			/// <param name="columnToShow"></param>
 			/// <param name="isJsonObj"></param>
 			/// <returns></returns>
-			public Dictionary<uint, string> Populate(string columnToShow, out bool isJsonObj)
+			public Dictionary<String, String> Populate(string columnToShow, out bool isJsonObj)
 			{
 				isJsonObj = false;
 
-				uint uiColumnID = GetColumnID(columnToShow);
+				string uiColumnID = GetColumnID(columnToShow);
 
 				if (_shownColumn == columnToShow && !_listUpdated)
 				{
-					var idx = (int)uiColumnID;
-					if (idx > 0 && idx < _data.Count)
+					var idx = uiColumnID;
+					if (idx != "")
 					{
-						var data = _data[idx].Data;
+						var data = new JObject(); // _data[idx].Data;
 						isJsonObj = data is JObject;
 					}
 
@@ -394,11 +394,11 @@ namespace StoryTime.Database.ScriptableObjects
 				{
 					// if (!_UJSON.DSCT.Pointers[i]) { _list.Remove(i); continue; }
 					string d = "";
-					if (uiColumnID == uint.MaxValue)
+					if (uiColumnID == "")
 						d = i.ToString();
 					else
 					{
-						var data = _data[(int)(i * _ujson.ColumnCount + uiColumnID)].Data;
+						var data = new JObject(); // _data[(int)(i * _ujson.ColumnCount + uiColumnID)].Data;
 						if (data is JObject)
 						{
 							isJsonObj = true;
@@ -409,10 +409,10 @@ namespace StoryTime.Database.ScriptableObjects
 					}
 
 					// override if already exists
-					if (_list.ContainsKey(i))
-						_list[i] = d;
+					if (_list.ContainsKey(i.ToString()))
+						_list[i.ToString()] = d;
 					else
-						_list.Add(i, d);
+						_list.Add(i.ToString(), d);
 				}
 
 				return _list;
@@ -424,7 +424,8 @@ namespace StoryTime.Database.ScriptableObjects
 			/// <param name="tableID"></param>
 			/// <param name="jsonTableData"></param>
 			/// <param name="exportData"></param>
-			protected internal void Import(string tableID, JToken jsonTableData, ref Dictionary<UInt32, TableRow> rows, out string exportData)
+			/// TODO refactor, because of uuid
+			protected internal void Import(string tableID, JToken jsonTableData, ref Dictionary<String, TableRow> rows, out string exportData)
 			{
 				exportData = "";
 				_listUpdated = true;
@@ -448,16 +449,17 @@ namespace StoryTime.Database.ScriptableObjects
 				// Check change in column
 				// _UJSON.Entries = new List<JSONEntry>((int)_UJSON.EntityCount);
 
-				uint i = 0;
+				string uuid;
 				foreach (var row in entries)
 				{
 					JObject entity = row.ToObject<JObject>();
 
 					// highestID = (uint)Mathf.Max(highestID, uint.Parse(row.Key))
 					// UInt32 j = UInt32.Parse(r.Key) * _UJSON.ColumnCount;
+					uuid = Guid.NewGuid().ToString();
 					TableRow tblRow = new TableRow
 					{
-						RowId = i
+						RowId = uuid
 					};
 
 					uint j = 0;
@@ -482,8 +484,8 @@ namespace StoryTime.Database.ScriptableObjects
 								field.Data = column.Value.ToObject<JObject>();
 								break;
 						}
-
-						if (i == 0)
+						
+						if (uuid == "")
 						{
 							// Set the amount of columns existing in all the entities
 							_ujson.ColumnCount = (uint)entity.Count;
@@ -503,11 +505,10 @@ namespace StoryTime.Database.ScriptableObjects
 
 					}
 
-					if (rows.ContainsKey(i))
-						rows[i] = tblRow;
+					if (rows.ContainsKey(uuid))
+						rows[uuid] = tblRow;
 					else
-						rows.Add(i, tblRow);
-					i++;
+						rows.Add(uuid, tblRow);
 				}
 
 				// Set data
@@ -560,7 +561,7 @@ namespace StoryTime.Database.ScriptableObjects
 			/// <param name="tableData"></param>
 			/// <param ref="TableRow" name="rows"></param>
 			/// <returns></returns>
-			private void ParseData(JToken tableData, ref Dictionary<UInt32, TableRow> rows)
+			private void ParseData(JToken tableData, ref Dictionary<String, TableRow> rows)
 			{
 				JArray entities = tableData["data"].Value<JArray>();
 
@@ -585,9 +586,10 @@ namespace StoryTime.Database.ScriptableObjects
 				foreach (var el in entities)
 				{
 					var rowParameters = el.Children<JProperty>();
+					string uuid = Guid.NewGuid().ToString();
 					TableRow tblRow = new TableRow
 					{
-						RowId = i
+						RowId = uuid
 					};
 
 					if (i == 0)
@@ -634,10 +636,10 @@ namespace StoryTime.Database.ScriptableObjects
 						j++;
 					}
 
-					if (rows.ContainsKey(i))
-						rows[i] = tblRow;
+					if (rows.ContainsKey(uuid))
+						rows[uuid] = tblRow;
 					else
-						rows.Add(i, tblRow);
+						rows.Add(uuid, tblRow);
 					i++;
 				}
 			}

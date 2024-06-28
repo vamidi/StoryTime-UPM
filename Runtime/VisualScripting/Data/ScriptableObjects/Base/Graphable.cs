@@ -34,7 +34,7 @@ namespace StoryTime.VisualScripting.Data.ScriptableObjects
 
 		public bool isGraphEnabled = true;
 
-		public Graphable(string name, string dropdownColumn, string linkedColumn = "", uint linkedId = UInt32.MaxValue,
+		public Graphable(string name, string dropdownColumn, string linkedColumn = "", string linkedId = "",
 			string linkedTable = "")
 			: base(name, dropdownColumn, linkedColumn, linkedId, linkedTable) { }
 

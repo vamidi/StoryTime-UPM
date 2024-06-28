@@ -5,12 +5,14 @@ using UnityEngine;
 namespace StoryTime.Database.ScriptableObjects
 {
 	using Binary;
+	using StoryTime.Domains.Attributes;
+	
     public partial class TableBehaviour : SerializableScriptableObject
     {
 	    /// <summary>
 	    /// ID of the row inside the table.
 	    /// </summary>
-	    public UInt32 ID
+	    public string ID
 	    {
 		    get => id;
 		    internal set {
@@ -26,25 +28,25 @@ namespace StoryTime.Database.ScriptableObjects
 	    /// </summary>
 	    public string Name { get => tableName; internal set => tableName = value; }
 	    public string DropdownColumn { get => dropdownColumn; internal set => dropdownColumn = value; }
-	    public UInt32 LinkedID { get => linkID; internal set => linkID = value; }
+	    public String LinkedID { get => linkID; internal set => linkID = value; }
 	    public string LinkedColumn { get => linkedColumn; internal set => linkedColumn = value; }
 		public string LinkedTable { get => linkedTable; internal set => linkedTable = value; }
 
-	    [SerializeField, HideInInspector] private UInt32 id = UInt32.MaxValue;
+	    [SerializeField, Uuid] private string id;
 	    [SerializeField, HideInInspector] private string tableName = String.Empty;
 	    [SerializeField, HideInInspector] private string tableId = String.Empty;
 	    [SerializeField, HideInInspector] private string dropdownColumn = String.Empty;
-	    [SerializeField, HideInInspector] private UInt32 linkID = UInt32.MaxValue;
+	    [SerializeField, HideInInspector] private String linkID = String.Empty;
 	    [SerializeField, HideInInspector] private string linkedColumn = String.Empty;
 	    [SerializeField, HideInInspector] private string linkedTable = String.Empty;
 
 	    public TableBehaviour(string name, string dropdownColumn, string linkedColumn = "",
-			UInt32 linkedId = UInt32.MaxValue, string linkedTable = "")
+		    String linkedId = "", string linkedTable = "")
 	    {
 		    Init(name, dropdownColumn, linkedColumn, linkedId, linkedTable);
 	    }
 
-	    public void Init(string tblName, string dropdownColumn, string linkedColumn, UInt32 linkedId, string linkedTable)
+	    public void Init(string tblName, string dropdownColumn, string linkedColumn, String linkedId, string linkedTable)
 	    {
 		    Name = tblName;
 		    DropdownColumn = dropdownColumn;
@@ -107,7 +109,7 @@ namespace StoryTime.Database.ScriptableObjects
 	    /// <param name="columnId"></param>
 	    /// <param name="id"></param>
 	    /// <returns></returns>
-	    public TableField GetField(string tblName, uint columnId, uint id)
+	    public TableField GetField(string tblName, uint columnId, String id)
 	    {
 		    return TableDatabase.Get.GetField(tblName, columnId, id);
 	    }
@@ -119,7 +121,7 @@ namespace StoryTime.Database.ScriptableObjects
 	    /// <param name="columnName"></param>
 	    /// <param name="id"></param>
 	    /// <returns></returns>
-	    public TableField GetField(string tblName, string columnName, uint id)
+	    public TableField GetField(string tblName, string columnName, String id)
 	    {
 		    return TableDatabase.Get.GetField(tblName, columnName, id);
 	    }
@@ -130,7 +132,7 @@ namespace StoryTime.Database.ScriptableObjects
 	    /// <param name="tblName"></param>
 	    /// <param name="id"></param>
 	    /// <returns></returns>
-	    public TableRow GetRow(string tblName, uint id)
+	    public TableRow GetRow(string tblName, String id)
 	    {
 		    return TableDatabase.Get.GetRow(tblName, id);
 	    }
@@ -152,7 +154,7 @@ namespace StoryTime.Database.ScriptableObjects
 	    /// <param name="columnName"></param>
 	    /// <param name="id"></param>
 	    /// <returns></returns>
-	    public Tuple<uint, TableRow> FindLink(string tblName, string columnName, uint id)
+	    public Tuple<String, TableRow> FindLink(string tblName, string columnName, String id)
 	    {
 		    return TableDatabase.Get.FindLink(tblName, columnName, id);
 	    }
@@ -164,7 +166,7 @@ namespace StoryTime.Database.ScriptableObjects
 	    /// <param name="columnName"></param>
 	    /// <param name="id"></param>
 	    /// <returns></returns>
-	    public List<Tuple<uint, TableRow>> FindLinks(string tblName, string columnName, UInt32 id)
+	    public List<Tuple<String, TableRow>> FindLinks(string tblName, string columnName, String id)
 	    {
 		    return TableDatabase.Get.FindLinks(tblName, columnName, id);
 	    }

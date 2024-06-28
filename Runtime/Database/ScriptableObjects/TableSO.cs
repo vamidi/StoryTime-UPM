@@ -80,13 +80,13 @@ namespace StoryTime.Database.ScriptableObjects
 	    [SerializeField, ReadOnly] private string projectID = "";
 
 	    // ReSharper disable once InconsistentNaming
-	    [SerializeField] private TableMetaData metadata = new TableMetaData();
+	    [SerializeField] private TableMetaData metadata = new ();
 
 	    [SerializeField, ReadOnlyTextAreaAttribute(15,20)] private string jsonData = "";
 
-	    private readonly TableBinary binary = new TableBinary();
+	    private readonly TableBinary binary = new ();
 
-        public Dictionary<UInt32, TableRow> Rows = new Dictionary<UInt32, TableRow>();
+        public Dictionary<string, TableRow> Rows = new ();
 
 #if !UNITY_EDITOR
         public void OnEnable() => Refresh();
