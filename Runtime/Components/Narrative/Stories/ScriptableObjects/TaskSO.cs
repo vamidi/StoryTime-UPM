@@ -135,7 +135,7 @@ namespace StoryTime.Components.ScriptableObjects
 			if (endTaskEvent != null) endTaskEvent.RaiseEvent(this, taskEvent);
 		}
 
-		TaskSO(): base("tasks", "description") {}
+		public TaskSO(): base("tasks", "description") {}
 
 		private void Initialize()
 		{
