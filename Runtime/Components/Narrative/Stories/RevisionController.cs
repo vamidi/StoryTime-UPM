@@ -269,17 +269,17 @@ namespace StoryTime.Components
 		void EndDialogue(DialogueLine dialogue)
 		{
 			// depending on the dialogue that ended, do something. The dialogue type can be different from the current dialogue type
-			switch (dialogue.DialogueType)
+			switch (dialogue.DialogueType.Name)
 			{
-				case DialogueType.StartDialogue:
+				case DialogueType.CStartDialogue:
 					// Check the validity of the step
 					CheckTaskValidity();
 					break;
-				case DialogueType.WinDialogue:
+				case DialogueType.CWinDialogue:
 					// After playing the win dialogue close Dialogue and end step
 
 					break;
-				case DialogueType.LoseDialogue:
+				case DialogueType.CLoseDialogue:
 					// closeDialogue
 					// replay start Dialogue if the lose Dialogue ended
 					if (_currentTask.StoryBeforeTask != null)
@@ -287,7 +287,7 @@ namespace StoryTime.Components
 						_currentStory = _currentTask.StoryBeforeTask;
 					}
 					break;
-				case DialogueType.DefaultDialogue:
+				case DialogueType.CDefaultDialogue:
 					// close Dialogue
 					// nothing happens if it's the default dialogue
 					break;
