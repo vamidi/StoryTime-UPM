@@ -23,7 +23,14 @@ namespace StoryTime.Components.ScriptableObjects
 
 		public bool IsDone => m_IsDone;
 
-		public StoryType TypeId => typeId;
+		public StoryType TypeId
+		{
+			get => typeId;
+#if UNITY_INCLUDE_TESTS
+			set => typeId = value;
+#endif
+		}
+		
 		public List<TaskSO> Tasks => tasks;
 
 		/** ------------------------------ DATABASE FIELD ------------------------------ */
@@ -80,7 +87,7 @@ namespace StoryTime.Components.ScriptableObjects
 			{
 				collection = overrideTable ? collection : LocalizationEditorSettings.GetStringTableCollection("Story Titles");
 				// Only get the first dialogue.
-				var entryId = (ID + 1).ToString();
+				var entryId = (ID + 1);
 				if(collection)
 					title = new LocalizedString { TableReference = collection.TableCollectionNameReference, TableEntryReference = entryId };
 				else
