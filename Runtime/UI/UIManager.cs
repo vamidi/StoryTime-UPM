@@ -180,7 +180,7 @@ namespace StoryTime.Components.UI
 		{
 			if (storyManagerPanel)
 			{
-				storyManagerPanel.ShowCategories();
+				storyManagerPanel.ShowCategoriesByTypeOrAll();
 				storyManagerPanel.gameObject.SetActive(true);
 			}
 		}

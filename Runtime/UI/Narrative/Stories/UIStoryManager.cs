@@ -58,7 +58,7 @@ namespace StoryTime.Components.UI
 
 		public void OnTabSelected(StoryCategoryTab tab)
 		{
-			ShowCategories(tab.type);
+			ShowCategoriesByTypeOrAll(tab.type);
 		}
 
 		public void OnCategoryRowSelected(InteractionStoryFiller row)
@@ -76,8 +76,10 @@ namespace StoryTime.Components.UI
 				panel.SetActive(true);
 		}
 
-		public void ShowCategories(StoryType type = StoryType.All)
+		public void ShowCategoriesByTypeOrAll(StoryType storyType = null)
 		{
+			var type = storyType ?? StoryType.All;
+			
 			foreach (var category in m_CategoryItems)
 			{
 				// TODO make multi language

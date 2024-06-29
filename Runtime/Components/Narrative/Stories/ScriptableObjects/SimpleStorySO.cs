@@ -20,8 +20,19 @@ namespace StoryTime.Components.ScriptableObjects
 	{
 		public static readonly StoryType All = new ("All", "All stories");
 		public static readonly StoryType WorldQuests = new ("WorldQuests", "World quest stories");
-		public  readonly StoryType SideQuests = new ("SideQuests", "Side quest stories");
+		public static readonly StoryType SideQuests = new ("SideQuests", "Side quest stories");
 		// 	// Extend with own quest types.
+		
+		public static implicit operator StoryType(string value)
+		{
+			switch (value)
+			{
+				case "All": return All;
+				case "WorldQuests": return WorldQuests;
+				case "SideQuests": return SideQuests;
+				default: return null;
+			}
+		}
 		
 		private StoryType(string name, string description) : base(name, description) { }
 	}
