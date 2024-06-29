@@ -238,9 +238,9 @@ namespace StoryTime.Components
 		void EndDialogue(DialogueLine dialogue)
 		{
 			// depending on the dialogue that ended, do something
-			switch (dialogue.DialogueType)
+			switch (dialogue.DialogueType.Name)
 			{
-				case DialogueType.WinDialogue:
+				case DialogueType.CWinDialogue:
 					EndTask();
 					break;
 			}
