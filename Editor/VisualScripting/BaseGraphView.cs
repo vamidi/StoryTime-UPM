@@ -2,14 +2,17 @@
 using System.Linq;
 using System.Collections.Generic;
 
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
-
 using UnityEditor.Experimental.GraphView;
 
-using StoryTime.VisualScripting;
+
 using StoryTime.VisualScripting.Data;
-using UnityEditor;
+using StoryTime.VisualScripting.Data.ScriptableObjects;
+using StoryTime.Domains.VisualScripting;
+
+using Node = UnityEditor.Experimental.GraphView.Node;
 
 namespace StoryTime.Editor.VisualScripting
 {
@@ -17,8 +20,13 @@ namespace StoryTime.Editor.VisualScripting
 
 	public abstract class BaseGraphView : GraphView
 	{
+		protected readonly NodeEditorService Service = new ();
+		
 		private readonly BaseGraphEditorWindow _editorWindow;
 		private NodeSearchWindow _searchWindow;
+		
+		// TODO this is not the right place to store this variable
+		protected NodeCollection nodes = new ();
 
 		protected BaseGraphView()
 		{
@@ -93,7 +101,7 @@ namespace StoryTime.Editor.VisualScripting
 	}
 
 	public abstract class BaseGraphView<T> : BaseGraphView
-		where T : IGraphView
+		where T : ScriptableObject
 	{
 		public Action<NodeView> OnNodeSelected;
 		public Action<NodeView> OnNodeDeleted;
@@ -138,7 +146,7 @@ namespace StoryTime.Editor.VisualScripting
 				// Remove the child from the nodes
 				NodeView parentView = edge.output.node as NodeView;
 				NodeView childView = edge.input.node as NodeView;
-				container.RemoveChild(parentView.node, childView.node);
+				Service.RemoveChild(parentView.node, childView.node);
 
 				// Remove link
 				edge.input.Disconnect(edge);
@@ -187,7 +195,7 @@ namespace StoryTime.Editor.VisualScripting
 				{
 					if (elem is NodeView nodeView)
 					{
-						container.DeleteNode(nodeView.node);
+						Service.DeleteNode(nodeView.node, ref nodes);
 						OnNodeDeleted(null);
 					}
 
@@ -195,7 +203,7 @@ namespace StoryTime.Editor.VisualScripting
 					{
 						NodeView parentView = edge.output.node as NodeView;
 						NodeView childView = edge.input.node as NodeView;
-						container.RemoveChild(parentView.node, childView.node);
+						Service.RemoveChild(parentView.node, childView.node);
 					}
 				});
 			}
@@ -206,7 +214,7 @@ namespace StoryTime.Editor.VisualScripting
 				{
 					NodeView parentView = edge.output.node as NodeView;
 					NodeView childView = edge.input.node as NodeView;
-					container.AddChild(parentView.node, childView.node);
+					Service.AddChild(parentView.node, childView.node);
 				});
 			}
 
@@ -246,7 +254,7 @@ namespace StoryTime.Editor.VisualScripting
 				return null;
 			}
 
-			StoryTime.VisualScripting.Data.ScriptableObjects.Node node = container.CreateNode(nodeType);
+			StoryTime.VisualScripting.Data.ScriptableObjects.Node node = Service.CreateNode(nodeType, ref nodes);
 			node.position = position;
 
 			return CreateNodeView(node, title);

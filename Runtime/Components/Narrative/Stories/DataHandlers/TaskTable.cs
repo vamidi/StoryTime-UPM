@@ -49,8 +49,9 @@ namespace StoryTime.Components.ScriptableObjects
 				if (field.Key.Equals("parentId"))
 				{
 					string data = field.Value.Data;
-					task.ParentId = data;
-					Debug.Log($"parentId {task.ParentId}");
+					// TODO search parent based on id
+					// task.ParentId = data;
+					// Debug.Log($"parentId {task.ParentId}");
 				}
 
 				if (field.Key.Equals("requiredCount"))

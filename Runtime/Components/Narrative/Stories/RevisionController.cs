@@ -162,7 +162,7 @@ namespace StoryTime.Components
 		{
 			_currentTask = task;
 			// Find me a story where the task belongs to.
-			_currentStory = stories.FirstOrDefault((s) => s.ID == task.ParentId) ?? defaultStory;
+			_currentStory = stories.FirstOrDefault((s) => s.ID == task.Parent.ID) ?? defaultStory;
 			revisionId = stories.FindIndex(s => s == _currentStory);
 			Debug.Log(revisionId);
 			_hasActiveTask = true;

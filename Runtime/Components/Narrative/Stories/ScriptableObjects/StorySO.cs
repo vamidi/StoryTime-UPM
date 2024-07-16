@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-
+using System.Collections.Generic;
 using StoryTime.Domains.Attributes;
 using UnityEngine;
 using UnityEngine.Localization;
@@ -14,11 +13,11 @@ namespace StoryTime.Components.ScriptableObjects
 	/// A Dialogue is a list of consecutive DialogueLines. They play in sequence using the input of the player to skip forward.
 	/// In future versions it might contain support for branching conversations.
 	/// </summary>
-	[CreateAssetMenu(fileName = "newStory", menuName = "StoryTime/Game/Narrative/Story", order = 51)]
+	[CreateAssetMenu(fileName = "ExampleStory", menuName = "StoryTime/Game/Narrative/Story", order = 51)]
 	// ReSharper disable once InconsistentNaming
-	public partial class StorySO : SimpleStorySO
-	{
-		public LocalizedString Title => title;
+    public partial class StorySO : SimpleStorySO
+    {
+        public LocalizedString Title => title;
 		
 		public LocalizedString Chapter => chapter;
 		
@@ -104,6 +103,5 @@ namespace StoryTime.Components.ScriptableObjects
 					Debug.LogWarning("Collection not found. Did you create any localization tables");
 			}
 		}
-	}
+    }
 }
-

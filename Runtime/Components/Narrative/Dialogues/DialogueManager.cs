@@ -167,7 +167,8 @@ namespace StoryTime.Components
 			// _currentActor = storyDataSo.Character;
 
 			BeginDialogueStory(storyDataSo);
-			DisplayDialogue(storyDataSo.rootNode);
+			// TODO fix me
+			// DisplayDialogue(storyDataSo.rootNode);
 			ToggleCameras(true);
 		}
 

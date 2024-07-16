@@ -1,14 +1,12 @@
 ﻿
+using StoryTime.Domains.VisualScripting;
 using StoryTime.Editor.Domains.UI;
 using UnityEngine.UIElements;
 
 using UnityEditor;
 using UnityEngine;
 
-// using StoryTime.VisualScripting.Data;
-// using StoryTime.Components.ScriptableObjects;
 using StoryTime.VisualScripting.Data.ScriptableObjects;
-using DialogueNodeSO = StoryTime.VisualScripting.Data.ScriptableObjects.DialogueNode;
 
 namespace StoryTime.Editor.VisualScripting
 {
@@ -17,10 +15,19 @@ namespace StoryTime.Editor.VisualScripting
 
 	public class ItemGraphView : BaseGraphView<ItemRecipeSO>
 	{
+		private NodeEditorService _service;
+
 		public new class UxmlFactory : UxmlFactory<ItemGraphView, UxmlTraits> { }
 
+		// [Inject]
+		public void Construct(NodeEditorService service)
+		{
+			_service = service;
+		}
+		
 		public ItemGraphView()
 		{
+
 			AddManipulators();
 			AddStyles();
 		}
@@ -58,7 +65,8 @@ namespace StoryTime.Editor.VisualScripting
 				return;
 			}
 
-			ItemMasterNode masterNode = container.CreateNode(typeof(ItemMasterNode)) as ItemMasterNode;
+			var nodeCollection = new NodeCollection();
+			ItemMasterNode masterNode = _service.CreateNode(typeof(ItemMasterNode), ref nodeCollection) as ItemMasterNode;
 			container.rootNode = masterNode;
 			var node = new MasterNode(this, masterNode)
 			{

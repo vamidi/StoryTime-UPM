@@ -74,11 +74,11 @@ namespace StoryTime.Components.ScriptableObjects
 		[SerializeField, Tooltip("The character associated with the story")] public CharacterSO character;
 
 		// Is being calculated in the story editor.
-		[SerializeField, ConditionalField(nameof(isGraphEnabled), inverse: true)] public DialogueLine dialogue = new (true);
+		[SerializeField /*, ConditionalField(nameof(isGraphEnabled), inverse: true) */] public DialogueLine dialogue = new (true);
 
 		public SimpleStorySO() : base("stories", "title", "parentId")
 		{
-			isGraphEnabled = false;
+			// isGraphEnabled = false;
 		}
 	}
 }

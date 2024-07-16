@@ -69,7 +69,7 @@ namespace StoryTime.Editor.VisualScripting
 						AddElement(edge);
 					}
 
-					var children = container.GetChildren(dialogueNode);
+					var children = Service.GetChildren(dialogueNode);
 					for (int i = 0; i < children.Count; i++)
 					{
 						Node child = children[i];
@@ -209,7 +209,7 @@ namespace StoryTime.Editor.VisualScripting
 				return;
 			}
 
-			StartNodeSO startNode = container.CreateNode(typeof(StartNodeSO)) as StartNodeSO;
+			StartNodeSO startNode = Service.CreateNode(typeof(StartNodeSO), ref nodes) as StartNodeSO;
 			// container.rootNode = startNode;
 			var node = new DialogueNode(this, startNode)
 			{

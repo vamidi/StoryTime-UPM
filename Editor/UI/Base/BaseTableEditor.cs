@@ -224,11 +224,11 @@ namespace StoryTime.Editor.UI
 				// Delete the rest of the nodes
 				foreach (var node in t.nodes.Value)
 				{
-					t.DeleteNode(node);
+					// t.DeleteNode(node);
 				}
 
 				var story = stories[t.ID];
-				t.Parse(story);
+				// t.Parse(story);
 			}
 		}
 
