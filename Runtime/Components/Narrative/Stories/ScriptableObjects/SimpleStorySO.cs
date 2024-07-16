@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 using StoryTime.Utils.Attributes;
 using StoryTime.VisualScripting.Data.ScriptableObjects;
@@ -16,6 +17,7 @@ namespace StoryTime.Components.ScriptableObjects
 		}
 	}
 	
+	[Serializable]
 	public class StoryType: EnumType
 	{
 		public static readonly StoryType All = new ("All", "All stories");

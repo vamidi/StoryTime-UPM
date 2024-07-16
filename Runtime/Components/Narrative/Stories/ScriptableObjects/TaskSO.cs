@@ -30,7 +30,7 @@ namespace StoryTime.Components.ScriptableObjects
 		public bool Hidden { get => hidden; set => hidden = value; }
 		public String Npc { get => npc; set => npc = value; }
 		public EnemySO.EnemyCategory EnemyCategory => enemyCategory;
-		public String ParentId { get; set; } = String.Empty;
+		public StorySO Parent => parent;
 		public uint RequiredCount { get => requiredCount; set => requiredCount = value; }
 		public List<ItemStack> Items { get => items; set => items = value; }
 		public TaskCompletionType Type { get => type; set => type = value; }
@@ -42,8 +42,14 @@ namespace StoryTime.Components.ScriptableObjects
 		public TaskEventChannelSO StartTaskEvent => endTaskEvent;
 		public TaskEventChannelSO EndTaskEvent => endTaskEvent;
 
-		[SerializeField, HideInInspector, Tooltip("The description of the mission")]
+		[SerializeField, Tooltip("Title of the task")]
+		private LocalizedString title;
+		
+		[SerializeField, Tooltip("The description of the mission")]
 		private LocalizedString description;
+		
+		[SerializeField, Tooltip("Distance to the task in meters")]
+		private int distance;
 
 		[Tooltip("Whether the mission is hidden")]
 		[SerializeField] private bool hidden;
@@ -54,6 +60,8 @@ namespace StoryTime.Components.ScriptableObjects
 		// Reference to the interactable id, could be a monster or a npc
 		// It could be even a reference to a group of monsters of some type.
 		private String npc = String.Empty;
+
+		[SerializeField, Tooltip("Parent of the task.")] private StorySO parent;
 
 		// TODO show category instead of number
 		[SerializeField, HideInInspector, Tooltip("Which enemy category do we need to hunt")] private EnemySO.EnemyCategory enemyCategory = new ();
