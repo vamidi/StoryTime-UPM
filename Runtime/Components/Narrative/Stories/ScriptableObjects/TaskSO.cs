@@ -26,7 +26,9 @@ namespace StoryTime.Components.ScriptableObjects
 	public partial class TaskSO : LocalizationBehaviour
 	{
 		public String NextId { get => nextId; set => nextId = value; }
+		public LocalizedString Title => title;
 		public LocalizedString Description => description;
+		public int Distance => distance;
 		public bool Hidden { get => hidden; set => hidden = value; }
 		public String Npc { get => npc; set => npc = value; }
 		public EnemySO.EnemyCategory EnemyCategory => enemyCategory;
