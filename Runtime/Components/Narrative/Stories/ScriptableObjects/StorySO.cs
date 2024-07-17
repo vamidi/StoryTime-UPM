@@ -53,9 +53,9 @@ namespace StoryTime.Components.ScriptableObjects
 
 		[Header("Dialogue Details")]
 		[SerializeField, Tooltip("The collection of tasks composing the Quest")] private List<TaskSO> tasks = new ();
-		[SerializeField, HideInInspector, Tooltip("The title of the quest")] private LocalizedString title;
+		[SerializeField, Tooltip("The title of the quest")] private LocalizedString title;
 		[SerializeField, Tooltip("The chapter of the story")] private LocalizedString chapter;
-		[SerializeField, HideInInspector, Tooltip("The description of the quest")] private LocalizedString description;
+		[SerializeField, Tooltip("The description of the quest")] private LocalizedString description;
 		[SerializeField, Tooltip("Show the type of the quest. i.e could be part of the main story")] private StoryType typeId = StoryType.WorldQuests;
 
 		protected override void OnTableIDChanged()
