@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using StoryTime.Domains.Attributes;
 using UnityEngine;
 using UnityEngine.Localization;
 
@@ -9,6 +8,8 @@ using UnityEditor.Localization;
 
 namespace StoryTime.Components.ScriptableObjects
 {
+	using Attributes;
+
 	/// <summary>
 	/// A Dialogue is a list of consecutive DialogueLines. They play in sequence using the input of the player to skip forward.
 	/// In future versions it might contain support for branching conversations.
@@ -42,10 +43,10 @@ namespace StoryTime.Components.ScriptableObjects
 
 		/** ------------------------------ DATABASE FIELD ------------------------------ */
 
-		[SerializeField, Uuid] // Tooltip("The character id where this story belongs to.")]
+		[SerializeField, ReadOnly] // Tooltip("The character id where this story belongs to.")]
 		protected string parentId;
 
-		[SerializeField, Uuid] // Tooltip("The id where the dialogue should go first")]
+		[SerializeField, ReadOnly] // Tooltip("The id where the dialogue should go first")]
 		protected string childId;
 
 		// ReSharper disable once InconsistentNaming
