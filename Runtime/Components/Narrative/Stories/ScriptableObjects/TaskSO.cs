@@ -26,8 +26,17 @@ namespace StoryTime.Components.ScriptableObjects
 	public partial class TaskSO : LocalizationBehaviour
 	{
 		public String NextId { get => nextId; set => nextId = value; }
+		
+		/// <summary cref="TaskSO.TitleLocalized"></summary>
+        [Obsolete("Use the TitleLocalized property instead")]
 		public LocalizedString Title => title;
+		public virtual string TitleLocalized => title.GetLocalizedString();
+		
+		/// <summary cref="TaskSO.DescriptionLocalized"></summary>
+		[Obsolete("Use the DescriptionLocalized property instead")]
 		public LocalizedString Description => description;
+		public virtual string DescriptionLocalized => description.GetLocalizedString();
+		
 		public int Distance => distance;
 		public bool Hidden { get => hidden; set => hidden = value; }
 		public String Npc { get => npc; set => npc = value; }

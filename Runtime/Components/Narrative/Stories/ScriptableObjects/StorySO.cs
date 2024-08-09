@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Localization;
@@ -18,23 +19,25 @@ namespace StoryTime.Components.ScriptableObjects
 	// ReSharper disable once InconsistentNaming
     public partial class StorySO : SimpleStorySO
     {
+		/// <summary cref="StorySO.TitleLocalized"></summary>
+	    [Obsolete("Use the TitleLocalized property instead")]
         public LocalizedString Title => title;
+        
+        // TODO rename to Title
+        public virtual string TitleLocalized => title.GetLocalizedString();
 		
 		public LocalizedString Chapter => chapter;
 		
+		/// <summary cref="StorySO.DescriptionLocalized"></summary>
+		[Obsolete("Use the DescriptionLocalized property instead")]
 		public LocalizedString Description => description;
+		
+		public virtual string DescriptionLocalized => description.GetLocalizedString();
 
 		public bool IsDone => m_IsDone;
 
-		public StoryType TypeId
-		{
-			get => typeId;
-#if UNITY_INCLUDE_TESTS
-			set => typeId = value;
-#endif
-		}
-		
-		public List<TaskSO> Tasks => tasks;
+		public virtual StoryType TypeId => typeId;
+		public virtual List<TaskSO> Tasks => tasks;
 
 		/** ------------------------------ DATABASE FIELD ------------------------------ */
 
