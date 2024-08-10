@@ -12,7 +12,7 @@ namespace StoryTime.Database.ScriptableObjects
 	    /// <summary>
 	    /// ID of the row inside the table.
 	    /// </summary>
-	    public string ID
+	    public virtual string ID
 	    {
 		    get => id;
 		    internal set {
