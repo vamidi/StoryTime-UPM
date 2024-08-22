@@ -7,6 +7,9 @@ using UnityEngine.Localization.Components;
 
 using TMPro;
 
+using StoryTime.Domains.Game.Characters;
+using StoryTime.Domains.Game.Characters.ScriptableObjects.Events;
+
 namespace StoryTime.Components.UI
 {
 	using Events.ScriptableObjects;

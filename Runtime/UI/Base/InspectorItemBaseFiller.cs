@@ -1,8 +1,9 @@
 using UnityEngine;
 
+using StoryTime.Domains.ItemManagement;
+using StoryTime.Domains.ItemManagement.Inventory.ScriptableObjects;
 namespace StoryTime.Components.UI
 {
-	using Components.ScriptableObjects;
 
 	public abstract class InspectorItemBaseFiller<TStack, TItem>: MonoBehaviour
 		where TItem: ItemSO

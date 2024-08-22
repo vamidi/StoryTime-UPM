@@ -5,7 +5,7 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 using StoryTime.VisualScripting.Data;
-using NodeSO = StoryTime.VisualScripting.Data.ScriptableObjects.Node;
+using NodeSO = StoryTime.Domains.VisualScripting.Data.ScriptableObjects.Node;
 
 namespace StoryTime.Editor.VisualScripting
 {

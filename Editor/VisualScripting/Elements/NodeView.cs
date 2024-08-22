@@ -3,7 +3,7 @@ using UnityEngine;
 
 using UnityEditor;
 
-using StoryTime.VisualScripting.Data.ScriptableObjects;
+using StoryTime.Domains.VisualScripting.Data.ScriptableObjects;
 namespace StoryTime.Editor.VisualScripting.Elements
 {
 	public class NodeView : UnityEditor.Experimental.GraphView.Node

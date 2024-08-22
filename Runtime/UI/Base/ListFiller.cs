@@ -2,12 +2,12 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
+using StoryTime.Domains.ItemManagement;
+using StoryTime.Domains.ItemManagement.Inventory.ScriptableObjects;
+using StoryTime.Domains.ItemManagement.Inventory.ScriptableObjects.Events;
+
 namespace StoryTime.Components.UI
 {
-	using Components;
-	using Components.ScriptableObjects;
-	using Events.ScriptableObjects;
-
 	public class ListFiller<TFiller, TStack, TItem> : MonoBehaviour
 		where TItem : ItemSO
 		where TStack: BaseStack<TItem>

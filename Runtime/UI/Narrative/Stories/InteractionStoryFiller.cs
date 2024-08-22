@@ -1,9 +1,12 @@
 using System.Linq;
+
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.Localization.Components;
 
+using StoryTime.Domains.Narrative.Stories.ScriptableObjects;
+using StoryTime.Domains.Narrative.Tasks.ScriptableObjects;
 namespace StoryTime.Components.UI
 {
 	using Components.ScriptableObjects;

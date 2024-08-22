@@ -2,10 +2,10 @@
 
 using UnityEngine;
 
-namespace StoryTime.Components
+namespace StoryTime.Domains.ItemManagement.Inventory
 {
 	using ScriptableObjects;
-	using Events.ScriptableObjects;
+	using ScriptableObjects.Events;
 
 	public class InventoryManager : MonoBehaviour
 	{
@@ -82,7 +82,7 @@ namespace StoryTime.Components
 			currentInventory.Add(item);
 			if (currentInventory.Contains(item))
 			{
-				ItemStack itemToUpdate = currentInventory.Items.Find(o => o.Item == item);
+				ItemStack itemToUpdate = currentInventory.Find(item);
 				//	UIManager.Instance.UpdateInventoryScreen(itemToUpdate, false);
 			}
 		}
@@ -93,7 +93,7 @@ namespace StoryTime.Components
 
 			if (currentInventory.Contains(item))
 			{
-				itemToUpdate = currentInventory.Items.Find(o => o.Item == item);
+				itemToUpdate = currentInventory.Find(item);
 			}
 
 			currentInventory.Remove(itemToUpdate.Item);

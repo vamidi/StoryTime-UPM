@@ -1,10 +1,19 @@
 ﻿using System.Collections.Generic;
+
 using UnityEngine;
+
+using StoryTime.Domains.ItemManagement.Crafting;
+using StoryTime.Domains.ItemManagement.Inventory;
+using StoryTime.Domains.Events.ScriptableObjects;
+using StoryTime.Domains.Events.ScriptableObjects.UI;
+using StoryTime.Domains.Narrative.Stories.Controllers;
+using StoryTime.Domains.Game.Interaction.ScriptableObjects.Events;
+using StoryTime.Domains.Narrative.Dialogues.ScriptableObjects.Events;
+using StoryTime.Domains.ItemManagement.Inventory.ScriptableObjects.Events;
 
 namespace StoryTime.Components
 {
 	using Input.ScriptableObjects;
-	using Events.ScriptableObjects;
 
 	public enum InteractionType
 	{

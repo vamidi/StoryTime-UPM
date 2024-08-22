@@ -2,11 +2,10 @@ using UnityEngine;
 
 using TMPro;
 
+using StoryTime.Domains.ItemManagement.Inventory;
+using StoryTime.Domains.ItemManagement.Inventory.ScriptableObjects;
 namespace StoryTime.Components.UI
 {
-	using Components;
-	using Components.ScriptableObjects;
-
 	public class IngredientFiller : ItemBaseFiller<ItemStack, ItemSO> // We only need the images in our case.
 	{
 		[SerializeField] protected TextMeshProUGUI itemCount;
@@ -21,7 +20,8 @@ namespace StoryTime.Components.UI
 			itemCount.text = ingredient.Amount.ToString();
 			itemCount.color = isAvailable ? textColorAvailable : textColorUnavailable;
 
-			itemName.StringReference = ingredient.Item.ItemName;
+			// TODO fixme
+			// itemName.StringReference = ingredient.Item.ItemName;
 		}
 	}
 }

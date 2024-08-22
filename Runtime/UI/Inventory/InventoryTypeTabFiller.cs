@@ -6,11 +6,11 @@ using UnityEngine.EventSystems;
 
 using UnityEngine.Localization.Components;
 
+using StoryTime.Domains.Events.ScriptableObjects.UI;
+using StoryTime.Domains.ItemManagement.Inventory.ScriptableObjects;
+
 namespace StoryTime.Components.UI
 {
-	using Events.ScriptableObjects;
-	using Components.ScriptableObjects;
-
 	public class InventoryTypeTabFiller : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 	{
 		public InventoryTypeTabsFiller tabGroup;

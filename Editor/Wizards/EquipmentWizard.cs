@@ -3,14 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Localization;
 
-using StoryTime.Components.ScriptableObjects;
+using StoryTime.Domains.Game.Characters.ScriptableObjects;
+using StoryTime.Domains.ItemManagement.Equipment.ScriptableObjects;
+
 namespace StoryTime.Editor.Wizards
 {
 	public class EquipmentWizard : BaseWizard<EquipmentWizard, EquipmentSO>
 	{
 		[Header("General Settings")]
-		[SerializeField, Tooltip("The equipment name")] protected LocalizedString equipmentName = new ();
-		[SerializeField, Tooltip("The equipment name")] protected LocalizedString description = new ();
+		[SerializeField, Tooltip("The equipment name")] protected string equipmentName = "";
+		[SerializeField, Tooltip("The equipment name")] protected string description = "";
 
 		[Header("")]
 		[SerializeField, Tooltip("In which category this weapon/armor/accessory falls into.")] protected EquipmentCategory category;

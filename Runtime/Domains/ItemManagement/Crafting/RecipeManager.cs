@@ -1,12 +1,15 @@
 using System.Collections.Generic;
-
 using UnityEngine;
 
-namespace StoryTime.Components
+namespace StoryTime.Domains.ItemManagement.Crafting
 {
-	using UI;
+	using Inventory;
+	using Extensions;
+	using Inventory.UI;
 	using ScriptableObjects;
-	using Events.ScriptableObjects;
+	using Inventory.ScriptableObjects.Events;
+	using StoryTime.Domains.Events.ScriptableObjects;
+
 	public class RecipeManager : ItemManager<ItemRecipeStack, ItemRecipeSO, RecipeCollectionSO>
 	{
 		[Header("Listening to channels")]
@@ -62,7 +65,7 @@ namespace StoryTime.Components
 			{
 				List<ItemStack> ingredients = recipe.Item.IngredientsList;
 				// Remove ingredients (when it's a consumable)
-				if (currentInventory.HasIngredients(currentInventory, ingredients))
+				if (currentInventory.HasIngredients(ingredients))
 				{
 					foreach (var ingredient in ingredients)
 					{

@@ -2,10 +2,11 @@
 using System.Collections.ObjectModel;
 using UnityEngine;
 
+using StoryTime.Domains.Game.Characters;
+using StoryTime.Domains.Game.Characters.ScriptableObjects.Events;
+
 namespace StoryTime.Components.UI
 {
-	using Events.ScriptableObjects;
-
 	public class StatListFiller : MonoBehaviour
 	{
 		[SerializeField] private StatItemFiller itemPrefab;

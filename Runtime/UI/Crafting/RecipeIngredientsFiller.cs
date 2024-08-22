@@ -2,6 +2,7 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
+using StoryTime.Domains.ItemManagement.Inventory;
 namespace StoryTime.Components.UI
 {
 	using Components;

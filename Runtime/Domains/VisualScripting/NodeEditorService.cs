@@ -2,11 +2,13 @@ using System;
 using System.Collections.Generic;
 
 using UnityEditor;
-
 using UnityEngine;
 
-using StoryTime.VisualScripting;
-using StoryTime.VisualScripting.Data.ScriptableObjects;
+using StoryTime.Domains.VisualScripting.Elements;
+using StoryTime.Domains.VisualScripting.Data.ScriptableObjects;
+using StoryTime.Domains.VisualScripting.Data.ScriptableObjects.Events;
+using StoryTime.Domains.VisualScripting.Data.ScriptableObjects.Dialogues;
+using StoryTime.Domains.VisualScripting.Data.ScriptableObjects.ItemManagement;
 
 namespace StoryTime.Domains.VisualScripting
 {
@@ -43,17 +45,19 @@ namespace StoryTime.Domains.VisualScripting
 
 		public void AddChild(Node parent, Node child)
 		{
+			// TODO fix comments
+			
 			if (parent is StartNode startNode)
 			{
 				Undo.RecordObject(startNode, "Dialogue Graphview (Add Child)");
-				startNode.Child = child;
+				// startNode.Child = child;
 				EditorUtility.SetDirty(startNode);
 			}
 
 			if (parent is EventNode eventNode)
 			{
 				Undo.RecordObject(eventNode, "Dialogue Graphview (Add Child)");
-				eventNode.Child = child;
+				// eventNode.Child = child;
 				EditorUtility.SetDirty(eventNode);
 			}
 
@@ -77,14 +81,14 @@ namespace StoryTime.Domains.VisualScripting
 			if (parent is StartNode startNode)
 			{
 				Undo.RecordObject(startNode, "Dialogue Graphview (Remove Child)");
-				startNode.Child = null;
+				// startNode.Child = null;
 				EditorUtility.SetDirty(startNode);
 			}
 
 			if (parent is EventNode eventNode)
 			{
 				Undo.RecordObject(eventNode, "Dialogue Graphview (Add Child)");
-				eventNode.Child = null;
+				// eventNode.Child = null;
 				EditorUtility.SetDirty(eventNode);
 			}
 

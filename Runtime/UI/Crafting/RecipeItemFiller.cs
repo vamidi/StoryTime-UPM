@@ -1,12 +1,12 @@
 using UnityEngine;
 using UnityEngine.Localization.Components;
 
+using StoryTime.Domains.ItemManagement.Crafting;
+using StoryTime.Domains.ItemManagement.Crafting.ScriptableObjects;
+using StoryTime.Domains.ItemManagement.Inventory.ScriptableObjects.Events;
+
 namespace StoryTime.Components.UI
 {
-	using Components;
-	using Components.ScriptableObjects;
-	using Events.ScriptableObjects;
-
 	public class RecipeItemFiller : ItemBaseFiller<ItemRecipeStack, ItemRecipeSO>
 	{
 		[SerializeField] protected LocalizeStringEvent itemDescription;
@@ -15,8 +15,9 @@ namespace StoryTime.Components.UI
 		{
 			base.SetItem(itemStack, isSelected, selectItemEvent);
 
-			itemName.StringReference = itemStack.Item.ItemName;
-			itemDescription.StringReference = itemStack.Item.Description;
+			// TODO fixme
+			// itemName.StringReference = itemStack.Item.ItemName;
+			// itemDescription.StringReference = itemStack.Item.Description;
 		}
 	}
 }

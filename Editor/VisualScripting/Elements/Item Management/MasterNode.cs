@@ -1,6 +1,6 @@
 ﻿using UnityEditor.Experimental.GraphView;
 
-using Node = StoryTime.VisualScripting.Data.ScriptableObjects.Node;
+using Node = StoryTime.Domains.VisualScripting.Data.ScriptableObjects.Node;
 namespace StoryTime.Editor.VisualScripting.Elements
 {
 	using Utilities;

@@ -3,10 +3,9 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
+using StoryTime.Domains.Narrative.Stories.ScriptableObjects;
 namespace StoryTime.Components.UI
 {
-	using Components.ScriptableObjects;
-
 	[RequireComponent(typeof(Image))]
 	public class StoryCategoryTab : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 	{

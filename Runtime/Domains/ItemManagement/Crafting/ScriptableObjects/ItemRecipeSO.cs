@@ -13,13 +13,15 @@ using UnityEditor.Localization;
 using UnityEngine;
 using UnityEngine.Localization;
 
-namespace StoryTime.Components.ScriptableObjects
+using StoryTime.Database;
+namespace StoryTime.Domains.ItemManagement.Crafting.ScriptableObjects
 {
-	using Database;
+	using Inventory;
+	using Inventory.ScriptableObjects;
 
 	[CreateAssetMenu(fileName = "itemRecipe", menuName = "StoryTime/Game/Item Management/Item Recipe", order = 51)]
 	// ReSharper disable once InconsistentNaming
-	public partial class ItemRecipeSO : ItemSO
+	public class ItemRecipeSO : ItemSO
 	{
 		public List<ItemStack> IngredientsList => rootNode.GetIngredients();
 		public ItemSO ResultingDish => resultingDish;
@@ -61,17 +63,21 @@ namespace StoryTime.Components.ScriptableObjects
 				var entryId = (childId + 1).ToString();
 				collection = LocalizationEditorSettings.GetStringTableCollection("Item Names");
 				if (collection != null)
-					itemSettings.ItemName = new LocalizedString { TableReference = collection.TableCollectionNameReference, TableEntryReference = entryId };
+				{
+					var ItemName = new LocalizedString { TableReference = collection.TableCollectionNameReference, TableEntryReference = entryId };
+				}
 				else
 					Debug.LogWarning("Collection not found. Did you create any localization tables for Items");
 
 				var descriptionCollection = overrideDescriptionTable ? itemDescriptionCollection : LocalizationEditorSettings.GetStringTableCollection("Item Descriptions");
 				if (descriptionCollection != null)
-					itemSettings.Description = new LocalizedString { TableReference = descriptionCollection.TableCollectionNameReference, TableEntryReference = entryId };
+				{
+					var Description = new LocalizedString { TableReference = descriptionCollection.TableCollectionNameReference, TableEntryReference = entryId };
+				}
 				else
 					Debug.LogWarning("Collection not found. Did you create any localization tables for Items");
 
-				var field = TableDatabase.Get.GetField(Name, "data", ID);
+				var field = TableDatabase.Get.GetField(TableName, "data", ID);
 				if (field != null)
 				{
 #if UNITY_EDITOR

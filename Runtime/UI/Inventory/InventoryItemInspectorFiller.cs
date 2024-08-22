@@ -1,10 +1,9 @@
 using UnityEngine;
 
+using StoryTime.Domains.ItemManagement.Inventory;
+using StoryTime.Domains.ItemManagement.Inventory.ScriptableObjects;
 namespace StoryTime.Components.UI
 {
-	using Components;
-	using Components.ScriptableObjects;
-
 	/// <summary>
 	/// This is an example inspector class that handles the children
 	/// on screen

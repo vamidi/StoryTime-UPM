@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
-using StoryTime.Components.ScriptableObjects;
+using StoryTime.Domains.Narrative.Stories.ScriptableObjects;
+using StoryTime.Domains.VisualScripting.Data.Nodes.Dialogues;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 
 using UnityEngine;
 
-using StoryTime.VisualScripting.Data;
 namespace StoryTime.Editor.VisualScripting.Utilities
 {
 	using Elements;

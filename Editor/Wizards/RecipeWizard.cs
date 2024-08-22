@@ -1,5 +1,6 @@
 
-using StoryTime.Components.ScriptableObjects;
+using StoryTime.Domains.ItemManagement.Equipment.ScriptableObjects;
+
 namespace StoryTime.Editor.Wizards
 {
 	/// <summary>

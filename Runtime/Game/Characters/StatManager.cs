@@ -1,10 +1,9 @@
 ﻿using UnityEngine;
 
+using StoryTime.Domains.Events.ScriptableObjects;
+using StoryTime.Domains.Game.Characters.ScriptableObjects;
 namespace StoryTime.Components
 {
-	using ScriptableObjects;
-	using Events.ScriptableObjects;
-
 	public class StatManager : MonoBehaviour
 	{
 		[SerializeField] protected CharacterSO character;

@@ -1,8 +1,9 @@
 ﻿using UnityEditor;
 using MessageType = UnityEditor.MessageType;
 
-using StoryTime.Components;
-using StoryTime.Components.ScriptableObjects;
+using StoryTime.Domains.ItemManagement.Inventory.ScriptableObjects;
+using StoryTime.Domains.ItemManagement.Loot;
+using StoryTime.Domains.ItemManagement.Loot.ScriptableObjects;
 using StoryTime.Editor.Game.Components;
 
 // ReSharper disable once CheckNamespace

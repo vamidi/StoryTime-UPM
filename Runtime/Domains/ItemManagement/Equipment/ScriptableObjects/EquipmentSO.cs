@@ -4,8 +4,12 @@ using System.Collections.ObjectModel;
 using UnityEngine;
 using UnityEngine.Localization;
 
-namespace StoryTime.Components.ScriptableObjects
+namespace StoryTime.Domains.ItemManagement.Equipment.ScriptableObjects
 {
+	using Game.Characters;
+	using StoryTime.Domains.Game.Characters.ScriptableObjects;
+	using StoryTime.Domains.ItemManagement.Inventory.ScriptableObjects;
+	
 	public enum EquipmentCategory
 	{
 		Weapon,
@@ -45,7 +49,7 @@ namespace StoryTime.Components.ScriptableObjects
 	// ReSharper disable once InconsistentNaming
 	public partial class EquipmentSO : ItemSO
 	{
-		public LocalizedString EquipmentName
+		public string EquipmentName
 		{
 			get => equipmentName;
 			internal set => equipmentName = value;
@@ -70,7 +74,7 @@ namespace StoryTime.Components.ScriptableObjects
 		}
 		public ReadOnlyCollection<EquipmentStat> Stats => stats.AsReadOnly();
 
-		[SerializeField, Tooltip("The equipment name")] protected LocalizedString equipmentName = new ();
+		[SerializeField, Tooltip("The equipment name")] protected string equipmentName = "";
 		[SerializeField, Tooltip("In which category this weapon/armor/accessory falls into.")] protected EquipmentCategory category;
 		[SerializeField, Tooltip("The type of weapon or armor this equipment is.")] protected EquipmentType type;
 		[SerializeField, Tooltip("The class where this equipment belongs to.")] protected CharacterClassSO classType;

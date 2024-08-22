@@ -4,6 +4,7 @@ using UnityEngine.UIElements;
 
 using StoryTime.Editor.Wizards;
 using StoryTime.Components.ScriptableObjects;
+using StoryTime.Domains.ItemManagement.Equipment.ScriptableObjects;
 using StoryTime.Editor.Domains.UI;
 
 namespace StoryTime.Editor.UI

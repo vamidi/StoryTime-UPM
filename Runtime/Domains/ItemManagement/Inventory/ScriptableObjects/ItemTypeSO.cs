@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Localization;
 
-namespace StoryTime.Components.ScriptableObjects
+namespace StoryTime.Domains.ItemManagement.Inventory.ScriptableObjects
 {
 	public enum ItemInventoryType
 	{

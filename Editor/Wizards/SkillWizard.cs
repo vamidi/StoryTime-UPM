@@ -1,8 +1,9 @@
 using UnityEngine;
 using UnityEngine.Localization;
 
-using StoryTime.Components;
-using StoryTime.Components.ScriptableObjects;
+using StoryTime.Domains.Game.Characters;
+using StoryTime.Domains.Game.Characters.ScriptableObjects;
+
 namespace StoryTime.Editor.Wizards
 {
 	public class SkillWizard : BaseWizard<SkillWizard, SkillSO>

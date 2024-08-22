@@ -1,17 +1,17 @@
-﻿
-using StoryTime.Domains.VisualScripting;
-using StoryTime.Editor.Domains.UI;
-using UnityEngine.UIElements;
+﻿using UnityEngine.UIElements;
 
 using UnityEditor;
 using UnityEngine;
 
-using StoryTime.VisualScripting.Data.ScriptableObjects;
+using StoryTime.Editor.Domains.UI;
+using StoryTime.Domains.VisualScripting;
+using StoryTime.Domains.VisualScripting.Data.ScriptableObjects;
+using StoryTime.Domains.ItemManagement.Crafting.ScriptableObjects;
+using StoryTime.Domains.VisualScripting.Data.ScriptableObjects.ItemManagement;
 
 namespace StoryTime.Editor.VisualScripting
 {
 	using Elements;
-	using StoryTime.Components.ScriptableObjects;
 
 	public class ItemGraphView : BaseGraphView<ItemRecipeSO>
 	{

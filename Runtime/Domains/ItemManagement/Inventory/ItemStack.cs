@@ -1,5 +1,8 @@
-﻿namespace StoryTime.Components
+﻿using System;
+
+namespace StoryTime.Domains.ItemManagement.Inventory
 {
+	[Serializable]
 	public class ItemStack : BaseStack<ScriptableObjects.ItemSO>
 	{
 		public ItemStack() { }

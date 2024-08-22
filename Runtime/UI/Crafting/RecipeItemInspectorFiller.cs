@@ -2,11 +2,11 @@ using TMPro;
 
 using UnityEngine;
 
+using StoryTime.Domains.ItemManagement.Crafting;
+using StoryTime.Domains.ItemManagement.Crafting.ScriptableObjects;
+using StoryTime.Domains.ItemManagement.Inventory.ScriptableObjects;
 namespace StoryTime.Components.UI
 {
-	using Components;
-	using Components.ScriptableObjects;
-
 	public class RecipeItemInspectorFiller : InspectorItemBaseFiller<ItemRecipeStack, ItemRecipeSO>
 	{
 		[SerializeField] private TextMeshProUGUI minAmountItemCreation;

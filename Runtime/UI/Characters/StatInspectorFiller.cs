@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+using StoryTime.Domains.Game.Characters;
 namespace StoryTime.Components.UI
 {
 	public class StatInspectorFiller: MonoBehaviour

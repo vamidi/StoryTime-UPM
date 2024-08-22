@@ -1,8 +1,8 @@
+using StoryTime.Domains.ItemManagement.Crafting;
+using StoryTime.Domains.ItemManagement.Crafting.ScriptableObjects;
+
 namespace StoryTime.Components.UI
 {
-	using Components;
-	using Components.ScriptableObjects;
-
 	public class RecipeInspectorFiller : InspectorBaseFiller<
 		RecipeItemInspectorFiller,
 		ItemRecipeStack,

@@ -1,13 +1,14 @@
 using System.Collections.Generic;
-
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Localization;
 
+using StoryTime.Domains.Events.ScriptableObjects;
+using StoryTime.Domains.Narrative.Stories.ScriptableObjects;
+using StoryTime.Domains.Narrative.Stories.ScriptableObjects.Events;
+
 namespace StoryTime.Components.UI
 {
-	using Components.ScriptableObjects;
-
 	/// <summary>
 	/// A storyFiller is
 	/// </summary>
@@ -28,8 +29,8 @@ namespace StoryTime.Components.UI
 		public StoryType Category => m_Category;
 
 		[Header("Broadcasting channels")]
-		[SerializeField] private Events.ScriptableObjects.VoidEventChannelSO closeStoryScreenEvent;
-		[SerializeField] private Events.ScriptableObjects.StoryEventChannelSO onStorySelectEvent;
+		[SerializeField] private VoidEventChannelSO closeStoryScreenEvent;
+		[SerializeField] private StoryEventChannelSO onStorySelectEvent;
 
 		[SerializeField] private LocalizedString categoryTitle;
 
@@ -130,6 +131,7 @@ namespace StoryTime.Components.UI
 		{
 			// TODO write a handler that return the text for the subtitle
 			string reference = m_Category.ToString();
+			// TODO fixme
 			// categoryTitle.StringReference = reference;
 		}
 	}

@@ -1,6 +1,7 @@
 ﻿using StoryTime.Editor.VisualScripting.Utilities;
 using UnityEditor;
-using Node = StoryTime.VisualScripting.Data.ScriptableObjects.Node;
+using Node = StoryTime.Domains.VisualScripting.Data.ScriptableObjects.Node;
+
 namespace StoryTime.Editor.VisualScripting.Elements
 {
 	public class StartNode : NodeView

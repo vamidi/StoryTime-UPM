@@ -1,6 +1,12 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Linq;
+using UnityEngine;
 
-namespace StoryTime.Components.ScriptableObjects
+#if ODIN_INSPECTOR
+using Sirenix.OdinInspector;
+#endif
+
+namespace StoryTime.Domains.ItemManagement.Inventory.ScriptableObjects
 {
 	// Created with collaboration from:
 	// https://forum.unity.com/threads/inventory-system.980646/
@@ -9,8 +15,13 @@ namespace StoryTime.Components.ScriptableObjects
 	public class InventorySO : ItemCollection<ItemStack, ItemSO>
 	{
 		[SerializeField] private int maxItems = 999;
+		
 
-		private int _amountItems = 0;
+		public ItemStack[,] Inventory;
+
+		public string test = "";
+		
+		private int _amountItems;
 
 		/// <summary>
 		///
@@ -51,6 +62,7 @@ namespace StoryTime.Components.ScriptableObjects
 		protected override void Init()
 		{
 			base.Init();
+			
 			_amountItems = 0;
 		}
 	}

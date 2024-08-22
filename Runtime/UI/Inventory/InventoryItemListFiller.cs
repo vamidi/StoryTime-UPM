@@ -1,7 +1,7 @@
+using StoryTime.Domains.ItemManagement.Inventory;
+using StoryTime.Domains.ItemManagement.Inventory.ScriptableObjects;
+
 namespace StoryTime.Components.UI
 {
-	using Components;
-	using Components.ScriptableObjects;
-
 	public class InventoryItemListFiller : ListFiller<InventoryItemFiller, ItemStack, ItemSO> { }
 }

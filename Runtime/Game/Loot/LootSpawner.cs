@@ -2,7 +2,7 @@
 
 namespace StoryTime.Components
 {
-	using ScriptableObjects;
+	using StoryTime.Domains.ItemManagement.Loot.ScriptableObjects;
 
 	public class LootSpawner : MonoBehaviour
 	{

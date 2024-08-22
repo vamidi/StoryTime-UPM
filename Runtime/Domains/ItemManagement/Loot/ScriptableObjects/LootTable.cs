@@ -2,8 +2,10 @@
 
 using UnityEngine;
 
-namespace StoryTime.Components.ScriptableObjects
+namespace StoryTime.Domains.ItemManagement.Loot.ScriptableObjects
 {
+	using Inventory.ScriptableObjects;
+	
 	[CreateAssetMenu(fileName = "Item", menuName = "StoryTime/Game/Item Management/Loot table", order = 55)]
 	public class LootTable : BaseLootTable<DropItemStack, ItemSO>
 	{

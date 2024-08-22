@@ -1,12 +1,23 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-// ReSharper disable once CheckNamespace
 namespace StoryTime.Components
 {
 	using ScriptableObjects;
 	using Events.ScriptableObjects;
+	using StoryTime.Domains.Events.ScriptableObjects;
+	using StoryTime.Domains.Events.ScriptableObjects.UI;
+	using StoryTime.Domains.Narrative.Tasks.ScriptableObjects;
+	using StoryTime.Domains.Narrative.Stories.ScriptableObjects;
+	using StoryTime.Domains.Narrative.Tasks.ScriptableObjects.Events;
+	using StoryTime.Domains.Game.Interaction.ScriptableObjects.Events;
+	using StoryTime.Domains.Narrative.Stories.ScriptableObjects.Events;
+	using StoryTime.Domains.ItemManagement.Inventory.ScriptableObjects;
+	using StoryTime.Domains.Narrative.Dialogues.ScriptableObjects.Events;
+	using StoryTime.Domains.Game.Characters.ScriptableObjects.Events.Enemies;
+	using StoryTime.Domains.ItemManagement.Inventory.ScriptableObjects.Events;
 
+	
 	/// <summary>
 	/// The Story manager is in control of the stories
 	/// </summary>

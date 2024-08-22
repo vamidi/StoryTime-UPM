@@ -3,12 +3,14 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.Localization.Components;
 
+using StoryTime.Domains.ItemManagement;
+using StoryTime.Domains.ItemManagement.Crafting;
+using StoryTime.Domains.ItemManagement.Inventory;
+using StoryTime.Domains.ItemManagement.Inventory.ScriptableObjects;
+using StoryTime.Domains.ItemManagement.Inventory.ScriptableObjects.Events;
+
 namespace StoryTime.Components.UI
 {
-	using Components;
-	using Components.ScriptableObjects;
-	using Events.ScriptableObjects;
-
 	public abstract class ItemBaseFiller<TStack, TItem> : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 		where TItem : ItemSO
 		where TStack: BaseStack<TItem>

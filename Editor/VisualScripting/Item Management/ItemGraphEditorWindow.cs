@@ -1,12 +1,12 @@
-﻿using StoryTime.Editor.Domains.UI;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
+using StoryTime.Editor.Domains.UI;
+using StoryTime.Domains.ItemManagement.Crafting.ScriptableObjects;
+
 namespace StoryTime.Editor.VisualScripting
 {
-	using StoryTime.Components.ScriptableObjects;
-
 	public class ItemGraphEditorWindow : BaseGraphEditorWindow
 	{
 		private ItemGraphView _graphView;

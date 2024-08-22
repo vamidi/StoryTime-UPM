@@ -1,5 +1,6 @@
 
-using StoryTime.Components.ScriptableObjects;
+using StoryTime.Domains.ItemManagement.Inventory.ScriptableObjects;
+
 namespace StoryTime.Editor.Wizards
 {
 	public class ItemWizard : BaseWizard<ItemWizard, ItemSO>

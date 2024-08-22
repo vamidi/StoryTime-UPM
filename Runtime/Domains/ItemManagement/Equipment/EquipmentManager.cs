@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
 
-namespace StoryTime.Components
+namespace StoryTime.Domains.ItemManagement.Equipment
 {
+	using Inventory;
 	using ScriptableObjects;
-	using Events.ScriptableObjects;
+	using ScriptableObjects.Events;
+	using StoryTime.Domains.Game.Characters.ScriptableObjects;
 
 	public class EquipmentManager : MonoBehaviour
 	{

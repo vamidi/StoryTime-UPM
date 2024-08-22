@@ -1,40 +1,24 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using StoryTime.VisualScripting.Data.ScriptableObjects;
 
-#if UNITY_EDITOR
 using UnityEditor.Localization;
-#endif
-
 using UnityEngine;
+
 using UnityEngine.Localization;
 using UnityEngine.Localization.Settings;
 
-namespace StoryTime.Components.ScriptableObjects
+#if ODIN_INSPECTOR
+using Sirenix.OdinInspector;
+#endif
+
+namespace StoryTime.Domains.ItemManagement.Inventory.ScriptableObjects
 {
-	using Utils.Attributes;
-
-	[Serializable]
-	public class ItemSettings
-	{
-		public LocalizedString ItemName { get => itemName; internal set => itemName = value; }
-		public LocalizedString Description { get => description; internal set => description = value; }
-		public GameObject Prefab { get => prefab; set => prefab = value; }
-		public bool Sellable { get => sellable; set => sellable = value; }
-		public double SellValue { get => sellValue; set => sellValue = value; }
-		public ItemTypeSO ItemType { get => itemType; set => itemType = value; }
-		public Sprite PreviewImage => previewImage;
-
-		[SerializeField, HideInInspector, Tooltip("The name of the item")] protected LocalizedString itemName;
-		[SerializeField, HideInInspector, Tooltip("A description of the item")] protected LocalizedString description;
-		[SerializeField, Tooltip("A prefab reference for the model of the item")] public GameObject prefab;
-		[SerializeField, Tooltip("A preview image for the item")] protected Sprite previewImage;
-		[SerializeField, Tooltip("The type of item")] protected ItemTypeSO itemType;
-		[SerializeField, Tooltip("If the player is able to sell this item")] protected bool sellable;
-		[SerializeField, ConditionalField("sellable"), Tooltip("If the item is sellable, how much will it cost")] protected double sellValue;
-	}
-
-	/// <summary>
+    using Game.Characters;
+    using StoryTime.Utils.Attributes;
+    using StoryTime.Domains.VisualScripting.Data.ScriptableObjects;
+    using StoryTime.Domains.VisualScripting.Data.ScriptableObjects.ItemManagement;
+    
+    /// <summary>
     /// Called whenever a localized string is available.
     /// When the first <see cref="LocalizedAsset{TObject}.ChangeHandler"/> is added, a loading operation will automatically start and the localized string value will be sent to the event when completed.
     /// Any adding additional subscribers added after loading has completed will also be sent the latest localized string value when they are added.
@@ -76,55 +60,94 @@ namespace StoryTime.Components.ScriptableObjects
     /// }
     /// </code>
     /// </example>
-	[CreateAssetMenu(fileName = "Item", menuName = "StoryTime/Game/Item Management/Item", order = 51)]
-	// ReSharper disable once InconsistentNaming
-	public partial class ItemSO : Graphable<ItemMasterNode>
-	{
-		public LocalizedString ItemName { get => itemSettings.ItemName; set => itemSettings.ItemName = value; }
-		public LocalizedString Description { get => itemSettings.Description; set => itemSettings.Description = value; }
-		public bool Sellable { get => itemSettings.Sellable; set => itemSettings.Sellable = value; }
-		public double SellValue { get => itemSettings.SellValue; set => itemSettings.SellValue = value; }
-		public ItemTypeSO ItemType { get => itemSettings.ItemType; set => itemSettings.ItemType = value; }
-		public Sprite PreviewImage => itemSettings.PreviewImage;
-		public GameObject Prefab
-		{
-			get => itemSettings.Prefab;
-			internal set => itemSettings.Prefab = value;
-		}
+    public partial class ItemSO : Graphable<ItemMasterNode>
+    {
+        public string ItemName { get => itemName; internal set => itemName = value; }
+        public string Description { get => description; internal set => description = value; }
+        public bool Sellable { get => sellable; internal set => sellable = value; }
+        public double SellValue { get => sellValue; internal set => sellValue = value; }
+        public ItemTypeSO ItemType { get => itemType; internal set => itemType = value; }
+        
+        public GameObject Prefab { get => prefab; set => prefab = value; }
+        public Sprite PreviewImage => previewImage;
+        
+        public List<StatModifier> StatModifiers => statModifiers;
+        public LocalizedSprite LocalizePreviewImage => localizePreviewImage;
+        public bool IsLocalized => isLocalized;
+        
+        protected const string LEFT_VERTICAL_GROUP             = "Split/Left";
+        protected const string STATS_BOX_GROUP                 = "Split/Left/Stats";
+        protected const string GENERAL_SETTINGS_VERTICAL_GROUP = "Split/Left/General Settings/Split/Right";
 
-		public List<StatModifier> StatModifiers => statModifiers;
-		public LocalizedSprite LocalizePreviewImage => localizePreviewImage;
-		public bool IsLocalized => isLocalized;
+        [HideLabel, PreviewField(55)]
+        [VerticalGroup(LEFT_VERTICAL_GROUP)]
+        [HorizontalGroup(LEFT_VERTICAL_GROUP + "/General Settings/Split", 55, LabelWidth = 67)]
+        public Texture Icon;
 
-		[Header("Item settings")]
+        [SerializeField, BoxGroup(LEFT_VERTICAL_GROUP + "/General Settings"), Tooltip("The name of the item")]
+        [VerticalGroup(GENERAL_SETTINGS_VERTICAL_GROUP)]
+        public string itemName;
 
-		[SerializeField] public ItemSettings itemSettings = new ();
+        [SerializeField, BoxGroup("Split/Right/Description"), Tooltip("A description of the item")]
+        [HideLabel, TextArea(4, 14)]
+        public string description;
+
+        [HorizontalGroup("Split", 0.5f, MarginLeft = 5, LabelWidth = 130)]
+        [BoxGroup("Split/Right/Notes")]
+        [HideLabel, TextArea(4, 9)]
+        public string Notes;
+
+        [VerticalGroup(GENERAL_SETTINGS_VERTICAL_GROUP)]
+        // [ValueDropdown("SupportedItemTypes")]
+        // [ValidateInput("IsSupportedType")]
+        public ItemTypeSO Type;
+
+        // [VerticalGroup("Split/Right")]
+        // public StatList Requirements;
+        
+        [
+            SerializeField, Tooltip("A prefab reference for the model of the item"),
+#if ODIN_INSPECTOR
+            AssetsOnly,
+            VerticalGroup(GENERAL_SETTINGS_VERTICAL_GROUP),
+            PreviewField(75),
+            HideLabel
+#endif
+        ]
+        public GameObject prefab;
+
+        [BoxGroup(STATS_BOX_GROUP)]
+        public int ItemStackSize = 1;
+
+        [BoxGroup(STATS_BOX_GROUP)]
+        public float ItemRarity;
 
 		[Header("Stats")]
-
 		[SerializeField, Tooltip("Stat modifiers")] protected List<StatModifier> statModifiers;
 
-		[Header("Localization")]
+        [Header("Localization")]
+        [SerializeField, ConditionalField("isLocalized"), Tooltip("A localized preview image for the item")] protected LocalizedSprite localizePreviewImage;
+        [SerializeField, Tooltip("a checkbox for localized asset")] protected bool isLocalized;
+		
+        [SerializeField, Tooltip("Override where we should get the item description data from.")]
+        protected bool overrideDescriptionTable;
 
-		[SerializeField, ConditionalField("isLocalized"), Tooltip("A localized preview image for the item")] protected LocalizedSprite localizePreviewImage;
-		[SerializeField, Tooltip("a checkbox for localized asset")] protected bool isLocalized;
+        [SerializeField, ConditionalField("overrideDescriptionTable"), Tooltip("Table collection we are going to use for the sentence")]
+        protected StringTableCollection itemDescriptionCollection;
 
-
-
-		[SerializeField, Tooltip("Override where we should get the item description data from.")]
-		protected bool overrideDescriptionTable;
-
-		[SerializeField, ConditionalField("overrideDescriptionTable"), Tooltip("Table collection we are going to use for the sentence")]
-		protected StringTableCollection itemDescriptionCollection;
-
+        [SerializeField, Tooltip("A preview image for the item")] protected Sprite previewImage;
+        [SerializeField, Tooltip("The type of item")] protected ItemTypeSO itemType;
+        [SerializeField, Tooltip("If the player is able to sell this item")] protected bool sellable;
+        [SerializeField, ConditionalField("sellable"), Tooltip("If the item is sellable, how much will it cost")] protected double sellValue;
+        
 		// Effect Primary Value
 
 		// Effect Type Id
 
-		public ItemSO(string name, string dropdownColumn, string linkedColumn = "",
-			String linkedId = "", string linkedTable = "") : base(name, dropdownColumn, linkedColumn, linkedId, linkedTable) { }
+        public ItemSO(string name, string dropdownColumn, string linkedColumn = "",
+            String linkedId = "", string linkedTable = "") : base(name, dropdownColumn, linkedColumn, linkedId, linkedTable) { }
 
-		ItemSO(): base("items", "name") {}
+        ItemSO(): base("items", "name") {}
 
 		protected override void OnTableIDChanged()
 		{
@@ -138,19 +161,19 @@ namespace StoryTime.Components.ScriptableObjects
 		}
 
 		protected virtual void Initialize()
-		{
-			var entryId = (ID + 1).ToString();
-			collection = LocalizationEditorSettings.GetStringTableCollection("Item Names");
-			if (collection != null)
-				itemSettings.ItemName = new LocalizedString { TableReference = collection.TableCollectionNameReference, TableEntryReference = entryId };
-			else
-				Debug.LogWarning("Collection not found. Did you create any localization tables for Items");
-
-			var descriptionCollection = overrideDescriptionTable ? itemDescriptionCollection : LocalizationEditorSettings.GetStringTableCollection("Item Descriptions");
-			if (descriptionCollection != null)
-				itemSettings.Description = new LocalizedString { TableReference = descriptionCollection.TableCollectionNameReference, TableEntryReference = entryId };
-			else
-				Debug.LogWarning("Collection not found. Did you create any localization tables for Items");
-		}
-	}
+        {
+// 			var entryId = (ID + 1).ToString();
+// 			collection = LocalizationEditorSettings.GetStringTableCollection("Item Names");
+// 			if (collection != null)
+// 				itemSettings.ItemName = new LocalizedString { TableReference = collection.TableCollectionNameReference, TableEntryReference = entryId };
+// 			else
+// 				Debug.LogWarning("Collection not found. Did you create any localization tables for Items");
+//
+// 			var descriptionCollection = overrideDescriptionTable ? itemDescriptionCollection : LocalizationEditorSettings.GetStringTableCollection("Item Descriptions");
+// 			if (descriptionCollection != null)
+// 				itemSettings.Description = new LocalizedString { TableReference = descriptionCollection.TableCollectionNameReference, TableEntryReference = entryId };
+// 			else
+// 				Debug.LogWarning("Collection not found. Did you create any localization tables for Items");
+        }
+    }
 }
