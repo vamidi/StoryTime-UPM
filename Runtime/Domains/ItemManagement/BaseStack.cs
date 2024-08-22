@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace StoryTime.Components
+namespace StoryTime.Domains.ItemManagement
 {
 	using Utils.Attributes;
 

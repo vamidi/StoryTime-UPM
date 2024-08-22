@@ -7,11 +7,9 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor.Experimental.GraphView;
 
-
-using StoryTime.VisualScripting.Data;
-using StoryTime.VisualScripting.Data.ScriptableObjects;
 using StoryTime.Domains.VisualScripting;
-
+using StoryTime.Domains.VisualScripting.Data.Nodes.Dialogues;
+using StoryTime.Domains.VisualScripting.Data.ScriptableObjects;
 using Node = UnityEditor.Experimental.GraphView.Node;
 
 namespace StoryTime.Editor.VisualScripting
@@ -71,13 +69,13 @@ namespace StoryTime.Editor.VisualScripting
 
 		internal abstract void RemovePort(NodeView node, Port port);
 
-		protected T FindNodeView<T>(StoryTime.VisualScripting.Data.ScriptableObjects.Node node)
+		protected T FindNodeView<T>(StoryTime.Domains.VisualScripting.Data.ScriptableObjects.Node node)
 			where T : Node
 		{
 			return GetNodeByGuid(node.guid) as T;
 		}
 
-		protected abstract NodeView CreateNodeView(StoryTime.VisualScripting.Data.ScriptableObjects.Node node,
+		protected abstract NodeView CreateNodeView(StoryTime.Domains.VisualScripting.Data.ScriptableObjects.Node node,
 			string title = "");
 
 		private void AddGridBackground()
@@ -168,7 +166,7 @@ namespace StoryTime.Editor.VisualScripting
 
 		protected abstract void GenerateEntryPointNode();
 
-		protected abstract NodeView InitializeNodeView(StoryTime.VisualScripting.Data.ScriptableObjects.Node node, string title = "");
+		protected abstract NodeView InitializeNodeView(StoryTime.Domains.VisualScripting.Data.ScriptableObjects.Node node, string title = "");
 
 		protected virtual void InitStartNode(NodeView node)
 		{
@@ -176,7 +174,7 @@ namespace StoryTime.Editor.VisualScripting
 			node.capabilities &= ~Capabilities.Deletable;
 		}
 
-		protected override NodeView CreateNodeView(StoryTime.VisualScripting.Data.ScriptableObjects.Node node, string title = "")
+		protected override NodeView CreateNodeView(StoryTime.Domains.VisualScripting.Data.ScriptableObjects.Node node, string title = "")
 		{
 			NodeView nodeView = InitializeNodeView(node, title);
 
@@ -254,7 +252,7 @@ namespace StoryTime.Editor.VisualScripting
 				return null;
 			}
 
-			StoryTime.VisualScripting.Data.ScriptableObjects.Node node = Service.CreateNode(nodeType, ref nodes);
+			StoryTime.Domains.VisualScripting.Data.ScriptableObjects.Node node = Service.CreateNode(nodeType, ref nodes);
 			node.position = position;
 
 			return CreateNodeView(node, title);

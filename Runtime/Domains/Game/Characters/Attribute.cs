@@ -2,9 +2,11 @@ using System;
 using UnityEngine;
 using UnityEngine.Localization;
 
-using StoryTime.Components.ScriptableObjects;
-namespace StoryTime.Components
+
+namespace StoryTime.Domains.Game.Characters
 {
+	using ScriptableObjects;
+
 	[Serializable]
 	public class Attribute
 	{

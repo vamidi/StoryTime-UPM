@@ -3,11 +3,11 @@ using System.Linq;
 
 using UnityEngine;
 
+using StoryTime.Domains.Events.ScriptableObjects;
 namespace StoryTime.Components
 {
 	using Scripts;
 	using ScriptableObjects;
-	using Events.ScriptableObjects;
 
 	/// <summary>
 	/// BaseSpawnSystem listens to the scene ready channel to see if the scene is loaded

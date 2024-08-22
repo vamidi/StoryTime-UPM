@@ -21,7 +21,7 @@ namespace StoryTime.Editor.UI
 			{
 				if(_tableDatabase == null) _tableDatabase = TableDatabase.Get;
 
-				var binary = _tableDatabase.GetBinary(target.Name);
+				var binary = _tableDatabase.GetBinary(target.TableName);
 				string linkColumn = target.LinkedColumn;
 				String linkId = target.LinkedID;
 				bool linkTable = target.LinkedTable != String.Empty;

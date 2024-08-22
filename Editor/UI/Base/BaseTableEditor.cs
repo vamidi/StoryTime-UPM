@@ -6,8 +6,13 @@ using UnityEngine;
 
 using StoryTime.Database.ScriptableObjects;
 using StoryTime.Components.ScriptableObjects;
+using StoryTime.Domains.Game.Characters.ScriptableObjects;
+using StoryTime.Domains.ItemManagement.Crafting.ScriptableObjects;
+using StoryTime.Domains.ItemManagement.Inventory.ScriptableObjects;
+using StoryTime.Domains.Narrative.Stories.ScriptableObjects;
+using StoryTime.Domains.Narrative.Tasks.ScriptableObjects;
 using StoryTime.FirebaseService.Database.ResourceManagement;
-// ReSharper disable once CheckNamespace
+
 namespace StoryTime.Editor.UI
 {
 	using Database;
@@ -34,7 +39,7 @@ namespace StoryTime.Editor.UI
 			DatabaseSyncModule.onFetchCompleted += (_, tableName) =>
 			{
 				var tblComp = target as TableBehaviour;
-				if (tblComp != null && tblComp.Name == tableName)
+				if (tblComp != null && tblComp.TableName == tableName)
 				{
 					Debug.Log($"Re-generating list of {tableName}");
 					GenerateList();
@@ -115,7 +120,7 @@ namespace StoryTime.Editor.UI
 		}
 	}
 
-	[UnityEditor.CustomEditor(typeof(TableBehaviour), true)]
+	// [UnityEditor.CustomEditor(typeof(TableBehaviour), true)]
 	public class TableEditor : BaseTableEditor<TableBehaviour>
 	{
 		public override void OnEnable()
@@ -128,7 +133,7 @@ namespace StoryTime.Editor.UI
 	/// <summary>
 	/// ActorSO editor settings
 	/// </summary>
-	[UnityEditor.CustomEditor(typeof(CharacterSO))]
+	// [UnityEditor.CustomEditor(typeof(CharacterSO))]
 	public class ActorTableEditor : BaseTableEditor<CharacterSO>
 	{
 		public override void OnEnable()
@@ -142,9 +147,9 @@ namespace StoryTime.Editor.UI
 			var t = target as CharacterSO;
 			if (t && t.ID != String.Empty)
 			{
-				var row = t.GetRow(t.Name, t.ID);
+				var row = t.GetRow(t.TableName, t.ID);
 				// set all the values from the selected row
-				if (row != null) t.ConvertRow(row, t);
+				// if (row != null) t.ConvertRow(row, t);
 			}
 		}
 	}
@@ -195,11 +200,11 @@ namespace StoryTime.Editor.UI
 			var t = target as StorySO;
 			if (t != null && t.ID != String.Empty)
 			{
-				var row = t.GetRow(t.Name, t.ID);
+				var row = t.GetRow(t.TableName, t.ID);
 
 				// set all the values from the selected row
-				if (row != null) t.ConvertRow(row, t);
-				else t.Reset();
+				// if (row != null) t.ConvertRow(row, t);
+				// else t.Reset();
 
 				Prompt(t);
 			}
@@ -326,11 +331,11 @@ namespace StoryTime.Editor.UI
 			var t = target as SkillSO;
 			if (t != null && t.ID != String.Empty)
 			{
-				var row = t.GetRow(t.Name, t.ID);
+				var row = t.GetRow(t.TableName, t.ID);
 
 				// set all the values from the selected row
-				if (row != null) t.ConvertRow(row, t);
-				else t.Reset();
+				// if (row != null) t.ConvertRow(row, t);
+				// else t.Reset();
 			}
 		}
 	}
@@ -343,16 +348,16 @@ namespace StoryTime.Editor.UI
 			var t = target as CharacterClassSO;
 			if (t != null && t.ID != String.Empty)
 			{
-				var row = t.GetRow(t.Name, t.ID);
+				var row = t.GetRow(t.TableName, t.ID);
 
 				// set all the values from the selected row
-				if (row != null) t.ConvertRow(row, t);
-				else t.Reset();
+				// if (row != null) t.ConvertRow(row, t);
+				// else t.Reset();
 			}
 		}
 	}
 
-	[UnityEditor.CustomEditor(typeof(TaskSO))]
+	// [UnityEditor.CustomEditor(typeof(TaskSO))]
 	public class TaskTableEditor : BaseTableEditor<TaskSO>
 	{
 		protected override void OnChanged()
@@ -360,15 +365,15 @@ namespace StoryTime.Editor.UI
 			var t = target as TaskSO;
 			if (t != null && t.ID != String.Empty)
 			{
-				var row = t.GetRow(t.Name, t.ID);
+				var row = t.GetRow(t.TableName, t.ID);
 
 				// set all the values from the selected row
-				if (row != null) t.ConvertRow(row, t);
+				// if (row != null) t.ConvertRow(row, t);
 			}
 		}
 	}
 
-	[UnityEditor.CustomEditor(typeof(ItemSO))]
+	// [UnityEditor.CustomEditor(typeof(ItemSO))]
 	public class ItemTableEditor : BaseTableEditor<ItemSO>
 	{
 		protected override void OnChanged()
@@ -377,10 +382,10 @@ namespace StoryTime.Editor.UI
 			var t = target as ItemSO;
 			if (t != null && t.ID != String.Empty)
 			{
-				var row = t.GetRow(t.Name, t.ID);
+				var row = t.GetRow(t.TableName, t.ID);
 
 				// set all the values from the selected row
-				if (row != null) t.ConvertRow(row, t);
+				// if (row != null) t.ConvertRow(row, t);
 				UnityEditor.EditorUtility.SetDirty(t);
 				Repaint();
 				Debug.Log("repaint");
@@ -397,10 +402,10 @@ namespace StoryTime.Editor.UI
 			var t = target as ItemRecipeSO;
 			if (t != null && t.ID != String.Empty)
 			{
-				var row = t.GetRow(t.Name, t.ID);
+				var row = t.GetRow(t.TableName, t.ID);
 
 				// set all the values from the selected row
-				if (row != null) t.ConvertRow(row, t);
+				// if (row != null) t.ConvertRow(row, t);
 				UnityEditor.EditorUtility.SetDirty(t);
 				Repaint();
 			}
@@ -415,7 +420,7 @@ namespace StoryTime.Editor.UI
 			var t = target as EnemySO;
 			if (t != null && t.ID != String.Empty)
 			{
-				var row = t.GetRow(t.Name, t.ID);
+				var row = t.GetRow(t.TableName, t.ID);
 
 				// set all the values from the selected row
 				if (row != null) t.ConvertRow(row, t);

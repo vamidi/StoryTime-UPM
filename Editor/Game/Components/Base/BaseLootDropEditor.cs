@@ -6,7 +6,9 @@ using UnityEditor;
 using UnityEditorInternal;
 
 using StoryTime.Components;
-using StoryTime.Components.ScriptableObjects;
+using StoryTime.Domains.ItemManagement;
+using StoryTime.Domains.ItemManagement.Inventory.ScriptableObjects;
+using StoryTime.Domains.ItemManagement.Loot;
 using MessageType = UnityEditor.MessageType;
 
 namespace StoryTime.Editor.Game.Components

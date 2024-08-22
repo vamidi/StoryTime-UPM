@@ -1,10 +1,12 @@
 ﻿using UnityEditor;
 using UnityEditor.Callbacks;
 
-using StoryTime.Components.ScriptableObjects;
+using StoryTime.Domains.ItemManagement.Crafting.ScriptableObjects;
+using StoryTime.Domains.Narrative.Stories.ScriptableObjects;
+
 namespace StoryTime.Editor.VisualScripting.Utilities
 {
-	public static partial class AssetHandler
+	public static class AssetHandler
 	{
 		[OnOpenAsset]
 		// Handles opening the editor window when double-clicking project files

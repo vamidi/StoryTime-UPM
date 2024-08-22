@@ -2,7 +2,7 @@
 
 using UnityEngine;
 
-namespace StoryTime.Components
+namespace StoryTime.Domains.ItemManagement
 {
 	public abstract class BaseLootTable<T, TS> : ScriptableObject
 		where T : DropStack<TS>
