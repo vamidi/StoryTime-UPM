@@ -26,7 +26,7 @@ namespace StoryTime.Database.ScriptableObjects
 	    /// <summary>
 	    /// Name of the table that we are using.
 	    /// </summary>
-	    public string Name { get => tableName; internal set => tableName = value; }
+	    public string TableName { get => tableName; internal set => tableName = value; }
 	    public string DropdownColumn { get => dropdownColumn; internal set => dropdownColumn = value; }
 	    public String LinkedID { get => linkID; internal set => linkID = value; }
 	    public string LinkedColumn { get => linkedColumn; internal set => linkedColumn = value; }
@@ -48,7 +48,7 @@ namespace StoryTime.Database.ScriptableObjects
 
 	    public void Init(string tblName, string dropdownColumn, string linkedColumn, String linkedId, string linkedTable)
 	    {
-		    Name = tblName;
+		    TableName = tblName;
 		    DropdownColumn = dropdownColumn;
 
 		    LinkedColumn = linkedColumn;

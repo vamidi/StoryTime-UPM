@@ -1,13 +1,13 @@
 {
   "name": "com.vamidicreations.storytime",
-  "version": "1.9.0-preview",
+  "version": "1.10.0-preview",
   "displayName": "StoryTime",
   "description": "-- DISCLAIMER --\nYou will need the StoryTime DB application in order to communicate the game data back and forth.\n\nStoryTime is package that provides components to make RPG games.",
   "documentationUrl": "https://docs.vamidicreations.nl/",
   "changelogUrl": "https://example.com/changelog.html",
   "licensesUrl": "https://example.com/licensing.html",
   "unity": "2022.3",
-  "unityRelease": "25f1",
+  "unityRelease": "38f1",
   "dependencies": {
     "com.unity.nuget.newtonsoft-json": "1.1.2",
     "com.unity.textmeshpro": "3.0.6",

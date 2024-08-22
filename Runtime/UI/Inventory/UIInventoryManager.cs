@@ -1,12 +1,15 @@
 using System.Collections.Generic;
+
 using UnityEngine;
+
+using StoryTime.Domains.Game.Characters.ScriptableObjects;
+using StoryTime.Domains.ItemManagement.Equipment.ScriptableObjects.Events;
+using StoryTime.Domains.ItemManagement.Inventory;
+using StoryTime.Domains.ItemManagement.Inventory.ScriptableObjects;
+using StoryTime.Domains.ItemManagement.Inventory.ScriptableObjects.Events;
 
 namespace StoryTime.Components.UI
 {
-	using Components;
-	using Components.ScriptableObjects;
-	using Events.ScriptableObjects;
-
 	public class UIInventoryManager : UIItemManager<
 		InventoryItemListFiller,
 		InventoryItemFiller,
@@ -93,9 +96,8 @@ namespace StoryTime.Components.UI
 
 		protected override List<ItemStack> FindAll()
 		{
-			Debug.Log(currentInventory.Items.Count);
-			return currentInventory.Items;
-			// return currentInventory.Items.FindAll(o => o.Item.ItemType.TabType == SelectedTab);
+			Debug.Log(currentInventory.Items.Length);
+			return currentInventory.AllItems;
 		}
 
 		protected override void ChangeTabEventRaised(InventoryTabTypeSO tabType)

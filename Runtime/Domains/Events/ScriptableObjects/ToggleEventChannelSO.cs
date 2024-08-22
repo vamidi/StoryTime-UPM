@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace StoryTime.Events.ScriptableObjects
+namespace StoryTime.Domains.Events.ScriptableObjects
 {
 	public class ToggleEventChannelSO<T> : ScriptableObject
 	{

@@ -1,12 +1,16 @@
 using System.Collections.Generic;
+
 using UnityEngine;
+
+using StoryTime.Domains.Events.ScriptableObjects;
+using StoryTime.Domains.ItemManagement.Crafting;
+using StoryTime.Domains.ItemManagement.Crafting.ScriptableObjects;
+using StoryTime.Domains.ItemManagement.Extensions;
+using StoryTime.Domains.ItemManagement.Inventory.ScriptableObjects;
+using StoryTime.Domains.ItemManagement.Inventory.ScriptableObjects.Events;
 
 namespace StoryTime.Components.UI
 {
-	using Components;
-	using Components.ScriptableObjects;
-	using Events.ScriptableObjects;
-
 	/// <summary>
 	///
 	/// </summary>
@@ -44,7 +48,7 @@ namespace StoryTime.Components.UI
 
 		protected override List<ItemRecipeStack> FindAll()
 		{
-			return currentInventory.Items.FindAll(o => o.Item.ItemType.TabType == SelectedTab);
+			return currentInventory.FindAll(SelectedTab);
 		}
 
 		protected override void OnActionButtonRaised(ItemRecipeStack itemStack)
@@ -97,7 +101,7 @@ namespace StoryTime.Components.UI
 
 		void ShowItemInformation(ItemRecipeStack item)
 		{
-			bool[] availabilityArray = currentInventory.IngredientsAvailability(currentInventory, item.Item.IngredientsList);
+			bool[] availabilityArray = currentInventory.IngredientsAvailability(item.Item.IngredientsList);
 			inspectorFiller.FillItemInspector(item, availabilityArray);
 		}
 
@@ -118,7 +122,7 @@ namespace StoryTime.Components.UI
 					bool isInteractable = true;
 					buttonFiller.gameObject.SetActive(true);
 					if (itemToInspect.Item.ItemType.ActionType == ItemInventoryActionType.Craft)
-						isInteractable = currentInventory.HasIngredients(currentInventory, itemToInspect.Item.IngredientsList);
+						isInteractable = currentInventory.HasIngredients(itemToInspect.Item.IngredientsList);
 					else if (itemToInspect.Item.ItemType.ActionType == ItemInventoryActionType.DoNothing)
 					{
 						isInteractable = false;

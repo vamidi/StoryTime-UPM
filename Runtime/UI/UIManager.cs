@@ -3,10 +3,16 @@ using UnityEngine;
 
 using DG.Tweening;
 
+using StoryTime.Domains.Events.ScriptableObjects;
+using StoryTime.Domains.Events.ScriptableObjects.UI;
+using StoryTime.Domains.Game.Characters.ScriptableObjects;
+using StoryTime.Domains.Game.Characters.ScriptableObjects.Events;
+using StoryTime.Domains.ItemManagement.Inventory;
+using StoryTime.Domains.ItemManagement.Inventory.ScriptableObjects;
+
 namespace StoryTime.Components.UI
 {
 	using Components;
-	using Components.ScriptableObjects;
 	using Events.ScriptableObjects;
 
 	public class UIManager : MonoBehaviour

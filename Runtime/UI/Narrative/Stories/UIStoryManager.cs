@@ -4,11 +4,10 @@ using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Components;
 
+using StoryTime.Domains.Narrative.Stories.ScriptableObjects;
+using StoryTime.Domains.Narrative.Stories.ScriptableObjects.Events;
 namespace StoryTime.Components.UI
 {
-	using Events.ScriptableObjects;
-	using Components.ScriptableObjects;
-
 	public class UIStoryManager : MonoBehaviour
 	{
 		[Header("Listening to channels")]

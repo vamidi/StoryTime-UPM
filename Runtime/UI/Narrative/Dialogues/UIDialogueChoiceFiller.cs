@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.Localization.Components;
 
+using StoryTime.Domains.Events.ScriptableObjects.UI;
 namespace StoryTime.Components.UI
 {
-	using Events.ScriptableObjects;
 
 	public class UIDialogueChoiceFiller : MonoBehaviour
 	{

@@ -1,9 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
 
-namespace StoryTime.Events.ScriptableObjects
+namespace StoryTime.Domains.Events.ScriptableObjects
 {
-
 	/// <summary>
 	/// This class is used for Events that have no arguments (Example: Exit game event)
 	/// </summary>

@@ -1,4 +1,6 @@
 
+using StoryTime.Domains.ItemManagement.Inventory;
+
 namespace StoryTime.Components.UI
 {
 	using ScriptableObjects;
@@ -15,8 +17,9 @@ namespace StoryTime.Components.UI
 
 					if (interaction != null)
 					{
-						interaction.InteractionName = itemStack.Item.ItemName;
-						interaction.interactionItemDescription = itemStack.Item.Description;
+						// TODO fixme
+						// interaction.InteractionName = itemStack.Item.ItemName;
+						// interaction.interactionItemDescription = itemStack.Item.Description;
 					}
 				}
 			}

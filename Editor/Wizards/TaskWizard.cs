@@ -1,4 +1,4 @@
-using StoryTime.Components.ScriptableObjects;
+using StoryTime.Domains.Narrative.Tasks.ScriptableObjects;
 
 namespace StoryTime.Editor.Wizards
 {

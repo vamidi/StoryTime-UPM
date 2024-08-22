@@ -3,14 +3,19 @@ using System.Collections.Generic;
 
 using UnityEngine;
 using UnityEngine.Localization;
+#if UNITY_EDITOR
 using UnityEditor.Localization;
+#endif
 
-
-using StoryTime.Database.ScriptableObjects;
-namespace StoryTime.Components.ScriptableObjects
+namespace StoryTime.Domains.Narrative.Tasks.ScriptableObjects
 {
-	using Events.ScriptableObjects;
-
+	using Events;
+	using ItemManagement.Inventory;
+	using StoryTime.Database.ScriptableObjects;
+	using StoryTime.Domains.Game.Characters.ScriptableObjects;
+	using StoryTime.Domains.Game.NPC.Enemies.ScriptableObjects;
+	using StoryTime.Domains.Narrative.Stories.ScriptableObjects;
+	
 	public enum TaskCompletionType
 	{
 		None, //
@@ -109,7 +114,7 @@ namespace StoryTime.Components.ScriptableObjects
 		[SerializeField, Tooltip("An event that we trigger when a certain task is finished.")]
 		private TaskEventChannelSO endTaskEvent;
 
-		[SerializeField, Tooltip("Task event value we want to attach.")] private TaskEventSO taskEvent;
+		// [SerializeField, Tooltip("Task event value we want to attach.")] private TaskEventSO taskEvent;
 
 		[SerializeField] bool isDone;
 
@@ -145,13 +150,13 @@ namespace StoryTime.Components.ScriptableObjects
 
 		public void StartTask()
 		{
-			if(startTaskEvent) startTaskEvent.RaiseEvent(this, taskEvent);
+			// startTaskEvent?.RaiseEvent(this, taskEvent);
 		}
 
 		public void FinishTask()
 		{
 			isDone = true;
-			if (endTaskEvent != null) endTaskEvent.RaiseEvent(this, taskEvent);
+			// if (endTaskEvent != null) endTaskEvent.RaiseEvent(this, taskEvent);
 		}
 
 		public TaskSO(): base("tasks", "description") {}
@@ -160,6 +165,7 @@ namespace StoryTime.Components.ScriptableObjects
 		{
 			if (ID != String.Empty)
 			{
+#if UNITY_EDITOR
 				collection = overrideTable ? collection : LocalizationEditorSettings.GetStringTableCollection("Task Descriptions");
 				// Only get the first dialogue.
 				var entryId = (ID + 1).ToString();
@@ -167,6 +173,7 @@ namespace StoryTime.Components.ScriptableObjects
 					description = new LocalizedString { TableReference = collection.TableCollectionNameReference, TableEntryReference = entryId };
 				else
 					Debug.LogWarning("Collection not found. Did you create any localization tables for Tasks");
+#endif
 			}
 		}
 	}

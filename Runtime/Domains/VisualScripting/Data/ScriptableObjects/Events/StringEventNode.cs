@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace StoryTime.VisualScripting.Data.ScriptableObjects
+namespace StoryTime.Domains.VisualScripting.Data.ScriptableObjects.Events
 {
 	public class StringEventNode : EventNode<String>
 	{

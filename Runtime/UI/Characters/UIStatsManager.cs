@@ -1,13 +1,17 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using StoryTime.Domains.Events.ScriptableObjects;
 using TMPro;
+
 using UnityEngine;
+
+using StoryTime.Domains.Game.Characters;
+using StoryTime.Domains.Game.Characters.ScriptableObjects;
+using StoryTime.Domains.Game.Characters.ScriptableObjects.Events;
 
 namespace  StoryTime.Components.UI
 {
 	using Components;
-	using Components.ScriptableObjects;
-	using Events.ScriptableObjects;
 
 	public class UIStatsManager : MonoBehaviour
 	{

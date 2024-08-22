@@ -1,7 +1,7 @@
 ﻿using UnityEngine.Events;
 using UnityEngine;
 
-namespace StoryTime.Events.ScriptableObjects
+namespace StoryTime.Domains.Events.ScriptableObjects
 {
 	/// <summary>
 	/// This class is used for Events that have one transform argument.

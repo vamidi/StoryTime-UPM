@@ -1,13 +1,16 @@
 using System.Collections.Generic;
+
 using UnityEngine;
 using UnityEngine.Localization.Components;
 
+using StoryTime.Domains.Events.ScriptableObjects;
+using StoryTime.Domains.Events.ScriptableObjects.UI;
+using StoryTime.Domains.ItemManagement;
+using StoryTime.Domains.ItemManagement.Inventory.ScriptableObjects;
+using StoryTime.Domains.ItemManagement.Inventory.ScriptableObjects.Events;
+
 namespace StoryTime.Components.UI
 {
-	using Components;
-	using Components.ScriptableObjects;
-	using Events.ScriptableObjects;
-
 	public abstract class UIItemManager<TListFiller, TItemFiller, TInspectorFiller, TInspector, TStack, TItem, TCollection> : MonoBehaviour
 		where TItem: ItemSO
 		where TStack: BaseStack<TItem>, new()

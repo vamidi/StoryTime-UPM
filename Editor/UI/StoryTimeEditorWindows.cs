@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Collections.Generic;
+
 using UnityEditor;
 using UnityEditor.UIElements;
 
@@ -7,7 +8,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 
 using StoryTime.Utils.Extensions;
-using StoryTime.Components.ScriptableObjects;
+using StoryTime.Domains.ItemManagement.Inventory.ScriptableObjects;
 using StoryTime.Editor.Domains.UI;
 
 namespace StoryTime.FirebaseService.Database.Editor.UI

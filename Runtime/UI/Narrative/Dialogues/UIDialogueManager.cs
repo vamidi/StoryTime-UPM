@@ -4,11 +4,11 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Localization.Components;
 
+using StoryTime.Domains.Events.ScriptableObjects;
+using StoryTime.Domains.Events.ScriptableObjects.UI;
 namespace StoryTime.Components.UI
 {
 	using Components;
-	using Components.ScriptableObjects;
-	using Events.ScriptableObjects;
 
 	public class UIDialogueManager : MonoBehaviour
 	{
@@ -34,7 +34,8 @@ namespace StoryTime.Components.UI
 		public void SetDialogue(DialogueLine dialogueLine)
 		{
 			// User can optionally show the name of the character.
-			if(!dialogueLine.Speaker.CharacterName.IsEmpty) actorName.StringReference = dialogueLine.Speaker.CharacterName;
+			// TODO fixme
+			// if(!dialogueLine.Speaker.CharacterName.IsEmpty) actorName.StringReference = dialogueLine.Speaker.CharacterName;
 
 			if (dialogueLine.isSimplified && sentenceEvent != null)
 			{

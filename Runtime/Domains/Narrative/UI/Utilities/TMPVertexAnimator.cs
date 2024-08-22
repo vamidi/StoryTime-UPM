@@ -8,13 +8,14 @@ using UnityEngine.Events;
 
 using TMPro;
 
-using StoryTime.Components;
-using StoryTime.Domains.Settings.ScriptableObjects;
-
-// ReSharper disable once CheckNamespace
-namespace StoryTime.Utils.Components
+namespace StoryTime.Domains.Narrative.UI.Utilities
 {
-
+	using Audio;
+	using Components;
+	using Events.ScriptableObjects;
+	using Settings.ScriptableObjects;
+	using StoryTime.Domains.Events.ScriptableObjects.Narrative;
+	
 	[Serializable] public class CharRevealEvent : UnityEvent<char> { }
 
 	public class TMPVertexAnimator : TextMeshProUGUI
@@ -25,8 +26,8 @@ namespace StoryTime.Utils.Components
 			public TextAnimationType Type;
 		}
 
-		public Events.ScriptableObjects.StringEventChannelSO onAction;
-		public Events.ScriptableObjects.EmotionEventChannelSO onEmotionChange;
+		public StringEventChannelSO onAction;
+		public EmotionEventChannelSO onEmotionChange;
 		public CharRevealEvent onCharReveal;
 
 		public AudioSourceGroup audioSourceGroup;

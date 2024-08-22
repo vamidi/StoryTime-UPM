@@ -2,7 +2,7 @@
 using UnityEngine;
 
 using StoryTime.Components;
-using StoryTime.Components.ScriptableObjects;
+using StoryTime.Domains.ItemManagement.Inventory.ScriptableObjects;
 
 namespace StoryTime.Editor.Components
 {

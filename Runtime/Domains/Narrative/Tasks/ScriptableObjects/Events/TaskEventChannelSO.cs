@@ -1,7 +1,8 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace StoryTime.Events.ScriptableObjects
+using StoryTime.Domains.Events.ScriptableObjects;
+namespace StoryTime.Domains.Narrative.Tasks.ScriptableObjects.Events
 {
 	public enum TaskEventType
 	{
@@ -12,14 +13,14 @@ namespace StoryTime.Events.ScriptableObjects
 	// ReSharper disable once InconsistentNaming
 	public class TaskEventChannelSO : EventChannelBaseSO
 	{
-		public UnityAction<Components.ScriptableObjects.TaskSO, Components.ScriptableObjects.TaskEventSO> OnEventRaised;
+		public UnityAction<TaskSO, TaskEventSO> OnEventRaised;
 
 		/// <summary>
 		///
 		/// </summary>
 		/// <param name="task"></param>
 		/// <param name="value"></param>
-		public void RaiseEvent(Components.ScriptableObjects.TaskSO task, Components.ScriptableObjects.TaskEventSO value)
+		public void RaiseEvent(TaskSO task, TaskEventSO value)
 		{
 			OnEventRaised?.Invoke(task, value);
 		}
