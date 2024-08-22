@@ -7,8 +7,8 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-using StoryTime.VisualScripting.Data;
-using StoryTime.Components.ScriptableObjects;
+using StoryTime.Domains.Narrative.Stories.ScriptableObjects;
+using StoryTime.Domains.VisualScripting.Data.Nodes.Dialogues;
 using StoryTime.Editor.Domains.UI;
 
 namespace StoryTime.Editor.VisualScripting

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using StoryTime.Domains.Game.Characters.ScriptableObjects;
 using UnityEditor;
 using UnityEditor.UIElements;
 
@@ -7,7 +8,6 @@ using UnityEngine;
 using UnityEngine.UIElements;
 
 using StoryTime.Editor.Wizards;
-using StoryTime.Components.ScriptableObjects;
 using StoryTime.Editor.Domains.UI;
 
 // ReSharper disable once CheckNamespace
@@ -120,9 +120,9 @@ namespace StoryTime.Editor.UI
 			var t = ItemListView.Selected;
 			if (t && t.ID != String.Empty)
 			{
-				var row = t.GetRow(t.Name, t.ID);
+				var row = t.GetRow(t.TableName, t.ID);
 				// set all the values from the selected row
-				if (row != null) t.ConvertRow(row, t);
+				// if (row != null) t.ConvertRow(row, t);
 			}
 		}
 	}

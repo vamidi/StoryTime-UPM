@@ -1,13 +1,12 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
-using StoryTime.Components;
-using UnityEditor;
 
 using UnityEngine;
 using UnityEngine.Localization;
 
 using StoryTime.Components.ScriptableObjects;
+using StoryTime.Domains.ItemManagement.Loot;
+
 namespace StoryTime.Editor.Wizards
 {
 	public class EnemyWizard : BaseWizard<EnemyWizard, EnemySO>

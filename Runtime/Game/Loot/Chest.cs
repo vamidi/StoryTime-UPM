@@ -5,7 +5,8 @@ using UnityEngine.Events;
 
 namespace StoryTime.Components
 {
-	using ScriptableObjects;
+	using StoryTime.Domains.ItemManagement.Inventory;
+	using StoryTime.Domains.ItemManagement.Inventory.ScriptableObjects;
 
 	public class Chest : MonoBehaviour
 	{

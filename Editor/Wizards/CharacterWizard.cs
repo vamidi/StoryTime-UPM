@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel;
 using System.Collections.Generic;
 using System.IO;
@@ -6,16 +7,17 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Localization;
 
-using StoryTime.Components;
-using StoryTime.Components.ScriptableObjects;
+using StoryTime.Domains.Game.Characters;
+using StoryTime.Domains.Game.Characters.ScriptableObjects;
+using StoryTime.Domains.ItemManagement.Equipment.ScriptableObjects;
 
 namespace StoryTime.Editor.Wizards
 {
 	public class CharacterWizard : BaseWizard<CharacterWizard, CharacterSO>
 	{
 		[Header("Character Settings")]
-		[SerializeField, Tooltip("Name of the character")] protected LocalizedString name = new ();
-		[SerializeField, Tooltip("Description of the character")] protected LocalizedString description = new ();
+		[SerializeField, Tooltip("Name of the character")] protected new string name = "";
+		[SerializeField, Tooltip("Description of the character")] protected string description = "";
 		[SerializeField, Tooltip("Equipment of the character")] protected List<EquipmentSO> equipments = new ();
 
 		// TODO Are these this Global settings?
@@ -101,7 +103,7 @@ namespace StoryTime.Editor.Wizards
 		/// <returns></returns>
 		protected override bool Validate()
 		{
-			if (name.IsEmpty)
+			if (name == String.Empty)
 			{
 				errorString = "Please fill in a name";
 				return false;

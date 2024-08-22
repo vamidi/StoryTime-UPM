@@ -28,10 +28,17 @@
         "Newtonsoft.Json.dll",
         "DOTween.dll",
         "MathParser.org-mXparser.dll",
-        "Zenject-usage.dll"
+        "Zenject-usage.dll",
+        "Sirenix.OdinInspector.Attributes.dll",
+        "Sirenix.Serialization.Config.dll",
+        "Sirenix.Serialization.dll",
+        "Sirenix.Utilities.dll"
     ],
     "autoReferenced": true,
-    "defineConstraints": [],
+    "defineConstraints": [
+        "ODIN_INSPECTOR",
+        "UNITY_EDITOR"
+    ],
     "versionDefines": [],
     "noEngineReferences": false
 }

@@ -8,7 +8,7 @@ using UnityEngine.UIElements;
 using TextElement = UnityEngine.UIElements.TextElement;
 
 using StoryTime.Components;
-using StoryTime.Components.ScriptableObjects;
+using StoryTime.Domains.Game.Characters.ScriptableObjects;
 
 namespace StoryTime.Editor.VisualScripting.Utilities
 {
@@ -114,18 +114,18 @@ namespace StoryTime.Editor.VisualScripting.Utilities
         {
             if (savedCharacterId == String.Empty)
             {
-                toolbarMenu.text = characters[0].CharacterName.GetLocalizedString();
+                toolbarMenu.text = characters[0].CharacterName;
             }
             else
             {
                 var savedCharacter = characters.Find(c => c.ID == savedCharacterId);
-                toolbarMenu.text = savedCharacter.CharacterName.GetLocalizedString();
+                toolbarMenu.text = savedCharacter.CharacterName;
             }
 
             foreach (var character in characters)
             {
                 toolbarMenu.menu.AppendAction(
-                    actionName: character.CharacterName.GetLocalizedString(),
+                    actionName: character.CharacterName,
                     action: action,
                     actionStatusCallback: a => DropdownMenuAction.Status.Normal,
                     userData: character);

@@ -5,7 +5,8 @@ using UnityEngine.UIElements;
 using UnityEditor.Experimental.GraphView;
 
 using StoryTime.Components;
-using Node = StoryTime.VisualScripting.Data.ScriptableObjects.Node;
+using Node = StoryTime.Domains.VisualScripting.Data.ScriptableObjects.Node;
+
 namespace StoryTime.Editor.VisualScripting.Elements
 {
 	using Utilities;
@@ -35,7 +36,7 @@ namespace StoryTime.Editor.VisualScripting.Elements
 
             // Show choices
 
-            if (node is StoryTime.VisualScripting.Data.ScriptableObjects.DialogueNode dialogueNode)
+            if (node is StoryTime.Domains.VisualScripting.Data.ScriptableObjects.Dialogues.DialogueNode dialogueNode)
             {
 	            var addChoiceButton = ElementsUtilities.CreateButton("Add Choice", () =>
 	            {
@@ -65,7 +66,7 @@ namespace StoryTime.Editor.VisualScripting.Elements
 
 		private void OnUndoRedo()
 		{
-			if (node is StoryTime.VisualScripting.Data.ScriptableObjects.DialogueNode dialogueNode)
+			if (node is StoryTime.Domains.VisualScripting.Data.ScriptableObjects.Dialogues.DialogueNode dialogueNode)
 			{
 				foreach (var choice in dialogueNode.Choices)
 				{
@@ -95,7 +96,7 @@ namespace StoryTime.Editor.VisualScripting.Elements
 
 		private void RemoveFromChoices(DialogueChoice choice)
 		{
-			if (node is StoryTime.VisualScripting.Data.ScriptableObjects.DialogueNode dialogueNode)
+			if (node is StoryTime.Domains.VisualScripting.Data.ScriptableObjects.Dialogues.DialogueNode dialogueNode)
 			{
 				Undo.RecordObject(dialogueNode, "Dialogue Graphview (Remove Node Choice)");
 				dialogueNode.Choices.Remove(choice);

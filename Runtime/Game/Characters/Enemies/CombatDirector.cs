@@ -6,9 +6,8 @@ using UnityEngine.AI;
 using Random = UnityEngine.Random;
 
 using StoryTime.Components;
-using StoryTime.Components.ScriptableObjects;
-using StoryTime.Events.ScriptableObjects;
-using UnityEngine.UIElements;
+using StoryTime.Domains.Narrative.Tasks.ScriptableObjects;
+using StoryTime.Domains.Narrative.Tasks.ScriptableObjects.Events;
 
 [Serializable]
 public class Spawn

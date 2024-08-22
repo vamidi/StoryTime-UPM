@@ -5,13 +5,14 @@ using UnityEngine.UIElements;
 using UnityEditor;
 using UnityEngine;
 
-using StoryTime.VisualScripting.Data;
-using StoryTime.Components.ScriptableObjects;
+using StoryTime.Domains.Narrative.Stories.ScriptableObjects;
+using StoryTime.Domains.VisualScripting.Data.Nodes.Dialogues;
+using StoryTime.Domains.VisualScripting.Data.ScriptableObjects;
+using StoryTime.Domains.VisualScripting.Data.ScriptableObjects.Events;
 using StoryTime.Editor.Domains.UI;
-using StoryTime.VisualScripting.Data.ScriptableObjects;
 
-using StartNodeSO = StoryTime.VisualScripting.Data.ScriptableObjects.StartNode;
-using DialogueNodeSO = StoryTime.VisualScripting.Data.ScriptableObjects.DialogueNode;
+using StartNodeSO = StoryTime.Domains.VisualScripting.Data.ScriptableObjects.Dialogues.StartNode;
+using DialogueNodeSO = StoryTime.Domains.VisualScripting.Data.ScriptableObjects.Dialogues.DialogueNode;
 
 namespace StoryTime.Editor.VisualScripting
 {
@@ -246,7 +247,7 @@ namespace StoryTime.Editor.VisualScripting
 
 		protected override NodeView InitializeNodeView(Node node, string title = "")
 		{
-			if (node.GetType() == typeof(StoryTime.VisualScripting.Data.ScriptableObjects.StartNode))
+			if (node.GetType() == typeof(StoryTime.Domains.VisualScripting.Data.ScriptableObjects.Dialogues.StartNode))
 			{
 				return new StartNode(this, node)
 				{
@@ -271,7 +272,7 @@ namespace StoryTime.Editor.VisualScripting
 		protected override NodeView CreateNodeView(Node node, string title = "")
 		{
 			NodeView nodeView = base.CreateNodeView(node, title);
-			if (node.GetType() == typeof(StoryTime.VisualScripting.Data.ScriptableObjects.StartNode))
+			if (node.GetType() == typeof(StoryTime.Domains.VisualScripting.Data.ScriptableObjects.Dialogues.StartNode))
 			{
 				InitStartNode(nodeView);
 			}

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace StoryTime.Components
+namespace StoryTime.Domains.ItemManagement.Inventory
 {
 	public class CollectibleItem : MonoBehaviour
 	{

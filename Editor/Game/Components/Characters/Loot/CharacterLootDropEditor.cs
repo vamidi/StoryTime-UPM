@@ -3,6 +3,7 @@
 using StoryTime.Components;
 using StoryTime.Editor.Game.Components;
 using StoryTime.Components.ScriptableObjects;
+using StoryTime.Domains.Game.Characters.ScriptableObjects;
 
 // ReSharper disable once CheckNamespace
 namespace StoryTime.Editor.Components

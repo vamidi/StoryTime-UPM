@@ -21,10 +21,16 @@
     "allowUnsafeCode": false,
     "overrideReferences": true,
     "precompiledReferences": [
-        "Newtonsoft.Json.dll"
+        "Newtonsoft.Json.dll",
+        "Sirenix.OdinInspector.Editor.dll",
+        "Sirenix.OdinInspector.Attributes.dll",
+        "Sirenix.Utilities.dll",
+        "Sirenix.Utilities.Editor.dll"
     ],
     "autoReferenced": true,
-    "defineConstraints": [],
+    "defineConstraints": [
+        "ODIN_INSPECTOR"
+    ],
     "versionDefines": [],
     "noEngineReferences": false
 }

@@ -130,7 +130,7 @@ namespace StoryTime.Editor.UI
 			DatabaseSyncModule.onFetchCompleted += (_, tableName) =>
 			{
 				T target = ItemListView.Selected;
-				if (target != null && target.Name == tableName)
+				if (target != null && target.TableName == tableName)
 				{
 					Debug.Log($"Re-generating list of {tableName}");
 					GenerateList();
@@ -276,7 +276,7 @@ namespace StoryTime.Editor.UI
 			ItemListView.Items.Add(newItem);
 			ItemListView.Names.Add(itemName);
 
-			ItemListView.Items.Sort((x,y) => String.CompareOrdinal(x.Name, y.Name));
+			ItemListView.Items.Sort((x,y) => String.CompareOrdinal(x.TableName, y.TableName));
 
 			_listView.Rebuild();
 			BaseWizard<TW, T>.OnCreate -= OnCreateNew;
