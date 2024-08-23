@@ -11,7 +11,7 @@ namespace StoryTime.Domains.Narrative.Tasks.ScriptableObjects
 {
 	using Events;
 	using ItemManagement.Inventory;
-	using StoryTime.Database.ScriptableObjects;
+	using StoryTime.Domains.Database.ScriptableObjects;
 	using StoryTime.Domains.Game.Characters.ScriptableObjects;
 	using StoryTime.Domains.Game.NPC.Enemies.ScriptableObjects;
 	using StoryTime.Domains.Narrative.Stories.ScriptableObjects;

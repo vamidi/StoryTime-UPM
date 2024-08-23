@@ -11,10 +11,10 @@ using TMPro;
 namespace StoryTime.Domains.Narrative.UI.Utilities
 {
 	using Audio;
-	using Components;
 	using Events.ScriptableObjects;
 	using Settings.ScriptableObjects;
-	using StoryTime.Domains.Events.ScriptableObjects.Narrative;
+	using StoryTime.Domains.Narrative.Dialogues.Utilities;
+	using StoryTime.Domains.Narrative.Dialogues.Events.ScriptableObjects;
 	
 	[Serializable] public class CharRevealEvent : UnityEvent<char> { }
 

@@ -3,11 +3,9 @@ using UnityEditor;
 
 using UnityEngine;
 
-using StoryTime.Domains.Settings.ScriptableObjects;
-
 namespace StoryTime.Editor.Domains.Settings
 {
-	using UI;
+	using StoryTime.Editor.Domains.UI.Providers;
 	
 	// [CustomEditor(typeof(StoryTimeSettingsSO))]
 	public class StoryTimeConfigEditor : UnityEditor.Editor

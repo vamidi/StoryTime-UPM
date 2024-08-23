@@ -1,13 +1,12 @@
 using System;
 using System.Collections.Generic;
-
 using UnityEngine;
 using UnityEngine.Localization;
 
 #if UNITY_EDITOR
 using StoryTime.Attributes;
 using UnityEditor.Localization;
-using StoryTime.Utils.Attributes;
+using StoryTime.Domains.Utilities.Attributes;
 #endif
 
 namespace StoryTime.Domains.Narrative.Stories.ScriptableObjects

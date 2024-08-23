@@ -1,11 +1,10 @@
 
 using UnityEngine;
 
-using StoryTime.Database.Binary;
-
 namespace StoryTime.Domains.Narrative.Tasks.Services
 {
 	using ScriptableObjects;
+	using StoryTime.Domains.Database.Binary;
 
 	public class TaskService
 	{

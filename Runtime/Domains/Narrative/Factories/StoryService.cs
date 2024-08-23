@@ -8,17 +8,16 @@ using UnityEngine.Networking;
 using Zenject;
 using Newtonsoft.Json.Linq;
 
-using StoryTime.Domains.VisualScripting.Data.ScriptableObjects;
-using StoryTime.Domains.VisualScripting.Data.ScriptableObjects.Events;
-using StoryTime.Domains.VisualScripting.Data.ScriptableObjects.Dialogues;
-
 
 namespace StoryTime.Domains.Narrative.Factories
 {
 	using VisualScripting;
-	using StoryTime.Database;
-	using StoryTime.Database.Binary;
+	using StoryTime.Domains.Database;
+	using StoryTime.Domains.Database.Binary;
 	using StoryTime.FirebaseService.Database.ResourceManagement;
+	using StoryTime.Domains.VisualScripting.Data.ScriptableObjects;
+	using StoryTime.Domains.VisualScripting.Data.ScriptableObjects.Events;
+	using StoryTime.Domains.VisualScripting.Data.ScriptableObjects.Dialogues;
 	
     public class StoryFactory
     {

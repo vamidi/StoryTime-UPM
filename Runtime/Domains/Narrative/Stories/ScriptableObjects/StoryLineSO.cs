@@ -1,9 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-using StoryTime.Database.ScriptableObjects;
+
 namespace StoryTime.Domains.Narrative.Stories.ScriptableObjects
 {
+	using StoryTime.Domains.Database.ScriptableObjects;
+	
 	[CreateAssetMenu(fileName = "storyLine", menuName = "StoryTime/Game/Narrative/Story Line", order = 51)]
 	// ReSharper disable once InconsistentNaming
 	public class StoryLineSO : TableBehaviour

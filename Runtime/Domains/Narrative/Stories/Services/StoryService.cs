@@ -3,8 +3,8 @@ using UnityEngine;
 
 namespace StoryTime.Domains.Narrative.Stories.Services
 {
+    using Database.Binary;
     using ScriptableObjects;
-    using StoryTime.Database.Binary;
     
     public class StoryService
     {

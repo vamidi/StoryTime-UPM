@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 
-using StoryTime.Components;
 namespace StoryTime.Domains.VisualScripting.Data.ScriptableObjects.Dialogues
 {
+	using StoryTime.Domains.Narrative.Dialogues;
+
 	public class StartNode : ChildNode, IDialogueNode
 	{
 		public DialogueLine DialogueLine
