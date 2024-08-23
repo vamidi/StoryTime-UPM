@@ -13,10 +13,10 @@ using UnityEditor.Localization;
 using UnityEngine;
 using UnityEngine.Localization;
 
-using StoryTime.Database;
 namespace StoryTime.Domains.ItemManagement.Crafting.ScriptableObjects
 {
 	using Inventory;
+	using StoryTime.Domains.Database;
 	using Inventory.ScriptableObjects;
 
 	[CreateAssetMenu(fileName = "itemRecipe", menuName = "StoryTime/Game/Item Management/Item Recipe", order = 51)]

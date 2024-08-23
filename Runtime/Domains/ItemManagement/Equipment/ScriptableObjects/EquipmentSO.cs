@@ -7,9 +7,10 @@ using UnityEngine.Localization;
 namespace StoryTime.Domains.ItemManagement.Equipment.ScriptableObjects
 {
 	using Game.Characters;
+	using StoryTime.Domains.Game.Characters.Modifiers;
 	using StoryTime.Domains.Game.Characters.ScriptableObjects;
 	using StoryTime.Domains.ItemManagement.Inventory.ScriptableObjects;
-	
+
 	public enum EquipmentCategory
 	{
 		Weapon,

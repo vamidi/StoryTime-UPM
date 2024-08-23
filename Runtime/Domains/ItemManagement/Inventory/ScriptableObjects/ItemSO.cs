@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-
 using UnityEditor.Localization;
 using UnityEngine;
 
@@ -13,8 +12,8 @@ using Sirenix.OdinInspector;
 
 namespace StoryTime.Domains.ItemManagement.Inventory.ScriptableObjects
 {
-    using Game.Characters;
-    using StoryTime.Utils.Attributes;
+    using StoryTime.Domains.Utilities.Attributes;
+    using StoryTime.Domains.Game.Characters.Modifiers;
     using StoryTime.Domains.VisualScripting.Data.ScriptableObjects;
     using StoryTime.Domains.VisualScripting.Data.ScriptableObjects.ItemManagement;
     

@@ -2,13 +2,13 @@
 
 using UnityEngine;
 
-using StoryTime.Utils.Types;
-using StoryTime.Utils.Attributes;
-using StoryTime.Database.ScriptableObjects;
-using StoryTime.Domains.VisualScripting.Data.Nodes.Dialogues;
-
 namespace StoryTime.Domains.VisualScripting.Data.ScriptableObjects
 {
+	using StoryTime.Domains.Utilities.Types;
+	using StoryTime.Domains.Utilities.Attributes;
+	using StoryTime.Domains.Database.ScriptableObjects;
+	using StoryTime.Domains.VisualScripting.Data.Nodes.Dialogues;
+	
 	[Serializable]
 	public class NodeCollection : CollectionWrapper<Node> {}
 

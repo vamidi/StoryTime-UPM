@@ -1,27 +1,27 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-
 using UnityEngine;
 
 using UnityEngine.Localization;
 
-using StoryTime.Database.ScriptableObjects;
-using StoryTime.Domains.ItemManagement.Loot;
 
 namespace StoryTime.Domains.Game.NPC.Enemies.ScriptableObjects
 {
+	using StoryTime.Domains.ItemManagement.Loot;
+	using StoryTime.Domains.Database.ScriptableObjects;
+
 	[CreateAssetMenu(fileName = "newEnemy", menuName = "StoryTime/Game/Enemy")]
 	public partial class EnemySO : TableBehaviour
 	{
-		public LocalizedString EnemyName { get => enemyName; internal set => enemyName = value; }
+		public string EnemyName { get => enemyName; internal set => enemyName = value; }
 		public EnemyCategory Category { get => category; internal set => category = value; }
 		public uint Exp { get => exp; internal set => exp = value; }
 		public uint MoneyReward { get => moneyReward; internal set => moneyReward = value; }
 		public ReadOnlyCollection<DropItemStack> ItemDrops => itemDrops.AsReadOnly();
 
 		[Header("General Settings")]
-		[SerializeField, Tooltip("Name of the enemy")] private LocalizedString enemyName;
+		[SerializeField, Tooltip("Name of the enemy")] private string enemyName;
 		[SerializeField] private EnemyCategory category = new();
 		[SerializeField, Tooltip("Amount of experience the enemy drops")] private uint exp = UInt32.MinValue;
 		[SerializeField, Tooltip("Amount of money you get from an enemy")] private uint moneyReward = UInt32.MinValue;

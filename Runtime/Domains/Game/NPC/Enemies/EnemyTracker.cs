@@ -1,10 +1,10 @@
 using UnityEngine;
 
-namespace  StoryTime.Domains.Game.NPC.Enemies
+namespace StoryTime.Domains.Game.NPC.Enemies
 {
 	using ScriptableObjects;
 	using StoryTime.Domains.Narrative.Tasks.ScriptableObjects;
-	using StoryTime.Domains.Game.Characters.ScriptableObjects.Events.Enemies;
+	using StoryTime.Domains.Game.Characters.ScriptableObjects.Events;
 
 	/// <summary>
 	/// The enemy tracker keeps track of the current enemy.
@@ -15,7 +15,7 @@ namespace  StoryTime.Domains.Game.NPC.Enemies
 		[SerializeField] private EnemySO enemy;
 
 		[Header("BroadCasting on channels")]
-		[SerializeField] private EnemyChannelSO enemyDestroyedEvent;
+		// [SerializeField] private EnemyChannelSO enemyDestroyedEvent;
 
 		/// <summary>
 		///
@@ -34,7 +34,7 @@ namespace  StoryTime.Domains.Game.NPC.Enemies
 		{
 			if (m_Track)
 			{
-				enemyDestroyedEvent.RaiseEvent(enemy);
+				// enemyDestroyedEvent.RaiseEvent(enemy);
 			}
 		}
 	}
