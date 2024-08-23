@@ -1,7 +1,11 @@
+
 using UnityEngine;
 
-namespace StoryTime.Components
+namespace StoryTime.Domains.Game.NPC.Enemies.Behaviours
 {
+	using StoryTime.Domains.Game.DamageSystem;
+	using StoryTime.Domains.Game.Characters.Players;
+	
 	public abstract class EnemyBehaviour : MonoBehaviour
 	{
 		public PlayerController Target => m_Target;

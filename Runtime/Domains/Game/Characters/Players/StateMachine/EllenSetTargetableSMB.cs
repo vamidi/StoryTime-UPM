@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace StoryTime.Components
+namespace StoryTime.Domains.Game.Characters.Players.StateMachine
 {
     public class EllenSetTargetableSMB : StateMachineBehaviour
     {

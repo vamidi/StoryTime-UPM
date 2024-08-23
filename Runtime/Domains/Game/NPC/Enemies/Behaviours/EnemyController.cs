@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
 
-namespace StoryTime.Components
+namespace StoryTime.Domains.Game.NPC.Enemies.Behaviours
 {
-	using ScriptableObjects;
+    using StoryTime.Domains.Game.Characters.Players;
+    using StoryTime.Domains.Game.NPC.ScriptableObjects;
 
 	//this assure it's runned before any behaviour that may use it, as the animator need to be fecthed
     [DefaultExecutionOrder(-1)]

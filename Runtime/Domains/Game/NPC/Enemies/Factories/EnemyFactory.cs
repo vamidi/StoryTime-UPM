@@ -4,8 +4,8 @@ using UnityEngine;
 namespace StoryTime.Domains.Game.NPC.Enemies.Factories
 {
     using ScriptableObjects;
-    using StoryTime.Database.Binary;
-    
+    using StoryTime.Domains.Database.Binary;
+
     public class EnemyFactory
     {
         public EnemySO ConvertRow(TableRow row, EnemySO scriptableObject = null)

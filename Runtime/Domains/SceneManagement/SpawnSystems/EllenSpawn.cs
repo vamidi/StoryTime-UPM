@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-namespace Gamekit3D
+namespace StoryTime.Domains.SceneManagement.SpawnSystems
 {
-    public class EllenSpawn : StoryTime.Components.BaseSpawn
+    public class EllenSpawn : BaseSpawn
     {
         [HideInInspector]
         public float effectTime;

@@ -11,7 +11,7 @@ using StoryTime.Domains.Narrative.Stories.ScriptableObjects;
 using StoryTime.Domains.VisualScripting.Data.Nodes.Dialogues;
 using StoryTime.Editor.Domains.UI;
 
-namespace StoryTime.Editor.VisualScripting
+namespace StoryTime.Editor.Domains.VisualScripting.Narrative
 {
 	using Utilities;
 

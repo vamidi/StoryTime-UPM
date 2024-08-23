@@ -2,18 +2,19 @@
 using System.IO;
 using System.Linq;
 using System.Collections.Generic;
+
 using UnityEditor;
 
 using UnityEngine;
 using UnityEngine.UIElements;
 
-using StoryTime.Editor.Extensions;
-using StoryTime.Database.ScriptableObjects;
-using StoryTime.Editor.Wizards;
-
-namespace StoryTime.Editor.UI
+namespace StoryTime.Editor.Domains.UI.Editors
 {
-	using Database;
+	using StoryTime.Editor.Domains.UI;
+	using StoryTime.Editor.Domains.Wizards;
+	using StoryTime.Editor.Domains.Database;
+	using StoryTime.Editor.Domains.ExtensionMethods;
+	using StoryTime.Domains.Database.ScriptableObjects;
 
 	public class DrawListView<TW, T>
 		where TW : ScriptableWizard

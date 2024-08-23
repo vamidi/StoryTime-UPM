@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace StoryTime.Components.Graphics
+namespace StoryTime.Domains.Graphics
 {
     public class DissolveWithEmission : MonoBehaviour
     {

@@ -4,12 +4,11 @@ using UnityEditor;
 using UnityEngine.UIElements;
 using UnityEditor.Experimental.GraphView;
 
-using StoryTime.Components;
-using Node = StoryTime.Domains.VisualScripting.Data.ScriptableObjects.Node;
-
-namespace StoryTime.Editor.VisualScripting.Elements
+namespace StoryTime.Editor.Domains.VisualScripting.Elements.Dialogues
 {
 	using Utilities;
+	using StoryTime.Domains.Narrative.Dialogues;
+	using Node = StoryTime.Domains.VisualScripting.Data.ScriptableObjects.Node;
 
 	public class DialogueNode : NodeView
 	{

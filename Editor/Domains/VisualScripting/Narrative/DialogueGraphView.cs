@@ -5,19 +5,20 @@ using UnityEngine.UIElements;
 using UnityEditor;
 using UnityEngine;
 
-using StoryTime.Domains.Narrative.Stories.ScriptableObjects;
-using StoryTime.Domains.VisualScripting.Data.Nodes.Dialogues;
-using StoryTime.Domains.VisualScripting.Data.ScriptableObjects;
-using StoryTime.Domains.VisualScripting.Data.ScriptableObjects.Events;
-using StoryTime.Editor.Domains.UI;
-
-using StartNodeSO = StoryTime.Domains.VisualScripting.Data.ScriptableObjects.Dialogues.StartNode;
-using DialogueNodeSO = StoryTime.Domains.VisualScripting.Data.ScriptableObjects.Dialogues.DialogueNode;
-
-namespace StoryTime.Editor.VisualScripting
+namespace StoryTime.Editor.Domains.VisualScripting.Narrative
 {
 	using Elements;
 	using Utilities;
+	
+	using StoryTime.Editor.Domains.UI;
+	using StoryTime.Domains.Narrative.Stories.ScriptableObjects;
+	using StoryTime.Domains.VisualScripting.Data.Nodes.Dialogues;
+	using StoryTime.Domains.VisualScripting.Data.ScriptableObjects;
+	using StoryTime.Editor.Domains.VisualScripting.Elements.Dialogues;
+	using StoryTime.Domains.VisualScripting.Data.ScriptableObjects.Events;
+
+	using StartNodeSO = StoryTime.Domains.VisualScripting.Data.ScriptableObjects.Dialogues.StartNode;
+	using DialogueNodeSO = StoryTime.Domains.VisualScripting.Data.ScriptableObjects.Dialogues.DialogueNode;
 
 	public class DialogueGraphView : BaseGraphView<StorySO>
 	{

@@ -1,4 +1,4 @@
-using StoryTime.Domains.IO;
+
 using UnityEditor;
 
 using Zenject;
@@ -6,9 +6,10 @@ using Zenject;
 namespace StoryTime.Domains.Container
 {
     using Database;
-    using Database.Module;
-    using Database.Service.Http;
+    using Database.Modules;
+    using StoryTime.Domains.IO;
     using Addressables.Providers;
+    using StoryTime.Domains.Database.Services.Http;
     
     [InitializeOnLoad]
     public class EditorInstaller : EditorStaticInstaller<EditorInstaller>

@@ -1,5 +1,5 @@
 ﻿
-namespace StoryTime.Editor.Extensions
+namespace StoryTime.Editor.Domains.ExtensionMethods
 {
 	public static class EditorMenuTreeExtensions
 	{

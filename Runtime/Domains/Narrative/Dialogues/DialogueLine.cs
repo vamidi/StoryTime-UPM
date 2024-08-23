@@ -8,7 +8,7 @@ namespace StoryTime.Domains.Narrative.Dialogues
 {
 	using Utilities;
 	using Attributes;
-	using StoryTime.Utils.Attributes;
+	using StoryTime.Domains.Utilities.Attributes;
 	using StoryTime.Domains.Game.Characters.ScriptableObjects;
 	using StoryTime.Domains.Narrative.Stories.ScriptableObjects;
 	

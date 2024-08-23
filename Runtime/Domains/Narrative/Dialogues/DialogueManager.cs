@@ -7,7 +7,7 @@ using Cinemachine;
 namespace StoryTime.Domains.Narrative.Dialogues
 {
 	using UI.Utilities;
-	using Input.ScriptableObjects;
+	using Game.Input.ScriptableObjects;
 	using StoryTime.Domains.Events.ScriptableObjects;
 	using StoryTime.Domains.Narrative.Dialogues.Events.UI;
 	using StoryTime.Domains.Narrative.Stories.ScriptableObjects;

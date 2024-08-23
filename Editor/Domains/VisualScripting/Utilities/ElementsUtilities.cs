@@ -7,12 +7,13 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
 using TextElement = UnityEngine.UIElements.TextElement;
 
-using StoryTime.Components;
-using StoryTime.Domains.Game.Characters.ScriptableObjects;
 
-namespace StoryTime.Editor.VisualScripting.Utilities
+namespace StoryTime.Editor.Domains.VisualScripting.Utilities
 {
 	using Elements;
+    using StoryTime.Domains.Narrative.Dialogues.Utilities;
+    using StoryTime.Domains.Game.Characters.ScriptableObjects;
+    
 	public static class ElementsUtilities
     {
 	    public static Button CreateButton(string title, Action onClick = null)
