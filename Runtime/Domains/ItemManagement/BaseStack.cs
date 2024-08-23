@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace StoryTime.Domains.ItemManagement
 {
-	using Utils.Attributes;
+	using Utilities.Attributes;
 
 	[Serializable]
 	public abstract class BaseStack<T> where T : ScriptableObject

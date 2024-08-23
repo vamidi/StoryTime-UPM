@@ -15,9 +15,9 @@ using Sirenix.OdinInspector;
 namespace StoryTime.Domains.Game.Characters.ScriptableObjects
 {
 	using ItemManagement.Inventory;
+	using StoryTime.Domains.Game.Characters.Modifiers;
 	using ItemManagement.Equipment.ScriptableObjects;
-	
-	using StoryTime.Database.ScriptableObjects;
+	using StoryTime.Domains.Database.ScriptableObjects;
 
 	/// <summary>
 	/// Scriptable Object that represents an "Actor", that is the protagonist of a Dialogue

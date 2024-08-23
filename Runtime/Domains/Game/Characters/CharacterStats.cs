@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using StoryTime.Domains.Attributes;
 using UnityEngine;
 using UnityEngine.Localization;
 
 namespace StoryTime.Domains.Game.Characters
 {
-	using Utils.Attributes;
+	using StoryTime.Domains.Attributes;
+	using StoryTime.Domains.Utilities.Attributes;
+	using StoryTime.Domains.Game.Characters.Modifiers;
 
 	[Serializable]
 	public partial class CharacterStats

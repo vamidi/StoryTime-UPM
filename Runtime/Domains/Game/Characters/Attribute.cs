@@ -2,7 +2,6 @@ using System;
 using UnityEngine;
 using UnityEngine.Localization;
 
-
 namespace StoryTime.Domains.Game.Characters
 {
 	using ScriptableObjects;

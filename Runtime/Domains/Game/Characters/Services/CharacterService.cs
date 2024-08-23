@@ -1,16 +1,14 @@
 using UnityEngine;
-using UnityEngine.Localization;
 
 #if UNITY_EDITOR
 using UnityEditor.Localization;
 #endif
 
-// using StoryTime.Database;
-using StoryTime.Database.Binary;
 
 namespace StoryTime.Domains.Game.Characters.Services
 {
 	using ScriptableObjects;
+	using StoryTime.Domains.Database.Binary;
 
 	public class CharacterService
 	{

@@ -9,17 +9,17 @@ using UnityEditor.Localization;
 using UnityEngine;
 using UnityEngine.Localization;
 
-using StoryTime.Attributes;
-using StoryTime.Database.ScriptableObjects;
-using StoryTime.Domains.Game.Characters.Services;
-
 namespace StoryTime.Domains.Game.Characters.ScriptableObjects
 {
+	using StoryTime.Attributes;
+	using StoryTime.Domains.Game.Characters.Services;
+	using StoryTime.Domains.Database.ScriptableObjects;
+	
 	[CreateAssetMenu(fileName = "CharacterClass", menuName = "StoryTime/Game/Characters/Character Class", order = 1)]
 	// ReSharper disable once InconsistentNaming
 	public class CharacterClassSO : LocalizationBehaviour
 	{
-		public LocalizedString ClassName
+		public string ClassName
 		{
 			get => className;
 			internal set => className = value;
@@ -34,7 +34,7 @@ namespace StoryTime.Domains.Game.Characters.ScriptableObjects
 		public ReadOnlyCollection<SkillSO> Skills => skills.AsReadOnly();
 		public ReadOnlyCollection<CharacterStats> Stats => characterStats.AsReadOnly();
 
-		[SerializeField] private LocalizedString className = new ();
+		[SerializeField] private string className = "";
 
 		[
 			SerializeField,
@@ -74,7 +74,10 @@ namespace StoryTime.Domains.Game.Characters.ScriptableObjects
 				// Only get the first dialogue.
 				var entryId = (ID + 1).ToString();
 				if(collection)
+				{
+					LocalizedString className;
 					className = new LocalizedString { TableReference = collection.TableCollectionNameReference, TableEntryReference = entryId };
+				}
 				else
 					Debug.LogWarning("Collection not found. Did you create any localization tables for Classes");
 
