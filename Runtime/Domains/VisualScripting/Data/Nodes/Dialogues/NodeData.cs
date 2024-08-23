@@ -3,9 +3,10 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-using StoryTime.Components;
 namespace StoryTime.Domains.VisualScripting.Data.Nodes.Dialogues
 {
+	using StoryTime.Domains.Narrative.Dialogues;
+
 	[Serializable]
 	public class NodeData
 	{

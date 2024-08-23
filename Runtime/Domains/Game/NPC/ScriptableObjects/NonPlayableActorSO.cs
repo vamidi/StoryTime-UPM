@@ -1,8 +1,9 @@
 using UnityEngine;
 
-using StoryTime.Database.ScriptableObjects;
-namespace StoryTime.Components.ScriptableObjects
+namespace StoryTime.Domains.Game.NPC.ScriptableObjects
 {
+	using StoryTime.Domains.Database.ScriptableObjects;
+	
 	[CreateAssetMenu(fileName = "newNpc", menuName = "StoryTime/Game/NPC")]
 	public class NonPlayableActorSO : TableBehaviour
 	{

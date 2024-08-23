@@ -2,9 +2,10 @@
 using UnityEngine;
 using UnityEngine.Localization;
 
-using StoryTime.Database.ScriptableObjects;
 namespace StoryTime.Domains.Game.Characters.ScriptableObjects
 {
+	using StoryTime.Domains.Database.ScriptableObjects;
+	
 	/// <summary>
 	///
 	/// </summary>
@@ -41,13 +42,13 @@ namespace StoryTime.Domains.Game.Characters.ScriptableObjects
 	// ReSharper disable once InconsistentNaming
 	public partial class SkillSO : LocalizationBehaviour
 	{
-		public LocalizedString SkillName
+		public string SkillName
 		{
 			get => skillName;
 			internal set => skillName = value;
 		}
 
-		public LocalizedString Description
+		public string Description
 		{
 			get => description;
 			internal set => description = value;
@@ -130,8 +131,8 @@ namespace StoryTime.Domains.Game.Characters.ScriptableObjects
 
 		[Header("General")]
 		[SerializeField, HideInInspector, Tooltip("Used for validation to where this skill belongs to.")] protected uint classId;
-		[SerializeField] private LocalizedString skillName;
-		[SerializeField] private LocalizedString description;
+		[SerializeField] private string skillName;
+		[SerializeField] private string description;
 
 		[SerializeField, Tooltip("Can this skill critical hit")] protected bool criticalChance = false;
 		[SerializeField, Tooltip("Required level for this skill")] protected int level = 1;
