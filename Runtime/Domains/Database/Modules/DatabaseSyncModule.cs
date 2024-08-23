@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEngine;
 using Zenject;
 
-namespace StoryTime.Domains.Database.Module
+namespace StoryTime.Domains.Database.Modules
 {
     /// <summary>
     /// The DatabaseSync Module is in charge of making the connection to

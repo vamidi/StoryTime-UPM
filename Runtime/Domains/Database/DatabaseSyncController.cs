@@ -4,7 +4,6 @@ using System.IO;
 using System.Threading.Tasks;
 
 using Newtonsoft.Json.Linq;
-using StoryTime.Domains.Extensions.JSON;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -17,8 +16,11 @@ namespace StoryTime.Domains.Database
     using IO;
     using Utils;
     using Resource;
-    using Service.Http;
-    using StoryTime.Database.ScriptableObjects;
+    using Services.Http;
+
+    using StoryTime.Domains.Extensions.JSON;
+    using StoryTime.Domains.Utilities.Threading;
+    using StoryTime.Domains.Database.ScriptableObjects;
 
     public class DatabaseSyncController
     {

@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace StoryTime.Components.ScriptableObjects
+namespace StoryTime.Domains.Narrative.Dialogues.ScriptableObjects.Events
 {
 	[CreateAssetMenu(fileName = "newDialogueChoiceEvent", menuName = "StoryTime/Game/Events/Narrative/Dialogue Choice Event")]
 	public class DialogueChoiceEventSO : ScriptableObject

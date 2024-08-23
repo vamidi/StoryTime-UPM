@@ -1,9 +1,9 @@
 ﻿using UnityEngine.Events;
 using UnityEngine;
 
-using StoryTime.Domains.Events.ScriptableObjects;
 namespace StoryTime.Domains.Narrative.Dialogues.ScriptableObjects.Events
 {
+	using StoryTime.Domains.Events.ScriptableObjects;
 	using StoryTime.Domains.Game.Characters.ScriptableObjects;
 
 	/// <summary>

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace StoryTime.Components.Debugging
+namespace StoryTime.Domains.Debugging
 {
 	public class DebugCommandBase
 	{

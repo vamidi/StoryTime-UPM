@@ -2,7 +2,7 @@
 using UnityEditor;
 #endif
 
-namespace StoryTime.Editor.Database
+namespace StoryTime.Editor.Domains.Database
 {
 	/// <summary>
 	/// The DatabaseSync Module is in charge of making the connection to

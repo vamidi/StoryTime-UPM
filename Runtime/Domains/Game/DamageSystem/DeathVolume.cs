@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 
-namespace StoryTime.Components
+namespace StoryTime.Domains.Game.DamageSystem
 {
+    using StoryTime.Domains.Game.Characters.Players;
+
     [RequireComponent(typeof(Collider))]
     public class DeathVolume : MonoBehaviour
     {

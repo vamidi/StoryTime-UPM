@@ -1,4 +1,4 @@
-﻿namespace StoryTime.Editor.VisualScripting
+﻿namespace StoryTime.Editor.Domains.VisualScripting
 {
 	public static class Constants
 	{

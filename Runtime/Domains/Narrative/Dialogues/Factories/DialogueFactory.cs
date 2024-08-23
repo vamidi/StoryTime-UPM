@@ -1,11 +1,14 @@
 using System;
-using StoryTime.Database.Binary;
+
 using UnityEditor.Localization;
+
 using UnityEngine;
 using UnityEngine.Localization;
 
 namespace StoryTime.Domains.Narrative.Dialogues.Factories
 {
+	using StoryTime.Domains.Database.Binary;
+	
 	public class DialogueFactory
 	{
 		public static DialogueLine ConvertRow(TableRow row,

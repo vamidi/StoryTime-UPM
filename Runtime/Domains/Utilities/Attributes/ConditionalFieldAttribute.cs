@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using UnityEditor;
 #endif
 
-namespace StoryTime.Utils.Attributes
+namespace StoryTime.Domains.Utilities.Attributes
 {
 	using Extensions;
 

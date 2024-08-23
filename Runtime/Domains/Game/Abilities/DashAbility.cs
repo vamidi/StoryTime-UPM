@@ -1,12 +1,16 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Rendering;
+
 using DG.Tweening;
+
 using Cinemachine;
 
-namespace StoryTime.Components
+
+namespace StoryTime.Domains.Game.Abilities
 {
+	using StoryTime.Domains.Game.DamageSystem;
+	using StoryTime.Domains.Game.Weapons;
+	
 	public class DashAbility : AbilityBase
 	{
 		[Header("Connections")] [SerializeField]

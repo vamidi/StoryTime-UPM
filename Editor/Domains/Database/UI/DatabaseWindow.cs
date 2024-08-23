@@ -1,16 +1,15 @@
-﻿using StoryTime.Domains.Settings.ScriptableObjects;
+﻿
 using UnityEditor;
 using UnityEngine;
 
 using UnityToolbarExtender;
 
-namespace StoryTime.Editor.UI
+namespace StoryTime.Editor.Domains.Database.UI
 {
-	using Database;
-
-	using StoryTime.Database;
-	using StoryTime.Database.ScriptableObjects;
-
+	using StoryTime.Domains.Database;
+	using StoryTime.Domains.Settings.ScriptableObjects;
+	using StoryTime.Domains.Database.ScriptableObjects;
+	
 	static class ToolbarStyles
 	{
 		public static readonly GUIStyle CommandButtonStyle;
@@ -52,7 +51,7 @@ namespace StoryTime.Editor.UI
 
 		private static readonly string[] TableNames;
 
-		private static string iconLocation = "Packages/com.vamidicreations.storytime/Editor/Editor Default Resources/";
+		private static string iconLocation = "Packages/com.vamidicreations.storytime/Editor/Domains/Editor Default Resources/";
 		private static DatabaseSyncModule Module;
 
 		static DatabaseSyncButton()

@@ -10,7 +10,7 @@ using UnityEngine.UIElements;
 using TMPro;
 using Object = UnityEngine.Object;
 
-namespace StoryTime.Editor.UI
+namespace StoryTime.Editor.Domains.Database.UI
 {
 	public class DatabaseSyncWindow : EditorWindow
     {

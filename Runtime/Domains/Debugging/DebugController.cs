@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
+
 using UnityEngine;
 
-namespace StoryTime.Components.Debugging
+namespace StoryTime.Domains.Debugging
 {
-	using Input.ScriptableObjects;
+	using Domains.Game.Input.ScriptableObjects;
 
 	public class DebugController : MonoBehaviour
 	{
@@ -43,7 +44,7 @@ namespace StoryTime.Components.Debugging
 				"kill_all",
 				() =>
 				{
-					Debug.Log("Kill all heroes");
+					UnityEngine.Debug.Log("Kill all heroes");
 				}
 			);
 
@@ -51,7 +52,7 @@ namespace StoryTime.Components.Debugging
 				"set_gold",
 				"Sets the amount of gold",
 				"set_gold <gold_amount>",
-				x => Debug.Log(x)
+				x => UnityEngine.Debug.Log(x)
 			);
 
 			HELP = new DebugCommand(

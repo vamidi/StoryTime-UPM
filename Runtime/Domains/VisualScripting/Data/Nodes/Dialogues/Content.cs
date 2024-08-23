@@ -2,8 +2,8 @@
 
 namespace StoryTime.Domains.VisualScripting.Data.Nodes.Dialogues
 {
-	using Components;
-
+	using StoryTime.Domains.Narrative.Dialogues.Utilities;
+	
 	public class Content
 	{
 		public UInt32 characterID;

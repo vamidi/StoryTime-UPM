@@ -3,8 +3,10 @@
 using UnityEditor;
 #endif
 
-namespace StoryTime.Components
+namespace StoryTime.Domains.Game.NPC.Enemies.Behaviours
 {
+    using StoryTime.Domains.Game.DamageSystem;
+
     public class ContactDamager : MonoBehaviour
     {
         [HelpBox] public string helpString = @"

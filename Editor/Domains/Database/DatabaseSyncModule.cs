@@ -1,26 +1,29 @@
 ﻿using System;
 using System.IO;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using System.Threading;
 
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
 
 using UnityEngine;
-
-using Newtonsoft.Json.Linq;
-using StoryTime.Domains.Resource;
-using StoryTime.Domains.Settings.ScriptableObjects;
 using UnityEngine.Networking;
 
-namespace StoryTime.Editor.Database
+using Newtonsoft.Json.Linq;
+
+
+namespace StoryTime.Editor.Domains.Database
 {
-	using Utils;
-	using StoryTime.Database;
-	using StoryTime.Database.ScriptableObjects;
+	using StoryTime.Domains.Database;
+	using StoryTime.Domains.Resource;
+#if UNITY_EDITOR
+	using StoryTime.Domains.Utilities.Threading;
+#endif
+	using StoryTime.Domains.Database.ScriptableObjects;
+	using StoryTime.Domains.Settings.ScriptableObjects;
 	
 	/// <summary>
 	/// The DatabaseSync Module is in charge of making the connection to

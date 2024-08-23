@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
-
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace StoryTime.Components
+namespace StoryTime.Domains.Game.DamageSystem
 {
-	using Attributes;
+    using StoryTime.Domains.Attributes;
 
 	public enum MessageType
 	{

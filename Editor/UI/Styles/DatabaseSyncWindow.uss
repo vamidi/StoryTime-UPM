@@ -1,8 +1,0 @@
-﻿VisualElement {
-
-}
-
-.unity-label.title {
-	font-size: 21px;
-	margin-bottom: 12px;
-}
