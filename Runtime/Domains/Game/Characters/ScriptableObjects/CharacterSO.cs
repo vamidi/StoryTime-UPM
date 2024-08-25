@@ -14,6 +14,7 @@ using Sirenix.OdinInspector;
 
 namespace StoryTime.Domains.Game.Characters.ScriptableObjects
 {
+	using StoryTime.Attributes;
 	using ItemManagement.Inventory;
 	using StoryTime.Domains.Game.Characters.Modifiers;
 	using ItemManagement.Equipment.ScriptableObjects;
@@ -139,20 +140,20 @@ namespace StoryTime.Domains.Game.Characters.ScriptableObjects
 		] 
 		protected int maxExp;
 
-		[
-			ShowInInspector,
 #if ODIN_INSPECTOR
-			TabGroup("Starting Inventory"),
-			DisableContextMenu
+		[ShowInInspector,TabGroup("Starting Inventory"),DisableContextMenu]
 #endif
-		]
 		public ItemStack[,] Inventory = new ItemStack[INVENTORY_COLS, INVENTORY_ROWS];
 		
+#if ODIN_INSPECTOR
 		[TabGroup("Starting Stats"), HideLabel]
+#endif		
 		public CharacterStats Skills = new CharacterStats();
 
+#if ODIN_INSPECTOR
 		[HideLabel]
 		[TabGroup("Starting Equipment")]
+#endif
 		public EquipmentSO StartingEquipment;
 		
 		[SerializeField] protected List<EquipmentSO> equipments = new List<EquipmentSO>();

@@ -4,8 +4,10 @@ using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
 using Cinemachine;
-using DG.Tweening;
 
+#if DOTWEEN
+using DG.Tweening;
+#endif
 
 namespace StoryTime.Domains.Game.Characters.Players
 {
@@ -239,12 +241,16 @@ namespace StoryTime.Domains.Game.Characters.Players
             {
                 transform.rotation = Quaternion.Euler(0f, gameCamera.m_XAxis.Value, 0f);
                 aimCamera.m_Priority = 11;
+#if DOTWEEN
                 DOVirtual.Float(aimRig.weight, 1f, 0.2f, SetAimRigWeight);
+#endif
             }
             else
             {
                 aimCamera.m_Priority = 9;
+#if DOTWEEN
                 DOVirtual.Float(aimRig.weight, 0, .2f, SetAimRigWeight);
+#endif
             }
             void SetAimRigWeight(float weight)
             {

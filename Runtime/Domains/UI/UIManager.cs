@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
+#if DOTWEEN
 using DG.Tweening;
-
+#endif
 namespace StoryTime.Domains.UI
 {
 	using Events.ScriptableObjects;
@@ -243,6 +244,7 @@ namespace StoryTime.Domains.UI
 					navigationPanel.SetQuest(info, interactionType);
 					navigationPanel.FillInteractionPanel(interactionType);
 
+#if DOTWEEN
 					navigationPanel.transform.DOMoveX(200, 1.0f).SetEase(Ease.InOutQuad).OnComplete(
 						() => navigationPanel.transform.DOMoveX(200, 5.0f).SetEase(Ease.InOutQuad).OnComplete(
 							() => navigationPanel.transform.DOMoveX(-200, 1.0f).SetEase(Ease.InOutQuad).OnComplete(
@@ -250,6 +252,7 @@ namespace StoryTime.Domains.UI
 							)
 						)
 					);
+#endif
 				}
 
 				navigationPanel.gameObject.SetActive(isOpenEvent);
@@ -273,6 +276,7 @@ namespace StoryTime.Domains.UI
 				if (!m_IsAnimating)
 				{
 					m_IsAnimating = true;
+#if DOTWEEN
 					interactionItemPanel.transform.DOMoveX(200, 1.0f).SetEase(Ease.InOutQuad).OnComplete(
 						() => interactionItemPanel.transform.DOMoveX(200, 5.0f).SetEase(Ease.InOutQuad).OnComplete(
 							() => interactionItemPanel.transform.DOMoveX(-200, 1.0f).SetEase(Ease.InOutQuad).OnComplete(
@@ -284,6 +288,7 @@ namespace StoryTime.Domains.UI
 							)
 						)
 					);
+#endif
 				}
 			}
 
@@ -300,6 +305,7 @@ namespace StoryTime.Domains.UI
 				if (!m_IsAnimating)
 				{
 					m_IsAnimating = true;
+#if DOTWEEN
 					interactionItemPanel.transform.DOMoveX(200, 1.0f).SetEase(Ease.InOutQuad).OnComplete(
 						() => interactionItemPanel.transform.DOMoveX(200, 5.0f).SetEase(Ease.InOutQuad).OnComplete(
 							() => interactionItemPanel.transform.DOMoveX(-200, 1.0f).SetEase(Ease.InOutQuad).OnComplete(
@@ -311,6 +317,7 @@ namespace StoryTime.Domains.UI
 							)
 						)
 					);
+#endif
 				}
 			}
 

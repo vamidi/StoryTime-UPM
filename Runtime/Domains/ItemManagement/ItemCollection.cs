@@ -29,9 +29,9 @@ namespace StoryTime.Domains.ItemManagement
 		public List<TStack> AllItems => _oneDimensionalStack.Select(location => location.Stack).ToList();
 
 		[
-			ShowInInspector,
 			Tooltip("The collection of items and their quantities."),
 #if ODIN_INSPECTOR
+			ShowInInspector,
 			TabGroup("Items"),
 			DisableContextMenu
 #endif
