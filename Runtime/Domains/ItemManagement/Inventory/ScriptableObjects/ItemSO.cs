@@ -78,27 +78,37 @@ namespace StoryTime.Domains.ItemManagement.Inventory.ScriptableObjects
         protected const string STATS_BOX_GROUP                 = "Split/Left/Stats";
         protected const string GENERAL_SETTINGS_VERTICAL_GROUP = "Split/Left/General Settings/Split/Right";
 
+#if ODIN_INSPECTOR
         [HideLabel, PreviewField(55)]
         [VerticalGroup(LEFT_VERTICAL_GROUP)]
         [HorizontalGroup(LEFT_VERTICAL_GROUP + "/General Settings/Split", 55, LabelWidth = 67)]
-        public Texture Icon;
+#endif        
+		public Texture Icon;
 
+#if ODIN_INSPECTOR
         [SerializeField, BoxGroup(LEFT_VERTICAL_GROUP + "/General Settings"), Tooltip("The name of the item")]
         [VerticalGroup(GENERAL_SETTINGS_VERTICAL_GROUP)]
-        public string itemName;
+#endif
+	    public string itemName;
 
+#if ODIN_INSPECTOR
         [SerializeField, BoxGroup("Split/Right/Description"), Tooltip("A description of the item")]
         [HideLabel, TextArea(4, 14)]
+#endif        
         public string description;
 
+#if ODIN_INSPECTOR
         [HorizontalGroup("Split", 0.5f, MarginLeft = 5, LabelWidth = 130)]
         [BoxGroup("Split/Right/Notes")]
         [HideLabel, TextArea(4, 9)]
+#endif        
         public string Notes;
 
+#if ODIN_INSPECTOR
         [VerticalGroup(GENERAL_SETTINGS_VERTICAL_GROUP)]
         // [ValueDropdown("SupportedItemTypes")]
         // [ValidateInput("IsSupportedType")]
+#endif        
         public ItemTypeSO Type;
 
         // [VerticalGroup("Split/Right")]
@@ -115,14 +125,18 @@ namespace StoryTime.Domains.ItemManagement.Inventory.ScriptableObjects
         ]
         public GameObject prefab;
 
+#if ODIN_INSPECTOR
         [BoxGroup(STATS_BOX_GROUP)]
+#endif 
         public int ItemStackSize = 1;
 
+#if ODIN_INSPECTOR
         [BoxGroup(STATS_BOX_GROUP)]
+#endif
         public float ItemRarity;
-
-		[Header("Stats")]
-		[SerializeField, Tooltip("Stat modifiers")] protected List<StatModifier> statModifiers;
+        
+        [Header("Stats")] 
+        [SerializeField, Tooltip("Stat modifiers")] protected List<StatModifier> statModifiers;
 
         [Header("Localization")]
         [SerializeField, ConditionalField("isLocalized"), Tooltip("A localized preview image for the item")] protected LocalizedSprite localizePreviewImage;
@@ -139,9 +153,9 @@ namespace StoryTime.Domains.ItemManagement.Inventory.ScriptableObjects
         [SerializeField, Tooltip("If the player is able to sell this item")] protected bool sellable;
         [SerializeField, ConditionalField("sellable"), Tooltip("If the item is sellable, how much will it cost")] protected double sellValue;
         
-		// Effect Primary Value
+	// Effect Primary Value
 
-		// Effect Type Id
+	// Effect Type Id
 
         public ItemSO(string name, string dropdownColumn, string linkedColumn = "",
             String linkedId = "", string linkedTable = "") : base(name, dropdownColumn, linkedColumn, linkedId, linkedTable) { }

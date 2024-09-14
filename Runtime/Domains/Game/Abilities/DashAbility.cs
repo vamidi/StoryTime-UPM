@@ -1,7 +1,10 @@
 ﻿using UnityEngine;
 using UnityEngine.Rendering;
 
+
+#if DOTWEEN
 using DG.Tweening;
+#endif
 
 using Cinemachine;
 
@@ -29,6 +32,7 @@ namespace StoryTime.Domains.Game.Abilities
 			animator.SetTrigger("Dash");
 			dashParticle.Play();
 
+#if DOTWEEN
 			Sequence dash = DOTween.Sequence()
 				.AppendCallback(() => damageable.IsInvulnerable = true)
 				.AppendCallback(() => SetWeaponHitbox(3))
@@ -45,6 +49,7 @@ namespace StoryTime.Domains.Game.Abilities
 
 			DOVirtual.Float(40, 50, .1f, SetCameraFOV)
 				.OnComplete(() => DOVirtual.Float(50, 40, .5f, SetCameraFOV));
+#endif
 		}
 
 		void SetDashVolumeWeight(float weight)

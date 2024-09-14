@@ -1,5 +1,5 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <Style src="project://database/Packages/com.vamidicreations.storytime/Editor/UI/Styles/VisualScripting/DialogueEditorWindow.uss?fileID=7433441132597879392&amp;guid=759610de7d184e44eb9fed3421f09283&amp;type=3#DialogueEditorWindow" />
+    <Style src="project://database/Packages/com.vamidicreations.storytime/Editor/Domains/UI/Styles/VisualScripting/DialogueEditorWindow.uss?fileID=7433441132597879392&amp;guid=759610de7d184e44eb9fed3421f09283&amp;type=3#DialogueEditorWindow" />
     <uie:Toolbar>
         <uie:ToolbarMenu display-tooltip-when-elided="true" text="Assets" />
     </uie:Toolbar>

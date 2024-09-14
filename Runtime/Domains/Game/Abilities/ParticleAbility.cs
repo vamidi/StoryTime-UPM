@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
+#if DOTWEEN
 using DG.Tweening;
+#endif
 
 namespace StoryTime.Domains.Game.Abilities
 {
@@ -19,8 +21,10 @@ namespace StoryTime.Domains.Game.Abilities
 			if (!shootRig)
 				return;
 
+#if ODIN_INSPECTOR
 			DOVirtual.Float(0, 1, .1f, (x) => shootRig.weight = x)
 				.OnComplete(() => DOVirtual.Float(1, 0, .3f, (x) => shootRig.weight = x));
+		#endif
 		}
 	}
 }
