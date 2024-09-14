@@ -3,6 +3,7 @@ using System.Collections;
 
 using UnityEngine;
 using Cinemachine;
+using UnityEngine.TestTools;
 
 namespace StoryTime.Domains.Narrative.Dialogues
 {
@@ -20,7 +21,10 @@ namespace StoryTime.Domains.Narrative.Dialogues
 	/// <summary>
 	/// The Dialogue manager keeps track of the dialogue in the game.
 	/// </summary>
-	public class DialogueManager: MonoBehaviour
+	public class DialogueManager: MonoBehaviour, 
+#if UNITY_INCLUDE_TESTS
+		IMonoBehaviourTest
+#endif
 	{
 		public GameObject continueBtn;
 
@@ -65,8 +69,8 @@ namespace StoryTime.Domains.Narrative.Dialogues
 
 		[Tooltip("This will trigger an event when a dialogue or an option appears")]
 		[SerializeField] private DialogueEventChannelSO dialogueEvent;
-
-		[SerializeField] private TMPVertexAnimator revealer;
+		
+		[SerializeField] private TMPVertexAnimator textAnimator;
 
 		private StorySO _currentStory;
 		// private CharacterSO _currentActor;
@@ -77,6 +81,8 @@ namespace StoryTime.Domains.Narrative.Dialogues
 
 		void Start()
 		{
+			return;
+			
 			if (startStoryEvent != null)
 			{
 				startStoryEvent.OnEventRaised += Interact;
@@ -102,8 +108,8 @@ namespace StoryTime.Domains.Narrative.Dialogues
 
 			ToggleCameras(false);
 
-			if(revealer)
-				revealer.allRevealed.AddListener(() =>
+			if(textAnimator)
+				textAnimator.allCharactersRevealed.AddListener(() =>
 				{
 					_canContinue = true;
 					ToggleContinueBtn(true);
@@ -256,16 +262,27 @@ namespace StoryTime.Domains.Narrative.Dialogues
 		/// </summary>
 		private void Skip()
 		{
-			// This means we are already showing text
-			revealer.ShowEverythingWithoutAnimation();
+			textAnimator.ShowAllCharacters();
 		}
 
 		/// <summary>
 		/// Show the next dialogue
+		/// This is called when the player clicks on the continue button.
 		/// </summary>
 		private void OnAdvance()
 		{
-			if (revealer.IsRevealing && !revealer.IsAllRevealed())
+			#region NEW_ANIMATOR
+
+			if (!textAnimator.HasRevealedAllCharacters)
+			{
+				Skip();
+				return;
+			}
+
+			#endregion
+			
+			
+			if (textAnimator.IsRevealing && !textAnimator.IsAllRevealed())
 			{
 				Skip();
 				return;
@@ -446,5 +463,17 @@ namespace StoryTime.Domains.Narrative.Dialogues
 		/// <param name="onEnter"></param>
 		private void CallEvents(bool onEnter) { }
 		*/
+#if UNITY_INCLUDE_TESTS
+		private int frameCount;
+		public bool IsTestFinished
+		{
+			get { return frameCount > 10; }
+		}
+
+		void Update()
+		{
+			frameCount++;
+		}
+#endif
 	}
 }

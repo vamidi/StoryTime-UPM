@@ -20,6 +20,179 @@ namespace StoryTime.Domains.Narrative.UI.Utilities
 
 	public class TMPVertexAnimator : TextMeshProUGUI
 	{
+		#region NEW
+		public bool HasRevealedAllCharacters => maxVisibleCharacters != textInfo.characterCount - 1;
+		
+		// Skipping functionality
+		public bool CurrentlySkipping { get; private set; }
+		
+		// Only for prototyping
+		[Header("Test string")]
+		[SerializeField] private string testTest = "";
+		
+		[Header("Typewriter Settings")] 
+		[SerializeField] private float charactersPerSecond = 30;
+		[SerializeField] private float interpunctuationDelay = 0.5f;
+
+		[Header("Skipping Settings")]
+		[SerializeField] private bool quickSkip;
+		[SerializeField, Min(1)] private int skipSpeedUp = 5; 
+				
+		// Event Functionality
+		[Header("Events")]
+		public CharRevealEvent onCharacterRevealed;
+		public UnityEvent allCharactersRevealed = new ();
+		[SerializeField, Range(0.1f, 0.5f)] private float textFullEventDelay = 0.25f; 
+		
+		// Basic Typewriter Functionality
+		private int _currentVisibleCharacterIndex;
+		private Coroutine _typewriterCoroutine;
+
+		private WaitForSeconds _simpleDelay;
+		private WaitForSeconds _interpunctationDelay;
+		private WaitForSeconds _skipDelay;
+
+		private WaitForSeconds _textFullEventDelay;
+		
+		private string _originalString = String.Empty;
+		private bool _readyForNewText = true;
+		
+		private List<DialogueCommand> _commands = new ();
+		
+		public void ShowAllCharacters()
+		{
+			// This means we are already showing text
+			if (CurrentlySkipping)
+				return;
+			
+			CurrentlySkipping = true;
+			
+			if (!quickSkip)
+			{
+				StartCoroutine(SkipSpeedUpReset());
+				return;
+			}
+			
+			StopCoroutine(_typewriterCoroutine);
+			maxVisibleCharacters = textInfo.characterCount;
+			allCharactersRevealed?.Invoke();
+			_readyForNewText = true;
+		}
+		
+		protected override void Awake()
+		{
+			base.Awake();
+			
+			_simpleDelay = new WaitForSeconds(1 / charactersPerSecond);
+			_interpunctationDelay = new WaitForSeconds(interpunctuationDelay);
+			_skipDelay = new WaitForSeconds(1 / (charactersPerSecond * skipSpeedUp));
+			_textFullEventDelay = new WaitForSeconds(textFullEventDelay);
+			
+			text = testTest;
+			maxVisibleCharacters = 0;
+			_currentVisibleCharacterIndex = 0;
+		}
+
+		protected override void OnEnable()
+		{
+			base.OnEnable();
+			
+			TMPro_EventManager.TEXT_CHANGED_EVENT.Add(PrepareForNewText);
+		}
+
+		protected override void OnDisable()
+		{
+			base.OnDisable();
+			
+			TMPro_EventManager.TEXT_CHANGED_EVENT.Remove(PrepareForNewText);
+		}
+
+
+		/// <summary>
+		/// This function is responsible for preparing the text for the typewriter effect.
+		/// </summary>
+		/// <param name="obj"></param>
+		private void PrepareForNewText(UnityEngine.Object obj)
+		{
+			if (obj != this || !_readyForNewText || maxVisibleCharacters >= textInfo.characterCount)
+				return;	
+		
+			CurrentlySkipping = false;
+			_readyForNewText = false;
+			
+			if (_typewriterCoroutine != null)
+				StopCoroutine(_typewriterCoroutine);
+            
+			maxVisibleCharacters = 0;
+			_currentVisibleCharacterIndex = 0;
+			
+			_originalString = text;
+			_nRevealedCharacters = 0;
+			_isRevealing = false;
+
+			_commands.Clear();
+			
+			// Strip all the text from tags.
+			_commands = DialogueUtility.ProcessInputString(_originalString, out m_ProcessedMessage);
+			
+			text = m_ProcessedMessage;
+			
+
+			_typewriterCoroutine = StartCoroutine(TypeWriter());
+		}
+		
+		/// <summary>
+		/// Responsible for showing the text character by character.
+		/// </summary>
+		/// <returns></returns>
+		private IEnumerator TypeWriter()
+		{
+			var lastCharacterIndex = textInfo.characterCount - 1;
+			while (_currentVisibleCharacterIndex < textInfo.characterCount + 1)
+			{
+				if (_currentVisibleCharacterIndex == lastCharacterIndex)
+				{
+					maxVisibleCharacters++;
+					yield return _textFullEventDelay;
+					allCharactersRevealed?.Invoke();
+					_readyForNewText = true;
+					yield break;
+				}
+				
+				char character = textInfo.characterInfo[_currentVisibleCharacterIndex].character;
+				
+				// Reveal the next character
+				maxVisibleCharacters++;
+
+				float overrideSimpleDelay = 0;
+				float overrideInterpunctationDelay = 0;
+				// ExecuteCommandsForCurrentIndex(commands, _currentVisibleCharacterIndex, ref overrideSimpleDelay, ref overrideInterpunctationDelay);
+				
+				if (!CurrentlySkipping && char.IsPunctuation(character))
+				{
+					yield return _interpunctationDelay;
+				}
+				else
+				{
+					yield return CurrentlySkipping ? _skipDelay : _simpleDelay;
+				}
+				
+				_currentVisibleCharacterIndex++;
+			}
+		}
+
+		/// <summary>
+		/// Responsible for skipping the text.
+		/// </summary>
+		/// <returns></returns>
+		private IEnumerator SkipSpeedUpReset()
+		{
+			yield return new WaitUntil(() => maxVisibleCharacters == textInfo.characterCount - 1);
+			CurrentlySkipping = true;
+		}
+		
+		#endregion
+		
 		public struct TextAnimInfo
 		{
 			public Vector2Int Positions;
@@ -28,17 +201,13 @@ namespace StoryTime.Domains.Narrative.UI.Utilities
 
 		public StringEventChannelSO onAction;
 		public EmotionEventChannelSO onEmotionChange;
-		public CharRevealEvent onCharReveal;
 
 		public AudioSourceGroup audioSourceGroup;
 
 		public bool useConfig = true;
 
-		public int numCharactersFade = 3;
 		public float charsPerSecond = 1 / 30f;
-		public float smoothSeconds = 0.75f;
 
-		public UnityEvent allRevealed = new UnityEvent();
 		public bool IsRevealing => _isRevealing;
 
 		private static readonly Color32 Clear = new Color32(0, 0, 0, 0);
@@ -52,7 +221,6 @@ namespace StoryTime.Domains.Narrative.UI.Utilities
 		private const float NOISE_FREQUENCY_ADJUSTMENT = 15f;
 		private const float WAVE_MAGNITUDE_ADJUSTMENT = 0.06f;
 
-		private string m_OriginalString = String.Empty;
 		private string m_ProcessedMessage = String.Empty;
 
 		private int _nRevealedCharacters;
@@ -60,9 +228,7 @@ namespace StoryTime.Domains.Narrative.UI.Utilities
 		private bool _isRevealing;
 
 		private StoryTimeSettingsSO m_Config;
-
-		private List<DialogueCommand> m_Commands = new List<DialogueCommand>();
-
+		
 		// cache the color for when the player skips the text
 		private TMP_MeshInfo[] m_CachedMeshInfo;
 		private Color32[][] m_OriginalColors;
@@ -71,20 +237,7 @@ namespace StoryTime.Domains.Narrative.UI.Utilities
 
 		public bool IsAllRevealed()
 		{
-			return _nRevealedCharacters >= m_OriginalString.Length;
-		}
-
-		public void RestartWithText(string strText)
-		{
-			m_OriginalString = strText;
-			_nRevealedCharacters = 0;
-			_isRevealing = false;
-
-			// Strip all the text from tags.
-			m_Commands.Clear();
-			text = m_ProcessedMessage;
-
-			RevealNextParagraphAsync();
+			return _nRevealedCharacters >= _originalString.Length;
 		}
 
 		public void ShowEverythingWithoutAnimation()
@@ -92,14 +245,14 @@ namespace StoryTime.Domains.Narrative.UI.Utilities
 			StopAllCoroutines();
 
 			// TODO call all actions and emotions
-			foreach (var command in m_Commands)
+			foreach (var command in _commands)
 			{
 				EvaluateTag(command);
 			}
 
 			_nRevealedCharacters = m_ProcessedMessage.Length;
 
-			TextAnimInfo[] textAnimInfo = SeparateOutTextAnimInfo(m_Commands);
+			TextAnimInfo[] textAnimInfo = SeparateOutTextAnimInfo(_commands);
 
 			for (int i = 0; i < textInfo.characterCount; i++)
 			{
@@ -124,7 +277,7 @@ namespace StoryTime.Domains.Narrative.UI.Utilities
 
 			_isRevealing = false;
 
-			allRevealed.Invoke();
+			allCharactersRevealed.Invoke();
 		}
 
 		public IEnumerator RevealNextParagraph(List<DialogueCommand> commands)
@@ -169,7 +322,7 @@ namespace StoryTime.Domains.Narrative.UI.Utilities
 		                ExecuteCommandsForCurrentIndex(commands, visibleCharacterIndex, ref secondsPerCharacter, ref timeOfLastCharacter);
 		                if (visibleCharacterIndex < charCount && ShouldShowNextCharacter(secondsPerCharacter, timeOfLastCharacter)) {
 	                        charAnimStartTimes[visibleCharacterIndex] = Time.unscaledTime;
-	                        onCharReveal.Invoke(m_ProcessedMessage[visibleCharacterIndex]);
+	                        onCharacterRevealed.Invoke(m_ProcessedMessage[visibleCharacterIndex]);
 	                        visibleCharacterIndex++;
 	                        timeOfLastCharacter = Time.unscaledTime;
 	                        if (visibleCharacterIndex == charCount) {
@@ -225,7 +378,7 @@ namespace StoryTime.Domains.Narrative.UI.Utilities
 
 		private void RevealNextParagraphAsync()
 		{
-			m_Commands = DialogueUtility.ProcessInputString(m_OriginalString, out m_ProcessedMessage);
+			_commands = DialogueUtility.ProcessInputString(_originalString, out m_ProcessedMessage);
 
 			InitText();
 
@@ -246,38 +399,17 @@ namespace StoryTime.Domains.Narrative.UI.Utilities
 
 			// StartCoroutine(RevealNextParagraph());
 			if(m_RevealRoutine != null) StopCoroutine(m_RevealRoutine);
-			m_RevealRoutine = StartCoroutine(RevealNextParagraph(m_Commands));
+			m_RevealRoutine = StartCoroutine(RevealNextParagraph(_commands));
 		}
 
-		protected override void Awake()
-		{
-			base.Awake();
-
-			throw new ArgumentException("Config needs to be set");
-			m_Config = null; // StoryTimeSettingsSO.GetOrCreateSettings();
-
-			if (m_Config != null && useConfig)
-			{
-				font = m_Config.Font;
-				enableAutoSizing = m_Config.AutoResize;
-				if (enableAutoSizing)
-				{
-					// fontSizeMin = m_Config.minFontSize;
-					// fontSizeMin = m_Config.maxFontSize;
-				}
-
-				fontSize = m_Config.DialogueFontSize;
-			}
-		}
-
-		protected override void OnEnable()
-		{
-			base.OnEnable();
-			// reveal the current dialogue text.
-			RevealNextParagraphAsync();
-
-			onCharReveal?.AddListener(OnCharacterRevealed);
-		}
+		// protected override void OnEnable()
+		// {
+		// 	base.OnEnable();
+		// 	// reveal the current dialogue text.
+		// 	RevealNextParagraphAsync();
+		//
+		// 	onCharacterRevealed?.AddListener(OnCharacterRevealed);
+		// }
 
 		private static bool ShouldShowNextCharacter(float secondsPerCharacter, float timeOfLastCharacter) {
 			return (Time.unscaledTime - timeOfLastCharacter) > secondsPerCharacter;
@@ -374,7 +506,7 @@ namespace StoryTime.Domains.Narrative.UI.Utilities
 			_nRevealedCharacters = m_ProcessedMessage.Length;
 
 			if (IsAllRevealed())
-				allRevealed.Invoke();
+				allCharactersRevealed.Invoke();
 
 			_isRevealing = false;
 		}
