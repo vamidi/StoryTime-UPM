@@ -1,5 +1,6 @@
+using System;
 using UnityEngine;
-using UnityEngine.Localization.Components;
+using UnityEngine.Events;
 
 namespace StoryTime.Domains.Game.Interaction.UI.Navigation
 {
@@ -8,13 +9,11 @@ namespace StoryTime.Domains.Game.Interaction.UI.Navigation
 
 	public class UIInteractionNavFiller : BaseUIInteractionItemFiller<InteractionNavSO>
 	{
-		[SerializeField] LocalizeStringEvent interactionStoryTitle;
+		UnityAction<string> interactionStoryTitle;
+		UnityAction<string> interactionStoryState;
+		GameObject interactionTaskDescription;
 
-		[SerializeField] LocalizeStringEvent interactionStoryState;
-
-		[SerializeField] LocalizeStringEvent interactionTaskDescription;
-
-		private string m_StoryStateListener;
+		private string _storyStateListener;
 
 		public override void FillInteractionPanel(InteractionNavSO interactionItem)
 		{
@@ -22,15 +21,17 @@ namespace StoryTime.Domains.Game.Interaction.UI.Navigation
 
 			interactionKeyButton.text = $"{KeyCode.V.ToString()}";
 
-			interactionStoryTitle.StringReference = interactionItem.interactionStoryTitle;
-			interactionStoryState.StringReference = interactionItem.interactionStoryState;
-			interactionTaskDescription.StringReference = interactionItem.interactionTaskDescription;
+			interactionStoryTitle?.Invoke(interactionItem.interactionStoryTitle);
+			interactionStoryState?.Invoke(interactionItem.interactionStoryState);
+			// TODO fix me
+			// interactionTaskDescription = (interactionItem.interactionTaskDescription);
 
 			// show the text if the quest is not completed
-			if (interactionStoryState)
+			if (_storyStateListener == String.Empty)
 			{
-				m_StoryStateListener = interactionStoryState.StringReference.GetLocalizedStringImmediateSafe();
-				interactionTaskDescription.gameObject.SetActive(!m_StoryStateListener.Contains("Completed"));
+				interactionStoryState += (state) => _storyStateListener = state;
+				if (interactionTaskDescription != null)
+					interactionTaskDescription.SetActive(!_storyStateListener.Contains("Completed"));
 			}
 		}
 	}

@@ -2,7 +2,7 @@
 using UnityEngine.Events;
 
 using StoryTime.Domains.Events.ScriptableObjects;
-using StoryTime.Domains.Narrative.Stories.ScriptableObjects;
+using StoryTime.Domains.Narrative.Stories;
 
 namespace StoryTime.Domains.Narrative.Dialogues.ScriptableObjects.Events
 {
@@ -10,8 +10,8 @@ namespace StoryTime.Domains.Narrative.Dialogues.ScriptableObjects.Events
 	// ReSharper disable once InconsistentNaming
 	public class DialogueStoryChannelSO : EventChannelBaseSO
 	{
-		public UnityAction<StorySO> OnEventRaised;
-		public void RaiseEvent(StorySO story)
+		public UnityAction<IReadOnlyStory> OnEventRaised;
+		public void RaiseEvent(IReadOnlyStory story)
 		{
 			OnEventRaised?.Invoke(story);
 		}

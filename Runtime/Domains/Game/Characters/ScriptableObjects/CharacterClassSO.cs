@@ -17,7 +17,7 @@ namespace StoryTime.Domains.Game.Characters.ScriptableObjects
 	
 	[CreateAssetMenu(fileName = "CharacterClass", menuName = "StoryTime/Game/Characters/Character Class", order = 1)]
 	// ReSharper disable once InconsistentNaming
-	public class CharacterClassSO : LocalizationBehaviour
+	public class CharacterClassSO : TableBehaviour
 	{
 		public string ClassName
 		{
@@ -69,19 +69,8 @@ namespace StoryTime.Domains.Game.Characters.ScriptableObjects
 			{
 				// Clear out every stat modifier the player class has.
 				ClearModifiers();
-
-				collection = overrideTable ? collection : LocalizationEditorSettings.GetStringTableCollection("Class Names");
-				// Only get the first dialogue.
-				var entryId = (ID + 1).ToString();
-				if(collection)
-				{
-					LocalizedString className;
-					className = new LocalizedString { TableReference = collection.TableCollectionNameReference, TableEntryReference = entryId };
-				}
-				else
-					Debug.LogWarning("Collection not found. Did you create any localization tables for Classes");
-
 				characterStats.Clear();
+				
 				var links = FindLinks("parameterCurves", "classId", ID);
 				foreach (var link in links)
 				{
@@ -93,10 +82,8 @@ namespace StoryTime.Domains.Game.Characters.ScriptableObjects
 					{
 						ID = link.Item1
 					};
-#if UNITY_EDITOR
-					collection = overrideTable ? collection : LocalizationEditorSettings.GetStringTableCollection("Stat Names");
-#endif
-					stat = characterService.ConvertRow(row, collection, stat);
+					
+					stat = characterService.ConvertRow(row, stat);
 
 					characterStats.Add(stat);
 				}

@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using StoryTime.Domains.Narrative.Stories;
 using UnityEngine;
 using UnityEngine.Localization;
-#if UNITY_EDITOR
-using UnityEditor.Localization;
-#endif
 
 namespace StoryTime.Domains.Narrative.Tasks.ScriptableObjects
 {
@@ -15,7 +12,7 @@ namespace StoryTime.Domains.Narrative.Tasks.ScriptableObjects
 	using StoryTime.Domains.Game.Characters.ScriptableObjects;
 	using StoryTime.Domains.Game.NPC.Enemies.ScriptableObjects;
 	using StoryTime.Domains.Narrative.Stories.ScriptableObjects;
-	
+
 	public enum TaskCompletionType
 	{
 		None, //
@@ -28,42 +25,33 @@ namespace StoryTime.Domains.Narrative.Tasks.ScriptableObjects
 
 	[CreateAssetMenu(fileName = "Task", menuName = "StoryTime/Game/Narrative/Task", order = 51)]
 	// ReSharper disable once InconsistentNaming
-	public partial class TaskSO : LocalizationBehaviour
+	public class TaskSO : TableBehaviour, IReadOnlyTask
 	{
-		public String NextId { get => nextId; set => nextId = value; }
-		
-		/// <summary cref="TaskSO.TitleLocalized"></summary>
-        [Obsolete("Use the TitleLocalized property instead")]
-		public LocalizedString Title => title;
-		public virtual string TitleLocalized => title.GetLocalizedString();
-		
-		/// <summary cref="TaskSO.DescriptionLocalized"></summary>
-		[Obsolete("Use the DescriptionLocalized property instead")]
-		public LocalizedString Description => description;
-		public virtual string DescriptionLocalized => description.GetLocalizedString();
-		
+		public String NextId { get => _nextId; set => _nextId = value; }
+		public string Title => title;
+		public string Description => description;
 		public int Distance => distance;
 		public bool Hidden { get => hidden; set => hidden = value; }
 		public String Npc { get => npc; set => npc = value; }
 		public EnemySO.EnemyCategory EnemyCategory => enemyCategory;
-		public StorySO Parent => parent;
+		public IReadOnlyStory Parent => parent;
 		public uint RequiredCount { get => requiredCount; set => requiredCount = value; }
 		public List<ItemStack> Items { get => items; set => items = value; }
 		public TaskCompletionType Type { get => type; set => type = value; }
-		public StorySO StoryBeforeTask => storyBeforeTask;
-		public StorySO WinStory => completeStory;
-		public StorySO LoseStory => incompleteStory;
+		public IReadOnlyStory StoryBeforeTask => storyBeforeTask;
+		public IReadOnlyStory WinStory => completeStory;
+		public IReadOnlyStory LoseStory => incompleteStory;
 		public bool IsDone => isDone;
 		public CharacterSO Character => character;
 		public TaskEventChannelSO StartTaskEvent => endTaskEvent;
 		public TaskEventChannelSO EndTaskEvent => endTaskEvent;
 
 		[SerializeField, Tooltip("Title of the task")]
-		private LocalizedString title;
-		
+		private string title;
+
 		[SerializeField, Tooltip("The description of the mission")]
-		private LocalizedString description;
-		
+		private string description;
+
 		[SerializeField, Tooltip("Distance to the task in meters")]
 		private int distance;
 
@@ -71,13 +59,13 @@ namespace StoryTime.Domains.Narrative.Tasks.ScriptableObjects
 		[SerializeField] private bool hidden;
 
 		// the next task that the player needs to perform.
-		private String nextId = String.Empty;
+		private String _nextId = String.Empty;
 
 		// Reference to the interactable id, could be a monster or a npc
 		// It could be even a reference to a group of monsters of some type.
 		private String npc = String.Empty;
 
-		[SerializeField, Tooltip("Parent of the task.")] private StorySO parent;
+		[SerializeField, Tooltip("Parent of the task.")] private IReadOnlyStory parent;
 
 		// TODO show category instead of number
 		[SerializeField, HideInInspector, Tooltip("Which enemy category do we need to hunt")] private EnemySO.EnemyCategory enemyCategory = new ();
@@ -94,13 +82,13 @@ namespace StoryTime.Domains.Narrative.Tasks.ScriptableObjects
 		[SerializeField] private CharacterSO character;
 
 		[Tooltip("The story that will be displayed before an action, if any")]
-		[SerializeField] private StorySO storyBeforeTask;
+		[SerializeField] private IReadOnlyStory storyBeforeTask;
 
 		[Tooltip("The story that will be displayed when the step is achieved")]
-		[SerializeField] private StorySO completeStory;
+		[SerializeField] private IReadOnlyStory completeStory;
 
 		[Tooltip("The story that will be displayed if the step is not achieved yet")]
-		[SerializeField] private StorySO incompleteStory;
+		[SerializeField] private IReadOnlyStory incompleteStory;
 
 		[Tooltip("The item to check/give/reward (can be multiple)")]
 		[SerializeField] private List<ItemStack> items;
@@ -118,17 +106,8 @@ namespace StoryTime.Domains.Narrative.Tasks.ScriptableObjects
 
 		[SerializeField] bool isDone;
 
-		protected override void OnTableIDChanged()
-		{
-			base.OnTableIDChanged();
-			Initialize();
-		}
-
 		public virtual void OnEnable()
 		{
-#if UNITY_EDITOR
-			Initialize();
-#endif
 			m_Count = 0;
 			isDone = false;
 		}
@@ -160,21 +139,5 @@ namespace StoryTime.Domains.Narrative.Tasks.ScriptableObjects
 		}
 
 		public TaskSO(): base("tasks", "description") {}
-
-		private void Initialize()
-		{
-			if (ID != String.Empty)
-			{
-#if UNITY_EDITOR
-				collection = overrideTable ? collection : LocalizationEditorSettings.GetStringTableCollection("Task Descriptions");
-				// Only get the first dialogue.
-				var entryId = (ID + 1).ToString();
-				if(collection)
-					description = new LocalizedString { TableReference = collection.TableCollectionNameReference, TableEntryReference = entryId };
-				else
-					Debug.LogWarning("Collection not found. Did you create any localization tables for Tasks");
-#endif
-			}
-		}
 	}
 }

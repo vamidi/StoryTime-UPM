@@ -7,22 +7,22 @@ namespace StoryTime.Domains.Narrative.Stories.ScriptableObjects
 	// ReSharper disable once InconsistentNaming
 	public class StoryLogSO : ScriptableObject
 	{
-		public Dictionary<StoryType, List<StorySO>> Stories => GetStories();
+		public Dictionary<StoryType, List<IReadOnlyStory>> Stories => GetStories();
 
-		[SerializeField] private List<StoryType> storyCategories = new List<StoryType>();
+		[SerializeField] private List<StoryType> storyCategories = new ();
 
-		[SerializeField] private List<StorySO> stories = new List<StorySO>();
+		private readonly List<IReadOnlyStory> _stories = new ();
 
-		public void Add(StorySO story)
+		public void Add(IReadOnlyStory story)
 		{
 			if (!storyCategories.Contains(story.TypeId))
 			{
 				storyCategories.Add(story.TypeId);
-				stories.Add(story);
+				_stories.Add(story);
 				return;
 			}
 
-			if(!Contains(story)) stories.Add(story);
+			if(!Contains(story)) _stories.Add(story);
 		}
 
 		public void Remove(StorySO story)
@@ -30,30 +30,30 @@ namespace StoryTime.Domains.Narrative.Stories.ScriptableObjects
 			if (!storyCategories.Contains(story.TypeId))
 				return;
 
-			if (stories.Count <= 0)
+			if (_stories.Count <= 0)
 				return;
 
-			foreach (var currentStory in stories)
+			foreach (var currentStory in _stories)
 			{
-				if (currentStory == story)
+				if (currentStory.ID == story.ID)
 				{
-					stories.Remove(currentStory);
+					_stories.Remove(currentStory);
 					return;
 				}
 			}
 		}
 
-		public bool Contains(StorySO story)
+		public bool Contains(IReadOnlyStory story)
 		{
 			if (!storyCategories.Contains(story.TypeId))
 				return false;
 
-			return stories.Find(s => s == story) != null;
+			return _stories.Find(s => s == story) != null;
 		}
 
-		private Dictionary<StoryType, List<StorySO>> GetStories()
+		private Dictionary<StoryType, List<IReadOnlyStory>> GetStories()
 		{
-			Dictionary<StoryType, List<StorySO>> currStories = new Dictionary<StoryType, List<StorySO>>();
+			Dictionary<StoryType, List<IReadOnlyStory>> currStories = new Dictionary<StoryType, List<IReadOnlyStory>>();
 
 			if (storyCategories.Count == 0)
 				return currStories;
@@ -61,10 +61,10 @@ namespace StoryTime.Domains.Narrative.Stories.ScriptableObjects
 			foreach (var storyCategory in storyCategories)
 			{
 				if (!currStories.ContainsKey(storyCategory))
-					currStories.Add(storyCategory, new List<StorySO>());
+					currStories.Add(storyCategory, new ());
 
 				var storyList = currStories[storyCategory];
-				foreach (var story in stories)
+				foreach (var story in _stories)
 				{
 					if(story.TypeId == storyCategory)
 						storyList.Add(story);

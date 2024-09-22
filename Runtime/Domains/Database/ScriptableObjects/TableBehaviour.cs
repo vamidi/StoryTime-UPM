@@ -8,7 +8,7 @@ namespace StoryTime.Domains.Database.ScriptableObjects
 	using StoryTime.Domains.Attributes;
 	using StoryTime.Domains.Database.ScriptableObjects.Serialization;
 	
-    public partial class TableBehaviour : SerializableScriptableObject
+    public partial class TableBehaviour : SerializableScriptableObject, IReadWriteTableBehaviour
     {
 	    /// <summary>
 	    /// ID of the row inside the table.
@@ -32,6 +32,13 @@ namespace StoryTime.Domains.Database.ScriptableObjects
 	    public String LinkedID { get => linkID; internal set => linkID = value; }
 	    public string LinkedColumn { get => linkedColumn; internal set => linkedColumn = value; }
 		public string LinkedTable { get => linkedTable; internal set => linkedTable = value; }
+		
+		string IWritableTableBehaviour.ID { set => id = value; }
+		string IWritableTableBehaviour.TableName { set => tableName = value; }
+		string IWritableTableBehaviour.DropdownColumn { set => dropdownColumn = value; }
+		string IWritableTableBehaviour.LinkedID { set => linkID = value; }
+		string IWritableTableBehaviour.LinkedColumn { set => linkedColumn = value; }
+		string IWritableTableBehaviour.LinkedTable { set => linkedTable = value; }
 
 	    [SerializeField, Uuid] private string id;
 	    [SerializeField, HideInInspector] private string tableName = String.Empty;

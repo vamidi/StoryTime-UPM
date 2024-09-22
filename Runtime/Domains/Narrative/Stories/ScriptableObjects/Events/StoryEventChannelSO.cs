@@ -7,13 +7,13 @@ namespace StoryTime.Domains.Narrative.Stories.ScriptableObjects.Events
 	[CreateAssetMenu(menuName = "StoryTime/Game/Events/Narrative/Story Event Channel")]
 	public class StoryEventChannelSO : EventChannelBaseSO
 	{
-		public UnityAction<StorySO> OnEventRaised;
+		public UnityAction<IReadOnlyStory> OnEventRaised;
 
 		/// <summary>
 		///
 		/// </summary>
 		/// <param name="story"></param>
-		public void RaiseEvent(StorySO story)
+		public void RaiseEvent(IReadOnlyStory story)
 		{
 			OnEventRaised?.Invoke(story);
 		}

@@ -9,6 +9,7 @@ namespace StoryTime.Domains.Narrative.Dialogues
 {
 	using UI.Utilities;
 	using Game.Input.ScriptableObjects;
+	using StoryTime.Domains.Narrative.Stories;
 	using StoryTime.Domains.Events.ScriptableObjects;
 	using StoryTime.Domains.Narrative.Dialogues.Events.UI;
 	using StoryTime.Domains.Narrative.Stories.ScriptableObjects;
@@ -81,8 +82,6 @@ namespace StoryTime.Domains.Narrative.Dialogues
 
 		void Start()
 		{
-			return;
-			
 			if (startStoryEvent != null)
 			{
 				startStoryEvent.OnEventRaised += Interact;
@@ -130,7 +129,7 @@ namespace StoryTime.Domains.Narrative.Dialogues
 		/// Start interaction with the NPC
 		/// </summary>
 		/// <param name="storyDataSo"></param>
-		public void Interact(SimpleStorySO storyDataSo)
+		public void Interact(IReadOnlyStory storyDataSo)
 		{
 			// _currentActor = storyDataSo.Character;
 

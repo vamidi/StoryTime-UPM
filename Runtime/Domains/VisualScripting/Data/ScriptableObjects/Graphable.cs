@@ -15,7 +15,7 @@ namespace StoryTime.Domains.VisualScripting.Data.ScriptableObjects
 	[Serializable]
 	public class PropertyCollection : CollectionWrapper<ExposedProperty> {}
 
-	public class Graphable<T> : LocalizationBehaviour
+	public class Graphable<T> : TableBehaviour
 		where T : Node
 	{
 		public T Start => rootNode;

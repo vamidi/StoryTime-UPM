@@ -3,13 +3,13 @@ using UnityEngine.Events;
 
 namespace StoryTime.Domains.Game.Interaction.UI.Events.ScriptableObjects
 {
-	using StoryTime.Domains.Narrative.Stories.ScriptableObjects;
+	using StoryTime.Domains.Narrative.Stories;
 	using StoryTime.Domains.Game.Interaction.UI.Navigation.ScriptableObjects;
 
 	public struct StoryInfo
 	{
 		public int Index;
-		public StorySO Story;
+		public IReadOnlyStory Story;
 		public StoryState State;
 	}
 

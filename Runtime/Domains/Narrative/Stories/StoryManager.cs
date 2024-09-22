@@ -101,7 +101,7 @@ namespace StoryTime.Domains.Narrative.Stories
 
 		// private bool ReachedEndOfQuest => m_CurrentQuest && m_CurrentTaskIndex >= m_CurrentQuest.Tasks.Count;
 
-		private StorySO m_CurrentStory;
+		private IReadOnlyStory m_CurrentStory;
 		private TaskSO m_CurrentTask;
 		private int m_CurrentQuestIndex;
 		private int m_CurrentQuestLineIndex;
@@ -178,7 +178,7 @@ namespace StoryTime.Domains.Narrative.Stories
 			}
 		}
 
-		void StartStory(StorySO currentStory, StoryState state = StoryState.New)
+		void StartStory(IReadOnlyStory currentStory, StoryState state = StoryState.New)
 		{
 			if (m_CurrentStory == currentStory)
 				return;

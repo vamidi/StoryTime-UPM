@@ -25,7 +25,7 @@ namespace StoryTime.Domains.Game.Characters.ScriptableObjects
 	/// </summary>
 	[CreateAssetMenu(fileName = "newCharacter", menuName = "StoryTime/Game/Characters/Character", order = 0)]
 	// ReSharper disable once InconsistentNaming
-	public class CharacterSO : LocalizationBehaviour
+	public class CharacterSO : TableBehaviour
 	{
 		public const int INVENTORY_COLS = 12;
 		public const int INVENTORY_ROWS = 6;
@@ -195,14 +195,6 @@ namespace StoryTime.Domains.Game.Characters.ScriptableObjects
 			}
 		}
 
-		/**
-		 *
-		 *
-		 * @return bool
-		 */
-
-
-
 		/// <summary>
 		/// Add exp to the player current exp.
 		/// <param name="addition"></param>
@@ -243,19 +235,6 @@ namespace StoryTime.Domains.Game.Characters.ScriptableObjects
 		{
 			// Set initial level
 			currentLevel = initialLevel;
-
-			if (ID != "")
-			{
-				var entryId = (ID + 1).ToString();
-				collection = overrideTable ? collection : LocalizationEditorSettings.GetStringTableCollection("Character Names");
-				if(collection)
-				{
-					LocalizedString characterName;
-					characterName = new LocalizedString { TableReference = collection.TableCollectionNameReference, TableEntryReference = entryId };
-				}
-				else
-					Debug.LogWarning("Collection not found. Did you create any localization tables");
-			}
 
 			CalculateExp();
 		}

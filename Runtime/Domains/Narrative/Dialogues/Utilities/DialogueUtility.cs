@@ -46,7 +46,7 @@ namespace StoryTime.Domains.Narrative.Dialogues.Utilities
 		public Emotion TextEmotionValue;
 	}
 
-	public class DialogueUtility
+	public static class DialogueUtility
 	{
 	    // grab the remainder of the text until ">" or end of string
         private const string REMAINDER_REGEX = "(.*?((?=>)|(/|$)))";
@@ -84,17 +84,17 @@ namespace StoryTime.Domains.Narrative.Dialogues.Utilities
 	        processedMessage = message;
 
 	        // TODO make one function to handle all the normal regular expressions.
-	        processedMessage = HandlePauseTags(processedMessage, result);
-	        processedMessage = HandleSpeedTags(processedMessage, result);
-	        processedMessage = HandleEmotionTags(processedMessage, result);
-	        processedMessage = HandleActionTags(processedMessage, result);
-	        processedMessage = HandleAnimStartTags(processedMessage, result);
-	        processedMessage = HandleAnimEndTags(processedMessage, result);
+	        processedMessage = HandlePauseTags(processedMessage, ref result);
+	        processedMessage = HandleSpeedTags(processedMessage, ref result);
+	        processedMessage = HandleEmotionTags(processedMessage, ref result);
+	        processedMessage = HandleActionTags(processedMessage, ref result);
+	        processedMessage = HandleAnimStartTags(processedMessage, ref result);
+	        processedMessage = HandleAnimEndTags(processedMessage, ref result);
 
 	        return result;
         }
 
-        private static string HandlePauseTags(string processedMessage, List<DialogueCommand> result)
+        private static string HandlePauseTags(string processedMessage, ref List<DialogueCommand> result)
         {
 	        MatchCollection pauseMatches = PauseRegex.Matches(processedMessage);
 	        foreach (Match match in pauseMatches)
@@ -113,7 +113,7 @@ namespace StoryTime.Domains.Narrative.Dialogues.Utilities
 	        return processedMessage;
         }
 
-        private static string HandleSpeedTags(string processedMessage, List<DialogueCommand> result)
+        private static string HandleSpeedTags(string processedMessage, ref List<DialogueCommand> result)
         {
 	        MatchCollection speedMatches = SpeedRegex.Matches(processedMessage);
 	        foreach (Match match in speedMatches)
@@ -135,7 +135,7 @@ namespace StoryTime.Domains.Narrative.Dialogues.Utilities
 	        return processedMessage;
         }
 
-        private static string HandleAnimStartTags(string processedMessage, List<DialogueCommand> result)
+        private static string HandleAnimStartTags(string processedMessage, ref List<DialogueCommand> result)
         {
 	        MatchCollection animStartMatches = AnimStartRegex.Matches(processedMessage);
 	        foreach (Match match in animStartMatches)
@@ -152,7 +152,7 @@ namespace StoryTime.Domains.Narrative.Dialogues.Utilities
 	        return processedMessage;
         }
 
-        private static string HandleAnimEndTags(string processedMessage, List<DialogueCommand> result)
+        private static string HandleAnimEndTags(string processedMessage, ref List<DialogueCommand> result)
         {
 	        MatchCollection animEndMatches = AnimEndRegex.Matches(processedMessage);
 	        foreach (Match match in animEndMatches)
@@ -168,7 +168,7 @@ namespace StoryTime.Domains.Narrative.Dialogues.Utilities
 	        return processedMessage;
         }
 
-        private static string HandleEmotionTags(string processedMessage, List<DialogueCommand> result)
+        private static string HandleEmotionTags(string processedMessage, ref List<DialogueCommand> result)
         {
 	        MatchCollection emotionMatches = EmotionRegex.Matches(processedMessage);
 	        foreach (Match match in emotionMatches)
@@ -185,8 +185,8 @@ namespace StoryTime.Domains.Narrative.Dialogues.Utilities
 	        processedMessage = Regex.Replace(processedMessage, EMOTION_REGEX_STRING, "");
 	        return processedMessage;
         }
-
-        private static string HandleActionTags(string processedMessage, List<DialogueCommand> result)
+        
+        private static string HandleActionTags(string processedMessage, ref List<DialogueCommand> result)
         {
 	        MatchCollection actionMatches = ActionRegex.Matches(processedMessage);
 	        foreach (Match match in actionMatches)

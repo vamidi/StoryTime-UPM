@@ -2,12 +2,12 @@
 
 namespace StoryTime.Domains.Narrative.Dialogues
 {
-	using StoryTime.Domains.Narrative.Stories.ScriptableObjects;
+	using StoryTime.Domains.Narrative.Stories;
 	
 	public class DialogueTrigger : MonoBehaviour
 	{
 		[SerializeField] private DialogueManager dialogueManager;
-		[SerializeField] private SimpleStorySO storyData = default;
+		[SerializeField] private IReadOnlyStory storyData = default;
 
 		private void OnTriggerEnter(Collider other)
 		{

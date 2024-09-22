@@ -15,12 +15,12 @@ namespace StoryTime.Domains.Game.Interaction.UI.Navigation.ScriptableObjects
 	public class InteractionNavSO : InteractionSO
 	{
 		[Tooltip("The Story title")]
-		[SerializeField] public LocalizedString interactionStoryState;
+		[SerializeField] public string interactionStoryState;
 
 		[Tooltip("The Story title")]
-		[SerializeField] public LocalizedString interactionStoryTitle;
+		[SerializeField] public string interactionStoryTitle;
 
 		[Tooltip("The Task title")]
-		[SerializeField] public LocalizedString interactionTaskDescription;
+		[SerializeField] public string interactionTaskDescription;
 	}
 }

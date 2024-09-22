@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using System.Collections.Generic;
-
 using UnityEngine;
 
 namespace StoryTime.Domains.Narrative.Stories.Controllers
@@ -9,6 +8,7 @@ namespace StoryTime.Domains.Narrative.Stories.Controllers
 	using ScriptableObjects;
 	using Events.ScriptableObjects;
 	
+	using StoryTime.Domains.Narrative.Tasks;
 	using StoryTime.Domains.Narrative.Dialogues.Events.UI;
 	using StoryTime.Domains.Game.Characters.ScriptableObjects;
 	using StoryTime.Domains.Narrative.Tasks.ScriptableObjects;
@@ -62,8 +62,8 @@ namespace StoryTime.Domains.Narrative.Stories.Controllers
 		// check if character is active. An active character is the character concerned by the task.
 		private bool _hasActiveStory;
 		private bool _hasActiveTask;
-		private TaskSO _currentTask;
-		private StorySO _currentStory;
+		private IReadOnlyTask _currentTask;
+		private IReadOnlyStory _currentStory;
 
 		public void TurnToPlayer(Vector3 playerPos)
 		{

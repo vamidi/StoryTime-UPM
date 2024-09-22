@@ -8,9 +8,9 @@ namespace StoryTime.Domains.Game.Interaction.UI.Navigation
 
 	public class UIInteractionNavManager : BaseUIInteractionManager<InteractionNavSO, UIInteractionNavFiller>
 	{
-		[SerializeField] private LocalizedString newState;
-		[SerializeField] private LocalizedString updateState;
-		[SerializeField] private LocalizedString completeState;
+		[SerializeField] private string newState;
+		[SerializeField] private string updateState;
+		[SerializeField] private string completeState;
 		public void SetQuest(StoryInfo info, InteractionType interactionType)
 		{
 			if (listInteractions != null && interactionItem != null)
@@ -30,7 +30,7 @@ namespace StoryTime.Domains.Game.Interaction.UI.Navigation
 			}
 		}
 
-		LocalizedString StateToString(StoryState state)
+		string StateToString(StoryState state)
 		{
 			switch (state)
 			{

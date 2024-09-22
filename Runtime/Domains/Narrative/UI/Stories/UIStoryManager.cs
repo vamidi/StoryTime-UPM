@@ -2,10 +2,10 @@ using System.Collections.Generic;
 
 using UnityEngine;
 using UnityEngine.Localization;
-using UnityEngine.Localization.Components;
 
 namespace StoryTime.Domains.Narrative.UI.Stories
 {
+	using StoryTime.Domains.Narrative.Stories;
 	using StoryTime.Domains.Narrative.Stories.ScriptableObjects;
 	using StoryTime.Domains.Narrative.Stories.ScriptableObjects.Events;
 	
@@ -19,9 +19,10 @@ namespace StoryTime.Domains.Narrative.UI.Stories
 		public LocalizedString tabSubTitle;
 
 		[Header("Information references")]
-		public LocalizeStringEvent storyTitle;
-		public LocalizeStringEvent taskTitle;
-		public LocalizeStringEvent taskDescription;
+		// These are used inside the unity editor
+		public string storyTitle;
+		public string taskTitle;
+		public string taskDescription;
 
 		[Tooltip("List view that we need to add the stories to.")]
 		public GameObject listView;
@@ -32,7 +33,7 @@ namespace StoryTime.Domains.Narrative.UI.Stories
 		public StoryCategoryFiller categoryPrefab;
 		public StoryCategoryTab categoryTabPrefab;
 
-		private readonly List<StoryCategoryFiller> m_CategoryItems = new List<StoryCategoryFiller>();
+		private readonly List<StoryCategoryFiller> m_CategoryItems = new ();
 
 		[SerializeField, Tooltip("This will keep track of our progress in the game")]
 		private StoryLogSO storyLog;
@@ -67,10 +68,10 @@ namespace StoryTime.Domains.Narrative.UI.Stories
 			var task = story.Tasks.Find(o => o.IsDone == false);
 
 			// set the right information
-			storyTitle.StringReference = story ? story.Title : null;
+			storyTitle = story.Title;
 			// TODO see if we need a title
-			taskTitle.StringReference = task ? task.Description : null;
-			taskDescription.StringReference = task ? task.Description : null;
+			taskTitle = task ? task.Description : null;
+			taskDescription = task ? task.Description : null;
 
 			if (panel)
 				panel.SetActive(true);
@@ -97,7 +98,7 @@ namespace StoryTime.Domains.Narrative.UI.Stories
 			}
 		}
 
-		private void OnNewStoryAdded(StorySO story)
+		private void OnNewStoryAdded(IReadOnlyStory story)
 		{
 			foreach (var filler in m_CategoryItems)
 			{
@@ -110,10 +111,10 @@ namespace StoryTime.Domains.Narrative.UI.Stories
 			}
 
 			// this means we don't have the category, add it to the list
-			Create(new KeyValuePair<StoryType, List<StorySO>>(story.TypeId, new List<StorySO>{ story }));
+			Create(new KeyValuePair<StoryType, List<IReadOnlyStory>>(story.TypeId, new (){ story }));
 		}
 
-		private void Create(KeyValuePair<StoryType, List<StorySO>> pair)
+		private void Create(KeyValuePair<StoryType, List<IReadOnlyStory>> pair)
 		{
 			StoryCategoryFiller categoryFiller = Instantiate(categoryPrefab, Vector3.zero, Quaternion.identity);
 			categoryFiller.manager = this;

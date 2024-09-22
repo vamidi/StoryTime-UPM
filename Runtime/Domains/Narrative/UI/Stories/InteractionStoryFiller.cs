@@ -1,18 +1,17 @@
 using System.Linq;
-
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
-using UnityEngine.Localization.Components;
 
 namespace StoryTime.Domains.Narrative.UI.Stories
 {
-	using StoryTime.Domains.Narrative.Stories.ScriptableObjects;
+	using StoryTime.Domains.Narrative.Stories;
 	using StoryTime.Domains.Narrative.Tasks.ScriptableObjects;
+	using StoryTime.Domains.Narrative.Stories.ScriptableObjects;
 	
 	public class InteractionStoryFiller : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 	{
-		public StorySO Story => m_Story;
+		public IReadOnlyStory Story => m_Story;
 
 		[Header("References")]
 		public StoryCategoryFiller categoryManager;
@@ -20,11 +19,11 @@ namespace StoryTime.Domains.Narrative.UI.Stories
 		[Header("Events")]
 		public UnityEvent onRowSelected;
 		public UnityEvent onRowDeselected;
+		
+		public string storyTitle;
+		public string storySubTitle;
 
-		[SerializeField] private LocalizeStringEvent storyTitle;
-		[SerializeField] private LocalizeStringEvent storySubTitle;
-
-		private StorySO m_Story;
+		private IReadOnlyStory m_Story;
 
 		float clicked = 0;
 		float clicktime = 0;
@@ -35,7 +34,7 @@ namespace StoryTime.Domains.Narrative.UI.Stories
 			categoryManager.Subscribe(this);
 		}
 
-		public void Set(StorySO story) => m_Story = story;
+		public void Set(IReadOnlyStory story) => m_Story = story;
 
 		public void OnPointerEnter(PointerEventData eventData)
 		{
@@ -73,11 +72,11 @@ namespace StoryTime.Domains.Narrative.UI.Stories
 		public void FillInteractionPanel()
 		{
 			// TODO write a handler that return the text for the subtitle
-			storyTitle.StringReference = m_Story.Title;
+			storyTitle = m_Story.Title;
 			if (m_Story.Tasks.Count > 0)
 			{
 				TaskSO task = m_Story.Tasks.FirstOrDefault(o => !o.IsDone) ?? m_Story.Tasks[0];
-				storySubTitle.StringReference = task.Description;
+				storySubTitle = task.Description;
 			}
 		}
 

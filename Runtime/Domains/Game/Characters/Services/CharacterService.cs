@@ -60,9 +60,6 @@ namespace StoryTime.Domains.Game.Characters.Services
 		
 		public CharacterStats ConvertRow(
 			TableRow row,
-#if UNITY_EDITOR
-			StringTableCollection statCollection,
-#endif
 			CharacterStats statOverride = null
 		)
 		{

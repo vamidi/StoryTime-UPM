@@ -7,11 +7,9 @@ using Newtonsoft.Json.Linq;
 
 #if UNITY_EDITOR
 using UnityEditor;
-using UnityEditor.Localization;
 #endif
 
 using UnityEngine;
-using UnityEngine.Localization;
 
 namespace StoryTime.Domains.ItemManagement.Crafting.ScriptableObjects
 {
@@ -57,43 +55,21 @@ namespace StoryTime.Domains.ItemManagement.Crafting.ScriptableObjects
 
 		protected override void Initialize()
 		{
-#if UNITY_EDITOR
-			if (ID != String.Empty)
+			var field = TableDatabase.Get.GetField(TableName, "data", ID);
+			if (field != null)
 			{
-				var entryId = (childId + 1).ToString();
-				collection = LocalizationEditorSettings.GetStringTableCollection("Item Names");
-				if (collection != null)
-				{
-					var ItemName = new LocalizedString { TableReference = collection.TableCollectionNameReference, TableEntryReference = entryId };
-				}
-				else
-					Debug.LogWarning("Collection not found. Did you create any localization tables for Items");
-
-				var descriptionCollection = overrideDescriptionTable ? itemDescriptionCollection : LocalizationEditorSettings.GetStringTableCollection("Item Descriptions");
-				if (descriptionCollection != null)
-				{
-					var Description = new LocalizedString { TableReference = descriptionCollection.TableCollectionNameReference, TableEntryReference = entryId };
-				}
-				else
-					Debug.LogWarning("Collection not found. Did you create any localization tables for Items");
-
-				var field = TableDatabase.Get.GetField(TableName, "data", ID);
-				if (field != null)
-				{
-#if UNITY_EDITOR
-					// if we want to remove the exising list.
-					// if (ingredientsList.Count > 0 && EditorUtility.DisplayDialog("Remove existing ingredients",
-						// "Do you want to remove existing list?\n\nYou cannot undo this action.", "Yes", "No"))
-					// {
-						// ingredientsList.Clear();
-					// }
+#if UNITY_EDITOR 
+				// if we want to remove the exising list.
+				// if (ingredientsList.Count > 0 && EditorUtility.DisplayDialog("Remove existing ingredients",
+				// "Do you want to remove existing list?\n\nYou cannot undo this action.", "Yes", "No"))
+				// {
+				// ingredientsList.Clear();
+				// }
 #endif
-					ParseNodeData(this, (JObject) field.Data);
-				}
+				ParseNodeData(this, (JObject) field.Data);
 			}
 
 			resultingDish = this;
-#endif
 		}
 
 

@@ -1,8 +1,10 @@
 using System.Collections.Generic;
+
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Localization;
 
+using StoryTime.Domains.Narrative.Stories;
 using StoryTime.Domains.Events.ScriptableObjects;
 using StoryTime.Domains.Narrative.Stories.ScriptableObjects;
 using StoryTime.Domains.Narrative.Stories.ScriptableObjects.Events;
@@ -43,7 +45,7 @@ namespace StoryTime.Domains.Narrative.UI.Stories
 			manager.Subscribe(this);
 		}
 
-		public void Add(StorySO story)
+		public void Add(IReadOnlyStory story)
 		{
 			InteractionStoryFiller row = Instantiate(storyRowPrefab, Vector3.zero, Quaternion.identity);
 			row.categoryManager = this;
@@ -114,7 +116,7 @@ namespace StoryTime.Domains.Narrative.UI.Stories
 			// }
 		}
 
-		public void FillCategory(KeyValuePair<StoryType, List<StorySO>> item)
+		public void FillCategory(KeyValuePair<StoryType, List<IReadOnlyStory>> item)
 		{
 			m_Category = item.Key;
 

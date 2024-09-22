@@ -1,6 +1,5 @@
 ﻿using System;
 using UnityEngine;
-using UnityEngine.Localization;
 
 namespace StoryTime.Domains.Game.Characters.ScriptableObjects
 {
@@ -40,7 +39,7 @@ namespace StoryTime.Domains.Game.Characters.ScriptableObjects
 
 	[CreateAssetMenu(fileName = "Skill", menuName = "StoryTime/Game/Characters/Skill", order = 4)]
 	// ReSharper disable once InconsistentNaming
-	public partial class SkillSO : LocalizationBehaviour
+	public class SkillSO : TableBehaviour
 	{
 		public string SkillName
 		{
@@ -154,23 +153,5 @@ namespace StoryTime.Domains.Game.Characters.ScriptableObjects
 		[SerializeField, Tooltip("How much off we can be from the actual dmg/rec/drain (use this for randomness)")] protected double variance = 0f;
 
 		SkillSO(): base("skills", "name") {}
-
-		protected override void OnTableIDChanged()
-		{
-			base.OnTableIDChanged();
-			Initialize();
-		}
-
-		public void OnEnable()
-		{
-#if UNITY_EDITOR
-			Initialize();
-#endif
-		}
-
-		private void Initialize()
-		{
-
-		}
 	}
 }

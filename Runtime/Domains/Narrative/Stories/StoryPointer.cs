@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 namespace StoryTime.Domains.Narrative.Stories
 {
-	using Utilities.Extensions;
+	using StoryTime.Domains.Utilities.Extensions;
 
 	public class StoryPointer : MonoBehaviour
 	{
