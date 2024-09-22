@@ -12,6 +12,12 @@ namespace StoryTime.Domains.Database.Services.Http
         
         public UnityWebRequest RequestAllTables(long lastTimeStamp)
         {
+            if (!_apiConfig)
+            {
+                Debug.LogWarning("API Config is not set. Empty request");
+                return UnityWebRequest.Get("");
+            }
+            
             var request = UnityWebRequest.Get($"{_apiConfig.ApiUrl}/projects/{_apiConfig.ProjectID}/tables?time={lastTimeStamp}");
             SetAuthorization(request);
             request.SendWebRequest();
@@ -21,6 +27,12 @@ namespace StoryTime.Domains.Database.Services.Http
 
         public UnityWebRequest RequestTable(string tableID, long lastTimeStamp = 0)
         {
+            if (!_apiConfig)
+            {
+                Debug.LogWarning("API Config is not set. Empty request");
+                return UnityWebRequest.Get("");
+            }
+            
             var request = UnityWebRequest.Get($"{_apiConfig.ApiUrl}/projects/{_apiConfig.ProjectID}/tables/{tableID}?time={lastTimeStamp}");
             SetAuthorization(request);
             request.SendWebRequest();
@@ -30,6 +42,12 @@ namespace StoryTime.Domains.Database.Services.Http
 
         public UnityWebRequest RetrieveProjects(long lastTimeStampLoadedProjects)
         {
+            if (!_apiConfig)
+            {
+                Debug.LogWarning("API Config is not set. Empty request");
+                return UnityWebRequest.Get("");
+            }
+            
             var request =  UnityWebRequest.Get($"{_apiConfig.ApiUrl}/projects?time={lastTimeStampLoadedProjects}");
             request.timeout = 1000;
             SetAuthorization(request);
